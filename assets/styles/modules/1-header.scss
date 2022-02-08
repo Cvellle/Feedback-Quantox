@@ -1,0 +1,9 @@
+.header {
+  $this: &;
+  background-color: #373f68;
+  color: #f2f4fe;
+
+  @include desktop {
+    padding-top: unset;
+  }
+}
