@@ -93,6 +93,7 @@ module.exports = {
       filename: "styles.bundle.css",
     }),
     new CopyPlugin([{ from: "assets/images", to: "./assets/images" }]),
+    new CopyPlugin([{ from: "data/data.json", to: "./data/data.json" }]),
   ],
   devServer: {
     port: 3000,

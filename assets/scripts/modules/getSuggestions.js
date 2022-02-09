@@ -2,7 +2,7 @@ function getSuggestions() {
   const feedbackWrapper = document.querySelector(".feedback-items-wraper");
 
   async function fetchSuggestions() {
-    const response = await fetch("/assets/data/data.json");
+    const response = await fetch("/data/data.json");
     const json = await response.json();
 
     const list = json.productRequests.map((el) => {
