@@ -1,0 +1,212 @@
+.feedback {
+  $this: &;
+
+  @include desktop {
+    flex: 1;
+    order: 2;
+  }
+
+  &__controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 vwm(24);
+    height: vwm(56);
+    background-color: #373f68;
+    color: #f2f4fe;
+
+    @include tablet {
+      border-radius: 10px;
+      height: 72px;
+      margin: 0 40px;
+    }
+
+    @include desktop {
+      margin: 0;
+      padding-top: unset;
+      border-radius: 0;
+    }
+
+    #{$this}__counter {
+      display: none;
+
+      @include tablet {
+        display: flex;
+        align-items: center;
+      }
+
+      & .bulb {
+        height: 24px;
+        width: 23px;
+        background-image: url(/assets/images/suggestions/bulb.png);
+        background-size: cover;
+        margin-right: 16px;
+      }
+
+      & .count {
+        margin-right: 5px;
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+        font-size: 18px;
+        line-height: 26px;
+        letter-spacing: -0.25px;
+      }
+
+      & h3 {
+        height: 100%;
+        font-weight: bold;
+        font-size: 18px;
+        line-height: 26px;
+        letter-spacing: -0.25px;
+      }
+    }
+
+    #{$this}__sort {
+      font-size: 14px;
+      line-height: 20px;
+      display: flex;
+
+      & .arrow {
+        width: 8px;
+        height: 4px;
+        display: inline-block;
+        align-self: center;
+        background-image: url(/assets/images/suggestions/white-arrow.png);
+        background-size: cover;
+      }
+    }
+
+    & button {
+      background: #ad1fea;
+      border-radius: 10px;
+      width: 158px;
+      height: 44px;
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 20px;
+    }
+  }
+
+  & .feedback-items-wraper {
+    @include tablet {
+      margin: 0 40px;
+    }
+
+    @include desktop {
+      margin: 0;
+    }
+
+    & .feedback-item {
+      display: flex;
+      flex-wrap: wrap;
+      font-weight: bold;
+      font-size: 13px;
+      line-height: 19px;
+      letter-spacing: -0.180556px;
+      color: #3a4374;
+      padding: 24px;
+      border-radius: 10px;
+      background: #ffffff;
+
+      @include tablet {
+        padding: 28px 32px;
+        min-height: 151px;
+        overflow: auto;
+      }
+
+      &__left {
+        order: 2;
+        flex: 1;
+        display: flex;
+
+        @include tablet {
+          order: 1;
+          flex: 0 1 auto;
+          flex-direction: column;
+          margin-right: 40px;
+        }
+
+        & .arrow {
+          width: 8px;
+          height: 4px;
+          background-image: url(/assets/images/shared/icon-arrow-up.svg);
+          background-size: cover;
+          display: inline-block;
+          align-self: center;
+          margin-right: 10px;
+
+          @include tablet {
+            margin-right: auto;
+          }
+        }
+      }
+
+      &__left,
+      &__right {
+        display: flex;
+      }
+
+      &__center {
+        order: 1;
+        flex: 100%;
+
+        @include tablet {
+          order: 2;
+          flex: 0 1 auto;}
+
+        & h4 {
+          font-weight: bold;
+
+          @include tablet {
+            font-size: 18px;
+            line-height: 26px;
+            letter-spacing: -0.25px;
+          }
+        }
+
+        & p {
+          color: #647196;
+          margin-top: 8px;
+
+          @include tablet {
+            font-size: 16px;
+            line-height: 23px;
+          }
+        }
+
+        & .tag {
+          margin: 8px 0 16px;
+          color: #4661e6;
+          font-weight: 600;
+
+          @include tablet {
+            font-size: 13px;
+            line-height: 19px;
+          }
+        }
+      }
+
+      &__right {
+        order: 3;
+        flex: 1;
+        justify-content: flex-end;
+
+        @include desktop {
+        order: 3;
+        }
+
+        & .comment {
+          width: 18px;
+          height: 16px;
+          background-image: url(/assets/images/shared/icon-comments.svg);
+          background-size: cover;
+          margin-right: 10px;
+          font-size: 13px;
+        }
+      }
+    }
+  }
+
+  background: #f2f2f2;
+}

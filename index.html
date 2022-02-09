@@ -12,66 +12,52 @@
     <title>Feedback - Nikola Cvetic</title>
   </head>
   <body>
-    <header class="header">
-      <div>
-        <span class="header__bulb"></span>
-        <span class="header__count"></span>
-        <h3>Suggestions</h3>
-      </div>
-      <div>
-        <span>Sort by:</span>
-        <span class="header__sort"></span>
-        <span class="header__arrow"></span>
-      </div>
-      <button>+ Add Feedback</button>
-    </header>
     <section class="sidebar">
       <div class="sidebar__titles">
-        <h1>Frontend Mentor</h1>
-        <h3>Feedback Board</h3>
+        <div>
+          <h1>Frontend Mentor</h1>
+          <h3>Feedback Board</h3>
+        </div>
+        <div class="toggleButton">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
       </div>
-      <div class="sidebar__categories">
-        <div>All</div>
-        <div>UI</div>
-        <div>UX</div>
-        <div>Enhancement</div>
-        <div>Bug</div>
-        <div>Feature</div>
+      <div class="sidebar__menu">
+        <div class="sidebar__categories">
+          <button>All</button>
+          <button>UI</button>
+          <button>UX</button>
+          <button>Enhancement</button>
+          <button>Bug</button>
+          <button>Feature</button>
+        </div>
+        <div class="sidebar__status-wrapper">
+          <span>Roadmap</span>
+          <a href="#">View</a>
+          <div class="sidebar__status sidebar__status--planned"><span class="circle"></span>Planned <span class="count">9</span></div>
+          <div class="sidebar__status sidebar__status--progress"><span class="circle"></span>In-Progress <span class="count">9</span></div>
+          <div class="sidebar__status sidebar__status--live"><span class="circle"></span>Live <span class="count">9</span></div>
+        </div>
       </div>
-      <button>+ Add Feedback</button>
-    </section>
-    <section class="mentor">
-      <div class="mentor__title">
-        <h3>Roadmap</h3>
-        <button>View</button>
-      </div>
-      <div class="mentor__status">
-        <div class="mentor__status--planned">Planned <span></span></div>
-        <div class="mentor__status--progress">In-Progress <span></span></div>
-        <div class="mentor__status--live">Live <span></span></div>
-      </div>
-      <button>+ Add Feedback</button>
     </section>
     <section class="feedback">
-      <div class="feedback-wrapper">
-        <div class="feedback-item">
-          <div class="feedback-item__left">
-            <span class="arrow"></span>
-            <div class="count"></div>
-          </div>
-          <div class="feedback-item__center">
-            <h4 class="title">How many team members can I invite?</h4>
-            <p>
-              You can invite up to 2 additional users on the Free plan. There is
-              no limit on team members for the Premium plan.
-            </p>
-            <div class="tag"></div>
-          </div>
-          <div class="feedback-item__right">
-            <span class="arrow"></span>
-            <div class="count"></div>
-          </div>
+      <div class="feedback__controls">
+        <div class="feedback__counter">
+          <span class="bulb"></span>
+          <span class="count">0</span>
+          <h3>Suggestions</h3>
         </div>
+        <div class="feedback__sort">
+          <span class="text">Sort by:</span>
+          <span class="count"></span>
+          <span class="arrow"></span>
+        </div>
+        <button>+ Add Feedback</button>
+      </div>
+      <div class="feedback-items-wraper">
+        
         <div class="feedback-empty">
           <figure>
             <picture>
@@ -95,6 +81,5 @@
   Least upvotes
   Most comments
   Least comments -->
-
   </body>
 </html>
