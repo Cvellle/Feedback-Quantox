@@ -21,7 +21,7 @@ function getSuggestions() {
             <div class="feedback-item__right">
               <span class="comment"></span>
               <div class="count">${
-                el.comments && el.comments.length
+                el.comments ? el.comments.length : 0
               }</div>
             </div>
           </div>`;

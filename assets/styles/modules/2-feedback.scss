@@ -1,9 +1,16 @@
 .feedback {
   $this: &;
 
+  width: 100%;
+
+  @include tablet {
+    margin: 40px 40px;
+  }
+
   @include desktop {
-    flex: 1;
     order: 2;
+    width: 825px;
+    margin: 94px auto 0 30px;
   }
 
   &__controls {
@@ -14,17 +21,16 @@
     height: vwm(56);
     background-color: #373f68;
     color: #f2f4fe;
+    margin-bottom: 32px;
 
     @include tablet {
       border-radius: 10px;
       height: 72px;
-      margin: 0 40px;
+      margin-bottom: 24px;
     }
 
     @include desktop {
-      margin: 0;
       padding-top: unset;
-      border-radius: 0;
     }
 
     #{$this}__counter {
@@ -89,11 +95,9 @@
   }
 
   & .feedback-items-wraper {
-    @include tablet {
-      margin: 0 40px;
-    }
+    margin: 24px;
 
-    @include desktop {
+    @include tablet {
       margin: 0;
     }
 
@@ -108,11 +112,13 @@
       padding: 24px;
       border-radius: 10px;
       background: #ffffff;
+      margin-bottom: 16px;
 
       @include tablet {
         padding: 28px 32px;
         min-height: 151px;
         overflow: auto;
+        margin-bottom: 20px;
       }
 
       &__left {
@@ -153,7 +159,8 @@
 
         @include tablet {
           order: 2;
-          flex: 0 1 auto;}
+          flex: 0 1 auto;
+        }
 
         & h4 {
           font-weight: bold;
@@ -179,6 +186,7 @@
           margin: 8px 0 16px;
           color: #4661e6;
           font-weight: 600;
+          background-color: #f7f8fd;
 
           @include tablet {
             font-size: 13px;
@@ -193,7 +201,7 @@
         justify-content: flex-end;
 
         @include desktop {
-        order: 3;
+          order: 3;
         }
 
         & .comment {
@@ -207,6 +215,4 @@
       }
     }
   }
-
-  background: #f2f2f2;
 }
