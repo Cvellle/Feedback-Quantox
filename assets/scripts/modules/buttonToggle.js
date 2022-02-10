@@ -1,34 +1,48 @@
-function buttonToggle() {
-  const buttonTitles = [...document.querySelectorAll(".button-block > h4")]; 
-  const buttonBlocks = [...document.querySelectorAll(".button-block")]; 
+// function mobileNavToggle() {
+//   const menuIcon = document.querySelector(".header__hamburgerBtn");
+//   const navigation = document.querySelector(".header__navButtons");
+//   const navBtn1 = document.querySelector(".header__dropDownDiv");
+//   const dropdown = document.querySelector(".header__dropdown");
+//   const dropdownToggle = document.querySelector(".transparent");
+//   const closeBtn = document.querySelector(".header__close");
+//   const mobArrow = document.querySelector(".header__mobArrow");
+//   const navButtons = document.querySelectorAll(".header__navBtn--toggle");
+//   const screenWidthLimit = window.matchMedia("screen and (min-width: 1025px)");
 
-  const toggleContent = (e) => {
-    // targeted elements
-      let parent = e.currentTarget.parentElement; 
-      let targetedTextContent = e.currentTarget.nextElementSibling;
-      let targetedImage = e.currentTarget.lastChild;
+//   if (!screenWidthLimit.matches) {
+//     const toggleNav = (e) => {
+//       navigation.classList.toggle("header__navButtons--mobileVisible");
+//       menuIcon.classList.toggle("header__hamburgerBtn--mobileVisible");
+//       closeBtn.classList.toggle("header__close--visible");
+//     };
 
-    // toggle actions
-    // 1. dynamicly adds max-height    
-    if (!parent.classList.contains('button-block--open')) {
-      parent.classList.add('button-block--open');
-      targetedImage.classList.add('button-image--rotated');
-      targetedTextContent.style.maxHeight = parent.scrollHeight + 'px';
-    }
-    else {
-      parent.classList.remove('button-block--open');
-      targetedImage.classList.remove('button-image--rotated');
-      targetedTextContent.style.maxHeight = '0px';
-    }
-    // 2. bold text
-    buttonBlocks.forEach(el => el.classList.remove('button-title--active'));
-    
-    e.currentTarget.classList.toggle('button-title--active');
-  }
-  // add event listeners
-  buttonTitles.forEach(el => el.addEventListener('click', toggleContent));
+//     const toggleDropdown = (e) => {
+//       dropdown.classList.toggle("header__dropdown--visible");
+//       mobArrow.classList.toggle("header__mobArrow--rotated");
+//       navBtn1.firstElementChild.classList.toggle("header__navBtn--activeBtn");
+//     };
 
-}
+//     [...navButtons]
+//       .slice(1)
+//       .forEach((el) => el.addEventListener("click", toggleNav));
+//     menuIcon.addEventListener("click", toggleNav);
+//     navBtn1.addEventListener("click", toggleDropdown);
+//   } else {
+//     const showDropdown = () => {
+//       dropdown.classList.add("header__dropdown--visible");
+//     };
+//     const hideDropdown = (e) => {
+//       if (dropdown.classList.contains("header__dropdown--visible")) {
+//         dropdown.classList.remove("header__dropdown--visible");
+//       }
+//     };
+//     navBtn1.addEventListener("mouseenter", showDropdown);
+//     navBtn1.addEventListener("mouseleave", hideDropdown);
+//     dropdown.addEventListener("mouseenter", showDropdown);
+//     dropdown.addEventListener("mouseleave", hideDropdown);
+//     dropdownToggle.addEventListener("mouseenter", showDropdown);
+//     dropdownToggle.addEventListener("mouseleave", hideDropdown);
+//   }
+// }
 
-// module invoked on load
-window.addEventListener("load", buttonToggle);
+// window.addEventListener("load", mobileNavToggle);

@@ -1,6 +1,6 @@
 export const initialValues = {
   feedbackArray: null,
-  currentUserL: null,
+  currentUserL: null
 };
 
 export const getSuggestions = (arrayToLoop) => {
@@ -30,18 +30,17 @@ export const getSuggestions = (arrayToLoop) => {
   feedbackWrapper.innerHTML = suggestionsList.join("");
 };
 
-async function fetchSuggestions() {
-  const feedbackWrapper = document.querySelector(".feedback-items-wraper");
-  // const sidebarStatusDisplay = document.querySelector(".sidebar__status-display");
-
-  // fetch
-  const response = await fetch("/data/data.json");
-  const json = await response.json();
-  // fill the object
-  initialValues.feedbackArray = json.productRequests;
-  //call outer getSuggestions function
-  getSuggestions(initialValues.feedbackArray);
+ function fetchSuggestions() {
+  alert('s')
+  // const feedbackWrapper = document.querySelector(".feedback-items-wraper");
+  // // fetch
+  // const response = await fetch("/data/data.json");
+  // console.log(response);
+  // const json = await response.json();
+  // // fill the object
+  // initialValues.feedbackArray = json.productRequests;
+  // //call outer getSuggestions function
+  // getSuggestions(initialValues.feedbackArray);
 }
-
 // module invoked on load
 window.addEventListener("load", fetchSuggestions);
