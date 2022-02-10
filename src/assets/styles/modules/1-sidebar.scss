@@ -1,0 +1,264 @@
+.sidebar {
+  $this: &;
+
+  position: relative;
+  width: 100%;
+  display: flex;
+  overflow: hidden;
+
+  @include tablet {
+    overflow: visible;
+    height: vwt(178);
+    margin: 56px 40px 40px;
+  }
+
+  @include desktop {
+    margin: 94px 0 0 auto;
+    width: 255px;
+    flex-direction: column;
+  }
+
+  &__titles {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 20vw;
+    background: radial-gradient(
+      128.88% 128.88% at 103.9% -10.39%,
+      #e84d70 0%,
+      #a337f6 53.09%,
+      #28a7ed 100%
+    );
+    color: #ffffff;
+    padding: 0 24px;
+    width: 100%;
+
+    @include tablet {
+      align-items: flex-end;
+      padding: 24px;
+      width: vwt(223);
+      height: 100%;
+      border-radius: 10px;
+    }
+
+    @include desktop {
+      width: unset;
+      min-height: 137px;
+    }
+
+    h1 {
+      font-size: 15px;
+      line-height: 22px;
+      letter-spacing: -0.1875px;
+      font-weight: bold;
+
+      @include tablet {
+        font-size: 20px;
+        line-height: 29px;
+        letter-spacing: -0.25px;
+      }
+    }
+
+    h3 {
+      font-size: 13px;
+      line-height: 19px;
+      mix-blend-mode: normal;
+
+      @include tablet {
+        font-size: 15px;
+        line-height: 22px;
+        color: #ffffff;
+        opacity: 0.75;
+        font-weight: 500;
+      }
+    }
+
+    & .toggleButton {
+      width: vwm(20);
+      height: vwm(17);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: space-between;
+
+      @include tablet {
+        display: none;
+      }
+
+      & > div {
+        width: 100%;
+        height: vwm(3);
+        background: white;
+      }
+    }
+  }
+
+  &__menu {
+    position: absolute;
+    height: calc(100vh - 20vw);
+    width: vwm(271);
+    top: 20vw;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    background: #f7f8fd;
+    transform: translateX(100%);
+
+    @include tablet {
+      position: relative;
+      flex-direction: row;
+      top: 0;
+      width: calc(100% - 29.03646vw);
+      height: 100%;
+      transform: translateX(0%);
+      padding: 0;
+    }
+
+    @include desktop {
+      width: 100%;
+      flex-direction: column;
+    }
+
+    & > div {
+      width: 100%;
+      height: vwm(178);
+      background: #ffffff;
+      border-radius: 10px;
+
+      @include tablet {
+        height: unset;
+        margin-left: 10px;
+      }
+
+      @include desktop {
+        margin-left: 0px;
+        padding: 24px;
+      }
+    }
+
+    #{$this}__categories {
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      padding: 24px;
+
+      & > button {
+        font-size: 13px;
+        line-height: 19px;
+        color: #4661e6;
+        padding: 5.5px 16px;
+        margin: 0 8px 16px 0;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+
+        &:nth-child(1),
+        &:nth-child(2),
+        &:nth-child(3) {
+          width: 48px;
+        }
+
+        &:hover {
+          background-color: #cfd7ff;
+        }
+
+        &:focus {
+          background-color: #4661e6;
+          color: #ffffff;
+        }
+      }
+
+      @include desktop {
+        margin-top: 24px;
+      }
+    }
+
+    #{$this}__status-wrapper {
+      margin-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px;
+
+      @include tablet {
+        margin-top: 0;
+      }
+
+      @include desktop {
+        margin-top: 24px;
+      }
+
+      #{$this}__status-display {
+        display: flex;
+        flex-wrap: wrap;
+
+        & span {
+          color: #3a4374;
+          font-size: 18px;
+          font-weight: 700;
+        }
+
+        & a {
+          font-weight: 600;
+          font-size: 13px;
+          line-height: 19px;
+          text-decoration-line: underline;
+          color: #4661e6;
+        }
+
+        #{$this}__status {
+          font-size: 16px;
+          line-height: 23px;
+          color: #647196;
+          margin-bottom: 8px;
+          flex: 100%;
+          display: flex;
+          align-items: center;
+
+          & .circle {
+            border-radius: 50%;
+            height: 8px;
+            width: 8px;
+            display: inline-block;
+            margin-right: 16px;
+          }
+
+          & .count {
+            line-height: 23px;
+            text-align: right;
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 23px;
+            margin-left: auto;
+            color: #647196;
+          }
+
+          &--planned {
+            margin-top: 24px;
+
+            .circle {
+              background-color: #f49f85;
+            }
+          }
+
+          &--progress {
+            .circle {
+              background-color: #f49f85;
+            }
+          }
+
+          &--live {
+            .circle {
+              background-color: #f49f85;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @include desktop {
+  }
+}
