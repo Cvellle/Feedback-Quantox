@@ -129,15 +129,10 @@
 
         @include tablet {
           order: 1;
-          flex: 0 0 80%;
+          flex: 0 1 auto;
           flex-direction: column;
           margin-right: 40px;
           padding: 14px 11px 0;
-        }
-
-        @include desktop {
-          flex: 0 0 auto;
-
         }
 
         & .arrow {
@@ -191,23 +186,23 @@
 
         & .tag {
           margin: 8px 0 16px;
-          
+
           & span {
             color: #4661e6;
-          font-weight: 600;
-          background: #F2F4FF;
-          border-radius: 10px;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          width: auto;
-          height: 30px;
-          padding: 0 16px;
+            font-weight: 600;
+            background: #f2f4ff;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: auto;
+            height: 30px;
+            padding: 0 16px;
 
-          @include tablet {
-            font-size: 13px;
-            line-height: 19px;
-          }
+            @include tablet {
+              font-size: 13px;
+              line-height: 19px;
+            }
           }
         }
       }
@@ -217,7 +212,6 @@
         flex: 1;
         justify-content: flex-end;
 
-        
         @include tablet {
           padding-top: 40px;
         }
