@@ -408,7 +408,7 @@ ol {
 .feedback__controls .feedback__counter .bulb {
   height: 24px;
   width: 23px;
-  background-image: url(/bulb.639031f9.png);
+  background-image: url(/bulb.da37f33d.png);
   background-size: cover;
   margin-right: 16px;
 }
@@ -439,7 +439,7 @@ ol {
   height: 4px;
   display: inline-block;
   align-self: center;
-  background-image: url(/white-arrow.04c75a74.png);
+  background-image: url(/white-arrow.205849a5.png);
   background-size: cover;
 }
 .feedback__controls button {
@@ -497,7 +497,7 @@ ol {
 .feedback .feedback-items-wraper .feedback-item__left .arrow {
   width: 8px;
   height: 4px;
-  background-image: url(/icon-arrow-up.dccfc587.svg);
+  background-image: url(/icon-arrow-up.8a111df8.svg);
   background-size: cover;
   display: inline-block;
   align-self: center;
@@ -580,7 +580,7 @@ ol {
 .feedback .feedback-items-wraper .feedback-item__right .comment {
   width: 18px;
   height: 16px;
-  background-image: url(/icon-comments.88043dd8.svg);
+  background-image: url(/icon-comments.1db50b47.svg);
   background-size: cover;
   margin-right: 10px;
   font-size: 13px;

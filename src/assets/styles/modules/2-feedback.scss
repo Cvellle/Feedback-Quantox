@@ -44,7 +44,7 @@
       & .bulb {
         height: 24px;
         width: 23px;
-        background-image: url(/assets/images/suggestions/bulb.png);
+        background-image: url(/src/assets/images/suggestions/bulb.png);
         background-size: cover;
         margin-right: 16px;
       }
@@ -79,7 +79,7 @@
         height: 4px;
         display: inline-block;
         align-self: center;
-        background-image: url(/assets/images/suggestions/white-arrow.png);
+        background-image: url(/src/assets/images/suggestions/white-arrow.png);
         background-size: cover;
       }
     }
@@ -138,7 +138,7 @@
         & .arrow {
           width: 8px;
           height: 4px;
-          background-image: url(/assets/images/shared/icon-arrow-up.svg);
+          background-image: url(/src/assets/images/shared/icon-arrow-up.svg);
           background-size: cover;
           display: inline-block;
           align-self: center;
@@ -223,7 +223,7 @@
         & .comment {
           width: 18px;
           height: 16px;
-          background-image: url(/assets/images/shared/icon-comments.svg);
+          background-image: url(/src/assets/images/shared/icon-comments.svg);
           background-size: cover;
           margin-right: 10px;
           font-size: 13px;

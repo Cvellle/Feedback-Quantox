@@ -1,3 +1,5 @@
+import data from "/src/data/data"
+
 export const initialValues = {
   feedbackArray: null,
   currentUserL: null,
@@ -33,13 +35,14 @@ export const getSuggestions = (arrayToLoop) => {
 async function fetchSuggestions() {
   const feedbackWrapper = document.querySelector(".feedback-items-wraper");
   // fetch
-  const response = await fetch("/data/data.json");
-  console.log(response);
-  const json = await response.clone().json();
+  // const response = await fetch("/data/data.json");
+  // const json = await response.clone().json();
   // fill the object
-  initialValues.feedbackArray = json.productRequests;
+  initialValues.feedbackArray = data.productRequests;
+  console.log(data.productRequests);
+
   //call outer getSuggestions function
-  getSuggestions(initialValues.feedbackArray);
+  getSuggestions(data.productRequests);
 }
 
 // module invoked on load

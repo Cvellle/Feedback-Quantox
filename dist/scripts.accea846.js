@@ -117,7 +117,389 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"node_modules/navigo/lib/navigo.min.js":[function(require,module,exports) {
+})({"src/assets/scripts/modules/buttonToggle.js":[function(require,module,exports) {
+// function mobileNavToggle() {
+//   const menuIcon = document.querySelector(".header__hamburgerBtn");
+//   const navigation = document.querySelector(".header__navButtons");
+//   const navBtn1 = document.querySelector(".header__dropDownDiv");
+//   const dropdown = document.querySelector(".header__dropdown");
+//   const dropdownToggle = document.querySelector(".transparent");
+//   const closeBtn = document.querySelector(".header__close");
+//   const mobArrow = document.querySelector(".header__mobArrow");
+//   const navButtons = document.querySelectorAll(".header__navBtn--toggle");
+//   const screenWidthLimit = window.matchMedia("screen and (min-width: 1025px)");
+//   if (!screenWidthLimit.matches) {
+//     const toggleNav = (e) => {
+//       navigation.classList.toggle("header__navButtons--mobileVisible");
+//       menuIcon.classList.toggle("header__hamburgerBtn--mobileVisible");
+//       closeBtn.classList.toggle("header__close--visible");
+//     };
+//     const toggleDropdown = (e) => {
+//       dropdown.classList.toggle("header__dropdown--visible");
+//       mobArrow.classList.toggle("header__mobArrow--rotated");
+//       navBtn1.firstElementChild.classList.toggle("header__navBtn--activeBtn");
+//     };
+//     [...navButtons]
+//       .slice(1)
+//       .forEach((el) => el.addEventListener("click", toggleNav));
+//     menuIcon.addEventListener("click", toggleNav);
+//     navBtn1.addEventListener("click", toggleDropdown);
+//   } else {
+//     const showDropdown = () => {
+//       dropdown.classList.add("header__dropdown--visible");
+//     };
+//     const hideDropdown = (e) => {
+//       if (dropdown.classList.contains("header__dropdown--visible")) {
+//         dropdown.classList.remove("header__dropdown--visible");
+//       }
+//     };
+//     navBtn1.addEventListener("mouseenter", showDropdown);
+//     navBtn1.addEventListener("mouseleave", hideDropdown);
+//     dropdown.addEventListener("mouseenter", showDropdown);
+//     dropdown.addEventListener("mouseleave", hideDropdown);
+//     dropdownToggle.addEventListener("mouseenter", showDropdown);
+//     dropdownToggle.addEventListener("mouseleave", hideDropdown);
+//   }
+// }
+// window.addEventListener("load", mobileNavToggle);
+},{}],"src/data/data.json":[function(require,module,exports) {
+module.exports = {
+  "currentUser": {
+    "image": "./assets/user-images/image-zena.jpg",
+    "name": "Zena Kelley",
+    "username": "velvetround"
+  },
+  "productRequests": [{
+    "id": 1,
+    "title": "Add tags for solutions",
+    "category": "enhancement",
+    "upvotes": 112,
+    "status": "suggestion",
+    "description": "Easier to search for solutions based on a specific stack.",
+    "comments": [{
+      "id": 1,
+      "content": "Awesome idea! Trying to find framework-specific projects within the hubs can be tedious",
+      "user": {
+        "image": "./assets/user-images/image-suzanne.jpg",
+        "name": "Suzanne Chang",
+        "username": "upbeat1811"
+      }
+    }, {
+      "id": 2,
+      "content": "Please use fun, color-coded labels to easily identify them at a glance",
+      "user": {
+        "image": "./assets/user-images/image-thomas.jpg",
+        "name": "Thomas Hood",
+        "username": "brawnybrave"
+      }
+    }]
+  }, {
+    "id": 2,
+    "title": "Add a dark theme option",
+    "category": "feature",
+    "upvotes": 99,
+    "status": "suggestion",
+    "description": "It would help people with light sensitivities and who prefer dark mode.",
+    "comments": [{
+      "id": 3,
+      "content": "Also, please allow styles to be applied based on system preferences. I would love to be able to browse Frontend Mentor in the evening after my device’s dark mode turns on without the bright background it currently has.",
+      "user": {
+        "image": "./assets/user-images/image-elijah.jpg",
+        "name": "Elijah Moss",
+        "username": "hexagon.bestagon"
+      }
+    }, {
+      "id": 4,
+      "content": "Second this! I do a lot of late night coding and reading. Adding a dark theme can be great for preventing eye strain and the headaches that result. It’s also quite a trend with modern apps and  apparently saves battery life.",
+      "user": {
+        "image": "./assets/user-images/image-james.jpg",
+        "name": "James Skinner",
+        "username": "hummingbird1"
+      },
+      "replies": [{
+        "content": "While waiting for dark mode, there are browser extensions that will also do the job. Search for 'dark theme' followed by your browser. There might be a need to turn off the extension for sites with naturally black backgrounds though.",
+        "replyingTo": "hummingbird1",
+        "user": {
+          "image": "./assets/user-images/image-anne.jpg",
+          "name": "Anne Valentine",
+          "username": "annev1990"
+        }
+      }, {
+        "content": "Good point! Using any kind of style extension is great and can be highly customizable, like the ability to change contrast and brightness. I'd prefer not to use one of such extensions, however, for security and privacy reasons.",
+        "replyingTo": "annev1990",
+        "user": {
+          "image": "./assets/user-images/image-ryan.jpg",
+          "name": "Ryan Welles",
+          "username": "voyager.344"
+        }
+      }]
+    }]
+  }, {
+    "id": 3,
+    "title": "Q&A within the challenge hubs",
+    "category": "feature",
+    "upvotes": 65,
+    "status": "suggestion",
+    "description": "Challenge-specific Q&A would make for easy reference.",
+    "comments": [{
+      "id": 5,
+      "content": "Much easier to get answers from devs who can relate, since they've either finished the challenge themselves or are in the middle of it.",
+      "user": {
+        "image": "./assets/user-images/image-george.jpg",
+        "name": "George Partridge",
+        "username": "soccerviewer8"
+      }
+    }]
+  }, {
+    "id": 4,
+    "title": "Add image/video upload to feedback",
+    "category": "enhancement",
+    "upvotes": 51,
+    "status": "suggestion",
+    "description": "Images and screencasts can enhance comments on solutions.",
+    "comments": [{
+      "id": 6,
+      "content": "Right now, there is no ability to add images while giving feedback which isn't ideal because I have to use another app to show what I mean",
+      "user": {
+        "image": "./assets/user-images/image-javier.jpg",
+        "name": "Javier Pollard",
+        "username": "warlikeduke"
+      }
+    }, {
+      "id": 7,
+      "content": "Yes I'd like to see this as well. Sometimes I want to add a short video or gif to explain the site's behavior..",
+      "user": {
+        "image": "./assets/user-images/image-roxanne.jpg",
+        "name": "Roxanne Travis",
+        "username": "peppersprime32"
+      }
+    }]
+  }, {
+    "id": 5,
+    "title": "Ability to follow others",
+    "category": "feature",
+    "upvotes": 42,
+    "status": "suggestion",
+    "description": "Stay updated on comments and solutions other people post.",
+    "comments": [{
+      "id": 8,
+      "content": "I also want to be notified when devs I follow submit projects on FEM. Is in-app notification also in the pipeline?",
+      "user": {
+        "image": "./assets/user-images/image-victoria.jpg",
+        "name": "Victoria Mejia",
+        "username": "arlen_the_marlin"
+      },
+      "replies": [{
+        "content": "Bumping this. It would be good to have a tab with a feed of people I follow so it's easy to see what challenges they’ve done lately. I learn a lot by reading good developers' code.",
+        "replyingTo": "arlen_the_marlin",
+        "user": {
+          "image": "./assets/user-images/image-zena.jpg",
+          "name": "Zena Kelley",
+          "username": "velvetround"
+        }
+      }]
+    }, {
+      "id": 9,
+      "content": "I've been saving the profile URLs of a few people and I check what they’ve been doing from time to time. Being able to follow them solves that",
+      "user": {
+        "image": "./assets/user-images/image-jackson.jpg",
+        "name": "Jackson Barker",
+        "username": "countryspirit"
+      }
+    }]
+  }, {
+    "id": 6,
+    "title": "Preview images not loading",
+    "category": "bug",
+    "upvotes": 3,
+    "status": "suggestion",
+    "description": "Challenge preview images are missing when you apply a filter."
+  }, {
+    "id": 7,
+    "title": "More comprehensive reports",
+    "category": "feature",
+    "upvotes": 123,
+    "status": "planned",
+    "description": "It would be great to see a more detailed breakdown of solutions.",
+    "comments": [{
+      "id": 10,
+      "content": "This would be awesome! It would be so helpful to see an overview of my code in a way that makes it easy to spot where things could be improved.",
+      "user": {
+        "image": "./assets/user-images/image-victoria.jpg",
+        "name": "Victoria Mejia",
+        "username": "arlen_the_marlin"
+      }
+    }, {
+      "id": 11,
+      "content": "Yeah, this would be really good. I'd love to see deeper insights into my code!",
+      "user": {
+        "image": "./assets/user-images/image-jackson.jpg",
+        "name": "Jackson Barker",
+        "username": "countryspirit"
+      }
+    }]
+  }, {
+    "id": 8,
+    "title": "Learning paths",
+    "category": "feature",
+    "upvotes": 28,
+    "status": "planned",
+    "description": "Sequenced projects for different goals to help people improve.",
+    "comments": [{
+      "id": 12,
+      "content": "Having a path through the challenges that I could follow would be brilliant! Sometimes I'm not sure which challenge would be the best next step to take. So this would help me navigate through them!",
+      "user": {
+        "image": "./assets/user-images/image-george.jpg",
+        "name": "George Partridge",
+        "username": "soccerviewer8"
+      }
+    }]
+  }, {
+    "id": 9,
+    "title": "One-click portfolio generation",
+    "category": "feature",
+    "upvotes": 62,
+    "status": "in-progress",
+    "description": "Add ability to create professional looking portfolio from profile.",
+    "comments": [{
+      "id": 13,
+      "content": "I haven't built a portfolio site yet, so this would be really helpful. Might it also be possible to choose layout and colour themes?!",
+      "user": {
+        "image": "./assets/user-images/image-ryan.jpg",
+        "name": "Ryan Welles",
+        "username": "voyager.344"
+      }
+    }]
+  }, {
+    "id": 10,
+    "title": "Bookmark challenges",
+    "category": "feature",
+    "upvotes": 31,
+    "status": "in-progress",
+    "description": "Be able to bookmark challenges to take later on.",
+    "comments": [{
+      "id": 14,
+      "content": "This would be great! At the moment, I'm just starting challenges in order to save them. But this means the My Challenges section is overflowing with projects and is hard to manage. Being able to bookmark challenges would be really helpful.",
+      "user": {
+        "image": "./assets/user-images/image-suzanne.jpg",
+        "name": "Suzanne Chang",
+        "username": "upbeat1811"
+      }
+    }]
+  }, {
+    "id": 11,
+    "title": "Animated solution screenshots",
+    "category": "bug",
+    "upvotes": 9,
+    "status": "in-progress",
+    "description": "Screenshots of solutions with animations don’t display correctly."
+  }, {
+    "id": 12,
+    "title": "Add micro-interactions",
+    "category": "enhancement",
+    "upvotes": 71,
+    "status": "live",
+    "description": "Small animations at specific points can add delight.",
+    "comments": [{
+      "id": 15,
+      "content": "I'd love to see this! It always makes me so happy to see little details like these on websites.",
+      "user": {
+        "image": "./assets/user-images/image-victoria.jpg",
+        "name": "Victoria Mejia",
+        "username": "arlen_the_marlin"
+      },
+      "replies": [{
+        "content": "Me too! I'd also love to see celebrations at specific points as well. It would help people take a moment to celebrate their achievements!",
+        "replyingTo": "arlen_the_marlin",
+        "user": {
+          "image": "./assets/user-images/image-suzanne.jpg",
+          "name": "Suzanne Chang",
+          "username": "upbeat1811"
+        }
+      }]
+    }]
+  }]
+};
+},{}],"src/assets/scripts/modules/getSuggestions.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.initialValues = exports.getSuggestions = void 0;
+
+var _data = _interopRequireDefault(require("/src/data/data"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+var initialValues = {
+  feedbackArray: null,
+  currentUserL: null
+};
+exports.initialValues = initialValues;
+
+var getSuggestions = function getSuggestions(arrayToLoop) {
+  var feedbackWrapper = document.querySelector(".feedback-items-wraper"); // const sidebarStatusDisplay = document.querySelector(".sidebar__status-display");
+
+  var suggestionsList = arrayToLoop.map(function (el) {
+    return "<div class=\"feedback-item\">\n            <div class=\"feedback-item__left\">\n              <span class=\"arrow\"></span>\n              <div class=\"count\">".concat(el.upvotes, "</div>\n            </div>\n            <div class=\"feedback-item__center\">\n              <h4 class=\"title\">").concat(el.title, "</h4>\n              <p>\n                ").concat(el.description, "\n              </p>\n              <div class=\"tag\">\n                <span>").concat(el.category, "</span>\n              </div>\n            </div>\n            <div class=\"feedback-item__right\">\n              <span class=\"comment\"></span>\n              <div class=\"count\">").concat(el.comments ? el.comments.length : 0, "</div>\n            </div>\n          </div>");
+  });
+  feedbackWrapper.innerHTML = suggestionsList.join("");
+};
+
+exports.getSuggestions = getSuggestions;
+
+function fetchSuggestions() {
+  return _fetchSuggestions.apply(this, arguments);
+} // module invoked on load
+
+
+function _fetchSuggestions() {
+  _fetchSuggestions = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+    var feedbackWrapper;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            feedbackWrapper = document.querySelector(".feedback-items-wraper"); // fetch
+            // const response = await fetch("/data/data.json");
+            // const json = await response.clone().json();
+            // fill the object
+
+            initialValues.feedbackArray = _data.default.productRequests;
+            console.log(_data.default.productRequests); //call outer getSuggestions function
+
+            getSuggestions(_data.default.productRequests);
+
+          case 4:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+  return _fetchSuggestions.apply(this, arguments);
+}
+
+window.addEventListener("load", fetchSuggestions);
+},{"/src/data/data":"src/data/data.json"}],"src/assets/scripts/modules/editFeedback.js":[function(require,module,exports) {
+"use strict";
+
+var _getSuggestions = require("./getSuggestions");
+
+function editFeedback() {
+  var feedbackWrapper = document.querySelector(".feedback-items-wraper");
+  var sidebarStatusDisplay = document.querySelector(".sidebar__status-display");
+  (0, _getSuggestions.getSuggestions)(_getSuggestions.initialValues.feedbackArray);
+} // module invoked on load
+
+
+window.addEventListener("click", editFeedback);
+},{"./getSuggestions":"src/assets/scripts/modules/getSuggestions.js"}],"node_modules/navigo/lib/navigo.min.js":[function(require,module,exports) {
 var define;
 !function(t,n){"object"==typeof exports&&"object"==typeof module?module.exports=n():"function"==typeof define&&define.amd?define("Navigo",[],n):"object"==typeof exports?exports.Navigo=n():t.Navigo=n()}("undefined"!=typeof self?self:this,(function(){return(()=>{"use strict";var t={407:(t,n,e)=>{e.d(n,{default:()=>N});var o=/([:*])(\w+)/g,r=/\*/g,i=/\/\?/g;function a(t){return void 0===t&&(t="/"),v()?location.pathname+location.search+location.hash:t}function s(t){return t.replace(/\/+$/,"").replace(/^\/+/,"")}function c(t){return"string"==typeof t}function u(t){return t&&t.indexOf("#")>=0&&t.split("#").pop()||""}function h(t){var n=s(t).split(/\?(.*)?$/);return[s(n[0]),n.slice(1).join("")]}function f(t){for(var n={},e=t.split("&"),o=0;o<e.length;o++){var r=e[o].split("=");if(""!==r[0]){var i=decodeURIComponent(r[0]);n[i]?(Array.isArray(n[i])||(n[i]=[n[i]]),n[i].push(decodeURIComponent(r[1]||""))):n[i]=decodeURIComponent(r[1]||"")}}return n}function l(t,n){var e,a=h(s(t.currentLocationPath)),l=a[0],p=a[1],d=""===p?null:f(p),v=[];if(c(n.path)){if(e="(?:/^|^)"+s(n.path).replace(o,(function(t,n,e){return v.push(e),"([^/]+)"})).replace(r,"?(?:.*)").replace(i,"/?([^/]+|)")+"$",""===s(n.path)&&""===s(l))return{url:l,queryString:p,hashString:u(t.to),route:n,data:null,params:d}}else e=n.path;var g=new RegExp(e,""),m=l.match(g);if(m){var y=c(n.path)?function(t,n){return 0===n.length?null:t?t.slice(1,t.length).reduce((function(t,e,o){return null===t&&(t={}),t[n[o]]=decodeURIComponent(e),t}),null):null}(m,v):m.groups?m.groups:m.slice(1);return{url:s(l.replace(new RegExp("^"+t.instance.root),"")),queryString:p,hashString:u(t.to),route:n,data:y,params:d}}return!1}function p(){return!("undefined"==typeof window||!window.history||!window.history.pushState)}function d(t,n){return void 0===t[n]||!0===t[n]}function v(){return"undefined"!=typeof window}function g(t,n){return void 0===t&&(t=[]),void 0===n&&(n={}),t.filter((function(t){return t})).forEach((function(t){["before","after","already","leave"].forEach((function(e){t[e]&&(n[e]||(n[e]=[]),n[e].push(t[e]))}))})),n}function m(t,n,e){var o=n||{},r=0;!function n(){t[r]?Array.isArray(t[r])?(t.splice.apply(t,[r,1].concat(t[r][0](o)?t[r][1]:t[r][2])),n()):t[r](o,(function(t){void 0===t||!0===t?(r+=1,n()):e&&e(o)})):e&&e(o)}()}function y(t,n){void 0===t.currentLocationPath&&(t.currentLocationPath=t.to=a(t.instance.root)),t.currentLocationPath=t.instance._checkForAHash(t.currentLocationPath),n()}function _(t,n){for(var e=0;e<t.instance.routes.length;e++){var o=l(t,t.instance.routes[e]);if(o&&(t.matches||(t.matches=[]),t.matches.push(o),"ONE"===t.resolveOptions.strategy))return void n()}n()}function O(t,n){t.navigateOptions&&(void 0!==t.navigateOptions.shouldResolve&&console.warn('"shouldResolve" is deprecated. Please check the documentation.'),void 0!==t.navigateOptions.silent&&console.warn('"silent" is deprecated. Please check the documentation.')),n()}function k(t,n){!0===t.navigateOptions.force?(t.instance._setCurrent([t.instance._pathToMatchObject(t.to)]),n(!1)):n()}m.if=function(t,n,e){return Array.isArray(n)||(n=[n]),Array.isArray(e)||(e=[e]),[t,n,e]};var L=v(),w=p();function b(t,n){if(d(t.navigateOptions,"updateBrowserURL")){var e=("/"+t.to).replace(/\/\//g,"/"),o=L&&t.resolveOptions&&!0===t.resolveOptions.hash;w?(history[t.navigateOptions.historyAPIMethod||"pushState"](t.navigateOptions.stateObj||{},t.navigateOptions.title||"",o?"#"+e:e),location&&location.hash&&(t.instance.__freezeListening=!0,setTimeout((function(){var n=location.hash;location.hash="",location.hash=n,t.instance.__freezeListening=!1}),1))):L&&(window.location.href=t.to)}n()}function P(t,n){var e=t.instance;e.lastResolved()?m(e.lastResolved().map((function(n){return function(e,o){if(n.route.hooks&&n.route.hooks.leave){var r=!1,i=t.instance.matchLocation(n.route.path,t.currentLocationPath,!1);r="*"!==n.route.path?!i:!(t.matches&&t.matches.find((function(t){return n.route.path===t.route.path}))),d(t.navigateOptions,"callHooks")&&r?m(n.route.hooks.leave.map((function(n){return function(e,o){return n((function(n){!1===n?t.instance.__dirty=!1:o()}),t.matches&&t.matches.length>0?1===t.matches.length?t.matches[0]:t.matches:void 0)}})).concat([function(){return o()}])):o()}else o()}})),{},(function(){return n()})):n()}function A(t,n){d(t.navigateOptions,"updateState")&&t.instance._setCurrent(t.matches),n()}var R=[function(t,n){var e=t.instance.lastResolved();if(e&&e[0]&&e[0].route===t.match.route&&e[0].url===t.match.url&&e[0].queryString===t.match.queryString)return e.forEach((function(n){n.route.hooks&&n.route.hooks.already&&d(t.navigateOptions,"callHooks")&&n.route.hooks.already.forEach((function(n){return n(t.match)}))})),void n(!1);n()},function(t,n){t.match.route.hooks&&t.match.route.hooks.before&&d(t.navigateOptions,"callHooks")?m(t.match.route.hooks.before.map((function(n){return function(e,o){return n((function(n){!1===n?t.instance.__dirty=!1:o()}),t.match)}})).concat([function(){return n()}])):n()},function(t,n){d(t.navigateOptions,"callHandler")&&t.match.route.handler(t.match),t.instance.updatePageLinks(),n()},function(t,n){t.match.route.hooks&&t.match.route.hooks.after&&d(t.navigateOptions,"callHooks")&&t.match.route.hooks.after.forEach((function(n){return n(t.match)})),n()}],S=[P,function(t,n){var e=t.instance._notFoundRoute;if(e){t.notFoundHandled=!0;var o=h(t.currentLocationPath),r=o[0],i=o[1],a=u(t.to);e.path=s(r);var c={url:e.path,queryString:i,hashString:a,data:null,route:e,params:""!==i?f(i):null};t.matches=[c],t.match=c}n()},m.if((function(t){return t.notFoundHandled}),R.concat([A]),[function(t,n){t.resolveOptions&&!1!==t.resolveOptions.noMatchWarning&&void 0!==t.resolveOptions.noMatchWarning||console.warn('Navigo: "'+t.currentLocationPath+"\" didn't match any of the registered routes."),n()},function(t,n){t.instance._setCurrent(null),n()}])];function E(){return(E=Object.assign||function(t){for(var n=1;n<arguments.length;n++){var e=arguments[n];for(var o in e)Object.prototype.hasOwnProperty.call(e,o)&&(t[o]=e[o])}return t}).apply(this,arguments)}function H(t,n){var e=0;P(t,(function o(){e!==t.matches.length?m(R,E({},t,{match:t.matches[e]}),(function(){e+=1,o()})):A(t,n)}))}function x(t){t.instance.__dirty=!1,t.instance.__waiting.length>0&&t.instance.__waiting.shift()()}function j(){return(j=Object.assign||function(t){for(var n=1;n<arguments.length;n++){var e=arguments[n];for(var o in e)Object.prototype.hasOwnProperty.call(e,o)&&(t[o]=e[o])}return t}).apply(this,arguments)}function N(t,n){var e,o=n||{strategy:"ONE",hash:!1,noMatchWarning:!1},r=this,i="/",d=null,L=[],w=!1,P=p(),A=v();function R(t){return t.indexOf("#")>=0&&(t=!0===o.hash?t.split("#")[1]||"/":t.split("#")[0]),t}function E(t){return s(i+"/"+s(t))}function N(t,n,e,o){return t=c(t)?E(t):t,{name:o||s(String(t)),path:t,handler:n,hooks:g(e)}}function C(t,n){if(!r.__dirty){r.__dirty=!0,t=t?s(i)+"/"+s(t):void 0;var e={instance:r,to:t,currentLocationPath:t,navigateOptions:{},resolveOptions:j({},o,n)};return m([y,_,m.if((function(t){var n=t.matches;return n&&n.length>0}),H,S)],e,x),!!e.matches&&e.matches}r.__waiting.push((function(){return r.resolve(t,n)}))}function U(t,n){if(r.__dirty)r.__waiting.push((function(){return r.navigate(t,n)}));else{r.__dirty=!0,t=s(i)+"/"+s(t);var e={instance:r,to:t,navigateOptions:n||{},resolveOptions:n&&n.resolveOptions?n.resolveOptions:o,currentLocationPath:R(t)};m([O,k,_,m.if((function(t){var n=t.matches;return n&&n.length>0}),H,S),b,x],e,x)}}function q(){if(A)return(A?[].slice.call(document.querySelectorAll("[data-navigo]")):[]).forEach((function(t){"false"!==t.getAttribute("data-navigo")&&"_blank"!==t.getAttribute("target")?t.hasListenerAttached||(t.hasListenerAttached=!0,t.navigoHandler=function(n){if((n.ctrlKey||n.metaKey)&&"a"===n.target.tagName.toLowerCase())return!1;var e=t.getAttribute("href");if(null==e)return!1;if(e.match(/^(http|https)/)&&"undefined"!=typeof URL)try{var o=new URL(e);e=o.pathname+o.search}catch(t){}var i=function(t){if(!t)return{};var n,e=t.split(","),o={};return e.forEach((function(t){var e=t.split(":").map((function(t){return t.replace(/(^ +| +$)/g,"")}));switch(e[0]){case"historyAPIMethod":o.historyAPIMethod=e[1];break;case"resolveOptionsStrategy":n||(n={}),n.strategy=e[1];break;case"resolveOptionsHash":n||(n={}),n.hash="true"===e[1];break;case"updateBrowserURL":case"callHandler":case"updateState":case"force":o[e[0]]="true"===e[1]}})),n&&(o.resolveOptions=n),o}(t.getAttribute("data-navigo-options"));w||(n.preventDefault(),n.stopPropagation(),r.navigate(s(e),i))},t.addEventListener("click",t.navigoHandler)):t.hasListenerAttached&&t.removeEventListener("click",t.navigoHandler)})),r}function F(t,n){var e=L.find((function(n){return n.name===t}));if(e){var o=e.path;if(n)for(var r in n)o=o.replace(":"+r,n[r]);return o.match(/^\//)?o:"/"+o}return null}function I(t){var n=h(s(t)),o=n[0],r=n[1],i=""===r?null:f(r);return{url:o,queryString:r,hashString:u(t),route:N(o,(function(){}),[e],o),data:null,params:i}}function M(t,n,e){return"string"==typeof n&&(n=T(n)),n?(n.hooks[t]||(n.hooks[t]=[]),n.hooks[t].push(e),function(){n.hooks[t]=n.hooks[t].filter((function(t){return t!==e}))}):(console.warn("Route doesn't exists: "+n),function(){})}function T(t){return"string"==typeof t?L.find((function(n){return n.name===E(t)})):L.find((function(n){return n.handler===t}))}t?i=s(t):console.warn('Navigo requires a root path in its constructor. If not provided will use "/" as default.'),this.root=i,this.routes=L,this.destroyed=w,this.current=d,this.__freezeListening=!1,this.__waiting=[],this.__dirty=!1,this.on=function(t,n,o){var r=this;return"object"!=typeof t||t instanceof RegExp?("function"==typeof t&&(o=n,n=t,t=i),L.push(N(t,n,[e,o])),this):(Object.keys(t).forEach((function(n){if("function"==typeof t[n])r.on(n,t[n]);else{var o=t[n],i=o.uses,a=o.as,s=o.hooks;L.push(N(n,i,[e,s],a))}})),this)},this.off=function(t){return this.routes=L=L.filter((function(n){return c(t)?s(n.path)!==s(t):"function"==typeof t?t!==n.handler:String(n.path)!==String(t)})),this},this.resolve=C,this.navigate=U,this.navigateByName=function(t,n,e){var o=F(t,n);return null!==o&&(U(o,e),!0)},this.destroy=function(){this.routes=L=[],P&&window.removeEventListener("popstate",this.__popstateListener),this.destroyed=w=!0},this.notFound=function(t,n){return r._notFoundRoute=N("*",t,[e,n],"__NOT_FOUND__"),this},this.updatePageLinks=q,this.link=function(t){return"/"+i+"/"+s(t)},this.hooks=function(t){return e=t,this},this.extractGETParameters=function(t){return h(R(t))},this.lastResolved=function(){return d},this.generate=F,this.getLinkPath=function(t){return t.getAttribute("href")},this.match=function(t){var n={instance:r,currentLocationPath:t,to:t,navigateOptions:{},resolveOptions:o};return _(n,(function(){})),!!n.matches&&n.matches},this.matchLocation=function(t,n,e){void 0===n||void 0!==e&&!e||(n=E(n));var o={instance:r,to:n,currentLocationPath:n};return y(o,(function(){})),"string"==typeof t&&(t=void 0===e||e?E(t):t),l(o,{name:String(t),path:t,handler:function(){},hooks:{}})||!1},this.getCurrentLocation=function(){return I(s(a(i)).replace(new RegExp("^"+i),""))},this.addBeforeHook=M.bind(this,"before"),this.addAfterHook=M.bind(this,"after"),this.addAlreadyHook=M.bind(this,"already"),this.addLeaveHook=M.bind(this,"leave"),this.getRoute=T,this._pathToMatchObject=I,this._clean=s,this._checkForAHash=R,this._setCurrent=function(t){return d=r.current=t},function(){P&&(this.__popstateListener=function(){r.__freezeListening||C()},window.addEventListener("popstate",this.__popstateListener))}.call(this),q.call(this)}}},n={};function e(o){if(n[o])return n[o].exports;var r=n[o]={exports:{}};return t[o](r,r.exports,e),r.exports}return e.d=(t,n)=>{for(var o in n)e.o(n,o)&&!e.o(t,o)&&Object.defineProperty(t,o,{enumerable:!0,get:n[o]})},e.o=(t,n)=>Object.prototype.hasOwnProperty.call(t,n),e(407)})().default}));
 
@@ -188,12 +570,12 @@ function reloadCSS() {
 }
 
 module.exports = reloadCSS;
-},{"./bundle-url":"node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"assets/styles/styles.css":[function(require,module,exports) {
+},{"./bundle-url":"node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"src/assets/styles/styles.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"C:\\Users\\Quantox\\Desktop\\navigo\\assets\\images\\suggestions\\bulb.png":[["bulb.639031f9.png","assets/images/suggestions/bulb.png"],"assets/images/suggestions/bulb.png"],"C:\\Users\\Quantox\\Desktop\\navigo\\assets\\images\\suggestions\\white-arrow.png":[["white-arrow.04c75a74.png","assets/images/suggestions/white-arrow.png"],"assets/images/suggestions/white-arrow.png"],"C:\\Users\\Quantox\\Desktop\\navigo\\assets\\images\\shared\\icon-arrow-up.svg":[["icon-arrow-up.dccfc587.svg","assets/images/shared/icon-arrow-up.svg"],"assets/images/shared/icon-arrow-up.svg"],"C:\\Users\\Quantox\\Desktop\\navigo\\assets\\images\\shared\\icon-comments.svg":[["icon-comments.88043dd8.svg","assets/images/shared/icon-comments.svg"],"assets/images/shared/icon-comments.svg"],"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"node_modules/core-js/modules/_global.js":[function(require,module,exports) {
+},{"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\bulb.png":[["bulb.da37f33d.png","src/assets/images/suggestions/bulb.png"],"src/assets/images/suggestions/bulb.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\white-arrow.png":[["white-arrow.205849a5.png","src/assets/images/suggestions/white-arrow.png"],"src/assets/images/suggestions/white-arrow.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-arrow-up.svg":[["icon-arrow-up.8a111df8.svg","src/assets/images/shared/icon-arrow-up.svg"],"src/assets/images/shared/icon-arrow-up.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-comments.svg":[["icon-comments.1db50b47.svg","src/assets/images/shared/icon-comments.svg"],"src/assets/images/shared/icon-comments.svg"],"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"node_modules/core-js/modules/_global.js":[function(require,module,exports) {
 
 // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
 var global = module.exports = typeof window != 'undefined' && window.Math == Math
@@ -8196,142 +8578,8 @@ define(String.prototype, "padRight", "".padEnd);
 "pop,reverse,shift,keys,values,entries,indexOf,every,some,forEach,map,filter,find,findIndex,includes,join,slice,concat,push,splice,unshift,sort,lastIndexOf,reduce,reduceRight,copyWithin,fill".split(",").forEach(function (key) {
   [][key] && define(Array, key, Function.call.bind([][key]));
 });
-},{"core-js/shim":"node_modules/core-js/shim.js","regenerator-runtime/runtime":"node_modules/babel-polyfill/node_modules/regenerator-runtime/runtime.js","core-js/fn/regexp/escape":"node_modules/core-js/fn/regexp/escape.js"}],"src/assets/scripts/modules/buttonToggle.js":[function(require,module,exports) {
-// function mobileNavToggle() {
-//   const menuIcon = document.querySelector(".header__hamburgerBtn");
-//   const navigation = document.querySelector(".header__navButtons");
-//   const navBtn1 = document.querySelector(".header__dropDownDiv");
-//   const dropdown = document.querySelector(".header__dropdown");
-//   const dropdownToggle = document.querySelector(".transparent");
-//   const closeBtn = document.querySelector(".header__close");
-//   const mobArrow = document.querySelector(".header__mobArrow");
-//   const navButtons = document.querySelectorAll(".header__navBtn--toggle");
-//   const screenWidthLimit = window.matchMedia("screen and (min-width: 1025px)");
-//   if (!screenWidthLimit.matches) {
-//     const toggleNav = (e) => {
-//       navigation.classList.toggle("header__navButtons--mobileVisible");
-//       menuIcon.classList.toggle("header__hamburgerBtn--mobileVisible");
-//       closeBtn.classList.toggle("header__close--visible");
-//     };
-//     const toggleDropdown = (e) => {
-//       dropdown.classList.toggle("header__dropdown--visible");
-//       mobArrow.classList.toggle("header__mobArrow--rotated");
-//       navBtn1.firstElementChild.classList.toggle("header__navBtn--activeBtn");
-//     };
-//     [...navButtons]
-//       .slice(1)
-//       .forEach((el) => el.addEventListener("click", toggleNav));
-//     menuIcon.addEventListener("click", toggleNav);
-//     navBtn1.addEventListener("click", toggleDropdown);
-//   } else {
-//     const showDropdown = () => {
-//       dropdown.classList.add("header__dropdown--visible");
-//     };
-//     const hideDropdown = (e) => {
-//       if (dropdown.classList.contains("header__dropdown--visible")) {
-//         dropdown.classList.remove("header__dropdown--visible");
-//       }
-//     };
-//     navBtn1.addEventListener("mouseenter", showDropdown);
-//     navBtn1.addEventListener("mouseleave", hideDropdown);
-//     dropdown.addEventListener("mouseenter", showDropdown);
-//     dropdown.addEventListener("mouseleave", hideDropdown);
-//     dropdownToggle.addEventListener("mouseenter", showDropdown);
-//     dropdownToggle.addEventListener("mouseleave", hideDropdown);
-//   }
-// }
-// window.addEventListener("load", mobileNavToggle);
-},{}],"src/assets/scripts/modules/getSuggestions.js":[function(require,module,exports) {
+},{"core-js/shim":"node_modules/core-js/shim.js","regenerator-runtime/runtime":"node_modules/babel-polyfill/node_modules/regenerator-runtime/runtime.js","core-js/fn/regexp/escape":"node_modules/core-js/fn/regexp/escape.js"}],"src/assets/scripts/index.js":[function(require,module,exports) {
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.initialValues = exports.getSuggestions = void 0;
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-var initialValues = {
-  feedbackArray: null,
-  currentUserL: null
-};
-exports.initialValues = initialValues;
-
-var getSuggestions = function getSuggestions(arrayToLoop) {
-  var feedbackWrapper = document.querySelector(".feedback-items-wraper"); // const sidebarStatusDisplay = document.querySelector(".sidebar__status-display");
-
-  var suggestionsList = arrayToLoop.map(function (el) {
-    return "<div class=\"feedback-item\">\n            <div class=\"feedback-item__left\">\n              <span class=\"arrow\"></span>\n              <div class=\"count\">".concat(el.upvotes, "</div>\n            </div>\n            <div class=\"feedback-item__center\">\n              <h4 class=\"title\">").concat(el.title, "</h4>\n              <p>\n                ").concat(el.description, "\n              </p>\n              <div class=\"tag\">\n                <span>").concat(el.category, "</span>\n              </div>\n            </div>\n            <div class=\"feedback-item__right\">\n              <span class=\"comment\"></span>\n              <div class=\"count\">").concat(el.comments ? el.comments.length : 0, "</div>\n            </div>\n          </div>");
-  });
-  feedbackWrapper.innerHTML = suggestionsList.join("");
-};
-
-exports.getSuggestions = getSuggestions;
-
-function fetchSuggestions() {
-  return _fetchSuggestions.apply(this, arguments);
-} // module invoked on load
-
-
-function _fetchSuggestions() {
-  _fetchSuggestions = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-    var feedbackWrapper, response, json;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            feedbackWrapper = document.querySelector(".feedback-items-wraper"); // fetch
-
-            _context.next = 3;
-            return fetch("/data/data.json");
-
-          case 3:
-            response = _context.sent;
-            console.log(response);
-            _context.next = 7;
-            return response.clone().json();
-
-          case 7:
-            json = _context.sent;
-            // fill the object
-            initialValues.feedbackArray = json.productRequests; //call outer getSuggestions function
-
-            getSuggestions(initialValues.feedbackArray);
-
-          case 10:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-  return _fetchSuggestions.apply(this, arguments);
-}
-
-window.addEventListener("load", fetchSuggestions);
-},{}],"src/assets/scripts/modules/editFeedback.js":[function(require,module,exports) {
-"use strict";
-
-var _getSuggestions = require("./getSuggestions");
-
-function editFeedback() {
-  var feedbackWrapper = document.querySelector(".feedback-items-wraper");
-  var sidebarStatusDisplay = document.querySelector(".sidebar__status-display");
-  (0, _getSuggestions.getSuggestions)(_getSuggestions.initialValues.feedbackArray);
-} // module invoked on load
-
-
-window.addEventListener("click", editFeedback);
-},{"./getSuggestions":"src/assets/scripts/modules/getSuggestions.js"}],"src/assets/scripts/index.js":[function(require,module,exports) {
-"use strict";
-
-var _navigo = _interopRequireDefault(require("navigo"));
-
-require("/assets/styles/styles");
-
-require("babel-polyfill");
 
 require("../scripts/modules/buttonToggle");
 
@@ -8339,11 +8587,17 @@ require("../scripts/modules/getSuggestions");
 
 require("../scripts/modules/editFeedback");
 
+var _navigo = _interopRequireDefault(require("navigo"));
+
+require("/src/assets/styles/styles");
+
+require("babel-polyfill");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var router = new _navigo.default("/");
 router.on("/new-feedback", function () {});
-},{"navigo":"node_modules/navigo/lib/navigo.min.js","/assets/styles/styles":"assets/styles/styles.css","babel-polyfill":"node_modules/babel-polyfill/lib/index.js","../scripts/modules/buttonToggle":"src/assets/scripts/modules/buttonToggle.js","../scripts/modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../scripts/modules/editFeedback":"src/assets/scripts/modules/editFeedback.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"../scripts/modules/buttonToggle":"src/assets/scripts/modules/buttonToggle.js","../scripts/modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../scripts/modules/editFeedback":"src/assets/scripts/modules/editFeedback.js","navigo":"node_modules/navigo/lib/navigo.min.js","/src/assets/styles/styles":"src/assets/styles/styles.css","babel-polyfill":"node_modules/babel-polyfill/lib/index.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -8371,7 +8625,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52044" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50675" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
