@@ -34,9 +34,11 @@ export const getSuggestions = (arrayToLoop) => {
 
 async function fetchSuggestions() {
   const feedbackWrapper = document.querySelector(".feedback-items-wraper");
+
   // fetch
   // const response = await fetch("/data/data.json");
   // const json = await response.clone().json();
+  
   // fill the object
   initialValues.feedbackArray = data.productRequests;
   console.log(data.productRequests);
