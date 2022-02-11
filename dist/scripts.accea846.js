@@ -8121,14 +8121,14 @@ define(String.prototype, "padRight", "".padEnd);
   [][key] && define(Array, key, Function.call.bind([][key]));
 });
 },{"core-js/shim":"node_modules/core-js/shim.js","regenerator-runtime/runtime":"node_modules/babel-polyfill/node_modules/regenerator-runtime/runtime.js","core-js/fn/regexp/escape":"node_modules/core-js/fn/regexp/escape.js"}],"src/assets/scripts/routes/root.js":[function(require,module,exports) {
-window.history.pushState({
-  page: 1
-}, "", "");
-var asd = "\n<section class=\"sidebar\">\n<div class=\"sidebar__titles\">\n<div>\n  <h1>Frontend Mentor</h1>\n  <h3>Feedback Board</h3>\n</div>\n<div class=\"toggleButton\">\n  <div></div>\n  <div></div>\n  <div></div>\n</div>\n</div>\n<div class=\"sidebar__menu\">\n<div class=\"sidebar__categories\">\n  <button>All</button>\n  <button>UI</button>\n  <button>UX</button>\n  <button>Enhancement</button>\n  <button>Bug</button>\n  <button>Feature</button>\n</div>\n<div class=\"sidebar__status-wrapper\">\n  <span>Roadmap</span>\n  <a href=\"#\">View</a>\n  <div class=\"sidebar__status-display\">\n    <div class=\"sidebar__status sidebar__status--planned\">\n      <span class=\"circle\"></span>Planned <span class=\"count\">9</span>\n    </div>\n    <div class=\"sidebar__status sidebar__status--progress\">\n      <span class=\"circle\"></span>In-Progress\n      <span class=\"count\">9</span>\n    </div>\n    <div class=\"sidebar__status sidebar__status--live\">\n      <span class=\"circle\"></span>Live <span class=\"count\">9</span>\n    </div>\n  </div>\n</div>\n</div>\n</section>\n<section class=\"feedback\">\n<div class=\"feedback__controls\">\n<div class=\"feedback__counter\">\n  <span class=\"bulb\"></span>\n  <span class=\"count\">0</span>\n  <h3>Suggestions</h3>\n</div>\n<div class=\"feedback__sort\">\n  <span class=\"text\">Sort by:</span>\n  <span class=\"count\"></span>\n  <span class=\"arrow\"></span>\n</div>\n<a href=\"/new-feedback\" data-navigo>+ Add Feedback</a>\n</div>\n<div class=\"feedback-items-wraper\">\n<div class=\"feedback-empty\">\n  <figure>\n    <picture>\n      <source />\n      <img src=\"\" alt=\"no-results\" />\n    </picture>\n  </figure>\n  <div>>There is no feedback yet.</div>\n  <p>\n    Got a suggestion? Found a bug that needs to be squashed? We love\n    hearing about new ideas to improve our app.\n  </p>\n  <butotn>Add Feedback</butotn>\n</div>\n</div>\n</section>\n";
+// import Navigo from "navigo";
+// const router = new Navigo("/");
+// router.on("/", function () {
+document.body.innerHTML = "\n\n<section class=\"sidebar\">\n<div class=\"sidebar__titles\">\n  <div>\n    <h1>Frontend Mentor</h1>\n    <h3>Feedback Board</h3>\n  </div>\n  <div class=\"toggleButton\">\n    <div></div>\n    <div></div>\n    <div></div>\n  </div>\n</div>\n<div class=\"sidebar__menu\">\n  <div class=\"sidebar__categories\">\n    <button>All</button>\n    <button>UI</button>\n    <button>UX</button>\n    <button>Enhancement</button>\n    <button>Bug</button>\n    <button>Feature</button>\n  </div>\n  <div class=\"sidebar__status-wrapper\">\n    <span>Roadmap</span>\n    <a href=\"#\">View</a>\n    <div class=\"sidebar__status-display\">\n      <div class=\"sidebar__status sidebar__status--planned\">\n        <span class=\"circle\"></span>Planned <span class=\"count\">9</span>\n      </div>\n      <div class=\"sidebar__status sidebar__status--progress\">\n        <span class=\"circle\"></span>In-Progress\n        <span class=\"count\">9</span>\n      </div>\n      <div class=\"sidebar__status sidebar__status--live\">\n        <span class=\"circle\"></span>Live <span class=\"count\">9</span>\n      </div>\n    </div>\n  </div>\n</div>\n</section>\n<section class=\"feedback\">\n<div class=\"feedback__controls\">\n  <div class=\"feedback__counter\">\n    <span class=\"bulb\"></span>\n    <span class=\"count\">0</span>\n    <h3>Suggestions</h3>\n  </div>\n  <div class=\"feedback__sort\">\n    <span class=\"text\">Sort by:</span>\n    <span class=\"count\"></span>\n    <span class=\"arrow\"></span>\n  </div>\n  <a href=\"/new-feedback\" data-navigo>+ Add Feedback</a>\n</div>\n<div class=\"feedback-items-wraper\">\n  <div class=\"feedback-empty\">\n    <figure>\n      <picture>\n        <source />\n        <img src=\"\" alt=\"no-results\" />\n      </picture>\n    </figure>\n    <div>>There is no feedback yet.</div>\n    <p>\n      Got a suggestion? Found a bug that needs to be squashed? We love\n      hearing about new ideas to improve our app.\n    </p>\n    <butotn>Add Feedback</butotn>\n  </div>\n</div>\n</section>\n    ";
 
 window.onpopstate = function (event) {
   if (event) {
-    location.pathname = "/";
+    location.pathname == "/" && (location.pathname = "/");
   }
 };
 },{}],"node_modules/navigo/lib/navigo.min.js":[function(require,module,exports) {
@@ -8191,7 +8191,21 @@ router.on("/new-feedback", function () {
 //   }
 // }
 // window.addEventListener("load", mobileNavToggle);
-},{}],"src/data/data.json":[function(require,module,exports) {
+},{}],"src/assets/scripts/routes/router.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.router = void 0;
+
+var _navigo = _interopRequireDefault(require("navigo"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var router = new _navigo.default("/");
+exports.router = router;
+},{"navigo":"node_modules/navigo/lib/navigo.min.js"}],"src/data/data.json":[function(require,module,exports) {
 module.exports = {
   "currentUser": {
     "image": "./assets/user-images/image-zena.jpg",
@@ -8449,7 +8463,31 @@ module.exports = {
     }]
   }]
 };
-},{}],"src/assets/scripts/modules/getSuggestions.js":[function(require,module,exports) {
+},{}],"src/assets/scripts/routes/details.js":[function(require,module,exports) {
+"use strict";
+
+var _getSuggestions = require("../modules/getSuggestions");
+
+var _router = require("./router");
+
+// import { getSuggestions, initialValues } from "./getSuggestions";
+_router.router.on("/item/:id", function () {
+  var currentId = null;
+
+  window.onpopstate = function (event) {
+    if (event) {
+      alert(location.pathname.split('/').pop());
+    }
+  };
+
+  var current = _getSuggestions.initialValues.feedbackArray.filter(function (el) {
+    return el.id == currentId;
+  });
+
+  console.log(current);
+  document.body.innerHTML = "<section class=\"edit\">\n    <div class=\"edit__controls\">\n      <div class=\"back\">\n        <span class=\"arrow\"></span>\n        <span class=\"text\">Go back</span>\n      </div>\n      <a href=\"/new-feedback\" data-navigo>+ Edit Feedback</a>\n    </div>\n    <div class=\"edit__current\">\n      <div class=\"feedback\">\n        <div class=\"feedback-items-wraper\">\n\n        <div class=\"feedback-item\" id=\"".concat(current.id, "\">\n        <div class=\"feedback-item__left\">\n          <span class=\"arrow\"></span>\n          <div class=\"count\">").concat(current.upvotes, "</div>\n        </div>\n        <div class=\"feedback-item__center\">\n          <h4 class=\"title\">").concat(current.title, "</h4>\n          <p>\n            ").concat(current.description, "\n          </p>\n          <div class=\"tag\">\n            <span>").concat(current.category, "</span>\n          </div>\n        </div>\n        <div class=\"feedback-item__right\">\n          <span class=\"comment\"></span>\n          <div class=\"count\">\n            ").concat(current.comments ? current.comments.length : 0, "\n          </div>\n        </div>\n      </div>\n\n        </div>\n      </div>\n      <div class=\"comments\">\n        <div class=\"items-wrapper\">\n          <div class=\"item\">\n            <bold><span>0</span> Comments</bold>\n            <div class=\"info\">\n              <div class=\"profile-image\"></div>\n              <div class=\"name\">\n                <bold>Elija m</bold>\n                <div>@hex</div>\n              </div>\n              <span class=\"reply-activate\">reply</span>\n            </div>\n            <div class=\"text\">adssssssssssssssssssssssssssssadssssssssssssssssssssssssssssadssssssssssssssssssssssssssss</div>\n            <div class=\"reply\">\n              <textarea placeholder=\"Type your reply here\"></textarea>\n              <button>Post Reply</button>\n            </div>\n          </div>\n        </div>\n        <div class=\"add\">\n          <bold></bold>\n          <textarea name=\"\" id=\"\" cols=\"30\" rows=\"10\" placeholder=\"Type your comment here\"></textarea>\n          <div class=\"post\">\n            <span>asd lef</span>\n            <button>Post Comment</button>\n          </div>\n        </div>\n      </div>\n    </div>\n  </section>");
+}); // window.addEventListener("load", detailsLoad);
+},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/modules/getSuggestions.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8457,7 +8495,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.initialValues = exports.getSuggestions = void 0;
 
+var _router = require("../routes/router");
+
 var _data = _interopRequireDefault(require("/src/data/data"));
+
+require("/src/assets/scripts/routes/details");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8467,17 +8509,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var initialValues = {
   feedbackArray: null,
-  currentUserL: null
+  currentUser: null
 };
 exports.initialValues = initialValues;
 
-var getSuggestions = function getSuggestions(arrayToLoop) {
+var getSuggestions = function getSuggestions(arrayToLoop, toFilter) {
   var feedbackWrapper = document.querySelector(".feedback-items-wraper"); // const sidebarStatusDisplay = document.querySelector(".sidebar__status-display");
 
-  var suggestionsList = arrayToLoop.map(function (el) {
-    return "<div class=\"feedback-item\">\n            <div class=\"feedback-item__left\">\n              <span class=\"arrow\"></span>\n              <div class=\"count\">".concat(el.upvotes, "</div>\n            </div>\n            <div class=\"feedback-item__center\">\n              <h4 class=\"title\">").concat(el.title, "</h4>\n              <p>\n                ").concat(el.description, "\n              </p>\n              <div class=\"tag\">\n                <span>").concat(el.category, "</span>\n              </div>\n            </div>\n            <div class=\"feedback-item__right\">\n              <span class=\"comment\"></span>\n              <div class=\"count\">").concat(el.comments ? el.comments.length : 0, "</div>\n            </div>\n          </div>");
+  var suggestionsList = arrayToLoop.filter(function (el) {
+    var final = toFilter ? el.id == toFilter : el;
+    console.log(final);
+    console.log(toFilter);
+    return final;
   });
-  feedbackWrapper.innerHTML = suggestionsList.join("");
+  var mapped = suggestionsList.map(function (el) {
+    return "<div class=\"feedback-item\" id=\"".concat(el.id, "\">\n            <div class=\"feedback-item__left\">\n              <span class=\"arrow\"></span>\n              <div class=\"count\">").concat(el.upvotes, "</div>\n            </div>\n            <div class=\"feedback-item__center\">\n              <h4 class=\"title\">").concat(el.title, "</h4>\n              <p>\n                ").concat(el.description, "\n              </p>\n              <div class=\"tag\">\n                <span>").concat(el.category, "</span>\n              </div>\n            </div>\n            <div class=\"feedback-item__right\">\n              <span class=\"comment\"></span>\n              <div class=\"count\">\n                ").concat(el.comments ? el.comments.length : 0, "\n              </div>\n            </div>\n          </div>");
+  }); // fill the container
+
+  feedbackWrapper.innerHTML = mapped.join(""); // item recognition
+
+  var feedbackItems = document.querySelectorAll(".feedback-item");
+  feedbackItems && feedbackItems.forEach(function (element) {
+    element.addEventListener("click", feedbackDetails);
+  });
+
+  function feedbackDetails(e) {
+    _router.router.navigate('/item/' + e.currentTarget.id);
+
+    getSuggestions(initialValues.feedbackArray, e.currentTarget.id);
+  }
 };
 
 exports.getSuggestions = getSuggestions;
@@ -8496,15 +8556,14 @@ function _fetchSuggestions() {
           case 0:
             feedbackWrapper = document.querySelector(".feedback-items-wraper"); // fetch
             // const response = await fetch("/data/data.json");
-            // const json = await response.clone().json();
+            // const json = await response.json();
             // fill the object
 
-            initialValues.feedbackArray = _data.default.productRequests;
-            console.log(_data.default.productRequests); //call outer getSuggestions function
+            initialValues.feedbackArray = _data.default.productRequests; //call outer getSuggestions function
 
             getSuggestions(_data.default.productRequests);
 
-          case 4:
+          case 3:
           case "end":
             return _context.stop();
         }
@@ -8515,20 +8574,18 @@ function _fetchSuggestions() {
 }
 
 window.addEventListener("load", fetchSuggestions);
-},{"/src/data/data":"src/data/data.json"}],"src/assets/scripts/modules/editFeedback.js":[function(require,module,exports) {
-"use strict";
-
-var _getSuggestions = require("./getSuggestions");
-
-function editFeedback() {
-  var feedbackWrapper = document.querySelector(".feedback-items-wraper");
-  var sidebarStatusDisplay = document.querySelector(".sidebar__status-display");
-  (0, _getSuggestions.getSuggestions)(_getSuggestions.initialValues.feedbackArray);
-} // module invoked on load
-
-
-window.addEventListener("click", editFeedback);
-},{"./getSuggestions":"src/assets/scripts/modules/getSuggestions.js"}],"node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"../routes/router":"src/assets/scripts/routes/router.js","/src/data/data":"src/data/data.json","/src/assets/scripts/routes/details":"src/assets/scripts/routes/details.js"}],"src/assets/scripts/modules/editFeedback.js":[function(require,module,exports) {
+// import { getSuggestions, initialValues } from "./getSuggestions";
+// const feedbackItem = document.querySelectorAll(".feedback-item");
+// function editFeedback() {
+//     const sidebarStatusDisplay = document.querySelector(".sidebar__status-display");
+//     getSuggestions(initialValues.feedbackArray)
+//   }
+//   // module invoked on click
+//   feedbackItem.array.forEach(element => {
+//     element.addEventListener("click", editFeedback);
+//   });
+},{}],"node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -8600,7 +8657,7 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\bulb.png":[["bulb.da37f33d.png","src/assets/images/suggestions/bulb.png"],"src/assets/images/suggestions/bulb.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\white-arrow.png":[["white-arrow.205849a5.png","src/assets/images/suggestions/white-arrow.png"],"src/assets/images/suggestions/white-arrow.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-arrow-up.svg":[["icon-arrow-up.8a111df8.svg","src/assets/images/shared/icon-arrow-up.svg"],"src/assets/images/shared/icon-arrow-up.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-comments.svg":[["icon-comments.1db50b47.svg","src/assets/images/shared/icon-comments.svg"],"src/assets/images/shared/icon-comments.svg"],"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/assets/scripts/index.js":[function(require,module,exports) {
+},{"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\bulb.png":[["bulb.da37f33d.png","src/assets/images/suggestions/bulb.png"],"src/assets/images/suggestions/bulb.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\white-arrow.png":[["white-arrow.205849a5.png","src/assets/images/suggestions/white-arrow.png"],"src/assets/images/suggestions/white-arrow.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-arrow-up.svg":[["icon-arrow-up.8a111df8.svg","src/assets/images/shared/icon-arrow-up.svg"],"src/assets/images/shared/icon-arrow-up.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-comments.svg":[["icon-comments.1db50b47.svg","src/assets/images/shared/icon-comments.svg"],"src/assets/images/shared/icon-comments.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-arrow-left.svg":[["icon-arrow-left.7013d5bc.svg","src/assets/images/shared/icon-arrow-left.svg"],"src/assets/images/shared/icon-arrow-left.svg"],"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/assets/scripts/index.js":[function(require,module,exports) {
 "use strict";
 
 require("babel-polyfill");
@@ -8615,8 +8672,10 @@ require("../scripts/modules/getSuggestions");
 
 require("../scripts/modules/editFeedback");
 
+require("../scripts/routes/details");
+
 require("/src/assets/styles/styles");
-},{"babel-polyfill":"node_modules/babel-polyfill/lib/index.js","/src/assets/scripts/routes/root":"src/assets/scripts/routes/root.js","./routes/edit-feedback":"src/assets/scripts/routes/edit-feedback.js","../scripts/modules/buttonToggle":"src/assets/scripts/modules/buttonToggle.js","../scripts/modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../scripts/modules/editFeedback":"src/assets/scripts/modules/editFeedback.js","/src/assets/styles/styles":"src/assets/styles/styles.css"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"babel-polyfill":"node_modules/babel-polyfill/lib/index.js","/src/assets/scripts/routes/root":"src/assets/scripts/routes/root.js","./routes/edit-feedback":"src/assets/scripts/routes/edit-feedback.js","../scripts/modules/buttonToggle":"src/assets/scripts/modules/buttonToggle.js","../scripts/modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../scripts/modules/editFeedback":"src/assets/scripts/modules/editFeedback.js","../scripts/routes/details":"src/assets/scripts/routes/details.js","/src/assets/styles/styles":"src/assets/styles/styles.css"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -8644,7 +8703,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53454" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57638" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

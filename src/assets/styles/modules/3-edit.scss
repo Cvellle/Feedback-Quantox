@@ -1,0 +1,182 @@
+.edit {
+  $this: &;
+
+  width: 100%;
+
+  &__controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px;
+    margin-bottom: 32px;
+
+    @include tablet {
+      border-radius: 10px;
+      height: 72px;
+      margin-bottom: 24px;
+    }
+
+    @include desktop {
+      padding-top: unset;
+    }
+
+    @include tablet {
+      display: flex;
+      align-items: center;
+    }
+
+    & .back {
+      margin-right: 5px;
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+      font-size: 18px;
+      line-height: 26px;
+      letter-spacing: -0.25px;
+
+      & .arrow {
+        width: 4px;
+        height: 8px;
+        display: inline-block;
+        align-self: center;
+        background-image: url("/src/assets/images/shared/icon-arrow-left.svg");
+        background-size: cover;
+      }
+
+      & .text {
+        color: #647196;
+        font-size: 13px;
+        line-height: 19px;
+        margin-left: 15.67px;
+      }
+    }
+
+    & a {
+      background-color: #4661e6;
+      border-radius: 10px;
+      width: 119px;
+      height: 40px;
+      font-weight: bold;
+      font-size: 13px;
+      line-height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #f2f4fe;
+    }
+  }
+
+  &__current {
+    padding: 24px;
+
+    & .comments {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+
+      & > * {
+        width: 100%;
+      }
+
+      & .info {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px 0;
+
+        & .profile-image {
+          width: 10%;
+        }
+
+        & .name {
+          width: 45%;
+
+          & bold + div {
+            color: #647196;
+          }
+        }
+
+        & .reply-activate {
+          width: 45%;
+          display: flex;
+          align-items: center;
+          justify-content: right;
+          color: #4661e6;
+          font-weight: 700;
+        }
+      }
+
+      & .text {
+        word-break: break-all;
+        margin-bottom: 20px;
+        font-size: 14px;
+        color: #303030;
+      }
+
+      & .reply {
+        display: flex;
+
+        & textarea {
+          flex: auto;
+          height: 80px;
+          border-radius: 5px;
+          margin-bottom: 20px;
+
+          &:focus {
+            font-weight: 700;
+            border: 1px solid #4661e6;
+          }
+        }
+
+        & button {
+          display: inline-block;
+          flex: 0 0 117px;
+          background-color: #ad1fea;
+          margin-left: 10px;
+          border-radius: 10px;
+          height: 44px;
+          color: #f2f4fe;
+        }
+      }
+    }
+
+    .add {
+      textarea {
+        height: 80px;
+        border-radius: 5px;
+        width: 100%;
+
+        &:focus {
+          font-weight: 700;
+          border: 1px solid #4661e6;
+        }
+      }
+
+      & .post {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        & span {
+          font-size: 12px;
+          opacity: 0.8;
+        }
+
+        & button {
+          display: inline-block;
+          flex: 0 0 137px;
+          background-color: #ad1fea;
+          margin-left: 10px;
+          border-radius: 10px;
+          height: 44px;
+          margin-top: 10px;
+          color: #f2f4fe;
+        }
+      }
+    }
+  }
+
+  textarea {
+    resize: none;
+    padding: 15px;
+  }
+}

@@ -1,12 +1,15 @@
-import { getSuggestions, initialValues } from "./getSuggestions";
+// import { getSuggestions, initialValues } from "./getSuggestions";
 
-function editFeedback() {
-    const feedbackWrapper = document.querySelector(".feedback-items-wraper");
-    const sidebarStatusDisplay = document.querySelector(".sidebar__status-display");
+// const feedbackItem = document.querySelectorAll(".feedback-item");
 
-    getSuggestions(initialValues.feedbackArray)
-  }
+// function editFeedback() {
+//     const sidebarStatusDisplay = document.querySelector(".sidebar__status-display");
+    
+//     getSuggestions(initialValues.feedbackArray)
+//   }
   
-  // module invoked on load
-  window.addEventListener("click", editFeedback);
+//   // module invoked on click
+//   feedbackItem.array.forEach(element => {
+//     element.addEventListener("click", editFeedback);
+//   });
   

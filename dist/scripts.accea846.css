@@ -21,6 +21,10 @@ body {
   user-drag: none;
 }
 
+bold {
+  font-weight: 700;
+}
+
 button,
 input,
 summary {
@@ -584,6 +588,164 @@ ol {
   background-size: cover;
   margin-right: 10px;
   font-size: 13px;
+}
+
+.edit {
+  width: 100%;
+}
+.edit__controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px;
+  margin-bottom: 32px;
+}
+@media screen and (min-width: 768px) {
+  .edit__controls {
+    border-radius: 10px;
+    height: 72px;
+    margin-bottom: 24px;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .edit__controls {
+    padding-top: unset;
+  }
+}
+@media screen and (min-width: 768px) {
+  .edit__controls {
+    display: flex;
+    align-items: center;
+  }
+}
+.edit__controls .back {
+  margin-right: 5px;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 26px;
+  letter-spacing: -0.25px;
+}
+.edit__controls .back .arrow {
+  width: 4px;
+  height: 8px;
+  display: inline-block;
+  align-self: center;
+  background-image: url("/icon-arrow-left.7013d5bc.svg");
+  background-size: cover;
+}
+.edit__controls .back .text {
+  color: #647196;
+  font-size: 13px;
+  line-height: 19px;
+  margin-left: 15.67px;
+}
+.edit__controls a {
+  background-color: #4661e6;
+  border-radius: 10px;
+  width: 119px;
+  height: 40px;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f2f4fe;
+}
+.edit__current {
+  padding: 24px;
+}
+.edit__current .comments {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.edit__current .comments > * {
+  width: 100%;
+}
+.edit__current .comments .info {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+.edit__current .comments .info .profile-image {
+  width: 10%;
+}
+.edit__current .comments .info .name {
+  width: 45%;
+}
+.edit__current .comments .info .name bold + div {
+  color: #647196;
+}
+.edit__current .comments .info .reply-activate {
+  width: 45%;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  color: #4661e6;
+  font-weight: 700;
+}
+.edit__current .comments .text {
+  word-break: break-all;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #303030;
+}
+.edit__current .comments .reply {
+  display: flex;
+}
+.edit__current .comments .reply textarea {
+  flex: auto;
+  height: 80px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+.edit__current .comments .reply textarea:focus {
+  font-weight: 700;
+  border: 1px solid #4661e6;
+}
+.edit__current .comments .reply button {
+  display: inline-block;
+  flex: 0 0 117px;
+  background-color: #ad1fea;
+  margin-left: 10px;
+  border-radius: 10px;
+  height: 44px;
+  color: #f2f4fe;
+}
+.edit__current .add textarea {
+  height: 80px;
+  border-radius: 5px;
+  width: 100%;
+}
+.edit__current .add textarea:focus {
+  font-weight: 700;
+  border: 1px solid #4661e6;
+}
+.edit__current .add .post {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.edit__current .add .post span {
+  font-size: 12px;
+  opacity: 0.8;
+}
+.edit__current .add .post button {
+  display: inline-block;
+  flex: 0 0 137px;
+  background-color: #ad1fea;
+  margin-left: 10px;
+  border-radius: 10px;
+  height: 44px;
+  margin-top: 10px;
+  color: #f2f4fe;
+}
+.edit textarea {
+  resize: none;
+  padding: 15px;
 }
 
 
