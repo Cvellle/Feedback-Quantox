@@ -1,74 +1,77 @@
-// import { getSuggestions, initialValues } from "./getSuggestions";
-
-import { initialValues } from "../modules/getSuggestions";
+import { getSuggestions, initialValues } from "../modules/getSuggestions";
 import { router } from "./router";
+// import an from "../../images/user-images/image-anne.jpg";
 
-router.on("/item/:id", function () {
-  let currentId = null;
-  window.onpopstate = function (event) {
-  if (event) {
-    alert(location.pathname.split('/').pop())
-      
-  }
-};
+router.on("/item/:id", function (match) {
+  document.body.style = "  background: #f2f2f2;";
+  let currentId = match.data.id;
+  let current = initialValues.feedbackArray.filter(
+    (el) => el.id == currentId
+  )[0];
 
-    let current = initialValues.feedbackArray.filter(el => el.id == currentId)
-    console.log(current);
+  let items = current.comments.map((el) => {
+    return `<div class="item">
+      <div class="info">
+        <div class="profile-image">
+          <div style="background-image: url(/src/assets/images/user-images/${el.user.image
+            .split("/")
+            .pop()})">
+          </div>
+        </div>
+        <div class="name">
+          <bold>${el.user.name}</bold>
+          <div>@${el.user.username}</div>
+        </div>
+        <span class="reply-activate">reply</span>
+      </div>
+      <div class="text">${el.content}</div>
+      <div class="reply">
+        <textarea placeholder="Type your reply here"></textarea>
+        <button>Post Reply</button>
+      </div>
+    </div>`;
+  });
 
-    document.body.innerHTML = `<section class="edit">
-    <div class="edit__controls">
+  const detailsTemplate = `<section class="details">
+    <div class="details__controls">
       <div class="back">
         <span class="arrow"></span>
         <span class="text">Go back</span>
       </div>
-      <a href="/new-feedback" data-navigo>+ Edit Feedback</a>
+      <a href="/edit-feedback" data-navigo>+ Edit Feedback</a>
     </div>
-    <div class="edit__current">
-      <div class="feedback">
-        <div class="feedback-items-wraper">
-
-        <div class="feedback-item" id="${current.id}">
-        <div class="feedback-item__left">
-          <span class="arrow"></span>
-          <div class="count">${current.upvotes}</div>
-        </div>
-        <div class="feedback-item__center">
-          <h4 class="title">${current.title}</h4>
-          <p>
-            ${current.description}
-          </p>
-          <div class="tag">
-            <span>${current.category}</span>
+    <div class="details__current">
+      <div class="feedback feedback--details">
+        <div class="feedback-items-wrapper">
+          <div class="feedback-item" id="${current.id}">
+            <div class="feedback-item__left">
+              <span class="arrow"></span>
+              <div class="count">${current.upvotes}</div>
+            </div>
+            <div class="feedback-item__center">
+              <h4 class="title">${current.title}</h4>
+              <p>
+                ${current.description}
+              </p>
+              <div class="tag">
+                <span>${current.category}</span>
+              </div>
+            </div>
+            <div class="feedback-item__right">
+              <span class="comment"></span>
+              <div class="count">
+                ${current.comments ? current.comments.length : 0}
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="feedback-item__right">
-          <span class="comment"></span>
-          <div class="count">
-            ${current.comments ? current.comments.length : 0}
-          </div>
-        </div>
-      </div>
-
         </div>
       </div>
       <div class="comments">
+      <bold><span>${
+        current.comments ? current.comments.length : 0
+      }</span> Comments</bold>
         <div class="items-wrapper">
-          <div class="item">
-            <bold><span>0</span> Comments</bold>
-            <div class="info">
-              <div class="profile-image"></div>
-              <div class="name">
-                <bold>Elija m</bold>
-                <div>@hex</div>
-              </div>
-              <span class="reply-activate">reply</span>
-            </div>
-            <div class="text">adssssssssssssssssssssssssssssadssssssssssssssssssssssssssssadssssssssssssssssssssssssssss</div>
-            <div class="reply">
-              <textarea placeholder="Type your reply here"></textarea>
-              <button>Post Reply</button>
-            </div>
-          </div>
+          ${items.join("")}
         </div>
         <div class="add">
           <bold></bold>
@@ -81,13 +84,14 @@ router.on("/item/:id", function () {
       </div>
     </div>
   </section>`;
-  });
-  
 
-// window.addEventListener("load", detailsLoad);
+  document.body.innerHTML = detailsTemplate;
 
-  
-  
-    
+  const goBack = () => {
+    router.navigate("/");
+    getSuggestions(initialValues.feedbackArray);
+  };
 
-  
+  const back = document.querySelector(".details__controls .back");
+  back.addEventListener("click", goBack);
+});

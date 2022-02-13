@@ -6,13 +6,103 @@
     <title>Feedback - Nikola Cvetic</title>
   </head>
   <body>
-    
+    <!-- <section class="edit">
+      <div class="edit__controls"></div>
+      <div class="edit__wrapper">
+        <div>
+          <h3>Feedback Title</h3>
+          <div>Add a short, descriptive headline</div>
+          <input class="select select--1"></input>
+        </div>
+        <div>
+          <h3>Category</h3>
+          <div>Choose a category for your feedback</div>
+          <div class="select select--2">
+            <div>All</div>
+            <div>UX</div>
+            <div>UI</div>
+            <div>Enhancement</div>
+            <div>Feature</div>
+            <div>Bug</div>
+          </div>
+        </div>
+        <div>
+          <h3>Update Status</h3>
+          <div>Change feedback state</div>
+          <div class="select select--3">
+            <div>Suggestion</div>
+            <div>Planned</div>
+            <div>In-Progress</div>
+            <div>Live</div>
+          </div>
+        </div>
+        <div>
+          <h3>Feedback detail</h3>
+          <div>
+            Include any specific comments on what should be improved, added,
+            etc.
+          </div>
+          <textarea name="" id="" cols="30" rows="10"></textarea>
+        </div>
+        <div class="btns">
+          <button class="delete">Delete</button>
+          <button class="cancel">Cancel</button>
+          <button class="save">Add feedback</button>
+        </div>
+      </div>
+    </section> -->
+
+    <section class="roadmap">
+      <div class="roadmap__controls">
+        <div class="back">
+          <span class="arrow"></span>
+          <span class="text"><a href="/" data-navigo>Go back</a></span>
+          <div>
+            <h3>Roadmap</h3>
+          </div>
+        </div>
+        <a class="add" href="/new-feedback" data-navigo>+ Add Feedback</a>
+      </div>
+
+      <div class="roadmap__column roadmap__column--planned">
+        <bold>
+          Planned
+          <span>(<span class="count"></span>)</span>
+        </bold>
+        <div>In search</div>
+        <div>
+          <div class="item">
+            <div><span></span></div>
+          </div>
+        </div>
+        <div class="feedback feedback--roadmap">
+          <div class="feedback-items-wrapper">
+            <div class="feedback-item" id="${current.id}">
+              <div class="feedback-item__left">
+                <span class="arrow"></span>
+                <div class="count">${current.upvotes}</div>
+              </div>
+              <div class="feedback-item__center">
+                <h4 class="title">${current.title}</h4>
+                <p>
+                  ${current.description}
+                </p>
+                <div class="tag">
+                  <span>${current.category}</span>
+                </div>
+              </div>
+              <div class="feedback-item__right">
+                <span class="comment"></span>
+                <div class="count">
+                  ${current.comments ? current.comments.length : 0}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <script src="src/assets/scripts/index.js"></script>
-
-    <!-- Most upvotes
-  Least upvotes
-  Most comments
-  Least comments -->
   </body>
 </html>

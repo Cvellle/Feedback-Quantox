@@ -1,7 +1,6 @@
-import Navigo from "navigo";
-const router = new Navigo("/");
+import { router } from "./router";
 
-router.on("/new-feedback", function () {
+router.on("/edit-feedback", function () {
   document.body.innerHTML = `<section>
     Go Back
     Edit Feedback

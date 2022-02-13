@@ -7,10 +7,56 @@
     margin: 40px 40px;
   }
 
-  @include desktop {
-    order: 2;
-    width: 825px;
-    margin: 94px auto 0 30px;
+  &--root {
+    @include desktop {
+      order: 2;
+      width: 825px;
+      margin: 94px auto 0 30px;
+    }
+
+    @include tablet {
+      order: 2;
+    }
+    & {
+      .feedback-item__left {
+        order: 2;
+      }
+
+      @include tablet {
+        order: 1;
+      }
+
+      & {
+        .feedback-item__center {
+          order: 1;
+
+          @include tablet {
+            order: 2;
+          }
+        }
+      }
+    }
+  }
+
+  &--details {
+    width: auto;
+  }
+
+  &--roadmap {
+    width: 350px;
+    margin: 30px 30px 0 0;
+
+    & {
+      .feedback-item__left {
+        order: 2;
+      }
+    }
+
+    & {
+      .feedback-item__center {
+        order: 1;
+      }
+    }
   }
 
   &__controls {
@@ -84,18 +130,19 @@
       }
     }
 
-    & button {
-      background: #ad1fea;
-      border-radius: 10px;
-      width: 158px;
-      height: 44px;
-      font-weight: bold;
+    & a.add {
       font-size: 14px;
       line-height: 20px;
+      background-color: purple;
+      display: inline-block;
+      padding: 10px 16px;
+      color: #f2f4fe;
+      border-radius: 10px;
+      cursor: pointer;
     }
   }
 
-  & .feedback-items-wraper {
+  & .feedback-items-wrapper {
     margin: 24px;
 
     @include tablet {
@@ -123,12 +170,10 @@
       }
 
       &__left {
-        order: 2;
         flex: 1;
         display: flex;
 
         @include tablet {
-          order: 1;
           flex: 0 1 auto;
           flex-direction: column;
           margin-right: 40px;
@@ -156,11 +201,9 @@
       }
 
       &__center {
-        order: 1;
         flex: 100%;
 
         @include tablet {
-          order: 2;
           flex: 0 1 auto;
         }
 
