@@ -1,16 +1,19 @@
 import { router } from "../routes/router";
 import data from "/src/data/data";
-import root from "../routes/root";
 import "/src/assets/scripts/routes/details";
 
 export const initialValues = {
-  feedbackArray: null,
+  feedbackArray: [],
+  getFilteredSuggestions: [],
   currentUser: null,
+  selectedItem: null,
+  previousRoute: null,
 };
 
+// get list results globally
 export const getSuggestions = (arrayToLoop, toFilter) => {
   const feedbackWrapper = document.querySelector(".feedback-items-wrapper");
-  // const sidebarStatusDisplay = document.querySelector(".sidebar__status-display");
+  const sidebarStatusDisplay = document.querySelector(".sidebar__status-display");
 
   const suggestionsList = arrayToLoop.filter((el) => {
     let final = toFilter ? el.id == toFilter : el;
@@ -45,6 +48,30 @@ export const getSuggestions = (arrayToLoop, toFilter) => {
   // fill the container
   feedbackWrapper.innerHTML = mapped.join("");
 
+  // statuses count
+  ['planned', 'in-progress', 'live'].forEach(
+    el => {
+      let filtered = initialValues.feedbackArray.filter((f) => {
+        console.log(f);
+        return f.status == el;
+      });
+      document.querySelector('.sidebar__status--' + el + ' .count').innerHTML = filtered.length
+    }
+  ) 
+
+  const filterAll = (e) => {
+    let localArray = initialValues.feedbackArray;
+    let filtered = localArray.filter((el, i, self) => {
+      let returnValue = (e.currentTarget.innerHTML == 'All') ? (el) : (el.category == e.currentTarget.innerHTML.toLowerCase());
+      return returnValue;
+    });
+
+    getSuggestions(filtered);
+  };
+
+  const categoryBtns = document.querySelectorAll(".category");
+  categoryBtns.forEach((el) => el.addEventListener("click", filterAll));
+
   // item recognition
   const feedbackItems = document.querySelectorAll(".feedback-item");
   feedbackItems &&
@@ -52,12 +79,14 @@ export const getSuggestions = (arrayToLoop, toFilter) => {
       element.addEventListener("click", feedbackDetails);
     });
   function feedbackDetails(e) {
+    initialValues.previousRoute = window.location.pathname.split('/').pop();
     router.navigate("/item/" + e.currentTarget.id);
 
     getSuggestions(initialValues.feedbackArray, e.currentTarget.id);
   }
 };
 
+// initial fetch
 async function fetchSuggestions() {
   const feedbackWrapper = document.querySelector(".feedback-items-wrapper");
 
@@ -71,6 +100,16 @@ async function fetchSuggestions() {
   //call outer getSuggestions function
   getSuggestions(data.productRequests);
 }
+
+// Filter by status
+// const filterStatus = (parameter) => {
+//   let filtered = initialValues.feedbackArray.filter((el, i, self) => {
+//     console.log(parameter);
+//     return el.staus == parameter;
+//   });
+
+//   return filtered.length;
+// };
 
 // module invoked on load
 window.addEventListener("load", fetchSuggestions);

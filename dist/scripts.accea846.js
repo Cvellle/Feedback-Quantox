@@ -8120,120 +8120,7 @@ define(String.prototype, "padRight", "".padEnd);
 "pop,reverse,shift,keys,values,entries,indexOf,every,some,forEach,map,filter,find,findIndex,includes,join,slice,concat,push,splice,unshift,sort,lastIndexOf,reduce,reduceRight,copyWithin,fill".split(",").forEach(function (key) {
   [][key] && define(Array, key, Function.call.bind([][key]));
 });
-},{"core-js/shim":"node_modules/core-js/shim.js","regenerator-runtime/runtime":"node_modules/babel-polyfill/node_modules/regenerator-runtime/runtime.js","core-js/fn/regexp/escape":"node_modules/core-js/fn/regexp/escape.js"}],"src/assets/scripts/routes/root.js":[function(require,module,exports) {
-// import { router } from "./router";
-// router.on("/", function () {
-//   document.body.innerHTML = `
-// <section class="sidebar">
-// <div class="sidebar__titles">
-//   <div>
-//     <h1>Frontend Mentor</h1>
-//     <h3>Feedback Board</h3>
-//   </div>
-//   <div class="toggleButton">
-//     <div></div>
-//     <div></div>
-//     <div></div>
-//   </div>
-// </div>
-// <div class="sidebar__menu">
-//   <div class="sidebar__categories">
-//     <button>All</button>
-//     <button>UI</button>
-//     <button>UX</button>
-//     <button>Enhancement</button>
-//     <button>Bug</button>
-//     <button>Feature</button>
-//   </div>
-//   <div class="sidebar__status-wrapper">
-//     <span>Roadmap</span>
-//     <a href="#">View</a>
-//     <div class="sidebar__status-display">
-//       <div class="sidebar__status sidebar__status--planned">
-//         <span class="circle"></span>Planned <span class="count">9</span>
-//       </div>
-//       <div class="sidebar__status sidebar__status--progress">
-//         <span class="circle"></span>In-Progress
-//         <span class="count">9</span>
-//       </div>
-//       <div class="sidebar__status sidebar__status--live">
-//         <span class="circle"></span>Live <span class="count">9</span>
-//       </div>
-//     </div>
-//   </div>
-// </div>
-// </section>
-// <section class="feedback feedback--root">
-// <div class="feedback__controls">
-//   <div class="feedback__counter">
-//     <span class="bulb"></span>
-//     <span class="count">0</span>
-//     <h3>Suggestions</h3>
-//   </div>
-//   <div class="feedback__sort">
-//     <span class="text">Sort by:</span>
-//     <span class="count"></span>
-//     <span class="arrow"></span>
-//   </div>
-//   <a class="add" href="/new-feedback" data-navigo>+ Add Feedback</a>
-// </div>
-// <div class="feedback-items-wrapper">
-//   <div class="feedback-empty">
-//     <figure>
-//       <picture>
-//         <source />
-//         <img src="" alt="no-results" />
-//       </picture>
-//     </figure>
-//     <div>>There is no feedback yet.</div>
-//     <p>
-//       Got a suggestion? Found a bug that needs to be squashed? We love
-//       hearing about new ideas to improve our app.
-//     </p>
-//     <butotn>Add Feedback</butotn>
-//   </div>
-// </div>
-// </section>
-//     `;
-// });
-// window.onload = function (event) {
-//   if (event) {
-//     router.navigate("/");
-//   }
-// };
-// // window.onpopstate = function (event) {
-// //   if (event) {
-// //     // location.pathname == "/" && (location.pathname = "/");
-// //     router.navigate("/");
-// //   }
-// // };
-},{}],"node_modules/navigo/lib/navigo.min.js":[function(require,module,exports) {
-var define;
-!function(t,n){"object"==typeof exports&&"object"==typeof module?module.exports=n():"function"==typeof define&&define.amd?define("Navigo",[],n):"object"==typeof exports?exports.Navigo=n():t.Navigo=n()}("undefined"!=typeof self?self:this,(function(){return(()=>{"use strict";var t={407:(t,n,e)=>{e.d(n,{default:()=>N});var o=/([:*])(\w+)/g,r=/\*/g,i=/\/\?/g;function a(t){return void 0===t&&(t="/"),v()?location.pathname+location.search+location.hash:t}function s(t){return t.replace(/\/+$/,"").replace(/^\/+/,"")}function c(t){return"string"==typeof t}function u(t){return t&&t.indexOf("#")>=0&&t.split("#").pop()||""}function h(t){var n=s(t).split(/\?(.*)?$/);return[s(n[0]),n.slice(1).join("")]}function f(t){for(var n={},e=t.split("&"),o=0;o<e.length;o++){var r=e[o].split("=");if(""!==r[0]){var i=decodeURIComponent(r[0]);n[i]?(Array.isArray(n[i])||(n[i]=[n[i]]),n[i].push(decodeURIComponent(r[1]||""))):n[i]=decodeURIComponent(r[1]||"")}}return n}function l(t,n){var e,a=h(s(t.currentLocationPath)),l=a[0],p=a[1],d=""===p?null:f(p),v=[];if(c(n.path)){if(e="(?:/^|^)"+s(n.path).replace(o,(function(t,n,e){return v.push(e),"([^/]+)"})).replace(r,"?(?:.*)").replace(i,"/?([^/]+|)")+"$",""===s(n.path)&&""===s(l))return{url:l,queryString:p,hashString:u(t.to),route:n,data:null,params:d}}else e=n.path;var g=new RegExp(e,""),m=l.match(g);if(m){var y=c(n.path)?function(t,n){return 0===n.length?null:t?t.slice(1,t.length).reduce((function(t,e,o){return null===t&&(t={}),t[n[o]]=decodeURIComponent(e),t}),null):null}(m,v):m.groups?m.groups:m.slice(1);return{url:s(l.replace(new RegExp("^"+t.instance.root),"")),queryString:p,hashString:u(t.to),route:n,data:y,params:d}}return!1}function p(){return!("undefined"==typeof window||!window.history||!window.history.pushState)}function d(t,n){return void 0===t[n]||!0===t[n]}function v(){return"undefined"!=typeof window}function g(t,n){return void 0===t&&(t=[]),void 0===n&&(n={}),t.filter((function(t){return t})).forEach((function(t){["before","after","already","leave"].forEach((function(e){t[e]&&(n[e]||(n[e]=[]),n[e].push(t[e]))}))})),n}function m(t,n,e){var o=n||{},r=0;!function n(){t[r]?Array.isArray(t[r])?(t.splice.apply(t,[r,1].concat(t[r][0](o)?t[r][1]:t[r][2])),n()):t[r](o,(function(t){void 0===t||!0===t?(r+=1,n()):e&&e(o)})):e&&e(o)}()}function y(t,n){void 0===t.currentLocationPath&&(t.currentLocationPath=t.to=a(t.instance.root)),t.currentLocationPath=t.instance._checkForAHash(t.currentLocationPath),n()}function _(t,n){for(var e=0;e<t.instance.routes.length;e++){var o=l(t,t.instance.routes[e]);if(o&&(t.matches||(t.matches=[]),t.matches.push(o),"ONE"===t.resolveOptions.strategy))return void n()}n()}function O(t,n){t.navigateOptions&&(void 0!==t.navigateOptions.shouldResolve&&console.warn('"shouldResolve" is deprecated. Please check the documentation.'),void 0!==t.navigateOptions.silent&&console.warn('"silent" is deprecated. Please check the documentation.')),n()}function k(t,n){!0===t.navigateOptions.force?(t.instance._setCurrent([t.instance._pathToMatchObject(t.to)]),n(!1)):n()}m.if=function(t,n,e){return Array.isArray(n)||(n=[n]),Array.isArray(e)||(e=[e]),[t,n,e]};var L=v(),w=p();function b(t,n){if(d(t.navigateOptions,"updateBrowserURL")){var e=("/"+t.to).replace(/\/\//g,"/"),o=L&&t.resolveOptions&&!0===t.resolveOptions.hash;w?(history[t.navigateOptions.historyAPIMethod||"pushState"](t.navigateOptions.stateObj||{},t.navigateOptions.title||"",o?"#"+e:e),location&&location.hash&&(t.instance.__freezeListening=!0,setTimeout((function(){var n=location.hash;location.hash="",location.hash=n,t.instance.__freezeListening=!1}),1))):L&&(window.location.href=t.to)}n()}function P(t,n){var e=t.instance;e.lastResolved()?m(e.lastResolved().map((function(n){return function(e,o){if(n.route.hooks&&n.route.hooks.leave){var r=!1,i=t.instance.matchLocation(n.route.path,t.currentLocationPath,!1);r="*"!==n.route.path?!i:!(t.matches&&t.matches.find((function(t){return n.route.path===t.route.path}))),d(t.navigateOptions,"callHooks")&&r?m(n.route.hooks.leave.map((function(n){return function(e,o){return n((function(n){!1===n?t.instance.__dirty=!1:o()}),t.matches&&t.matches.length>0?1===t.matches.length?t.matches[0]:t.matches:void 0)}})).concat([function(){return o()}])):o()}else o()}})),{},(function(){return n()})):n()}function A(t,n){d(t.navigateOptions,"updateState")&&t.instance._setCurrent(t.matches),n()}var R=[function(t,n){var e=t.instance.lastResolved();if(e&&e[0]&&e[0].route===t.match.route&&e[0].url===t.match.url&&e[0].queryString===t.match.queryString)return e.forEach((function(n){n.route.hooks&&n.route.hooks.already&&d(t.navigateOptions,"callHooks")&&n.route.hooks.already.forEach((function(n){return n(t.match)}))})),void n(!1);n()},function(t,n){t.match.route.hooks&&t.match.route.hooks.before&&d(t.navigateOptions,"callHooks")?m(t.match.route.hooks.before.map((function(n){return function(e,o){return n((function(n){!1===n?t.instance.__dirty=!1:o()}),t.match)}})).concat([function(){return n()}])):n()},function(t,n){d(t.navigateOptions,"callHandler")&&t.match.route.handler(t.match),t.instance.updatePageLinks(),n()},function(t,n){t.match.route.hooks&&t.match.route.hooks.after&&d(t.navigateOptions,"callHooks")&&t.match.route.hooks.after.forEach((function(n){return n(t.match)})),n()}],S=[P,function(t,n){var e=t.instance._notFoundRoute;if(e){t.notFoundHandled=!0;var o=h(t.currentLocationPath),r=o[0],i=o[1],a=u(t.to);e.path=s(r);var c={url:e.path,queryString:i,hashString:a,data:null,route:e,params:""!==i?f(i):null};t.matches=[c],t.match=c}n()},m.if((function(t){return t.notFoundHandled}),R.concat([A]),[function(t,n){t.resolveOptions&&!1!==t.resolveOptions.noMatchWarning&&void 0!==t.resolveOptions.noMatchWarning||console.warn('Navigo: "'+t.currentLocationPath+"\" didn't match any of the registered routes."),n()},function(t,n){t.instance._setCurrent(null),n()}])];function E(){return(E=Object.assign||function(t){for(var n=1;n<arguments.length;n++){var e=arguments[n];for(var o in e)Object.prototype.hasOwnProperty.call(e,o)&&(t[o]=e[o])}return t}).apply(this,arguments)}function H(t,n){var e=0;P(t,(function o(){e!==t.matches.length?m(R,E({},t,{match:t.matches[e]}),(function(){e+=1,o()})):A(t,n)}))}function x(t){t.instance.__dirty=!1,t.instance.__waiting.length>0&&t.instance.__waiting.shift()()}function j(){return(j=Object.assign||function(t){for(var n=1;n<arguments.length;n++){var e=arguments[n];for(var o in e)Object.prototype.hasOwnProperty.call(e,o)&&(t[o]=e[o])}return t}).apply(this,arguments)}function N(t,n){var e,o=n||{strategy:"ONE",hash:!1,noMatchWarning:!1},r=this,i="/",d=null,L=[],w=!1,P=p(),A=v();function R(t){return t.indexOf("#")>=0&&(t=!0===o.hash?t.split("#")[1]||"/":t.split("#")[0]),t}function E(t){return s(i+"/"+s(t))}function N(t,n,e,o){return t=c(t)?E(t):t,{name:o||s(String(t)),path:t,handler:n,hooks:g(e)}}function C(t,n){if(!r.__dirty){r.__dirty=!0,t=t?s(i)+"/"+s(t):void 0;var e={instance:r,to:t,currentLocationPath:t,navigateOptions:{},resolveOptions:j({},o,n)};return m([y,_,m.if((function(t){var n=t.matches;return n&&n.length>0}),H,S)],e,x),!!e.matches&&e.matches}r.__waiting.push((function(){return r.resolve(t,n)}))}function U(t,n){if(r.__dirty)r.__waiting.push((function(){return r.navigate(t,n)}));else{r.__dirty=!0,t=s(i)+"/"+s(t);var e={instance:r,to:t,navigateOptions:n||{},resolveOptions:n&&n.resolveOptions?n.resolveOptions:o,currentLocationPath:R(t)};m([O,k,_,m.if((function(t){var n=t.matches;return n&&n.length>0}),H,S),b,x],e,x)}}function q(){if(A)return(A?[].slice.call(document.querySelectorAll("[data-navigo]")):[]).forEach((function(t){"false"!==t.getAttribute("data-navigo")&&"_blank"!==t.getAttribute("target")?t.hasListenerAttached||(t.hasListenerAttached=!0,t.navigoHandler=function(n){if((n.ctrlKey||n.metaKey)&&"a"===n.target.tagName.toLowerCase())return!1;var e=t.getAttribute("href");if(null==e)return!1;if(e.match(/^(http|https)/)&&"undefined"!=typeof URL)try{var o=new URL(e);e=o.pathname+o.search}catch(t){}var i=function(t){if(!t)return{};var n,e=t.split(","),o={};return e.forEach((function(t){var e=t.split(":").map((function(t){return t.replace(/(^ +| +$)/g,"")}));switch(e[0]){case"historyAPIMethod":o.historyAPIMethod=e[1];break;case"resolveOptionsStrategy":n||(n={}),n.strategy=e[1];break;case"resolveOptionsHash":n||(n={}),n.hash="true"===e[1];break;case"updateBrowserURL":case"callHandler":case"updateState":case"force":o[e[0]]="true"===e[1]}})),n&&(o.resolveOptions=n),o}(t.getAttribute("data-navigo-options"));w||(n.preventDefault(),n.stopPropagation(),r.navigate(s(e),i))},t.addEventListener("click",t.navigoHandler)):t.hasListenerAttached&&t.removeEventListener("click",t.navigoHandler)})),r}function F(t,n){var e=L.find((function(n){return n.name===t}));if(e){var o=e.path;if(n)for(var r in n)o=o.replace(":"+r,n[r]);return o.match(/^\//)?o:"/"+o}return null}function I(t){var n=h(s(t)),o=n[0],r=n[1],i=""===r?null:f(r);return{url:o,queryString:r,hashString:u(t),route:N(o,(function(){}),[e],o),data:null,params:i}}function M(t,n,e){return"string"==typeof n&&(n=T(n)),n?(n.hooks[t]||(n.hooks[t]=[]),n.hooks[t].push(e),function(){n.hooks[t]=n.hooks[t].filter((function(t){return t!==e}))}):(console.warn("Route doesn't exists: "+n),function(){})}function T(t){return"string"==typeof t?L.find((function(n){return n.name===E(t)})):L.find((function(n){return n.handler===t}))}t?i=s(t):console.warn('Navigo requires a root path in its constructor. If not provided will use "/" as default.'),this.root=i,this.routes=L,this.destroyed=w,this.current=d,this.__freezeListening=!1,this.__waiting=[],this.__dirty=!1,this.on=function(t,n,o){var r=this;return"object"!=typeof t||t instanceof RegExp?("function"==typeof t&&(o=n,n=t,t=i),L.push(N(t,n,[e,o])),this):(Object.keys(t).forEach((function(n){if("function"==typeof t[n])r.on(n,t[n]);else{var o=t[n],i=o.uses,a=o.as,s=o.hooks;L.push(N(n,i,[e,s],a))}})),this)},this.off=function(t){return this.routes=L=L.filter((function(n){return c(t)?s(n.path)!==s(t):"function"==typeof t?t!==n.handler:String(n.path)!==String(t)})),this},this.resolve=C,this.navigate=U,this.navigateByName=function(t,n,e){var o=F(t,n);return null!==o&&(U(o,e),!0)},this.destroy=function(){this.routes=L=[],P&&window.removeEventListener("popstate",this.__popstateListener),this.destroyed=w=!0},this.notFound=function(t,n){return r._notFoundRoute=N("*",t,[e,n],"__NOT_FOUND__"),this},this.updatePageLinks=q,this.link=function(t){return"/"+i+"/"+s(t)},this.hooks=function(t){return e=t,this},this.extractGETParameters=function(t){return h(R(t))},this.lastResolved=function(){return d},this.generate=F,this.getLinkPath=function(t){return t.getAttribute("href")},this.match=function(t){var n={instance:r,currentLocationPath:t,to:t,navigateOptions:{},resolveOptions:o};return _(n,(function(){})),!!n.matches&&n.matches},this.matchLocation=function(t,n,e){void 0===n||void 0!==e&&!e||(n=E(n));var o={instance:r,to:n,currentLocationPath:n};return y(o,(function(){})),"string"==typeof t&&(t=void 0===e||e?E(t):t),l(o,{name:String(t),path:t,handler:function(){},hooks:{}})||!1},this.getCurrentLocation=function(){return I(s(a(i)).replace(new RegExp("^"+i),""))},this.addBeforeHook=M.bind(this,"before"),this.addAfterHook=M.bind(this,"after"),this.addAlreadyHook=M.bind(this,"already"),this.addLeaveHook=M.bind(this,"leave"),this.getRoute=T,this._pathToMatchObject=I,this._clean=s,this._checkForAHash=R,this._setCurrent=function(t){return d=r.current=t},function(){P&&(this.__popstateListener=function(){r.__freezeListening||C()},window.addEventListener("popstate",this.__popstateListener))}.call(this),q.call(this)}}},n={};function e(o){if(n[o])return n[o].exports;var r=n[o]={exports:{}};return t[o](r,r.exports,e),r.exports}return e.d=(t,n)=>{for(var o in n)e.o(n,o)&&!e.o(t,o)&&Object.defineProperty(t,o,{enumerable:!0,get:n[o]})},e.o=(t,n)=>Object.prototype.hasOwnProperty.call(t,n),e(407)})().default}));
-
-},{}],"src/assets/scripts/routes/router.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.router = void 0;
-
-var _navigo = _interopRequireDefault(require("navigo"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var router = new _navigo.default("/");
-exports.router = router;
-},{"navigo":"node_modules/navigo/lib/navigo.min.js"}],"src/assets/scripts/routes/edit-feedback.js":[function(require,module,exports) {
-"use strict";
-
-var _router = require("./router");
-
-_router.router.on("/edit-feedback", function () {
-  document.body.innerHTML = "<section>\n    Go Back\n    Edit Feedback\n  \n    <!-- Add upvotes --> \n    <!-- Add title -->\n    <!-- Add description -->\n    <!-- Add category -->\n    <!-- Add comments -->\n  \n    <!-- Add number of comments + subcomments --> Comments\n  \n    <!-- Add name -->\n    <!-- Add username -->\n    <!-- Add comment -->\n    Reply\n  \n    Add Comment\n    Type your comment here\n    250 Characters left\n  \n    Post Comment\n  </section>";
-});
-},{"./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/modules/buttonToggle.js":[function(require,module,exports) {
+},{"core-js/shim":"node_modules/core-js/shim.js","regenerator-runtime/runtime":"node_modules/babel-polyfill/node_modules/regenerator-runtime/runtime.js","core-js/fn/regexp/escape":"node_modules/core-js/fn/regexp/escape.js"}],"src/assets/scripts/modules/buttonToggle.js":[function(require,module,exports) {
 // function mobileNavToggle() {
 //   const menuIcon = document.querySelector(".header__hamburgerBtn");
 //   const navigation = document.querySelector(".header__navButtons");
@@ -8278,7 +8165,25 @@ _router.router.on("/edit-feedback", function () {
 //   }
 // }
 // window.addEventListener("load", mobileNavToggle);
-},{}],"src/data/data.json":[function(require,module,exports) {
+},{}],"node_modules/navigo/lib/navigo.min.js":[function(require,module,exports) {
+var define;
+!function(t,n){"object"==typeof exports&&"object"==typeof module?module.exports=n():"function"==typeof define&&define.amd?define("Navigo",[],n):"object"==typeof exports?exports.Navigo=n():t.Navigo=n()}("undefined"!=typeof self?self:this,(function(){return(()=>{"use strict";var t={407:(t,n,e)=>{e.d(n,{default:()=>N});var o=/([:*])(\w+)/g,r=/\*/g,i=/\/\?/g;function a(t){return void 0===t&&(t="/"),v()?location.pathname+location.search+location.hash:t}function s(t){return t.replace(/\/+$/,"").replace(/^\/+/,"")}function c(t){return"string"==typeof t}function u(t){return t&&t.indexOf("#")>=0&&t.split("#").pop()||""}function h(t){var n=s(t).split(/\?(.*)?$/);return[s(n[0]),n.slice(1).join("")]}function f(t){for(var n={},e=t.split("&"),o=0;o<e.length;o++){var r=e[o].split("=");if(""!==r[0]){var i=decodeURIComponent(r[0]);n[i]?(Array.isArray(n[i])||(n[i]=[n[i]]),n[i].push(decodeURIComponent(r[1]||""))):n[i]=decodeURIComponent(r[1]||"")}}return n}function l(t,n){var e,a=h(s(t.currentLocationPath)),l=a[0],p=a[1],d=""===p?null:f(p),v=[];if(c(n.path)){if(e="(?:/^|^)"+s(n.path).replace(o,(function(t,n,e){return v.push(e),"([^/]+)"})).replace(r,"?(?:.*)").replace(i,"/?([^/]+|)")+"$",""===s(n.path)&&""===s(l))return{url:l,queryString:p,hashString:u(t.to),route:n,data:null,params:d}}else e=n.path;var g=new RegExp(e,""),m=l.match(g);if(m){var y=c(n.path)?function(t,n){return 0===n.length?null:t?t.slice(1,t.length).reduce((function(t,e,o){return null===t&&(t={}),t[n[o]]=decodeURIComponent(e),t}),null):null}(m,v):m.groups?m.groups:m.slice(1);return{url:s(l.replace(new RegExp("^"+t.instance.root),"")),queryString:p,hashString:u(t.to),route:n,data:y,params:d}}return!1}function p(){return!("undefined"==typeof window||!window.history||!window.history.pushState)}function d(t,n){return void 0===t[n]||!0===t[n]}function v(){return"undefined"!=typeof window}function g(t,n){return void 0===t&&(t=[]),void 0===n&&(n={}),t.filter((function(t){return t})).forEach((function(t){["before","after","already","leave"].forEach((function(e){t[e]&&(n[e]||(n[e]=[]),n[e].push(t[e]))}))})),n}function m(t,n,e){var o=n||{},r=0;!function n(){t[r]?Array.isArray(t[r])?(t.splice.apply(t,[r,1].concat(t[r][0](o)?t[r][1]:t[r][2])),n()):t[r](o,(function(t){void 0===t||!0===t?(r+=1,n()):e&&e(o)})):e&&e(o)}()}function y(t,n){void 0===t.currentLocationPath&&(t.currentLocationPath=t.to=a(t.instance.root)),t.currentLocationPath=t.instance._checkForAHash(t.currentLocationPath),n()}function _(t,n){for(var e=0;e<t.instance.routes.length;e++){var o=l(t,t.instance.routes[e]);if(o&&(t.matches||(t.matches=[]),t.matches.push(o),"ONE"===t.resolveOptions.strategy))return void n()}n()}function O(t,n){t.navigateOptions&&(void 0!==t.navigateOptions.shouldResolve&&console.warn('"shouldResolve" is deprecated. Please check the documentation.'),void 0!==t.navigateOptions.silent&&console.warn('"silent" is deprecated. Please check the documentation.')),n()}function k(t,n){!0===t.navigateOptions.force?(t.instance._setCurrent([t.instance._pathToMatchObject(t.to)]),n(!1)):n()}m.if=function(t,n,e){return Array.isArray(n)||(n=[n]),Array.isArray(e)||(e=[e]),[t,n,e]};var L=v(),w=p();function b(t,n){if(d(t.navigateOptions,"updateBrowserURL")){var e=("/"+t.to).replace(/\/\//g,"/"),o=L&&t.resolveOptions&&!0===t.resolveOptions.hash;w?(history[t.navigateOptions.historyAPIMethod||"pushState"](t.navigateOptions.stateObj||{},t.navigateOptions.title||"",o?"#"+e:e),location&&location.hash&&(t.instance.__freezeListening=!0,setTimeout((function(){var n=location.hash;location.hash="",location.hash=n,t.instance.__freezeListening=!1}),1))):L&&(window.location.href=t.to)}n()}function P(t,n){var e=t.instance;e.lastResolved()?m(e.lastResolved().map((function(n){return function(e,o){if(n.route.hooks&&n.route.hooks.leave){var r=!1,i=t.instance.matchLocation(n.route.path,t.currentLocationPath,!1);r="*"!==n.route.path?!i:!(t.matches&&t.matches.find((function(t){return n.route.path===t.route.path}))),d(t.navigateOptions,"callHooks")&&r?m(n.route.hooks.leave.map((function(n){return function(e,o){return n((function(n){!1===n?t.instance.__dirty=!1:o()}),t.matches&&t.matches.length>0?1===t.matches.length?t.matches[0]:t.matches:void 0)}})).concat([function(){return o()}])):o()}else o()}})),{},(function(){return n()})):n()}function A(t,n){d(t.navigateOptions,"updateState")&&t.instance._setCurrent(t.matches),n()}var R=[function(t,n){var e=t.instance.lastResolved();if(e&&e[0]&&e[0].route===t.match.route&&e[0].url===t.match.url&&e[0].queryString===t.match.queryString)return e.forEach((function(n){n.route.hooks&&n.route.hooks.already&&d(t.navigateOptions,"callHooks")&&n.route.hooks.already.forEach((function(n){return n(t.match)}))})),void n(!1);n()},function(t,n){t.match.route.hooks&&t.match.route.hooks.before&&d(t.navigateOptions,"callHooks")?m(t.match.route.hooks.before.map((function(n){return function(e,o){return n((function(n){!1===n?t.instance.__dirty=!1:o()}),t.match)}})).concat([function(){return n()}])):n()},function(t,n){d(t.navigateOptions,"callHandler")&&t.match.route.handler(t.match),t.instance.updatePageLinks(),n()},function(t,n){t.match.route.hooks&&t.match.route.hooks.after&&d(t.navigateOptions,"callHooks")&&t.match.route.hooks.after.forEach((function(n){return n(t.match)})),n()}],S=[P,function(t,n){var e=t.instance._notFoundRoute;if(e){t.notFoundHandled=!0;var o=h(t.currentLocationPath),r=o[0],i=o[1],a=u(t.to);e.path=s(r);var c={url:e.path,queryString:i,hashString:a,data:null,route:e,params:""!==i?f(i):null};t.matches=[c],t.match=c}n()},m.if((function(t){return t.notFoundHandled}),R.concat([A]),[function(t,n){t.resolveOptions&&!1!==t.resolveOptions.noMatchWarning&&void 0!==t.resolveOptions.noMatchWarning||console.warn('Navigo: "'+t.currentLocationPath+"\" didn't match any of the registered routes."),n()},function(t,n){t.instance._setCurrent(null),n()}])];function E(){return(E=Object.assign||function(t){for(var n=1;n<arguments.length;n++){var e=arguments[n];for(var o in e)Object.prototype.hasOwnProperty.call(e,o)&&(t[o]=e[o])}return t}).apply(this,arguments)}function H(t,n){var e=0;P(t,(function o(){e!==t.matches.length?m(R,E({},t,{match:t.matches[e]}),(function(){e+=1,o()})):A(t,n)}))}function x(t){t.instance.__dirty=!1,t.instance.__waiting.length>0&&t.instance.__waiting.shift()()}function j(){return(j=Object.assign||function(t){for(var n=1;n<arguments.length;n++){var e=arguments[n];for(var o in e)Object.prototype.hasOwnProperty.call(e,o)&&(t[o]=e[o])}return t}).apply(this,arguments)}function N(t,n){var e,o=n||{strategy:"ONE",hash:!1,noMatchWarning:!1},r=this,i="/",d=null,L=[],w=!1,P=p(),A=v();function R(t){return t.indexOf("#")>=0&&(t=!0===o.hash?t.split("#")[1]||"/":t.split("#")[0]),t}function E(t){return s(i+"/"+s(t))}function N(t,n,e,o){return t=c(t)?E(t):t,{name:o||s(String(t)),path:t,handler:n,hooks:g(e)}}function C(t,n){if(!r.__dirty){r.__dirty=!0,t=t?s(i)+"/"+s(t):void 0;var e={instance:r,to:t,currentLocationPath:t,navigateOptions:{},resolveOptions:j({},o,n)};return m([y,_,m.if((function(t){var n=t.matches;return n&&n.length>0}),H,S)],e,x),!!e.matches&&e.matches}r.__waiting.push((function(){return r.resolve(t,n)}))}function U(t,n){if(r.__dirty)r.__waiting.push((function(){return r.navigate(t,n)}));else{r.__dirty=!0,t=s(i)+"/"+s(t);var e={instance:r,to:t,navigateOptions:n||{},resolveOptions:n&&n.resolveOptions?n.resolveOptions:o,currentLocationPath:R(t)};m([O,k,_,m.if((function(t){var n=t.matches;return n&&n.length>0}),H,S),b,x],e,x)}}function q(){if(A)return(A?[].slice.call(document.querySelectorAll("[data-navigo]")):[]).forEach((function(t){"false"!==t.getAttribute("data-navigo")&&"_blank"!==t.getAttribute("target")?t.hasListenerAttached||(t.hasListenerAttached=!0,t.navigoHandler=function(n){if((n.ctrlKey||n.metaKey)&&"a"===n.target.tagName.toLowerCase())return!1;var e=t.getAttribute("href");if(null==e)return!1;if(e.match(/^(http|https)/)&&"undefined"!=typeof URL)try{var o=new URL(e);e=o.pathname+o.search}catch(t){}var i=function(t){if(!t)return{};var n,e=t.split(","),o={};return e.forEach((function(t){var e=t.split(":").map((function(t){return t.replace(/(^ +| +$)/g,"")}));switch(e[0]){case"historyAPIMethod":o.historyAPIMethod=e[1];break;case"resolveOptionsStrategy":n||(n={}),n.strategy=e[1];break;case"resolveOptionsHash":n||(n={}),n.hash="true"===e[1];break;case"updateBrowserURL":case"callHandler":case"updateState":case"force":o[e[0]]="true"===e[1]}})),n&&(o.resolveOptions=n),o}(t.getAttribute("data-navigo-options"));w||(n.preventDefault(),n.stopPropagation(),r.navigate(s(e),i))},t.addEventListener("click",t.navigoHandler)):t.hasListenerAttached&&t.removeEventListener("click",t.navigoHandler)})),r}function F(t,n){var e=L.find((function(n){return n.name===t}));if(e){var o=e.path;if(n)for(var r in n)o=o.replace(":"+r,n[r]);return o.match(/^\//)?o:"/"+o}return null}function I(t){var n=h(s(t)),o=n[0],r=n[1],i=""===r?null:f(r);return{url:o,queryString:r,hashString:u(t),route:N(o,(function(){}),[e],o),data:null,params:i}}function M(t,n,e){return"string"==typeof n&&(n=T(n)),n?(n.hooks[t]||(n.hooks[t]=[]),n.hooks[t].push(e),function(){n.hooks[t]=n.hooks[t].filter((function(t){return t!==e}))}):(console.warn("Route doesn't exists: "+n),function(){})}function T(t){return"string"==typeof t?L.find((function(n){return n.name===E(t)})):L.find((function(n){return n.handler===t}))}t?i=s(t):console.warn('Navigo requires a root path in its constructor. If not provided will use "/" as default.'),this.root=i,this.routes=L,this.destroyed=w,this.current=d,this.__freezeListening=!1,this.__waiting=[],this.__dirty=!1,this.on=function(t,n,o){var r=this;return"object"!=typeof t||t instanceof RegExp?("function"==typeof t&&(o=n,n=t,t=i),L.push(N(t,n,[e,o])),this):(Object.keys(t).forEach((function(n){if("function"==typeof t[n])r.on(n,t[n]);else{var o=t[n],i=o.uses,a=o.as,s=o.hooks;L.push(N(n,i,[e,s],a))}})),this)},this.off=function(t){return this.routes=L=L.filter((function(n){return c(t)?s(n.path)!==s(t):"function"==typeof t?t!==n.handler:String(n.path)!==String(t)})),this},this.resolve=C,this.navigate=U,this.navigateByName=function(t,n,e){var o=F(t,n);return null!==o&&(U(o,e),!0)},this.destroy=function(){this.routes=L=[],P&&window.removeEventListener("popstate",this.__popstateListener),this.destroyed=w=!0},this.notFound=function(t,n){return r._notFoundRoute=N("*",t,[e,n],"__NOT_FOUND__"),this},this.updatePageLinks=q,this.link=function(t){return"/"+i+"/"+s(t)},this.hooks=function(t){return e=t,this},this.extractGETParameters=function(t){return h(R(t))},this.lastResolved=function(){return d},this.generate=F,this.getLinkPath=function(t){return t.getAttribute("href")},this.match=function(t){var n={instance:r,currentLocationPath:t,to:t,navigateOptions:{},resolveOptions:o};return _(n,(function(){})),!!n.matches&&n.matches},this.matchLocation=function(t,n,e){void 0===n||void 0!==e&&!e||(n=E(n));var o={instance:r,to:n,currentLocationPath:n};return y(o,(function(){})),"string"==typeof t&&(t=void 0===e||e?E(t):t),l(o,{name:String(t),path:t,handler:function(){},hooks:{}})||!1},this.getCurrentLocation=function(){return I(s(a(i)).replace(new RegExp("^"+i),""))},this.addBeforeHook=M.bind(this,"before"),this.addAfterHook=M.bind(this,"after"),this.addAlreadyHook=M.bind(this,"already"),this.addLeaveHook=M.bind(this,"leave"),this.getRoute=T,this._pathToMatchObject=I,this._clean=s,this._checkForAHash=R,this._setCurrent=function(t){return d=r.current=t},function(){P&&(this.__popstateListener=function(){r.__freezeListening||C()},window.addEventListener("popstate",this.__popstateListener))}.call(this),q.call(this)}}},n={};function e(o){if(n[o])return n[o].exports;var r=n[o]={exports:{}};return t[o](r,r.exports,e),r.exports}return e.d=(t,n)=>{for(var o in n)e.o(n,o)&&!e.o(t,o)&&Object.defineProperty(t,o,{enumerable:!0,get:n[o]})},e.o=(t,n)=>Object.prototype.hasOwnProperty.call(t,n),e(407)})().default}));
+
+},{}],"src/assets/scripts/routes/router.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.router = void 0;
+
+var _navigo = _interopRequireDefault(require("navigo"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var router = new _navigo.default("/");
+exports.router = router;
+},{"navigo":"node_modules/navigo/lib/navigo.min.js"}],"src/data/data.json":[function(require,module,exports) {
 module.exports = {
   "currentUser": {
     "image": "./assets/user-images/image-zena.jpg",
@@ -8559,7 +8464,9 @@ _router.router.on("/item/:id", function (match) {
   document.body.innerHTML = detailsTemplate;
 
   var goBack = function goBack() {
-    _router.router.navigate("/");
+    var previousRoute = _getSuggestions.initialValues.previousRoute;
+
+    _router.router.navigate(previousRoute);
 
     (0, _getSuggestions.getSuggestions)(_getSuggestions.initialValues.feedbackArray);
   };
@@ -8579,8 +8486,6 @@ var _router = require("../routes/router");
 
 var _data = _interopRequireDefault(require("/src/data/data"));
 
-var _root = _interopRequireDefault(require("../routes/root"));
-
 require("/src/assets/scripts/routes/details");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -8590,14 +8495,18 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 var initialValues = {
-  feedbackArray: null,
-  currentUser: null
-};
+  feedbackArray: [],
+  getFilteredSuggestions: [],
+  currentUser: null,
+  selectedItem: null,
+  previousRoute: null
+}; // get list results globally
+
 exports.initialValues = initialValues;
 
 var getSuggestions = function getSuggestions(arrayToLoop, toFilter) {
-  var feedbackWrapper = document.querySelector(".feedback-items-wrapper"); // const sidebarStatusDisplay = document.querySelector(".sidebar__status-display");
-
+  var feedbackWrapper = document.querySelector(".feedback-items-wrapper");
+  var sidebarStatusDisplay = document.querySelector(".sidebar__status-display");
   var suggestionsList = arrayToLoop.filter(function (el) {
     var final = toFilter ? el.id == toFilter : el;
     return final;
@@ -8606,7 +8515,29 @@ var getSuggestions = function getSuggestions(arrayToLoop, toFilter) {
     return "<div class=\"feedback-item\" id=\"".concat(el.id, "\">\n              <div class=\"feedback-item__left\">\n                <span class=\"arrow\"></span>\n                <div class=\"count\">").concat(el.upvotes, "</div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(el.title, "</h4>\n                <p>\n                  ").concat(el.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(el.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count\">\n                  ").concat(el.comments ? el.comments.length : 0, "\n                </div>\n              </div>\n            </div>");
   }); // fill the container
 
-  feedbackWrapper.innerHTML = mapped.join(""); // item recognition
+  feedbackWrapper.innerHTML = mapped.join(""); // statuses count
+
+  ['planned', 'in-progress', 'live'].forEach(function (el) {
+    var filtered = initialValues.feedbackArray.filter(function (f) {
+      console.log(f);
+      return f.status == el;
+    });
+    document.querySelector('.sidebar__status--' + el + ' .count').innerHTML = filtered.length;
+  });
+
+  var filterAll = function filterAll(e) {
+    var localArray = initialValues.feedbackArray;
+    var filtered = localArray.filter(function (el, i, self) {
+      var returnValue = e.currentTarget.innerHTML == 'All' ? el : el.category == e.currentTarget.innerHTML.toLowerCase();
+      return returnValue;
+    });
+    getSuggestions(filtered);
+  };
+
+  var categoryBtns = document.querySelectorAll(".category");
+  categoryBtns.forEach(function (el) {
+    return el.addEventListener("click", filterAll);
+  }); // item recognition
 
   var feedbackItems = document.querySelectorAll(".feedback-item");
   feedbackItems && feedbackItems.forEach(function (element) {
@@ -8614,17 +8545,28 @@ var getSuggestions = function getSuggestions(arrayToLoop, toFilter) {
   });
 
   function feedbackDetails(e) {
+    initialValues.previousRoute = window.location.pathname.split('/').pop();
+
     _router.router.navigate("/item/" + e.currentTarget.id);
 
     getSuggestions(initialValues.feedbackArray, e.currentTarget.id);
   }
-};
+}; // initial fetch
+
 
 exports.getSuggestions = getSuggestions;
 
 function fetchSuggestions() {
   return _fetchSuggestions.apply(this, arguments);
-} // module invoked on load
+} // Filter by status
+// const filterStatus = (parameter) => {
+//   let filtered = initialValues.feedbackArray.filter((el, i, self) => {
+//     console.log(parameter);
+//     return el.staus == parameter;
+//   });
+//   return filtered.length;
+// };
+// module invoked on load
 
 
 function _fetchSuggestions() {
@@ -8655,7 +8597,7 @@ function _fetchSuggestions() {
 
 window.addEventListener("load", fetchSuggestions);
 window.addEventListener("popstate", fetchSuggestions);
-},{"../routes/router":"src/assets/scripts/routes/router.js","/src/data/data":"src/data/data.json","../routes/root":"src/assets/scripts/routes/root.js","/src/assets/scripts/routes/details":"src/assets/scripts/routes/details.js"}],"src/assets/scripts/modules/editFeedback.js":[function(require,module,exports) {
+},{"../routes/router":"src/assets/scripts/routes/router.js","/src/data/data":"src/data/data.json","/src/assets/scripts/routes/details":"src/assets/scripts/routes/details.js"}],"src/assets/scripts/modules/editFeedback.js":[function(require,module,exports) {
 // import { getSuggestions, initialValues } from "./getSuggestions";
 // const feedbackItem = document.querySelectorAll(".feedback-item");
 // function editFeedback() {
@@ -8666,7 +8608,155 @@ window.addEventListener("popstate", fetchSuggestions);
 //   feedbackItem.array.forEach(element => {
 //     element.addEventListener("click", editFeedback);
 //   });
-},{}],"node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{}],"src/assets/scripts/modules/roadmap.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.roadmapLists = roadmapLists;
+
+var _getSuggestions = require("./getSuggestions");
+
+function roadmapLists() {
+  var roadmapFeedbackWrapper = document.querySelector(".feedback--roadmap .feedback-items-wrapper");
+  var roadmapColumnsWrapper = document.querySelector(".roadmap .roadmap__columns");
+  var columns = [{
+    name: "planned",
+    visible: true
+  }, {
+    name: "in-progress",
+    visible: false
+  }, {
+    name: "live",
+    visible: false
+  }];
+  var shown = [];
+  var all = _getSuggestions.initialValues.feedbackArray;
+
+  var filterInMap = function filterInMap(toFilter) {
+    return toFilter.map(function (el) {
+      return "<div class=\"feedback-item\" id=\"".concat(el.id, "\">\n              <div class=\"feedback-item__left\">\n                <span class=\"arrow\"></span>\n                <div class=\"count\">").concat(el.upvotes, "</div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(el.title, "</h4>\n                <p>\n                  ").concat(el.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(el.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count\">\n                  ").concat(el.comments ? el.comments.length : 0, "\n                </div>\n              </div>\n            </div>");
+    });
+  };
+
+  var columnsLists = columns.map(function (el, i) {
+    shown.push(all.filter(function (f) {
+      return f.status == el.name;
+    }));
+    return "\n      <div class=\"roadmap__column roadmap__column--".concat(el.name, "\">\n        <bold>\n          ").concat(el.name, "\n          <span>(<span class=\"count\">").concat(shown[i].length, "</span>)</span>\n        </bold>\n        <div>In search</div>\n        <div>\n          <div class=\"item\">\n            <div><span></span></div>\n          </div>\n        </div>\n        <div class=\"feedback feedback--roadmap\">\n          <div class=\"feedback-items-wrapper\">\n            ").concat(filterInMap(shown[i]).join(''), "\n          </div>\n        </div>\n      </div>\n      ");
+  });
+  roadmapColumnsWrapper.innerHTML = columnsLists.join('');
+}
+},{"./getSuggestions":"src/assets/scripts/modules/getSuggestions.js"}],"src/assets/scripts/templates/edit-feedback.template.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.editFeedbackTemplate = void 0;
+var editFeedbackTemplate = "\n<section class=\"edit\">\n    <div class=\"edit__controls\">\n        <div class=\"back\">\n        <span class=\"arrow\"></span>\n        <span class=\"text\">Go back</span>\n    </div>\n</div>\n    <div class=\"edit__wrapper\">\n    <div>\n        <h3>Feedback Title</h3>\n        <div>Add a short, descriptive headline</div>\n        <input class=\"select select--1\"></input>\n    </div>\n    <div>\n        <h3>Category</h3>\n        <div>Choose a category for your feedback</div>\n        <div class=\"select select--2\">\n        <div>All</div>\n        <div>UX</div>\n        <div>UI</div>\n        <div>Enhancement</div>\n        <div>Feature</div>\n        <div>Bug</div>\n        </div>\n    </div>\n    <div>\n        <h3>Update Status</h3>\n        <div>Change feedback state</div>\n        <div class=\"select select--3\">\n        <div>Suggestion</div>\n        <div>Planned</div>\n        <div>In-Progress</div>\n        <div>Live</div>\n        </div>\n    </div>\n    <div>\n        <h3>Feedback detail</h3>\n        <div>\n        Include any specific comments on what should be improved, added,\n        etc.\n        </div>\n        <textarea name=\"\" id=\"\" cols=\"30\" rows=\"10\"></textarea>\n    </div>\n    <div class=\"btns\">\n        <button class=\"delete\">Delete</button>\n        <button class=\"cancel\">Cancel</button>\n        <button class=\"save\">Add feedback</button>\n    </div>\n    </div>\n</section>";
+exports.editFeedbackTemplate = editFeedbackTemplate;
+},{}],"src/assets/scripts/routes/edit-feedback.js":[function(require,module,exports) {
+"use strict";
+
+var _getSuggestions = require("../modules/getSuggestions");
+
+var _editFeedback = require("../templates/edit-feedback.template");
+
+var _router = require("./router");
+
+_router.router.on("/edit-feedback", function () {
+  document.body.innerHTML = _editFeedback.editFeedbackTemplate;
+
+  var goBack = function goBack() {
+    _router.router.navigate("/");
+
+    (0, _getSuggestions.getSuggestions)(_getSuggestions.initialValues.feedbackArray);
+  };
+
+  var back = document.querySelector(".edit .back");
+  back.addEventListener("click", goBack);
+});
+},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../templates/edit-feedback.template":"src/assets/scripts/templates/edit-feedback.template.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/routes/new-feedback.js":[function(require,module,exports) {
+"use strict";
+
+var _getSuggestions = require("../modules/getSuggestions");
+
+var _editFeedback = require("../templates/edit-feedback.template");
+
+var _router = require("./router");
+
+_router.router.on("/new-feedback", function () {
+  document.body.innerHTML = _editFeedback.editFeedbackTemplate;
+
+  var goBack = function goBack() {
+    _router.router.navigate("/");
+
+    (0, _getSuggestions.getSuggestions)(_getSuggestions.initialValues.feedbackArray);
+  };
+
+  var back = document.querySelector(".edit .back");
+  back.addEventListener("click", goBack);
+});
+},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../templates/edit-feedback.template":"src/assets/scripts/templates/edit-feedback.template.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/templates/roadmap.template.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.roadmapTemplate = void 0;
+var roadmapTemplate = "\n  <section class=\"roadmap\">\n    <div class=\"roadmap__controls\">\n      <div class=\"back\">\n        <span class=\"arrow\"></span>\n        <span class=\"text\">Go back</span>\n        <div>\n          <h3>Roadmap</h3>\n        </div>\n      </div>\n      <a class=\"add\" href=\"/new-feedback\" data-navigo>+ Add Feedback</a>\n    </div>\n    <div class=\"roadmap__columns\">\n    </div>\n  </section>\n";
+exports.roadmapTemplate = roadmapTemplate;
+},{}],"src/assets/scripts/routes/roadmap-route.js":[function(require,module,exports) {
+"use strict";
+
+var _getSuggestions = require("../modules/getSuggestions");
+
+var _roadmap = require("../modules/roadmap");
+
+var _roadmap2 = require("../templates/roadmap.template");
+
+var _router = require("./router");
+
+_router.router.on("/roadmap", function () {
+  document.body.innerHTML = _roadmap2.roadmapTemplate;
+
+  var goBack = function goBack() {
+    _router.router.navigate("/");
+
+    (0, _getSuggestions.getSuggestions)(_getSuggestions.initialValues.feedbackArray);
+  };
+
+  var back = document.querySelector(".roadmap .back");
+  back.addEventListener("click", goBack);
+  (0, _roadmap.roadmapLists)();
+});
+},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../modules/roadmap":"src/assets/scripts/modules/roadmap.js","../templates/roadmap.template":"src/assets/scripts/templates/roadmap.template.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/routes/root.js":[function(require,module,exports) {
+"use strict";
+
+var _getSuggestions = require("../modules/getSuggestions");
+
+var _router = require("./router");
+
+_router.router.on("/", function () {
+  document.body.innerHTML = "\n    <section class=\"sidebar\">\n    <div class=\"sidebar__titles\">\n    <div>\n        <h1>Frontend Mentor</h1>\n        <h3>Feedback Board</h3>\n    </div>\n    <div class=\"toggleButton\">\n        <div></div>\n        <div></div>\n        <div></div>\n    </div>\n    </div>\n    <div class=\"sidebar__menu\">\n    <div class=\"sidebar__categories\">\n        <button class=\"category\">All</button>\n        <button>UI</button>\n        <button>UX</button>\n        <button class=\"category enhancement\">Enhancement</button>\n        <button class=\"category bug\">Bug</button>\n        <button class=\"category feature\">Feature</button>\n    </div>\n    <div class=\"sidebar__status-wrapper\">\n        <span>Roadmap</span>\n        <a href=\"/roadmap\" data-navigo>View</a>\n        <div class=\"sidebar__status-display\">\n        <div class=\"sidebar__status sidebar__status--planned\">\n            <span class=\"circle\"></span>Planned <span class=\"count\"></span>\n        </div>\n        <div class=\"sidebar__status sidebar__status--in-progress\">\n            <span class=\"circle\"></span>In-Progress\n            <span class=\"count\"></span>\n        </div>\n        <div class=\"sidebar__status sidebar__status--live\">\n            <span class=\"circle\"></span>Live <span class=\"count\"></span>\n        </div>\n        </div>\n    </div>\n    </div>\n    </section>\n    <section class=\"feedback feedback--root\">\n    <div class=\"feedback__controls\">\n    <div class=\"feedback__counter\">\n        <span class=\"bulb\"></span>\n        <span class=\"count\"filterStatus</span>\n        <h3>Suggestions</h3>\n    </div>\n    <div class=\"feedback__sort\">\n        <span class=\"text\">Sort by:</span>\n        <span class=\"count\"></span>\n        <span class=\"arrow\"></span>\n    </div>\n    <a class=\"add\" href=\"/new-feedback\" data-navigo>+ Add Feedback</a>\n    </div>\n    <div class=\"feedback-items-wrapper\">\n    <div class=\"feedback-empty\">\n        <figure>\n        <picture>\n            <source />\n            <img src=\"\" alt=\"no-results\" />\n        </picture>\n        </figure>\n        <div>>There is no feedback yet.</div>\n        <p>\n        Got a suggestion? Found a bug that needs to be squashed? We love\n        hearing about new ideas to improve our app.\n        </p>\n        <butotn>Add Feedback</butotn>\n    </div>\n    </div>\n    </section>\n";
+});
+
+window.onload = function (event) {
+  if (event) {
+    _router.router.navigate("/");
+
+    (0, _getSuggestions.getSuggestions)(_getSuggestions.initialValues.feedbackArray);
+    console.log(_getSuggestions.initialValues.feedbackArray);
+  }
+}; // // window.onpopstate = function (event) {
+// //   if (event) {
+// //     // location.pathname == "/" && (location.pathname = "/");
+// //     router.navigate("/");
+// //   }
+// // };
+},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","./router":"src/assets/scripts/routes/router.js"}],"node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -8738,14 +8828,10 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/suggestions/bulb.png":[["bulb.da37f33d.png","src/assets/images/suggestions/bulb.png"],"src/assets/images/suggestions/bulb.png"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/suggestions/white-arrow.png":[["white-arrow.205849a5.png","src/assets/images/suggestions/white-arrow.png"],"src/assets/images/suggestions/white-arrow.png"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-arrow-up.svg":[["icon-arrow-up.8a111df8.svg","src/assets/images/shared/icon-arrow-up.svg"],"src/assets/images/shared/icon-arrow-up.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-comments.svg":[["icon-comments.1db50b47.svg","src/assets/images/shared/icon-comments.svg"],"src/assets/images/shared/icon-comments.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-arrow-left.svg":[["icon-arrow-left.7013d5bc.svg","src/assets/images/shared/icon-arrow-left.svg"],"src/assets/images/shared/icon-arrow-left.svg"],"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/assets/scripts/index.js":[function(require,module,exports) {
+},{"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\bulb.png":[["bulb.da37f33d.png","src/assets/images/suggestions/bulb.png"],"src/assets/images/suggestions/bulb.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\white-arrow.png":[["white-arrow.205849a5.png","src/assets/images/suggestions/white-arrow.png"],"src/assets/images/suggestions/white-arrow.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-arrow-up.svg":[["icon-arrow-up.8a111df8.svg","src/assets/images/shared/icon-arrow-up.svg"],"src/assets/images/shared/icon-arrow-up.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-comments.svg":[["icon-comments.1db50b47.svg","src/assets/images/shared/icon-comments.svg"],"src/assets/images/shared/icon-comments.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-arrow-left.svg":[["icon-arrow-left.7013d5bc.svg","src/assets/images/shared/icon-arrow-left.svg"],"src/assets/images/shared/icon-arrow-left.svg"],"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/assets/scripts/index.js":[function(require,module,exports) {
 "use strict";
 
 require("babel-polyfill");
-
-require("/src/assets/scripts/routes/root");
-
-require("./routes/edit-feedback");
 
 require("../scripts/modules/buttonToggle");
 
@@ -8753,10 +8839,22 @@ require("../scripts/modules/getSuggestions");
 
 require("../scripts/modules/editFeedback");
 
+require("../scripts/modules/roadmap");
+
 require("../scripts/routes/details");
 
+require("../scripts/routes/edit-feedback");
+
+require("../scripts/routes/new-feedback");
+
+require("../scripts/routes/roadmap-route");
+
+require("/src/assets/scripts/routes/root");
+
+require("./routes/edit-feedback");
+
 require("/src/assets/styles/styles");
-},{"babel-polyfill":"node_modules/babel-polyfill/lib/index.js","/src/assets/scripts/routes/root":"src/assets/scripts/routes/root.js","./routes/edit-feedback":"src/assets/scripts/routes/edit-feedback.js","../scripts/modules/buttonToggle":"src/assets/scripts/modules/buttonToggle.js","../scripts/modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../scripts/modules/editFeedback":"src/assets/scripts/modules/editFeedback.js","../scripts/routes/details":"src/assets/scripts/routes/details.js","/src/assets/styles/styles":"src/assets/styles/styles.css"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"babel-polyfill":"node_modules/babel-polyfill/lib/index.js","../scripts/modules/buttonToggle":"src/assets/scripts/modules/buttonToggle.js","../scripts/modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../scripts/modules/editFeedback":"src/assets/scripts/modules/editFeedback.js","../scripts/modules/roadmap":"src/assets/scripts/modules/roadmap.js","../scripts/routes/details":"src/assets/scripts/routes/details.js","../scripts/routes/edit-feedback":"src/assets/scripts/routes/edit-feedback.js","../scripts/routes/new-feedback":"src/assets/scripts/routes/new-feedback.js","../scripts/routes/roadmap-route":"src/assets/scripts/routes/roadmap-route.js","/src/assets/scripts/routes/root":"src/assets/scripts/routes/root.js","./routes/edit-feedback":"src/assets/scripts/routes/edit-feedback.js","/src/assets/styles/styles":"src/assets/styles/styles.css"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -8784,7 +8882,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "40043" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56889" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

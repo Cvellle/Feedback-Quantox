@@ -909,6 +909,9 @@ ol {
   border-radius: 10px;
   cursor: pointer;
 }
+.roadmap__columns {
+  display: flex;
+}
 .roadmap__column--planned .feedback-item {
   border-top: 5px solid orange;
   border-bottom: 5px solid orange;

@@ -88,7 +88,8 @@ router.on("/item/:id", function (match) {
   document.body.innerHTML = detailsTemplate;
 
   const goBack = () => {
-    router.navigate("/");
+    const previousRoute = initialValues.previousRoute;
+    router.navigate(previousRoute);
     getSuggestions(initialValues.feedbackArray);
   };
 

@@ -1,27 +1,16 @@
+
+import { getSuggestions, initialValues } from "../modules/getSuggestions";
+import { editFeedbackTemplate } from "../templates/edit-feedback.template";
 import { router } from "./router";
 
 router.on("/edit-feedback", function () {
-  document.body.innerHTML = `<section>
-    Go Back
-    Edit Feedback
-  
-    <!-- Add upvotes --> 
-    <!-- Add title -->
-    <!-- Add description -->
-    <!-- Add category -->
-    <!-- Add comments -->
-  
-    <!-- Add number of comments + subcomments --> Comments
-  
-    <!-- Add name -->
-    <!-- Add username -->
-    <!-- Add comment -->
-    Reply
-  
-    Add Comment
-    Type your comment here
-    250 Characters left
-  
-    Post Comment
-  </section>`;
+  document.body.innerHTML = editFeedbackTemplate;
+
+  const goBack = () => {
+    router.navigate("/");
+    getSuggestions(initialValues.feedbackArray);
+  };
+
+  const back = document.querySelector(".edit .back");
+  back.addEventListener("click", goBack);
 });

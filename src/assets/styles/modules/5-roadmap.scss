@@ -52,6 +52,10 @@
     }
   }
 
+  &__columns {
+    display: flex;
+  }
+
   &__column {
     &--planned {
       .feedback-item {
