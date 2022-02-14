@@ -8480,7 +8480,7 @@ _router.router.on("/item/:id", function (match) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.initialValues = exports.getSuggestions = void 0;
+exports.initialValues = exports.getSuggestions = exports.filterStatus = void 0;
 
 var _router = require("../routes/router");
 
@@ -8515,15 +8515,7 @@ var getSuggestions = function getSuggestions(arrayToLoop, toFilter) {
     return "<div class=\"feedback-item\" id=\"".concat(el.id, "\">\n              <div class=\"feedback-item__left\">\n                <span class=\"arrow\"></span>\n                <div class=\"count\">").concat(el.upvotes, "</div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(el.title, "</h4>\n                <p>\n                  ").concat(el.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(el.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count\">\n                  ").concat(el.comments ? el.comments.length : 0, "\n                </div>\n              </div>\n            </div>");
   }); // fill the container
 
-  feedbackWrapper.innerHTML = mapped.join(""); // statuses count
-
-  ['planned', 'in-progress', 'live'].forEach(function (el) {
-    var filtered = initialValues.feedbackArray.filter(function (f) {
-      console.log(f);
-      return f.status == el;
-    });
-    document.querySelector('.sidebar__status--' + el + ' .count').innerHTML = filtered.length;
-  });
+  feedbackWrapper.innerHTML = mapped.join("");
 
   var filterAll = function filterAll(e) {
     var localArray = initialValues.feedbackArray;
@@ -8559,14 +8551,6 @@ exports.getSuggestions = getSuggestions;
 function fetchSuggestions() {
   return _fetchSuggestions.apply(this, arguments);
 } // Filter by status
-// const filterStatus = (parameter) => {
-//   let filtered = initialValues.feedbackArray.filter((el, i, self) => {
-//     console.log(parameter);
-//     return el.staus == parameter;
-//   });
-//   return filtered.length;
-// };
-// module invoked on load
 
 
 function _fetchSuggestions() {
@@ -8595,8 +8579,21 @@ function _fetchSuggestions() {
   return _fetchSuggestions.apply(this, arguments);
 }
 
-window.addEventListener("load", fetchSuggestions);
-window.addEventListener("popstate", fetchSuggestions);
+var filterStatus = function filterStatus() {
+  // statuses count
+  if (location.pathname == '/') {
+    ['planned', 'in-progress', 'live'].forEach(function (el) {
+      var filtered = initialValues.feedbackArray.filter(function (f) {
+        return f.status == el;
+      });
+      document.querySelector('.sidebar__status--' + el + ' .count') && (document.querySelector('.sidebar__status--' + el + ' .count').innerHTML = filtered.length);
+    });
+  }
+}; // module invoked on load
+
+
+exports.filterStatus = filterStatus;
+window.addEventListener("load", fetchSuggestions); // window.addEventListener("popstate", fetchSuggestions);
 },{"../routes/router":"src/assets/scripts/routes/router.js","/src/data/data":"src/data/data.json","/src/assets/scripts/routes/details":"src/assets/scripts/routes/details.js"}],"src/assets/scripts/modules/editFeedback.js":[function(require,module,exports) {
 // import { getSuggestions, initialValues } from "./getSuggestions";
 // const feedbackItem = document.querySelectorAll(".feedback-item");
@@ -8739,8 +8736,11 @@ var _getSuggestions = require("../modules/getSuggestions");
 
 var _router = require("./router");
 
+document.body.innerHTML = "\n<section class=\"sidebar\">\n<div class=\"sidebar__titles\">\n<div>\n    <h1>Frontend Mentor</h1>\n    <h3>Feedback Board</h3>\n</div>\n<div class=\"toggleButton\">\n    <div></div>\n    <div></div>\n    <div></div>\n</div>\n</div>\n<div class=\"sidebar__menu\">\n<div class=\"sidebar__categories\">\n    <button class=\"category\">All</button>\n    <button>UI</button>\n    <button>UX</button>\n    <button class=\"category enhancement\">Enhancement</button>\n    <button class=\"category bug\">Bug</button>\n    <button class=\"category feature\">Feature</button>\n</div>\n<div class=\"sidebar__status-wrapper\">\n    <span>Roadmap</span>\n    <a href=\"/roadmap\" data-navigo>View</a>\n    <div class=\"sidebar__status-display\">\n    <div class=\"sidebar__status sidebar__status--planned\">\n        <span class=\"circle\"></span>Planned <span class=\"count\"></span>\n    </div>\n    <div class=\"sidebar__status sidebar__status--in-progress\">\n        <span class=\"circle\"></span>In-Progress\n        <span class=\"count\"></span>\n    </div>\n    <div class=\"sidebar__status sidebar__status--live\">\n        <span class=\"circle\"></span>Live <span class=\"count\"></span>\n    </div>\n    </div>\n</div>\n</div>\n</section>\n<section class=\"feedback feedback--root\">\n<div class=\"feedback__controls\">\n<div class=\"feedback__counter\">\n    <span class=\"bulb\"></span>\n    <span class=\"count\"filterStatus</span>\n    <h3>Suggestions</h3>\n</div>\n<div class=\"feedback__sort\">\n    <span class=\"text\">Sort by:</span>\n    <span class=\"count\"></span>\n    <span class=\"arrow\"></span>\n</div>\n<a class=\"add\" href=\"/new-feedback\" data-navigo>+ Add Feedback</a>\n</div>\n<div class=\"feedback-items-wrapper\">\n<div class=\"feedback-empty\">\n    <figure>\n    <picture>\n        <source />\n        <img src=\"\" alt=\"no-results\" />\n    </picture>\n    </figure>\n    <div>>There is no feedback yet.</div>\n    <p>\n    Got a suggestion? Found a bug that needs to be squashed? We love\n    hearing about new ideas to improve our app.\n    </p>\n    <butotn>Add Feedback</butotn>\n</div>\n</div>\n</section>\n";
+
 _router.router.on("/", function () {
   document.body.innerHTML = "\n    <section class=\"sidebar\">\n    <div class=\"sidebar__titles\">\n    <div>\n        <h1>Frontend Mentor</h1>\n        <h3>Feedback Board</h3>\n    </div>\n    <div class=\"toggleButton\">\n        <div></div>\n        <div></div>\n        <div></div>\n    </div>\n    </div>\n    <div class=\"sidebar__menu\">\n    <div class=\"sidebar__categories\">\n        <button class=\"category\">All</button>\n        <button>UI</button>\n        <button>UX</button>\n        <button class=\"category enhancement\">Enhancement</button>\n        <button class=\"category bug\">Bug</button>\n        <button class=\"category feature\">Feature</button>\n    </div>\n    <div class=\"sidebar__status-wrapper\">\n        <span>Roadmap</span>\n        <a href=\"/roadmap\" data-navigo>View</a>\n        <div class=\"sidebar__status-display\">\n        <div class=\"sidebar__status sidebar__status--planned\">\n            <span class=\"circle\"></span>Planned <span class=\"count\"></span>\n        </div>\n        <div class=\"sidebar__status sidebar__status--in-progress\">\n            <span class=\"circle\"></span>In-Progress\n            <span class=\"count\"></span>\n        </div>\n        <div class=\"sidebar__status sidebar__status--live\">\n            <span class=\"circle\"></span>Live <span class=\"count\"></span>\n        </div>\n        </div>\n    </div>\n    </div>\n    </section>\n    <section class=\"feedback feedback--root\">\n    <div class=\"feedback__controls\">\n    <div class=\"feedback__counter\">\n        <span class=\"bulb\"></span>\n        <span class=\"count\"filterStatus</span>\n        <h3>Suggestions</h3>\n    </div>\n    <div class=\"feedback__sort\">\n        <span class=\"text\">Sort by:</span>\n        <span class=\"count\"></span>\n        <span class=\"arrow\"></span>\n    </div>\n    <a class=\"add\" href=\"/new-feedback\" data-navigo>+ Add Feedback</a>\n    </div>\n    <div class=\"feedback-items-wrapper\">\n    <div class=\"feedback-empty\">\n        <figure>\n        <picture>\n            <source />\n            <img src=\"\" alt=\"no-results\" />\n        </picture>\n        </figure>\n        <div>>There is no feedback yet.</div>\n        <p>\n        Got a suggestion? Found a bug that needs to be squashed? We love\n        hearing about new ideas to improve our app.\n        </p>\n        <butotn>Add Feedback</butotn>\n    </div>\n    </div>\n    </section>\n";
+  (0, _getSuggestions.filterStatus)();
 });
 
 window.onload = function (event) {

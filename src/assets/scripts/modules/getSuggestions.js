@@ -48,17 +48,6 @@ export const getSuggestions = (arrayToLoop, toFilter) => {
   // fill the container
   feedbackWrapper.innerHTML = mapped.join("");
 
-  // statuses count
-  ['planned', 'in-progress', 'live'].forEach(
-    el => {
-      let filtered = initialValues.feedbackArray.filter((f) => {
-        console.log(f);
-        return f.status == el;
-      });
-      document.querySelector('.sidebar__status--' + el + ' .count').innerHTML = filtered.length
-    }
-  ) 
-
   const filterAll = (e) => {
     let localArray = initialValues.feedbackArray;
     let filtered = localArray.filter((el, i, self) => {
@@ -102,15 +91,21 @@ async function fetchSuggestions() {
 }
 
 // Filter by status
-// const filterStatus = (parameter) => {
-//   let filtered = initialValues.feedbackArray.filter((el, i, self) => {
-//     console.log(parameter);
-//     return el.staus == parameter;
-//   });
+export const filterStatus = () => {
+   // statuses count
+   if (location.pathname == '/') {
+    ['planned', 'in-progress', 'live'].forEach(
+      el => {
+        let filtered = initialValues.feedbackArray.filter((f) => {
+          return f.status == el;
+        });
+        document.querySelector('.sidebar__status--' + el + ' .count') && (document.querySelector('.sidebar__status--' + el + ' .count').innerHTML = filtered.length)
+      }
+    ) 
+  }
 
-//   return filtered.length;
-// };
+};
 
 // module invoked on load
 window.addEventListener("load", fetchSuggestions);
-window.addEventListener("popstate", fetchSuggestions);
+// window.addEventListener("popstate", fetchSuggestions);
