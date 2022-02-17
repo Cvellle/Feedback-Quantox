@@ -15,6 +15,8 @@ import "./routes/edit-feedback"
 //styles
 import "/src/assets/styles/styles";
 
+import "/src/assets/scripts/shared/shared-functions"
+
 
 
 

@@ -8165,25 +8165,7 @@ define(String.prototype, "padRight", "".padEnd);
 //   }
 // }
 // window.addEventListener("load", mobileNavToggle);
-},{}],"node_modules/navigo/lib/navigo.min.js":[function(require,module,exports) {
-var define;
-!function(t,n){"object"==typeof exports&&"object"==typeof module?module.exports=n():"function"==typeof define&&define.amd?define("Navigo",[],n):"object"==typeof exports?exports.Navigo=n():t.Navigo=n()}("undefined"!=typeof self?self:this,(function(){return(()=>{"use strict";var t={407:(t,n,e)=>{e.d(n,{default:()=>N});var o=/([:*])(\w+)/g,r=/\*/g,i=/\/\?/g;function a(t){return void 0===t&&(t="/"),v()?location.pathname+location.search+location.hash:t}function s(t){return t.replace(/\/+$/,"").replace(/^\/+/,"")}function c(t){return"string"==typeof t}function u(t){return t&&t.indexOf("#")>=0&&t.split("#").pop()||""}function h(t){var n=s(t).split(/\?(.*)?$/);return[s(n[0]),n.slice(1).join("")]}function f(t){for(var n={},e=t.split("&"),o=0;o<e.length;o++){var r=e[o].split("=");if(""!==r[0]){var i=decodeURIComponent(r[0]);n[i]?(Array.isArray(n[i])||(n[i]=[n[i]]),n[i].push(decodeURIComponent(r[1]||""))):n[i]=decodeURIComponent(r[1]||"")}}return n}function l(t,n){var e,a=h(s(t.currentLocationPath)),l=a[0],p=a[1],d=""===p?null:f(p),v=[];if(c(n.path)){if(e="(?:/^|^)"+s(n.path).replace(o,(function(t,n,e){return v.push(e),"([^/]+)"})).replace(r,"?(?:.*)").replace(i,"/?([^/]+|)")+"$",""===s(n.path)&&""===s(l))return{url:l,queryString:p,hashString:u(t.to),route:n,data:null,params:d}}else e=n.path;var g=new RegExp(e,""),m=l.match(g);if(m){var y=c(n.path)?function(t,n){return 0===n.length?null:t?t.slice(1,t.length).reduce((function(t,e,o){return null===t&&(t={}),t[n[o]]=decodeURIComponent(e),t}),null):null}(m,v):m.groups?m.groups:m.slice(1);return{url:s(l.replace(new RegExp("^"+t.instance.root),"")),queryString:p,hashString:u(t.to),route:n,data:y,params:d}}return!1}function p(){return!("undefined"==typeof window||!window.history||!window.history.pushState)}function d(t,n){return void 0===t[n]||!0===t[n]}function v(){return"undefined"!=typeof window}function g(t,n){return void 0===t&&(t=[]),void 0===n&&(n={}),t.filter((function(t){return t})).forEach((function(t){["before","after","already","leave"].forEach((function(e){t[e]&&(n[e]||(n[e]=[]),n[e].push(t[e]))}))})),n}function m(t,n,e){var o=n||{},r=0;!function n(){t[r]?Array.isArray(t[r])?(t.splice.apply(t,[r,1].concat(t[r][0](o)?t[r][1]:t[r][2])),n()):t[r](o,(function(t){void 0===t||!0===t?(r+=1,n()):e&&e(o)})):e&&e(o)}()}function y(t,n){void 0===t.currentLocationPath&&(t.currentLocationPath=t.to=a(t.instance.root)),t.currentLocationPath=t.instance._checkForAHash(t.currentLocationPath),n()}function _(t,n){for(var e=0;e<t.instance.routes.length;e++){var o=l(t,t.instance.routes[e]);if(o&&(t.matches||(t.matches=[]),t.matches.push(o),"ONE"===t.resolveOptions.strategy))return void n()}n()}function O(t,n){t.navigateOptions&&(void 0!==t.navigateOptions.shouldResolve&&console.warn('"shouldResolve" is deprecated. Please check the documentation.'),void 0!==t.navigateOptions.silent&&console.warn('"silent" is deprecated. Please check the documentation.')),n()}function k(t,n){!0===t.navigateOptions.force?(t.instance._setCurrent([t.instance._pathToMatchObject(t.to)]),n(!1)):n()}m.if=function(t,n,e){return Array.isArray(n)||(n=[n]),Array.isArray(e)||(e=[e]),[t,n,e]};var L=v(),w=p();function b(t,n){if(d(t.navigateOptions,"updateBrowserURL")){var e=("/"+t.to).replace(/\/\//g,"/"),o=L&&t.resolveOptions&&!0===t.resolveOptions.hash;w?(history[t.navigateOptions.historyAPIMethod||"pushState"](t.navigateOptions.stateObj||{},t.navigateOptions.title||"",o?"#"+e:e),location&&location.hash&&(t.instance.__freezeListening=!0,setTimeout((function(){var n=location.hash;location.hash="",location.hash=n,t.instance.__freezeListening=!1}),1))):L&&(window.location.href=t.to)}n()}function P(t,n){var e=t.instance;e.lastResolved()?m(e.lastResolved().map((function(n){return function(e,o){if(n.route.hooks&&n.route.hooks.leave){var r=!1,i=t.instance.matchLocation(n.route.path,t.currentLocationPath,!1);r="*"!==n.route.path?!i:!(t.matches&&t.matches.find((function(t){return n.route.path===t.route.path}))),d(t.navigateOptions,"callHooks")&&r?m(n.route.hooks.leave.map((function(n){return function(e,o){return n((function(n){!1===n?t.instance.__dirty=!1:o()}),t.matches&&t.matches.length>0?1===t.matches.length?t.matches[0]:t.matches:void 0)}})).concat([function(){return o()}])):o()}else o()}})),{},(function(){return n()})):n()}function A(t,n){d(t.navigateOptions,"updateState")&&t.instance._setCurrent(t.matches),n()}var R=[function(t,n){var e=t.instance.lastResolved();if(e&&e[0]&&e[0].route===t.match.route&&e[0].url===t.match.url&&e[0].queryString===t.match.queryString)return e.forEach((function(n){n.route.hooks&&n.route.hooks.already&&d(t.navigateOptions,"callHooks")&&n.route.hooks.already.forEach((function(n){return n(t.match)}))})),void n(!1);n()},function(t,n){t.match.route.hooks&&t.match.route.hooks.before&&d(t.navigateOptions,"callHooks")?m(t.match.route.hooks.before.map((function(n){return function(e,o){return n((function(n){!1===n?t.instance.__dirty=!1:o()}),t.match)}})).concat([function(){return n()}])):n()},function(t,n){d(t.navigateOptions,"callHandler")&&t.match.route.handler(t.match),t.instance.updatePageLinks(),n()},function(t,n){t.match.route.hooks&&t.match.route.hooks.after&&d(t.navigateOptions,"callHooks")&&t.match.route.hooks.after.forEach((function(n){return n(t.match)})),n()}],S=[P,function(t,n){var e=t.instance._notFoundRoute;if(e){t.notFoundHandled=!0;var o=h(t.currentLocationPath),r=o[0],i=o[1],a=u(t.to);e.path=s(r);var c={url:e.path,queryString:i,hashString:a,data:null,route:e,params:""!==i?f(i):null};t.matches=[c],t.match=c}n()},m.if((function(t){return t.notFoundHandled}),R.concat([A]),[function(t,n){t.resolveOptions&&!1!==t.resolveOptions.noMatchWarning&&void 0!==t.resolveOptions.noMatchWarning||console.warn('Navigo: "'+t.currentLocationPath+"\" didn't match any of the registered routes."),n()},function(t,n){t.instance._setCurrent(null),n()}])];function E(){return(E=Object.assign||function(t){for(var n=1;n<arguments.length;n++){var e=arguments[n];for(var o in e)Object.prototype.hasOwnProperty.call(e,o)&&(t[o]=e[o])}return t}).apply(this,arguments)}function H(t,n){var e=0;P(t,(function o(){e!==t.matches.length?m(R,E({},t,{match:t.matches[e]}),(function(){e+=1,o()})):A(t,n)}))}function x(t){t.instance.__dirty=!1,t.instance.__waiting.length>0&&t.instance.__waiting.shift()()}function j(){return(j=Object.assign||function(t){for(var n=1;n<arguments.length;n++){var e=arguments[n];for(var o in e)Object.prototype.hasOwnProperty.call(e,o)&&(t[o]=e[o])}return t}).apply(this,arguments)}function N(t,n){var e,o=n||{strategy:"ONE",hash:!1,noMatchWarning:!1},r=this,i="/",d=null,L=[],w=!1,P=p(),A=v();function R(t){return t.indexOf("#")>=0&&(t=!0===o.hash?t.split("#")[1]||"/":t.split("#")[0]),t}function E(t){return s(i+"/"+s(t))}function N(t,n,e,o){return t=c(t)?E(t):t,{name:o||s(String(t)),path:t,handler:n,hooks:g(e)}}function C(t,n){if(!r.__dirty){r.__dirty=!0,t=t?s(i)+"/"+s(t):void 0;var e={instance:r,to:t,currentLocationPath:t,navigateOptions:{},resolveOptions:j({},o,n)};return m([y,_,m.if((function(t){var n=t.matches;return n&&n.length>0}),H,S)],e,x),!!e.matches&&e.matches}r.__waiting.push((function(){return r.resolve(t,n)}))}function U(t,n){if(r.__dirty)r.__waiting.push((function(){return r.navigate(t,n)}));else{r.__dirty=!0,t=s(i)+"/"+s(t);var e={instance:r,to:t,navigateOptions:n||{},resolveOptions:n&&n.resolveOptions?n.resolveOptions:o,currentLocationPath:R(t)};m([O,k,_,m.if((function(t){var n=t.matches;return n&&n.length>0}),H,S),b,x],e,x)}}function q(){if(A)return(A?[].slice.call(document.querySelectorAll("[data-navigo]")):[]).forEach((function(t){"false"!==t.getAttribute("data-navigo")&&"_blank"!==t.getAttribute("target")?t.hasListenerAttached||(t.hasListenerAttached=!0,t.navigoHandler=function(n){if((n.ctrlKey||n.metaKey)&&"a"===n.target.tagName.toLowerCase())return!1;var e=t.getAttribute("href");if(null==e)return!1;if(e.match(/^(http|https)/)&&"undefined"!=typeof URL)try{var o=new URL(e);e=o.pathname+o.search}catch(t){}var i=function(t){if(!t)return{};var n,e=t.split(","),o={};return e.forEach((function(t){var e=t.split(":").map((function(t){return t.replace(/(^ +| +$)/g,"")}));switch(e[0]){case"historyAPIMethod":o.historyAPIMethod=e[1];break;case"resolveOptionsStrategy":n||(n={}),n.strategy=e[1];break;case"resolveOptionsHash":n||(n={}),n.hash="true"===e[1];break;case"updateBrowserURL":case"callHandler":case"updateState":case"force":o[e[0]]="true"===e[1]}})),n&&(o.resolveOptions=n),o}(t.getAttribute("data-navigo-options"));w||(n.preventDefault(),n.stopPropagation(),r.navigate(s(e),i))},t.addEventListener("click",t.navigoHandler)):t.hasListenerAttached&&t.removeEventListener("click",t.navigoHandler)})),r}function F(t,n){var e=L.find((function(n){return n.name===t}));if(e){var o=e.path;if(n)for(var r in n)o=o.replace(":"+r,n[r]);return o.match(/^\//)?o:"/"+o}return null}function I(t){var n=h(s(t)),o=n[0],r=n[1],i=""===r?null:f(r);return{url:o,queryString:r,hashString:u(t),route:N(o,(function(){}),[e],o),data:null,params:i}}function M(t,n,e){return"string"==typeof n&&(n=T(n)),n?(n.hooks[t]||(n.hooks[t]=[]),n.hooks[t].push(e),function(){n.hooks[t]=n.hooks[t].filter((function(t){return t!==e}))}):(console.warn("Route doesn't exists: "+n),function(){})}function T(t){return"string"==typeof t?L.find((function(n){return n.name===E(t)})):L.find((function(n){return n.handler===t}))}t?i=s(t):console.warn('Navigo requires a root path in its constructor. If not provided will use "/" as default.'),this.root=i,this.routes=L,this.destroyed=w,this.current=d,this.__freezeListening=!1,this.__waiting=[],this.__dirty=!1,this.on=function(t,n,o){var r=this;return"object"!=typeof t||t instanceof RegExp?("function"==typeof t&&(o=n,n=t,t=i),L.push(N(t,n,[e,o])),this):(Object.keys(t).forEach((function(n){if("function"==typeof t[n])r.on(n,t[n]);else{var o=t[n],i=o.uses,a=o.as,s=o.hooks;L.push(N(n,i,[e,s],a))}})),this)},this.off=function(t){return this.routes=L=L.filter((function(n){return c(t)?s(n.path)!==s(t):"function"==typeof t?t!==n.handler:String(n.path)!==String(t)})),this},this.resolve=C,this.navigate=U,this.navigateByName=function(t,n,e){var o=F(t,n);return null!==o&&(U(o,e),!0)},this.destroy=function(){this.routes=L=[],P&&window.removeEventListener("popstate",this.__popstateListener),this.destroyed=w=!0},this.notFound=function(t,n){return r._notFoundRoute=N("*",t,[e,n],"__NOT_FOUND__"),this},this.updatePageLinks=q,this.link=function(t){return"/"+i+"/"+s(t)},this.hooks=function(t){return e=t,this},this.extractGETParameters=function(t){return h(R(t))},this.lastResolved=function(){return d},this.generate=F,this.getLinkPath=function(t){return t.getAttribute("href")},this.match=function(t){var n={instance:r,currentLocationPath:t,to:t,navigateOptions:{},resolveOptions:o};return _(n,(function(){})),!!n.matches&&n.matches},this.matchLocation=function(t,n,e){void 0===n||void 0!==e&&!e||(n=E(n));var o={instance:r,to:n,currentLocationPath:n};return y(o,(function(){})),"string"==typeof t&&(t=void 0===e||e?E(t):t),l(o,{name:String(t),path:t,handler:function(){},hooks:{}})||!1},this.getCurrentLocation=function(){return I(s(a(i)).replace(new RegExp("^"+i),""))},this.addBeforeHook=M.bind(this,"before"),this.addAfterHook=M.bind(this,"after"),this.addAlreadyHook=M.bind(this,"already"),this.addLeaveHook=M.bind(this,"leave"),this.getRoute=T,this._pathToMatchObject=I,this._clean=s,this._checkForAHash=R,this._setCurrent=function(t){return d=r.current=t},function(){P&&(this.__popstateListener=function(){r.__freezeListening||C()},window.addEventListener("popstate",this.__popstateListener))}.call(this),q.call(this)}}},n={};function e(o){if(n[o])return n[o].exports;var r=n[o]={exports:{}};return t[o](r,r.exports,e),r.exports}return e.d=(t,n)=>{for(var o in n)e.o(n,o)&&!e.o(t,o)&&Object.defineProperty(t,o,{enumerable:!0,get:n[o]})},e.o=(t,n)=>Object.prototype.hasOwnProperty.call(t,n),e(407)})().default}));
-
-},{}],"src/assets/scripts/routes/router.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.router = void 0;
-
-var _navigo = _interopRequireDefault(require("navigo"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var router = new _navigo.default("/");
-exports.router = router;
-},{"navigo":"node_modules/navigo/lib/navigo.min.js"}],"src/data/data.json":[function(require,module,exports) {
+},{}],"src/data/data.json":[function(require,module,exports) {
 module.exports = {
   "currentUser": {
     "image": "./assets/user-images/image-zena.jpg",
@@ -8441,16 +8423,134 @@ module.exports = {
     }]
   }]
 };
-},{}],"src/assets/scripts/routes/details.js":[function(require,module,exports) {
+},{}],"node_modules/navigo/lib/navigo.min.js":[function(require,module,exports) {
+var define;
+!function(t,n){"object"==typeof exports&&"object"==typeof module?module.exports=n():"function"==typeof define&&define.amd?define("Navigo",[],n):"object"==typeof exports?exports.Navigo=n():t.Navigo=n()}("undefined"!=typeof self?self:this,(function(){return(()=>{"use strict";var t={407:(t,n,e)=>{e.d(n,{default:()=>N});var o=/([:*])(\w+)/g,r=/\*/g,i=/\/\?/g;function a(t){return void 0===t&&(t="/"),v()?location.pathname+location.search+location.hash:t}function s(t){return t.replace(/\/+$/,"").replace(/^\/+/,"")}function c(t){return"string"==typeof t}function u(t){return t&&t.indexOf("#")>=0&&t.split("#").pop()||""}function h(t){var n=s(t).split(/\?(.*)?$/);return[s(n[0]),n.slice(1).join("")]}function f(t){for(var n={},e=t.split("&"),o=0;o<e.length;o++){var r=e[o].split("=");if(""!==r[0]){var i=decodeURIComponent(r[0]);n[i]?(Array.isArray(n[i])||(n[i]=[n[i]]),n[i].push(decodeURIComponent(r[1]||""))):n[i]=decodeURIComponent(r[1]||"")}}return n}function l(t,n){var e,a=h(s(t.currentLocationPath)),l=a[0],p=a[1],d=""===p?null:f(p),v=[];if(c(n.path)){if(e="(?:/^|^)"+s(n.path).replace(o,(function(t,n,e){return v.push(e),"([^/]+)"})).replace(r,"?(?:.*)").replace(i,"/?([^/]+|)")+"$",""===s(n.path)&&""===s(l))return{url:l,queryString:p,hashString:u(t.to),route:n,data:null,params:d}}else e=n.path;var g=new RegExp(e,""),m=l.match(g);if(m){var y=c(n.path)?function(t,n){return 0===n.length?null:t?t.slice(1,t.length).reduce((function(t,e,o){return null===t&&(t={}),t[n[o]]=decodeURIComponent(e),t}),null):null}(m,v):m.groups?m.groups:m.slice(1);return{url:s(l.replace(new RegExp("^"+t.instance.root),"")),queryString:p,hashString:u(t.to),route:n,data:y,params:d}}return!1}function p(){return!("undefined"==typeof window||!window.history||!window.history.pushState)}function d(t,n){return void 0===t[n]||!0===t[n]}function v(){return"undefined"!=typeof window}function g(t,n){return void 0===t&&(t=[]),void 0===n&&(n={}),t.filter((function(t){return t})).forEach((function(t){["before","after","already","leave"].forEach((function(e){t[e]&&(n[e]||(n[e]=[]),n[e].push(t[e]))}))})),n}function m(t,n,e){var o=n||{},r=0;!function n(){t[r]?Array.isArray(t[r])?(t.splice.apply(t,[r,1].concat(t[r][0](o)?t[r][1]:t[r][2])),n()):t[r](o,(function(t){void 0===t||!0===t?(r+=1,n()):e&&e(o)})):e&&e(o)}()}function y(t,n){void 0===t.currentLocationPath&&(t.currentLocationPath=t.to=a(t.instance.root)),t.currentLocationPath=t.instance._checkForAHash(t.currentLocationPath),n()}function _(t,n){for(var e=0;e<t.instance.routes.length;e++){var o=l(t,t.instance.routes[e]);if(o&&(t.matches||(t.matches=[]),t.matches.push(o),"ONE"===t.resolveOptions.strategy))return void n()}n()}function O(t,n){t.navigateOptions&&(void 0!==t.navigateOptions.shouldResolve&&console.warn('"shouldResolve" is deprecated. Please check the documentation.'),void 0!==t.navigateOptions.silent&&console.warn('"silent" is deprecated. Please check the documentation.')),n()}function k(t,n){!0===t.navigateOptions.force?(t.instance._setCurrent([t.instance._pathToMatchObject(t.to)]),n(!1)):n()}m.if=function(t,n,e){return Array.isArray(n)||(n=[n]),Array.isArray(e)||(e=[e]),[t,n,e]};var L=v(),w=p();function b(t,n){if(d(t.navigateOptions,"updateBrowserURL")){var e=("/"+t.to).replace(/\/\//g,"/"),o=L&&t.resolveOptions&&!0===t.resolveOptions.hash;w?(history[t.navigateOptions.historyAPIMethod||"pushState"](t.navigateOptions.stateObj||{},t.navigateOptions.title||"",o?"#"+e:e),location&&location.hash&&(t.instance.__freezeListening=!0,setTimeout((function(){var n=location.hash;location.hash="",location.hash=n,t.instance.__freezeListening=!1}),1))):L&&(window.location.href=t.to)}n()}function P(t,n){var e=t.instance;e.lastResolved()?m(e.lastResolved().map((function(n){return function(e,o){if(n.route.hooks&&n.route.hooks.leave){var r=!1,i=t.instance.matchLocation(n.route.path,t.currentLocationPath,!1);r="*"!==n.route.path?!i:!(t.matches&&t.matches.find((function(t){return n.route.path===t.route.path}))),d(t.navigateOptions,"callHooks")&&r?m(n.route.hooks.leave.map((function(n){return function(e,o){return n((function(n){!1===n?t.instance.__dirty=!1:o()}),t.matches&&t.matches.length>0?1===t.matches.length?t.matches[0]:t.matches:void 0)}})).concat([function(){return o()}])):o()}else o()}})),{},(function(){return n()})):n()}function A(t,n){d(t.navigateOptions,"updateState")&&t.instance._setCurrent(t.matches),n()}var R=[function(t,n){var e=t.instance.lastResolved();if(e&&e[0]&&e[0].route===t.match.route&&e[0].url===t.match.url&&e[0].queryString===t.match.queryString)return e.forEach((function(n){n.route.hooks&&n.route.hooks.already&&d(t.navigateOptions,"callHooks")&&n.route.hooks.already.forEach((function(n){return n(t.match)}))})),void n(!1);n()},function(t,n){t.match.route.hooks&&t.match.route.hooks.before&&d(t.navigateOptions,"callHooks")?m(t.match.route.hooks.before.map((function(n){return function(e,o){return n((function(n){!1===n?t.instance.__dirty=!1:o()}),t.match)}})).concat([function(){return n()}])):n()},function(t,n){d(t.navigateOptions,"callHandler")&&t.match.route.handler(t.match),t.instance.updatePageLinks(),n()},function(t,n){t.match.route.hooks&&t.match.route.hooks.after&&d(t.navigateOptions,"callHooks")&&t.match.route.hooks.after.forEach((function(n){return n(t.match)})),n()}],S=[P,function(t,n){var e=t.instance._notFoundRoute;if(e){t.notFoundHandled=!0;var o=h(t.currentLocationPath),r=o[0],i=o[1],a=u(t.to);e.path=s(r);var c={url:e.path,queryString:i,hashString:a,data:null,route:e,params:""!==i?f(i):null};t.matches=[c],t.match=c}n()},m.if((function(t){return t.notFoundHandled}),R.concat([A]),[function(t,n){t.resolveOptions&&!1!==t.resolveOptions.noMatchWarning&&void 0!==t.resolveOptions.noMatchWarning||console.warn('Navigo: "'+t.currentLocationPath+"\" didn't match any of the registered routes."),n()},function(t,n){t.instance._setCurrent(null),n()}])];function E(){return(E=Object.assign||function(t){for(var n=1;n<arguments.length;n++){var e=arguments[n];for(var o in e)Object.prototype.hasOwnProperty.call(e,o)&&(t[o]=e[o])}return t}).apply(this,arguments)}function H(t,n){var e=0;P(t,(function o(){e!==t.matches.length?m(R,E({},t,{match:t.matches[e]}),(function(){e+=1,o()})):A(t,n)}))}function x(t){t.instance.__dirty=!1,t.instance.__waiting.length>0&&t.instance.__waiting.shift()()}function j(){return(j=Object.assign||function(t){for(var n=1;n<arguments.length;n++){var e=arguments[n];for(var o in e)Object.prototype.hasOwnProperty.call(e,o)&&(t[o]=e[o])}return t}).apply(this,arguments)}function N(t,n){var e,o=n||{strategy:"ONE",hash:!1,noMatchWarning:!1},r=this,i="/",d=null,L=[],w=!1,P=p(),A=v();function R(t){return t.indexOf("#")>=0&&(t=!0===o.hash?t.split("#")[1]||"/":t.split("#")[0]),t}function E(t){return s(i+"/"+s(t))}function N(t,n,e,o){return t=c(t)?E(t):t,{name:o||s(String(t)),path:t,handler:n,hooks:g(e)}}function C(t,n){if(!r.__dirty){r.__dirty=!0,t=t?s(i)+"/"+s(t):void 0;var e={instance:r,to:t,currentLocationPath:t,navigateOptions:{},resolveOptions:j({},o,n)};return m([y,_,m.if((function(t){var n=t.matches;return n&&n.length>0}),H,S)],e,x),!!e.matches&&e.matches}r.__waiting.push((function(){return r.resolve(t,n)}))}function U(t,n){if(r.__dirty)r.__waiting.push((function(){return r.navigate(t,n)}));else{r.__dirty=!0,t=s(i)+"/"+s(t);var e={instance:r,to:t,navigateOptions:n||{},resolveOptions:n&&n.resolveOptions?n.resolveOptions:o,currentLocationPath:R(t)};m([O,k,_,m.if((function(t){var n=t.matches;return n&&n.length>0}),H,S),b,x],e,x)}}function q(){if(A)return(A?[].slice.call(document.querySelectorAll("[data-navigo]")):[]).forEach((function(t){"false"!==t.getAttribute("data-navigo")&&"_blank"!==t.getAttribute("target")?t.hasListenerAttached||(t.hasListenerAttached=!0,t.navigoHandler=function(n){if((n.ctrlKey||n.metaKey)&&"a"===n.target.tagName.toLowerCase())return!1;var e=t.getAttribute("href");if(null==e)return!1;if(e.match(/^(http|https)/)&&"undefined"!=typeof URL)try{var o=new URL(e);e=o.pathname+o.search}catch(t){}var i=function(t){if(!t)return{};var n,e=t.split(","),o={};return e.forEach((function(t){var e=t.split(":").map((function(t){return t.replace(/(^ +| +$)/g,"")}));switch(e[0]){case"historyAPIMethod":o.historyAPIMethod=e[1];break;case"resolveOptionsStrategy":n||(n={}),n.strategy=e[1];break;case"resolveOptionsHash":n||(n={}),n.hash="true"===e[1];break;case"updateBrowserURL":case"callHandler":case"updateState":case"force":o[e[0]]="true"===e[1]}})),n&&(o.resolveOptions=n),o}(t.getAttribute("data-navigo-options"));w||(n.preventDefault(),n.stopPropagation(),r.navigate(s(e),i))},t.addEventListener("click",t.navigoHandler)):t.hasListenerAttached&&t.removeEventListener("click",t.navigoHandler)})),r}function F(t,n){var e=L.find((function(n){return n.name===t}));if(e){var o=e.path;if(n)for(var r in n)o=o.replace(":"+r,n[r]);return o.match(/^\//)?o:"/"+o}return null}function I(t){var n=h(s(t)),o=n[0],r=n[1],i=""===r?null:f(r);return{url:o,queryString:r,hashString:u(t),route:N(o,(function(){}),[e],o),data:null,params:i}}function M(t,n,e){return"string"==typeof n&&(n=T(n)),n?(n.hooks[t]||(n.hooks[t]=[]),n.hooks[t].push(e),function(){n.hooks[t]=n.hooks[t].filter((function(t){return t!==e}))}):(console.warn("Route doesn't exists: "+n),function(){})}function T(t){return"string"==typeof t?L.find((function(n){return n.name===E(t)})):L.find((function(n){return n.handler===t}))}t?i=s(t):console.warn('Navigo requires a root path in its constructor. If not provided will use "/" as default.'),this.root=i,this.routes=L,this.destroyed=w,this.current=d,this.__freezeListening=!1,this.__waiting=[],this.__dirty=!1,this.on=function(t,n,o){var r=this;return"object"!=typeof t||t instanceof RegExp?("function"==typeof t&&(o=n,n=t,t=i),L.push(N(t,n,[e,o])),this):(Object.keys(t).forEach((function(n){if("function"==typeof t[n])r.on(n,t[n]);else{var o=t[n],i=o.uses,a=o.as,s=o.hooks;L.push(N(n,i,[e,s],a))}})),this)},this.off=function(t){return this.routes=L=L.filter((function(n){return c(t)?s(n.path)!==s(t):"function"==typeof t?t!==n.handler:String(n.path)!==String(t)})),this},this.resolve=C,this.navigate=U,this.navigateByName=function(t,n,e){var o=F(t,n);return null!==o&&(U(o,e),!0)},this.destroy=function(){this.routes=L=[],P&&window.removeEventListener("popstate",this.__popstateListener),this.destroyed=w=!0},this.notFound=function(t,n){return r._notFoundRoute=N("*",t,[e,n],"__NOT_FOUND__"),this},this.updatePageLinks=q,this.link=function(t){return"/"+i+"/"+s(t)},this.hooks=function(t){return e=t,this},this.extractGETParameters=function(t){return h(R(t))},this.lastResolved=function(){return d},this.generate=F,this.getLinkPath=function(t){return t.getAttribute("href")},this.match=function(t){var n={instance:r,currentLocationPath:t,to:t,navigateOptions:{},resolveOptions:o};return _(n,(function(){})),!!n.matches&&n.matches},this.matchLocation=function(t,n,e){void 0===n||void 0!==e&&!e||(n=E(n));var o={instance:r,to:n,currentLocationPath:n};return y(o,(function(){})),"string"==typeof t&&(t=void 0===e||e?E(t):t),l(o,{name:String(t),path:t,handler:function(){},hooks:{}})||!1},this.getCurrentLocation=function(){return I(s(a(i)).replace(new RegExp("^"+i),""))},this.addBeforeHook=M.bind(this,"before"),this.addAfterHook=M.bind(this,"after"),this.addAlreadyHook=M.bind(this,"already"),this.addLeaveHook=M.bind(this,"leave"),this.getRoute=T,this._pathToMatchObject=I,this._clean=s,this._checkForAHash=R,this._setCurrent=function(t){return d=r.current=t},function(){P&&(this.__popstateListener=function(){r.__freezeListening||C()},window.addEventListener("popstate",this.__popstateListener))}.call(this),q.call(this)}}},n={};function e(o){if(n[o])return n[o].exports;var r=n[o]={exports:{}};return t[o](r,r.exports,e),r.exports}return e.d=(t,n)=>{for(var o in n)e.o(n,o)&&!e.o(t,o)&&Object.defineProperty(t,o,{enumerable:!0,get:n[o]})},e.o=(t,n)=>Object.prototype.hasOwnProperty.call(t,n),e(407)})().default}));
+
+},{}],"src/assets/scripts/routes/router.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.router = void 0;
+
+var _navigo = _interopRequireDefault(require("navigo"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var router = new _navigo.default("/");
+exports.router = router;
+},{"navigo":"node_modules/navigo/lib/navigo.min.js"}],"src/assets/scripts/shared/shared-functions.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.feedbackDetails = feedbackDetails;
+exports.sortItems = exports.setPreviousRoute = exports.goBack = exports.filterStatus = void 0;
+
+var _getSuggestions = require("../modules/getSuggestions");
+
+var _router = require("../routes/router");
+
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+var setPreviousRoute = function setPreviousRoute(currentPath) {
+  _getSuggestions.initialValues.previousRoute = currentPath ? currentPath : [].concat(_toConsumableArray(_getSuggestions.initialValues.previousRoute), [location.pathname.split('/').pop()]);
+};
+
+exports.setPreviousRoute = setPreviousRoute;
+
+var goBack = function goBack(s) {
+  var previousRoute = _getSuggestions.initialValues.previousRoute.length > 0 ? _toConsumableArray(_getSuggestions.initialValues.previousRoute).pop() : "/";
+  console.log(previousRoute);
+
+  _router.router.navigate(previousRoute);
+
+  (0, _getSuggestions.getSuggestions)(_getSuggestions.initialValues.feedbackArray);
+  _getSuggestions.initialValues.previousRoute = _getSuggestions.initialValues.previousRoute.slice(previousRoute.length - 1);
+};
+
+exports.goBack = goBack;
+
+function feedbackDetails(e) {
+  _router.router.navigate("/item/" + e.currentTarget.id);
+
+  (0, _getSuggestions.getSuggestions)(_getSuggestions.initialValues.feedbackArray, e.currentTarget.id);
+} // Filter by status
+
+
+var filterStatus = function filterStatus() {
+  // statuses count
+  var statuses = ['planned', 'in-progress', 'live'];
+  statuses.forEach(function (el) {
+    var filtered = _getSuggestions.initialValues.feedbackArray.filter(function (f) {
+      return f['status'] == el;
+    });
+
+    document.querySelector('.sidebar__status--' + el + ' .count') && (document.querySelector('.sidebar__status--' + el + ' .count').innerHTML = filtered.length);
+  });
+}; // Sort
+
+
+exports.filterStatus = filterStatus;
+
+var sortItems = function sortItems(e) {
+  var selectSort = document.querySelector(".feedback__sort .current");
+  var checkMarks = document.querySelectorAll(".feedback__sort .checked");
+  var current = e.currentTarget;
+  var filterBy = e.currentTarget.getAttribute("filter-by");
+  var direction = e.currentTarget.getAttribute("data-direction");
+  selectSort.innerHTML = e.currentTarget.firstElementChild.innerHTML;
+  checkMarks.forEach(function (el) {
+    return el.style.display = "none";
+  });
+  current.lastElementChild.style.display = "block";
+
+  var sorted = _getSuggestions.initialValues.feedbackArray.sort(function (a, b) {
+    // check if comments object exists
+    var aCheck = a[filterBy] ? a[filterBy].length : 0;
+    var bCheck = b[filterBy] ? b[filterBy].length : 0; // check if the value is an obect or a number - comments length or upvotes
+
+    var aValue = _typeof(a[filterBy]) == 'object' ? aCheck : a[filterBy];
+    var bValue = _typeof(a[filterBy]) == 'object' ? bCheck : b[filterBy];
+
+    if (direction == "normal") {
+      return aValue > bValue ? 1 : -1;
+    } else {
+      return aValue > bValue ? -1 : 1;
+    }
+  });
+
+  (0, _getSuggestions.getSuggestions)(sorted);
+};
+
+exports.sortItems = sortItems;
+},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../routes/router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/routes/details.js":[function(require,module,exports) {
 "use strict";
 
 var _getSuggestions = require("../modules/getSuggestions");
+
+var _sharedFunctions = require("../shared/shared-functions");
 
 var _router = require("./router");
 
 // import an from "../../images/user-images/image-anne.jpg";
 _router.router.on("/item/:id", function (match) {
-  document.body.style = "  background: #f2f2f2;";
+  document.body.style = "background: #f2f2f2";
   var currentId = match.data.id;
 
   var current = _getSuggestions.initialValues.feedbackArray.filter(function (el) {
@@ -8458,35 +8558,34 @@ _router.router.on("/item/:id", function (match) {
   })[0];
 
   var items = current.comments.map(function (el) {
-    return "<div class=\"item\">\n      <div class=\"info\">\n        <div class=\"profile-image\">\n          <div style=\"background-image: url(/src/assets/images/user-images/".concat(el.user.image.split("/").pop(), ")\">\n          </div>\n        </div>\n        <div class=\"name\">\n          <bold>").concat(el.user.name, "</bold>\n          <div>@").concat(el.user.username, "</div>\n        </div>\n        <span class=\"reply-activate\">reply</span>\n      </div>\n      <div class=\"text\">").concat(el.content, "</div>\n      <div class=\"reply\">\n        <textarea placeholder=\"Type your reply here\"></textarea>\n        <button>Post Reply</button>\n      </div>\n    </div>");
+    return "\n      <div class=\"item\">\n        <div class=\"info\">\n          <div class=\"profile-image\">\n            <div style=\"background-image: url(/src/assets/images/user-images/".concat(el.user.image.split("/").pop(), ")\">\n            </div>\n          </div>\n          <div class=\"name\">\n            <bold>").concat(el.user.name, "</bold>\n            <div>@").concat(el.user.username, "</div>\n          </div>\n          <span class=\"reply-activate\">reply</span>\n        </div>\n        <div class=\"text\">").concat(el.content, "</div>\n        <div class=\"reply\">\n          <textarea placeholder=\"Type your reply here\"></textarea>\n          <button>Post Reply</button>\n        </div>\n      </div>");
   });
-  var detailsTemplate = "<section class=\"details\">\n    <div class=\"details__controls\">\n      <div class=\"back\">\n        <span class=\"arrow\"></span>\n        <span class=\"text\">Go back</span>\n      </div>\n      <a href=\"/edit-feedback\" data-navigo>+ Edit Feedback</a>\n    </div>\n    <div class=\"details__current\">\n      <div class=\"feedback feedback--details\">\n        <div class=\"feedback-items-wrapper\">\n          <div class=\"feedback-item\" id=\"".concat(current.id, "\">\n            <div class=\"feedback-item__left\">\n              <span class=\"arrow\"></span>\n              <div class=\"count\">").concat(current.upvotes, "</div>\n            </div>\n            <div class=\"feedback-item__center\">\n              <h4 class=\"title\">").concat(current.title, "</h4>\n              <p>\n                ").concat(current.description, "\n              </p>\n              <div class=\"tag\">\n                <span>").concat(current.category, "</span>\n              </div>\n            </div>\n            <div class=\"feedback-item__right\">\n              <span class=\"comment\"></span>\n              <div class=\"count\">\n                ").concat(current.comments ? current.comments.length : 0, "\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <div class=\"comments\">\n      <bold><span>").concat(current.comments ? current.comments.length : 0, "</span> Comments</bold>\n        <div class=\"items-wrapper\">\n          ").concat(items.join(""), "\n        </div>\n        <div class=\"add\">\n          <bold></bold>\n          <textarea name=\"\" id=\"\" cols=\"30\" rows=\"10\" placeholder=\"Type your comment here\"></textarea>\n          <div class=\"post\">\n            <span>asd lef</span>\n            <button>Post Comment</button>\n          </div>\n        </div>\n      </div>\n    </div>\n  </section>");
-  document.body.innerHTML = detailsTemplate;
+  var detailsTemplate = "\n    <section class=\"details\">\n      <div class=\"details__controls\">\n        <div class=\"back\">\n          <span class=\"arrow\"></span>\n          <span class=\"text\">Go back</span>\n        </div>\n        <span class=\"edit-feedback\">+ Edit Feedback</span>\n      </div>\n      <div class=\"details__current\">\n        <div class=\"feedback feedback--details\">\n          <div class=\"feedback-items-wrapper\">\n            <div class=\"feedback-item\" id=\"".concat(current.id, "\">\n              <div class=\"feedback-item__left\">\n                <span class=\"arrow\"></span>\n                <div class=\"count\">").concat(current.upvotes, "</div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(current.title, "</h4>\n                <p>\n                  ").concat(current.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(current.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count\">\n                  ").concat(current.comments ? current.comments.length : 0, "\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"comments\">\n        <bold>\n          <span>").concat(current.comments ? current.comments.length : 0, "</span>\n          Comments\n        </bold>\n          <div class=\"items-wrapper\">\n            ").concat(items.join(""), "\n          </div>\n          <div class=\"add\">\n            <bold></bold>\n            <textarea name=\"\" id=\"\" cols=\"30\" rows=\"10\" placeholder=\"Type your comment here\"></textarea>\n            <div class=\"post\">\n              <span>asd lef</span>\n              <button>Post Comment</button>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section>");
+  document.body.innerHTML = detailsTemplate; // set current route as back destination, and imported back function
 
-  var goBack = function goBack() {
-    var previousRoute = _getSuggestions.initialValues.previousRoute;
+  (0, _sharedFunctions.setPreviousRoute)();
+  var back = document.querySelector(".details__controls .back");
+  var goToEdit = document.querySelector(".details__controls .edit-feedback");
 
-    _router.router.navigate(previousRoute);
-
-    (0, _getSuggestions.getSuggestions)(_getSuggestions.initialValues.feedbackArray);
+  goToEdit.onclick = function () {
+    return _router.router.navigate("/item/edit/" + currentId);
   };
 
-  var back = document.querySelector(".details__controls .back");
-  back.addEventListener("click", goBack);
+  back.addEventListener("click", _sharedFunctions.goBack);
 });
-},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/modules/getSuggestions.js":[function(require,module,exports) {
+},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/modules/getSuggestions.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.initialValues = exports.getSuggestions = exports.filterStatus = void 0;
-
-var _router = require("../routes/router");
+exports.initialValues = exports.getSuggestions = void 0;
 
 var _data = _interopRequireDefault(require("/src/data/data"));
 
 require("/src/assets/scripts/routes/details");
+
+var _sharedFunctions = require("../shared/shared-functions");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8499,7 +8598,7 @@ var initialValues = {
   getFilteredSuggestions: [],
   currentUser: null,
   selectedItem: null,
-  previousRoute: null
+  previousRoute: ["/"]
 }; // get list results globally
 
 exports.initialValues = initialValues;
@@ -8520,7 +8619,7 @@ var getSuggestions = function getSuggestions(arrayToLoop, toFilter) {
   var filterAll = function filterAll(e) {
     var localArray = initialValues.feedbackArray;
     var filtered = localArray.filter(function (el, i, self) {
-      var returnValue = e.currentTarget.innerHTML == 'All' ? el : el.category == e.currentTarget.innerHTML.toLowerCase();
+      var returnValue = e.currentTarget.innerHTML == "All" ? el : el.category == e.currentTarget.innerHTML.toLowerCase();
       return returnValue;
     });
     getSuggestions(filtered);
@@ -8533,16 +8632,8 @@ var getSuggestions = function getSuggestions(arrayToLoop, toFilter) {
 
   var feedbackItems = document.querySelectorAll(".feedback-item");
   feedbackItems && feedbackItems.forEach(function (element) {
-    element.addEventListener("click", feedbackDetails);
+    element.addEventListener("click", _sharedFunctions.feedbackDetails);
   });
-
-  function feedbackDetails(e) {
-    initialValues.previousRoute = window.location.pathname.split('/').pop();
-
-    _router.router.navigate("/item/" + e.currentTarget.id);
-
-    getSuggestions(initialValues.feedbackArray, e.currentTarget.id);
-  }
 }; // initial fetch
 
 
@@ -8550,7 +8641,7 @@ exports.getSuggestions = getSuggestions;
 
 function fetchSuggestions() {
   return _fetchSuggestions.apply(this, arguments);
-} // Filter by status
+} // module invoked on load
 
 
 function _fetchSuggestions() {
@@ -8579,39 +8670,30 @@ function _fetchSuggestions() {
   return _fetchSuggestions.apply(this, arguments);
 }
 
-var filterStatus = function filterStatus() {
-  // statuses count
-  if (location.pathname == '/') {
-    ['planned', 'in-progress', 'live'].forEach(function (el) {
-      var filtered = initialValues.feedbackArray.filter(function (f) {
-        return f.status == el;
-      });
-      document.querySelector('.sidebar__status--' + el + ' .count') && (document.querySelector('.sidebar__status--' + el + ' .count').innerHTML = filtered.length);
-    });
-  }
-}; // module invoked on load
+window.addEventListener("load", fetchSuggestions);
+window.addEventListener("popstate", fetchSuggestions);
+},{"/src/data/data":"src/data/data.json","/src/assets/scripts/routes/details":"src/assets/scripts/routes/details.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js"}],"src/assets/scripts/modules/editFeedback.js":[function(require,module,exports) {
+"use strict";
+
+var _getSuggestions = require("./getSuggestions");
+
+var feedbackItem = document.querySelectorAll(".feedback-item");
+
+function editFeedback() {
+  var sidebarStatusDisplay = document.querySelector(".sidebar__status-display"); //   getSuggestions(initialValues.feedbackArray, );
+} // module invoked on load
 
 
-exports.filterStatus = filterStatus;
-window.addEventListener("load", fetchSuggestions); // window.addEventListener("popstate", fetchSuggestions);
-},{"../routes/router":"src/assets/scripts/routes/router.js","/src/data/data":"src/data/data.json","/src/assets/scripts/routes/details":"src/assets/scripts/routes/details.js"}],"src/assets/scripts/modules/editFeedback.js":[function(require,module,exports) {
-// import { getSuggestions, initialValues } from "./getSuggestions";
-// const feedbackItem = document.querySelectorAll(".feedback-item");
-// function editFeedback() {
-//     const sidebarStatusDisplay = document.querySelector(".sidebar__status-display");
-//     getSuggestions(initialValues.feedbackArray)
-//   }
-//   // module invoked on click
-//   feedbackItem.array.forEach(element => {
-//     element.addEventListener("click", editFeedback);
-//   });
-},{}],"src/assets/scripts/modules/roadmap.js":[function(require,module,exports) {
+window.addEventListener("load", editFeedback);
+},{"./getSuggestions":"src/assets/scripts/modules/getSuggestions.js"}],"src/assets/scripts/modules/roadmap.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.roadmapLists = roadmapLists;
+
+var _sharedFunctions = require("../shared/shared-functions");
 
 var _getSuggestions = require("./getSuggestions");
 
@@ -8643,60 +8725,173 @@ function roadmapLists() {
     }));
     return "\n      <div class=\"roadmap__column roadmap__column--".concat(el.name, "\">\n        <bold>\n          ").concat(el.name, "\n          <span>(<span class=\"count\">").concat(shown[i].length, "</span>)</span>\n        </bold>\n        <div>In search</div>\n        <div>\n          <div class=\"item\">\n            <div><span></span></div>\n          </div>\n        </div>\n        <div class=\"feedback feedback--roadmap\">\n          <div class=\"feedback-items-wrapper\">\n            ").concat(filterInMap(shown[i]).join(''), "\n          </div>\n        </div>\n      </div>\n      ");
   });
-  roadmapColumnsWrapper.innerHTML = columnsLists.join('');
+  roadmapColumnsWrapper.innerHTML = columnsLists.join(''); // item recognition
+
+  var feedbackItems = document.querySelectorAll(".feedback-item");
+  feedbackItems && feedbackItems.forEach(function (element) {
+    element.addEventListener("click", _sharedFunctions.feedbackDetails);
+  });
 }
-},{"./getSuggestions":"src/assets/scripts/modules/getSuggestions.js"}],"src/assets/scripts/templates/edit-feedback.template.js":[function(require,module,exports) {
+},{"../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","./getSuggestions":"src/assets/scripts/modules/getSuggestions.js"}],"src/assets/scripts/templates/edit-feedback.template.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.editFeedbackTemplate = void 0;
-var editFeedbackTemplate = "\n<section class=\"edit\">\n    <div class=\"edit__controls\">\n        <div class=\"back\">\n        <span class=\"arrow\"></span>\n        <span class=\"text\">Go back</span>\n    </div>\n</div>\n    <div class=\"edit__wrapper\">\n    <div>\n        <h3>Feedback Title</h3>\n        <div>Add a short, descriptive headline</div>\n        <input class=\"select select--1\"></input>\n    </div>\n    <div>\n        <h3>Category</h3>\n        <div>Choose a category for your feedback</div>\n        <div class=\"select select--2\">\n        <div>All</div>\n        <div>UX</div>\n        <div>UI</div>\n        <div>Enhancement</div>\n        <div>Feature</div>\n        <div>Bug</div>\n        </div>\n    </div>\n    <div>\n        <h3>Update Status</h3>\n        <div>Change feedback state</div>\n        <div class=\"select select--3\">\n        <div>Suggestion</div>\n        <div>Planned</div>\n        <div>In-Progress</div>\n        <div>Live</div>\n        </div>\n    </div>\n    <div>\n        <h3>Feedback detail</h3>\n        <div>\n        Include any specific comments on what should be improved, added,\n        etc.\n        </div>\n        <textarea name=\"\" id=\"\" cols=\"30\" rows=\"10\"></textarea>\n    </div>\n    <div class=\"btns\">\n        <button class=\"delete\">Delete</button>\n        <button class=\"cancel\">Cancel</button>\n        <button class=\"save\">Add feedback</button>\n    </div>\n    </div>\n</section>";
+var editFeedbackTemplate = "\n<section class=\"edit\">\n    <div class=\"edit__controls\">\n        <div class=\"back\">\n        <span class=\"arrow\"></span>\n        <span class=\"text\">Go back</span>\n    </div>\n</div>\n    <div class=\"edit__wrapper\">\n    <div>\n        <h3>Feedback Title</h3>\n        <div>Add a short, descriptive headline</div>\n        <input class=\"select select--1\"></input>\n    </div>\n    <div>\n        <h3>Category</h3>\n        <div>Choose a category for your feedback</div>\n        <select class=\"custom-select select select--2\">\n            <option>All</option>\n            <option>UX</option>\n            <option>UI</option>\n            <option>Enhancement</option>\n            <option>Feature</option>\n            <option>Bug</option>\n        </select>\n    </div>\n    <div>\n        <h3>Update Status</h3>\n        <div>Change feedback state</div>\n        <select class=\"custom-select select select--3\">\n            <option>Suggestion</option>\n            <option>Planned</option>\n            <option>In-Progress</option>\n            <option>Live</option>\n        </select>\n    </div>\n    <div>\n        <h3>Feedback detail</h3>\n        <div>\n        Include any specific comments on what should be improved, added,\n        etc.\n        </div>\n        <textarea name=\"\" id=\"\" cols=\"30\" rows=\"10\"></textarea>\n    </div>\n    <div class=\"btns\">\n        <button class=\"delete\">Delete</button>\n        <button class=\"cancel\">Cancel</button>\n        <button class=\"save\">Add feedback</button>\n    </div>\n    </div>\n</section>";
 exports.editFeedbackTemplate = editFeedbackTemplate;
+},{}],"src/assets/scripts/shared/helpers.js":[function(require,module,exports) {
+var x, i, j, l, ll, selElmnt, a, b, c;
+/* Look for any elements with the class "custom-select": */
+
+x = document.getElementsByClassName("custom-select");
+l = x.length;
+
+for (i = 0; i < l; i++) {
+  selElmnt = x[i].getElementsByTagName("select")[0];
+  ll = selElmnt.length;
+  /* For each element, create a new DIV that will act as the selected item: */
+
+  a = document.createElement("DIV");
+  a.setAttribute("class", "select-selected");
+  a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+  x[i].appendChild(a);
+  /* For each element, create a new DIV that will contain the option list: */
+
+  b = document.createElement("DIV");
+  b.setAttribute("class", "select-items select-hide");
+
+  for (j = 1; j < ll; j++) {
+    /* For each option in the original select element,
+    create a new DIV that will act as an option item: */
+    c = document.createElement("DIV");
+    c.innerHTML = selElmnt.options[j].innerHTML;
+    c.addEventListener("click", function (e) {
+      /* When an item is clicked, update the original select box,
+      and the selected item: */
+      var y, i, k, s, h, sl, yl;
+      s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+      sl = s.length;
+      h = this.parentNode.previousSibling;
+
+      for (i = 0; i < sl; i++) {
+        if (s.options[i].innerHTML == this.innerHTML) {
+          s.selectedIndex = i;
+          h.innerHTML = this.innerHTML;
+          y = this.parentNode.getElementsByClassName("same-as-selected");
+          yl = y.length;
+
+          for (k = 0; k < yl; k++) {
+            y[k].removeAttribute("class");
+          }
+
+          this.setAttribute("class", "same-as-selected");
+          break;
+        }
+      }
+
+      h.click();
+    });
+    b.appendChild(c);
+  }
+
+  x[i].appendChild(b);
+  a.addEventListener("click", function (e) {
+    /* When the select box is clicked, close any other select boxes,
+    and open/close the current select box: */
+    e.stopPropagation();
+    closeAllSelect(this);
+    this.nextSibling.classList.toggle("select-hide");
+    this.classList.toggle("select-arrow-active");
+  });
+}
+
+function closeAllSelect(elmnt) {
+  /* A function that will close all select boxes in the document,
+  except the current select box: */
+  var x,
+      y,
+      i,
+      xl,
+      yl,
+      arrNo = [];
+  x = document.getElementsByClassName("select-items");
+  y = document.getElementsByClassName("select-selected");
+  xl = x.length;
+  yl = y.length;
+
+  for (i = 0; i < yl; i++) {
+    if (elmnt == y[i]) {
+      arrNo.push(i);
+    } else {
+      y[i].classList.remove("select-arrow-active");
+    }
+  }
+
+  for (i = 0; i < xl; i++) {
+    if (arrNo.indexOf(i)) {
+      x[i].classList.add("select-hide");
+    }
+  }
+}
+/* If the user clicks anywhere outside the select box,
+then close all select boxes: */
+
+
+document.addEventListener("click", closeAllSelect);
 },{}],"src/assets/scripts/routes/edit-feedback.js":[function(require,module,exports) {
 "use strict";
-
-var _getSuggestions = require("../modules/getSuggestions");
 
 var _editFeedback = require("../templates/edit-feedback.template");
 
 var _router = require("./router");
 
-_router.router.on("/edit-feedback", function () {
-  document.body.innerHTML = _editFeedback.editFeedbackTemplate;
+require("../shared/helpers");
 
-  var goBack = function goBack() {
-    _router.router.navigate("/");
-
-    (0, _getSuggestions.getSuggestions)(_getSuggestions.initialValues.feedbackArray);
-  };
-
-  var back = document.querySelector(".edit .back");
-  back.addEventListener("click", goBack);
-});
-},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../templates/edit-feedback.template":"src/assets/scripts/templates/edit-feedback.template.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/routes/new-feedback.js":[function(require,module,exports) {
-"use strict";
+var _sharedFunctions = require("../shared/shared-functions");
 
 var _getSuggestions = require("../modules/getSuggestions");
+
+_router.router.on("/item/edit/:id", function (match) {
+  document.body.innerHTML = _editFeedback.editFeedbackTemplate;
+  var currentId = match.data.id;
+
+  var current = _getSuggestions.initialValues.feedbackArray.filter(function (el) {
+    return el.id == currentId;
+  })[0]; // set current route as back destination, and imported back function
+
+
+  var previousRoute = "item" + "/" + match.data["id"];
+  (0, _sharedFunctions.setPreviousRoute)(previousRoute);
+  var back = document.querySelector(".edit .back");
+  var cancel = document.querySelector(".edit .cancel");
+  back.addEventListener("click", function () {
+    return _router.router.navigate(previousRoute);
+  });
+  cancel.addEventListener("click", function () {
+    return _router.router.navigate(previousRoute);
+  });
+});
+},{"../templates/edit-feedback.template":"src/assets/scripts/templates/edit-feedback.template.js","./router":"src/assets/scripts/routes/router.js","../shared/helpers":"src/assets/scripts/shared/helpers.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js"}],"src/assets/scripts/routes/new-feedback.js":[function(require,module,exports) {
+"use strict";
+
+var _sharedFunctions = require("../shared/shared-functions");
 
 var _editFeedback = require("../templates/edit-feedback.template");
 
 var _router = require("./router");
 
 _router.router.on("/new-feedback", function () {
-  document.body.innerHTML = _editFeedback.editFeedbackTemplate;
+  document.body.innerHTML = _editFeedback.editFeedbackTemplate; // set current route as back destination, and imported back function
 
-  var goBack = function goBack() {
-    _router.router.navigate("/");
-
-    (0, _getSuggestions.getSuggestions)(_getSuggestions.initialValues.feedbackArray);
-  };
-
+  (0, _sharedFunctions.setPreviousRoute)();
   var back = document.querySelector(".edit .back");
-  back.addEventListener("click", goBack);
+  var cancel = document.querySelector(".edit .cancel");
+  back.addEventListener("click", _sharedFunctions.goBack);
+  cancel.addEventListener("click", _sharedFunctions.goBack);
 });
-},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../templates/edit-feedback.template":"src/assets/scripts/templates/edit-feedback.template.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/templates/roadmap.template.js":[function(require,module,exports) {
+},{"../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","../templates/edit-feedback.template":"src/assets/scripts/templates/edit-feedback.template.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/templates/roadmap.template.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8708,39 +8903,57 @@ exports.roadmapTemplate = roadmapTemplate;
 },{}],"src/assets/scripts/routes/roadmap-route.js":[function(require,module,exports) {
 "use strict";
 
-var _getSuggestions = require("../modules/getSuggestions");
-
 var _roadmap = require("../modules/roadmap");
+
+var _sharedFunctions = require("../shared/shared-functions");
 
 var _roadmap2 = require("../templates/roadmap.template");
 
 var _router = require("./router");
 
 _router.router.on("/roadmap", function () {
-  document.body.innerHTML = _roadmap2.roadmapTemplate;
+  document.body.innerHTML = _roadmap2.roadmapTemplate; // set current route as back destination, and imported back function
 
-  var goBack = function goBack() {
-    _router.router.navigate("/");
-
-    (0, _getSuggestions.getSuggestions)(_getSuggestions.initialValues.feedbackArray);
-  };
-
+  (0, _sharedFunctions.setPreviousRoute)();
   var back = document.querySelector(".roadmap .back");
-  back.addEventListener("click", goBack);
+  back.addEventListener("click", _sharedFunctions.goBack);
   (0, _roadmap.roadmapLists)();
 });
-},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../modules/roadmap":"src/assets/scripts/modules/roadmap.js","../templates/roadmap.template":"src/assets/scripts/templates/roadmap.template.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/routes/root.js":[function(require,module,exports) {
+},{"../modules/roadmap":"src/assets/scripts/modules/roadmap.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","../templates/roadmap.template":"src/assets/scripts/templates/roadmap.template.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/templates/rootTemplate.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.rootTemplate = void 0;
+var rootTemplate = "\n<section class=\"sidebar\">\n<div class=\"sidebar__titles\">\n  <div>\n    <h1>Frontend Mentor</h1>\n    <h3>Feedback Board</h3>\n  </div>\n  <div class=\"toggleButton\">\n    <div></div>\n    <div></div>\n    <div></div>\n  </div>\n</div>\n<div class=\"sidebar__menu\">\n  <div class=\"sidebar__categories\">\n    <button class=\"category\">All</button>\n    <button>UI</button>\n    <button>UX</button>\n    <button class=\"category enhancement\">Enhancement</button>\n    <button class=\"category bug\">Bug</button>\n    <button class=\"category feature\">Feature</button>\n  </div>\n  <div class=\"sidebar__status-wrapper\">\n    <span>Roadmap</span>\n    <a href=\"/roadmap\" data-navigo>View</a>\n    <div class=\"sidebar__status-display\">\n      <div class=\"sidebar__status sidebar__status--planned\">\n        <span class=\"circle\"></span>Planned <span class=\"count\"></span>\n      </div>\n      <div class=\"sidebar__status sidebar__status--in-progress\">\n        <span class=\"circle\"></span>In-Progress\n        <span class=\"count\"></span>\n      </div>\n      <div class=\"sidebar__status sidebar__status--live\">\n        <span class=\"circle\"></span>Live <span class=\"count\"></span>\n      </div>\n    </div>\n  </div>\n</div>\n</section>\n<section class=\"feedback feedback--root\">\n<div class=\"feedback__controls\">\n  <div class=\"feedback__counter\">\n    <span class=\"bulb\"></span>\n    <span class=\"count\" filterStatus</span>\n      <h3>Suggestions</h3>\n  </div>\n  <div class=\"feedback__sort\">\n    <div class=\"text\">\n      <span class=\"sort-by\">Sort by:</span>\n      <span class=\"current\"></span>\n      <span class=\"arrow\"></span>\n    </div>\n    <div class=\"dropdown\">\n      <div class=\"dropdown-item\" filter-by=\"upvotes\" data-direction=\"reverse\">\n        <span class=\"filter-by\">Most Upvotes</span>\n        <span class=\"checked\"></span>\n      </div>\n      <div class=\"dropdown-item\" filter-by=\"upvotes\" data-direction=\"normal\">\n        <span class=\"filter-by\">Least Upvotes</span>\n        <span class=\"checked\"></span>\n      </div>\n      <div class=\"dropdown-item\" filter-by=\"comments\" data-direction=\"reverse\">\n        <span class=\"filter-by\">Most Comments</span>\n        <span class=\"checked\"></span>\n      </div>\n      <div class=\"dropdown-item\" filter-by=\"comments\" data-direction=\"normal\">\n        <span class=\"filter-by\">Least Comments</span>\n        <span class=\"checked\"></span>\n      </div>\n    </div>\n  </div>\n  <a class=\"add\" href=\"/new-feedback\" data-navigo>+ Add Feedback</a>\n</div>\n<div class=\"feedback-items-wrapper\">\n  <div class=\"feedback-empty\">\n    <figure>\n      <picture>\n        <source />\n        <img src=\"\" alt=\"no-results\" />\n      </picture>\n    </figure>\n    <div>>There is no feedback yet.</div>\n    <p>\n      Got a suggestion? Found a bug that needs to be squashed? We love\n      hearing about new ideas to improve our app.\n    </p>\n    <butotn>Add Feedback</butotn>\n  </div>\n</div>\n</section>\n";
+exports.rootTemplate = rootTemplate;
+},{}],"src/assets/scripts/routes/root.js":[function(require,module,exports) {
 "use strict";
 
 var _getSuggestions = require("../modules/getSuggestions");
 
+var _sharedFunctions = require("../shared/shared-functions");
+
+var _rootTemplate = require("../templates/rootTemplate");
+
 var _router = require("./router");
 
-document.body.innerHTML = "\n<section class=\"sidebar\">\n<div class=\"sidebar__titles\">\n<div>\n    <h1>Frontend Mentor</h1>\n    <h3>Feedback Board</h3>\n</div>\n<div class=\"toggleButton\">\n    <div></div>\n    <div></div>\n    <div></div>\n</div>\n</div>\n<div class=\"sidebar__menu\">\n<div class=\"sidebar__categories\">\n    <button class=\"category\">All</button>\n    <button>UI</button>\n    <button>UX</button>\n    <button class=\"category enhancement\">Enhancement</button>\n    <button class=\"category bug\">Bug</button>\n    <button class=\"category feature\">Feature</button>\n</div>\n<div class=\"sidebar__status-wrapper\">\n    <span>Roadmap</span>\n    <a href=\"/roadmap\" data-navigo>View</a>\n    <div class=\"sidebar__status-display\">\n    <div class=\"sidebar__status sidebar__status--planned\">\n        <span class=\"circle\"></span>Planned <span class=\"count\"></span>\n    </div>\n    <div class=\"sidebar__status sidebar__status--in-progress\">\n        <span class=\"circle\"></span>In-Progress\n        <span class=\"count\"></span>\n    </div>\n    <div class=\"sidebar__status sidebar__status--live\">\n        <span class=\"circle\"></span>Live <span class=\"count\"></span>\n    </div>\n    </div>\n</div>\n</div>\n</section>\n<section class=\"feedback feedback--root\">\n<div class=\"feedback__controls\">\n<div class=\"feedback__counter\">\n    <span class=\"bulb\"></span>\n    <span class=\"count\"filterStatus</span>\n    <h3>Suggestions</h3>\n</div>\n<div class=\"feedback__sort\">\n    <span class=\"text\">Sort by:</span>\n    <span class=\"count\"></span>\n    <span class=\"arrow\"></span>\n</div>\n<a class=\"add\" href=\"/new-feedback\" data-navigo>+ Add Feedback</a>\n</div>\n<div class=\"feedback-items-wrapper\">\n<div class=\"feedback-empty\">\n    <figure>\n    <picture>\n        <source />\n        <img src=\"\" alt=\"no-results\" />\n    </picture>\n    </figure>\n    <div>>There is no feedback yet.</div>\n    <p>\n    Got a suggestion? Found a bug that needs to be squashed? We love\n    hearing about new ideas to improve our app.\n    </p>\n    <butotn>Add Feedback</butotn>\n</div>\n</div>\n</section>\n";
+document.body.innerHTML = _rootTemplate.rootTemplate;
 
 _router.router.on("/", function () {
-  document.body.innerHTML = "\n    <section class=\"sidebar\">\n    <div class=\"sidebar__titles\">\n    <div>\n        <h1>Frontend Mentor</h1>\n        <h3>Feedback Board</h3>\n    </div>\n    <div class=\"toggleButton\">\n        <div></div>\n        <div></div>\n        <div></div>\n    </div>\n    </div>\n    <div class=\"sidebar__menu\">\n    <div class=\"sidebar__categories\">\n        <button class=\"category\">All</button>\n        <button>UI</button>\n        <button>UX</button>\n        <button class=\"category enhancement\">Enhancement</button>\n        <button class=\"category bug\">Bug</button>\n        <button class=\"category feature\">Feature</button>\n    </div>\n    <div class=\"sidebar__status-wrapper\">\n        <span>Roadmap</span>\n        <a href=\"/roadmap\" data-navigo>View</a>\n        <div class=\"sidebar__status-display\">\n        <div class=\"sidebar__status sidebar__status--planned\">\n            <span class=\"circle\"></span>Planned <span class=\"count\"></span>\n        </div>\n        <div class=\"sidebar__status sidebar__status--in-progress\">\n            <span class=\"circle\"></span>In-Progress\n            <span class=\"count\"></span>\n        </div>\n        <div class=\"sidebar__status sidebar__status--live\">\n            <span class=\"circle\"></span>Live <span class=\"count\"></span>\n        </div>\n        </div>\n    </div>\n    </div>\n    </section>\n    <section class=\"feedback feedback--root\">\n    <div class=\"feedback__controls\">\n    <div class=\"feedback__counter\">\n        <span class=\"bulb\"></span>\n        <span class=\"count\"filterStatus</span>\n        <h3>Suggestions</h3>\n    </div>\n    <div class=\"feedback__sort\">\n        <span class=\"text\">Sort by:</span>\n        <span class=\"count\"></span>\n        <span class=\"arrow\"></span>\n    </div>\n    <a class=\"add\" href=\"/new-feedback\" data-navigo>+ Add Feedback</a>\n    </div>\n    <div class=\"feedback-items-wrapper\">\n    <div class=\"feedback-empty\">\n        <figure>\n        <picture>\n            <source />\n            <img src=\"\" alt=\"no-results\" />\n        </picture>\n        </figure>\n        <div>>There is no feedback yet.</div>\n        <p>\n        Got a suggestion? Found a bug that needs to be squashed? We love\n        hearing about new ideas to improve our app.\n        </p>\n        <butotn>Add Feedback</butotn>\n    </div>\n    </div>\n    </section>\n";
-  (0, _getSuggestions.filterStatus)();
+  document.body.innerHTML = _rootTemplate.rootTemplate;
+  (0, _sharedFunctions.filterStatus)(); // sort
+
+  var sortToggleTarget = document.querySelector(".feedback__sort .text");
+  var dropdown = document.querySelector(".feedback__sort .dropdown");
+  var sortButtons = document.querySelectorAll(".dropdown-item");
+  sortButtons && sortButtons.forEach(function (element) {
+    element.addEventListener("click", _sharedFunctions.sortItems);
+  });
+  sortToggleTarget && sortToggleTarget.addEventListener("click", function (e) {
+    dropdown.classList.toggle("dropdown--visible");
+  });
 });
 
 window.onload = function (event) {
@@ -8748,15 +8961,9 @@ window.onload = function (event) {
     _router.router.navigate("/");
 
     (0, _getSuggestions.getSuggestions)(_getSuggestions.initialValues.feedbackArray);
-    console.log(_getSuggestions.initialValues.feedbackArray);
   }
-}; // // window.onpopstate = function (event) {
-// //   if (event) {
-// //     // location.pathname == "/" && (location.pathname = "/");
-// //     router.navigate("/");
-// //   }
-// // };
-},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","./router":"src/assets/scripts/routes/router.js"}],"node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+};
+},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","../templates/rootTemplate":"src/assets/scripts/templates/rootTemplate.js","./router":"src/assets/scripts/routes/router.js"}],"node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -8828,7 +9035,7 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\bulb.png":[["bulb.da37f33d.png","src/assets/images/suggestions/bulb.png"],"src/assets/images/suggestions/bulb.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\white-arrow.png":[["white-arrow.205849a5.png","src/assets/images/suggestions/white-arrow.png"],"src/assets/images/suggestions/white-arrow.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-arrow-up.svg":[["icon-arrow-up.8a111df8.svg","src/assets/images/shared/icon-arrow-up.svg"],"src/assets/images/shared/icon-arrow-up.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-comments.svg":[["icon-comments.1db50b47.svg","src/assets/images/shared/icon-comments.svg"],"src/assets/images/shared/icon-comments.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-arrow-left.svg":[["icon-arrow-left.7013d5bc.svg","src/assets/images/shared/icon-arrow-left.svg"],"src/assets/images/shared/icon-arrow-left.svg"],"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/assets/scripts/index.js":[function(require,module,exports) {
+},{"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\bulb.png":[["bulb.da37f33d.png","src/assets/images/suggestions/bulb.png"],"src/assets/images/suggestions/bulb.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\white-arrow.png":[["white-arrow.205849a5.png","src/assets/images/suggestions/white-arrow.png"],"src/assets/images/suggestions/white-arrow.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-check.svg":[["icon-check.66b49a52.svg","src/assets/images/shared/icon-check.svg"],"src/assets/images/shared/icon-check.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-arrow-up.svg":[["icon-arrow-up.8a111df8.svg","src/assets/images/shared/icon-arrow-up.svg"],"src/assets/images/shared/icon-arrow-up.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-comments.svg":[["icon-comments.1db50b47.svg","src/assets/images/shared/icon-comments.svg"],"src/assets/images/shared/icon-comments.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-arrow-left.svg":[["icon-arrow-left.7013d5bc.svg","src/assets/images/shared/icon-arrow-left.svg"],"src/assets/images/shared/icon-arrow-left.svg"],"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/assets/scripts/index.js":[function(require,module,exports) {
 "use strict";
 
 require("babel-polyfill");
@@ -8854,7 +9061,9 @@ require("/src/assets/scripts/routes/root");
 require("./routes/edit-feedback");
 
 require("/src/assets/styles/styles");
-},{"babel-polyfill":"node_modules/babel-polyfill/lib/index.js","../scripts/modules/buttonToggle":"src/assets/scripts/modules/buttonToggle.js","../scripts/modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../scripts/modules/editFeedback":"src/assets/scripts/modules/editFeedback.js","../scripts/modules/roadmap":"src/assets/scripts/modules/roadmap.js","../scripts/routes/details":"src/assets/scripts/routes/details.js","../scripts/routes/edit-feedback":"src/assets/scripts/routes/edit-feedback.js","../scripts/routes/new-feedback":"src/assets/scripts/routes/new-feedback.js","../scripts/routes/roadmap-route":"src/assets/scripts/routes/roadmap-route.js","/src/assets/scripts/routes/root":"src/assets/scripts/routes/root.js","./routes/edit-feedback":"src/assets/scripts/routes/edit-feedback.js","/src/assets/styles/styles":"src/assets/styles/styles.css"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+
+require("/src/assets/scripts/shared/shared-functions");
+},{"babel-polyfill":"node_modules/babel-polyfill/lib/index.js","../scripts/modules/buttonToggle":"src/assets/scripts/modules/buttonToggle.js","../scripts/modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../scripts/modules/editFeedback":"src/assets/scripts/modules/editFeedback.js","../scripts/modules/roadmap":"src/assets/scripts/modules/roadmap.js","../scripts/routes/details":"src/assets/scripts/routes/details.js","../scripts/routes/edit-feedback":"src/assets/scripts/routes/edit-feedback.js","../scripts/routes/new-feedback":"src/assets/scripts/routes/new-feedback.js","../scripts/routes/roadmap-route":"src/assets/scripts/routes/roadmap-route.js","/src/assets/scripts/routes/root":"src/assets/scripts/routes/root.js","./routes/edit-feedback":"src/assets/scripts/routes/edit-feedback.js","/src/assets/styles/styles":"src/assets/styles/styles.css","/src/assets/scripts/shared/shared-functions":"src/assets/scripts/shared/shared-functions.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -8882,7 +9091,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56889" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50154" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

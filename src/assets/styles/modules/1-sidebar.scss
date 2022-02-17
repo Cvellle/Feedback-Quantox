@@ -243,15 +243,15 @@
             }
           }
 
-          &--progress {
+          &--in-progress {
             .circle {
-              background-color: #f49f85;
+              background-color: purple;
             }
           }
 
           &--live {
             .circle {
-              background-color: #f49f85;
+              background-color: rgb(104, 171, 216);
             }
           }
         }

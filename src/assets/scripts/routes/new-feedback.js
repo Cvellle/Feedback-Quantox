@@ -1,16 +1,16 @@
 
-import { getSuggestions, initialValues } from "../modules/getSuggestions";
+import { goBack, setPreviousRoute } from "../shared/shared-functions";
 import { editFeedbackTemplate } from "../templates/edit-feedback.template";
 import { router } from "./router";
 
 router.on("/new-feedback", function () {
-    document.body.innerHTML = editFeedbackTemplate; 
+   document.body.innerHTML = editFeedbackTemplate; 
 
-    const goBack = () => {
-        router.navigate("/");
-        getSuggestions(initialValues.feedbackArray);
-      };
-    
-      const back = document.querySelector(".edit .back");
-      back.addEventListener("click", goBack);
+   // set current route as back destination, and imported back function
+  setPreviousRoute();
+  const back = document.querySelector(".edit .back");
+  const cancel = document.querySelector(".edit .cancel");
+  
+  back.addEventListener("click", goBack);
+  cancel.addEventListener("click", goBack);
 })

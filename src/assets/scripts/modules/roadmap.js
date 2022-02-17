@@ -1,3 +1,4 @@
+import { feedbackDetails } from "../shared/shared-functions";
 import { initialValues } from "./getSuggestions";
 
 export function roadmapLists() {
@@ -74,4 +75,11 @@ export function roadmapLists() {
     })
 
     roadmapColumnsWrapper.innerHTML = columnsLists.join('');
+
+  // item recognition
+  const feedbackItems = document.querySelectorAll(".feedback-item");
+  feedbackItems &&
+    feedbackItems.forEach((element) => {
+      element.addEventListener("click", feedbackDetails);
+  });
 }

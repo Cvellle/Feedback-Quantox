@@ -15,24 +15,24 @@ export const editFeedbackTemplate = `
     <div>
         <h3>Category</h3>
         <div>Choose a category for your feedback</div>
-        <div class="select select--2">
-        <div>All</div>
-        <div>UX</div>
-        <div>UI</div>
-        <div>Enhancement</div>
-        <div>Feature</div>
-        <div>Bug</div>
-        </div>
+        <select class="custom-select select select--2">
+            <option>All</option>
+            <option>UX</option>
+            <option>UI</option>
+            <option>Enhancement</option>
+            <option>Feature</option>
+            <option>Bug</option>
+        </select>
     </div>
     <div>
         <h3>Update Status</h3>
         <div>Change feedback state</div>
-        <div class="select select--3">
-        <div>Suggestion</div>
-        <div>Planned</div>
-        <div>In-Progress</div>
-        <div>Live</div>
-        </div>
+        <select class="custom-select select select--3">
+            <option>Suggestion</option>
+            <option>Planned</option>
+            <option>In-Progress</option>
+            <option>Live</option>
+        </select>
     </div>
     <div>
         <h3>Feedback detail</h3>

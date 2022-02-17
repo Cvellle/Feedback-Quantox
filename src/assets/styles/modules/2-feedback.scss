@@ -115,9 +115,12 @@
     }
 
     #{$this}__sort {
+      position: relative;
       font-size: 14px;
       line-height: 20px;
       display: flex;
+      cursor: pointer;
+      width: 200px;
       cursor: pointer;
 
       & .arrow {
@@ -127,6 +130,56 @@
         align-self: center;
         background-image: url(/src/assets/images/suggestions/white-arrow.png);
         background-size: cover;
+      }
+
+      & .text {
+        min-height: 30px;
+        display: inline-block;
+        cursor: pointer;
+        min-width: 200px;
+      }
+
+      & .current {
+        margin-right: 5px;
+      }
+
+      & .dropdown {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        height: 200px;
+        border-top: 0.5px solid rgb(207, 207, 207);
+        display: none;
+
+        &--visible {
+          display: block;
+        }
+
+        & .dropdown-item {
+            height: 50px;
+            background-color: rgb(247, 242, 242);
+            display: flex;
+            padding-left: 10px;
+            align-items: center;
+            color: black;
+            border-bottom: 0.5px solid rgb(207, 207, 207);
+            justify-content: space-between;
+
+            &:hover {
+              color: purple;
+              cursor: pointer;
+            }
+
+            & .checked {
+              height: 15px;
+              width: 15px;
+              background: url('/src/assets/images/shared/icon-check.svg');
+              background-repeat: no-repeat;
+              background-size: contain;
+              display: none;
+            }
+        }
       }
     }
 
