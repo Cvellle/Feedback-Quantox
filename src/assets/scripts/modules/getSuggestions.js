@@ -1,20 +1,23 @@
 import data from "/src/data/data";
 import "/src/assets/scripts/routes/details";
-import { feedbackDetails, sortItems } from "../shared/shared-functions";
+import { feedbackDetails } from "../shared/shared-functions";
 
 export const initialValues = {
   feedbackArray: [],
   getFilteredSuggestions: [],
-  currentUser: null,
+  currentUser: {
+    name: 'Nikola Cvetic'
+  },
   selectedItem: null,
   previousRoute: [],
 };
 
+
 // get list results globally
 export const getSuggestions = (arrayToLoop, toFilter) => {
   const feedbackWrapper = document.querySelector(".feedback-items-wrapper");
-  const sidebarStatusDisplay = document.querySelector(
-    ".sidebar__status-display"
+  const upvotes = document.querySelector(
+    ".upvotes"
   );
 
   const suggestionsList = arrayToLoop.filter((el) => {
@@ -25,8 +28,9 @@ export const getSuggestions = (arrayToLoop, toFilter) => {
 
   let mapped = suggestionsList.map((el) => {
     return `<div class="feedback-item" id="${el.id}">
-              <div class="feedback-item__left">
-                <span class="arrow"></span>
+              <div class="feedback-item__left upvotes">
+              <span class="arrow"></span>
+              <input type="hidden"/>
                 <div class="count">${el.upvotes}</div>
               </div>
               <div class="feedback-item__center">
@@ -72,9 +76,8 @@ export const getSuggestions = (arrayToLoop, toFilter) => {
     feedbackItems.forEach((element) => {
       element.addEventListener("click", feedbackDetails);
     });
+
 };
-
-
 
 // initial fetch
 async function fetchSuggestions() {

@@ -18,6 +18,8 @@ router.on("/", function () {
   //mobile menu toggle
   const menuIcon = document.querySelector(".toggleButton");
   const navigation = document.querySelector(".sidebar__menu");
+  //upvotes add
+  const upvotes = document.querySelectorAll(".upvotes");
 
   sortButtons &&
     sortButtons.forEach((element) => {
@@ -41,6 +43,27 @@ router.on("/", function () {
     };
   
     menuIcon.addEventListener("click", toggleNav);
+
+    const upvotesAdd = (e) => {
+      let current =  e.currentTarget;
+      let spanCounter =  current.lastElementChild;
+      let currentHiddenInput = spanCounter.previousElementSibling;
+      // console.log(spanCounter.previousElementSibling);
+      if(currentHiddenInput.value != initialValues.currentUser.name) {
+        e.currentTarget.lastElementChild.innerHTML = +e.currentTarget.lastElementChild.innerHTML + 1
+        currentHiddenInput.value = initialValues.currentUser.name;
+        e.currentTarget.classList.add('upvotes--highlighted')
+      } else {
+        e.currentTarget.lastElementChild.innerHTML = +e.currentTarget.lastElementChild.innerHTML -1;
+        currentHiddenInput.value = "";
+        e.currentTarget.classList.remove('upvotes--highlighted')
+      }
+    }
+
+    upvotes &&
+      upvotes.forEach((element) => {
+        element.addEventListener("click", upvotesAdd);
+      });
 });
 
 window.onload = function (event) {

@@ -8121,16 +8121,15 @@ define(String.prototype, "padRight", "".padEnd);
   [][key] && define(Array, key, Function.call.bind([][key]));
 });
 },{"core-js/shim":"node_modules/core-js/shim.js","regenerator-runtime/runtime":"node_modules/babel-polyfill/node_modules/regenerator-runtime/runtime.js","core-js/fn/regexp/escape":"node_modules/core-js/fn/regexp/escape.js"}],"src/assets/scripts/modules/buttonToggle.js":[function(require,module,exports) {
-function mobileNavToggle() {
-  var menuIcon = document.querySelector(".toggleButton");
-  var navigation = document.querySelector(".sidebar__menu");
-
-  var toggleNav = function toggleNav() {// navigation.classList.toggle(".sidebar__menu--visible");
-  }; //   menuIcon.addEventListener("click", () => alert('s'));
-
-}
-
-window.addEventListener("load", mobileNavToggle);
+// function mobileNavToggle() {
+//   const menuIcon = document.querySelector(".toggleButton");
+//   const navigation = document.querySelector(".sidebar__menu");
+//   const toggleNav = () => {
+//     navigation.classList.toggle(".sidebar__menu--visible");
+//   };
+//   menuIcon.addEventListener("click", () => alert('s'));
+// }
+// window.addEventListener("load", mobileNavToggle);
 },{}],"src/data/data.json":[function(require,module,exports) {
 module.exports = {
   "currentUser": {
@@ -8590,7 +8589,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var initialValues = {
   feedbackArray: [],
   getFilteredSuggestions: [],
-  currentUser: null,
+  currentUser: {
+    name: 'Nikola Cvetic'
+  },
   selectedItem: null,
   previousRoute: []
 }; // get list results globally
@@ -8599,13 +8600,13 @@ exports.initialValues = initialValues;
 
 var getSuggestions = function getSuggestions(arrayToLoop, toFilter) {
   var feedbackWrapper = document.querySelector(".feedback-items-wrapper");
-  var sidebarStatusDisplay = document.querySelector(".sidebar__status-display");
+  var upvotes = document.querySelector(".upvotes");
   var suggestionsList = arrayToLoop.filter(function (el) {
     var final = toFilter ? el.id == toFilter : el;
     return final;
   });
   var mapped = suggestionsList.map(function (el) {
-    return "<div class=\"feedback-item\" id=\"".concat(el.id, "\">\n              <div class=\"feedback-item__left\">\n                <span class=\"arrow\"></span>\n                <div class=\"count\">").concat(el.upvotes, "</div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(el.title, "</h4>\n                <p>\n                  ").concat(el.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(el.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count\">\n                  ").concat(el.comments ? el.comments.length : 0, "\n                </div>\n              </div>\n            </div>");
+    return "<div class=\"feedback-item\" id=\"".concat(el.id, "\">\n              <div class=\"feedback-item__left upvotes\">\n              <span class=\"arrow\"></span>\n              <input type=\"hidden\"/>\n                <div class=\"count\">").concat(el.upvotes, "</div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(el.title, "</h4>\n                <p>\n                  ").concat(el.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(el.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count\">\n                  ").concat(el.comments ? el.comments.length : 0, "\n                </div>\n              </div>\n            </div>");
   }); // fill the container
 
   feedbackWrapper.innerHTML = mapped.join("");
@@ -9019,7 +9020,9 @@ _router.router.on("/", function () {
   var sortButtons = document.querySelectorAll(".dropdown-item"); //mobile menu toggle
 
   var menuIcon = document.querySelector(".toggleButton");
-  var navigation = document.querySelector(".sidebar__menu");
+  var navigation = document.querySelector(".sidebar__menu"); //upvotes add
+
+  var upvotes = document.querySelectorAll(".upvotes");
   sortButtons && sortButtons.forEach(function (element) {
     element.addEventListener("click", _sharedFunctions.sortItems);
   });
@@ -9035,6 +9038,26 @@ _router.router.on("/", function () {
   };
 
   menuIcon.addEventListener("click", toggleNav);
+
+  var upvotesAdd = function upvotesAdd(e) {
+    var current = e.currentTarget;
+    var spanCounter = current.lastElementChild;
+    var currentHiddenInput = spanCounter.previousElementSibling; // console.log(spanCounter.previousElementSibling);
+
+    if (currentHiddenInput.value != _getSuggestions.initialValues.currentUser.name) {
+      e.currentTarget.lastElementChild.innerHTML = +e.currentTarget.lastElementChild.innerHTML + 1;
+      currentHiddenInput.value = _getSuggestions.initialValues.currentUser.name;
+      e.currentTarget.classList.add('upvotes--highlighted');
+    } else {
+      e.currentTarget.lastElementChild.innerHTML = +e.currentTarget.lastElementChild.innerHTML - 1;
+      currentHiddenInput.value = "";
+      e.currentTarget.classList.remove('upvotes--highlighted');
+    }
+  };
+
+  upvotes && upvotes.forEach(function (element) {
+    element.addEventListener("click", upvotesAdd);
+  });
 });
 
 window.onload = function (event) {
@@ -9170,7 +9193,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64339" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60516" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
