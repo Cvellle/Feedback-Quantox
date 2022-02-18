@@ -4,7 +4,6 @@
   position: relative;
   width: 100%;
   display: flex;
-  overflow: hidden;
 
   @include tablet {
     overflow: visible;
@@ -103,6 +102,14 @@
     padding: 24px;
     background: #f7f8fd;
     transform: translateX(100%);
+    transition: 0.3s;
+    z-index: 10;
+
+
+    &--visible {
+      transition: 0.3s;
+      transform: translateX(0%);
+    }
 
     @include tablet {
       position: relative;

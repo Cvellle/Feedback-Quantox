@@ -1,18 +1,21 @@
 import { getSuggestions, initialValues } from "../modules/getSuggestions";
 import { router } from "../routes/router";
 
+// Set previous path on router navigate
 export const setPreviousRoute = (currentPath) => {
-    initialValues.previousRoute = currentPath ? currentPath : [...initialValues.previousRoute, location.pathname.split('/').pop()];
+    initialValues.previousRoute =  [...initialValues.previousRoute, "/" + currentPath];
 };
 
+// Go back to previous path element in array
 export const goBack = (s) => {
-    let previousRoute =  initialValues.previousRoute.length > 0 ? [...initialValues.previousRoute].pop() : "/";
-    console.log(previousRoute);
-    router.navigate(previousRoute);
+    initialValues.previousRoute.pop();
+    let pathToGoBack = "/" + initialValues.previousRoute.slice(-1).join("");
+    router.navigate(pathToGoBack);
     getSuggestions(initialValues.feedbackArray);
-    initialValues.previousRoute = initialValues.previousRoute.slice(previousRoute.length - 1);
+    initialValues.previousRoute.pop();
 };
 
+// Details navigate
 export function feedbackDetails(e) {
     router.navigate("/item/" + e.currentTarget.id);
     getSuggestions(initialValues.feedbackArray, e.currentTarget.id);
@@ -37,10 +40,10 @@ export const sortItems = (e) => {
     const selectSort = document.querySelector(".feedback__sort .current");
     const checkMarks = document.querySelectorAll(".feedback__sort .checked");
     let current =  e.currentTarget;
-    let filterBy = e.currentTarget.getAttribute("filter-by");
-    let direction = e.currentTarget.getAttribute("data-direction");
+    let filterBy = current.getAttribute("filter-by");
+    let direction = current.getAttribute("data-direction");
     
-    selectSort.innerHTML = e.currentTarget.firstElementChild.innerHTML;
+    selectSort.innerHTML = current.firstElementChild.innerHTML;
     checkMarks.forEach(el => el.style.display = "none");
     current.lastElementChild.style.display = "block";
 

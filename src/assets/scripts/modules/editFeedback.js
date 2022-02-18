@@ -1,13 +1,12 @@
-import { getSuggestions, initialValues } from "./getSuggestions";
+// import { getSuggestions, initialValues } from "./getSuggestions";
 
-const feedbackItem = document.querySelectorAll(".feedback-item");
+// const feedbackItem = document.querySelectorAll(".feedback-item");
 
-function editFeedback() {
-  const sidebarStatusDisplay = document.querySelector(
-    ".sidebar__status-display"
-  );
-//   getSuggestions(initialValues.feedbackArray, );
-}
+// function editFeedback() {
+//   const sidebarStatusDisplay = document.querySelector(
+//     ".sidebar__status-display"
+//   );
+// }
 
-// module invoked on load
-window.addEventListener("load", editFeedback);
+// // module invoked on load
+// window.addEventListener("load", editFeedback);

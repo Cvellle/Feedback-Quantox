@@ -8121,50 +8121,16 @@ define(String.prototype, "padRight", "".padEnd);
   [][key] && define(Array, key, Function.call.bind([][key]));
 });
 },{"core-js/shim":"node_modules/core-js/shim.js","regenerator-runtime/runtime":"node_modules/babel-polyfill/node_modules/regenerator-runtime/runtime.js","core-js/fn/regexp/escape":"node_modules/core-js/fn/regexp/escape.js"}],"src/assets/scripts/modules/buttonToggle.js":[function(require,module,exports) {
-// function mobileNavToggle() {
-//   const menuIcon = document.querySelector(".header__hamburgerBtn");
-//   const navigation = document.querySelector(".header__navButtons");
-//   const navBtn1 = document.querySelector(".header__dropDownDiv");
-//   const dropdown = document.querySelector(".header__dropdown");
-//   const dropdownToggle = document.querySelector(".transparent");
-//   const closeBtn = document.querySelector(".header__close");
-//   const mobArrow = document.querySelector(".header__mobArrow");
-//   const navButtons = document.querySelectorAll(".header__navBtn--toggle");
-//   const screenWidthLimit = window.matchMedia("screen and (min-width: 1025px)");
-//   if (!screenWidthLimit.matches) {
-//     const toggleNav = (e) => {
-//       navigation.classList.toggle("header__navButtons--mobileVisible");
-//       menuIcon.classList.toggle("header__hamburgerBtn--mobileVisible");
-//       closeBtn.classList.toggle("header__close--visible");
-//     };
-//     const toggleDropdown = (e) => {
-//       dropdown.classList.toggle("header__dropdown--visible");
-//       mobArrow.classList.toggle("header__mobArrow--rotated");
-//       navBtn1.firstElementChild.classList.toggle("header__navBtn--activeBtn");
-//     };
-//     [...navButtons]
-//       .slice(1)
-//       .forEach((el) => el.addEventListener("click", toggleNav));
-//     menuIcon.addEventListener("click", toggleNav);
-//     navBtn1.addEventListener("click", toggleDropdown);
-//   } else {
-//     const showDropdown = () => {
-//       dropdown.classList.add("header__dropdown--visible");
-//     };
-//     const hideDropdown = (e) => {
-//       if (dropdown.classList.contains("header__dropdown--visible")) {
-//         dropdown.classList.remove("header__dropdown--visible");
-//       }
-//     };
-//     navBtn1.addEventListener("mouseenter", showDropdown);
-//     navBtn1.addEventListener("mouseleave", hideDropdown);
-//     dropdown.addEventListener("mouseenter", showDropdown);
-//     dropdown.addEventListener("mouseleave", hideDropdown);
-//     dropdownToggle.addEventListener("mouseenter", showDropdown);
-//     dropdownToggle.addEventListener("mouseleave", hideDropdown);
-//   }
-// }
-// window.addEventListener("load", mobileNavToggle);
+function mobileNavToggle() {
+  var menuIcon = document.querySelector(".toggleButton");
+  var navigation = document.querySelector(".sidebar__menu");
+
+  var toggleNav = function toggleNav() {// navigation.classList.toggle(".sidebar__menu--visible");
+  }; //   menuIcon.addEventListener("click", () => alert('s'));
+
+}
+
+window.addEventListener("load", mobileNavToggle);
 },{}],"src/data/data.json":[function(require,module,exports) {
 module.exports = {
   "currentUser": {
@@ -8468,21 +8434,26 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
+// Set previous path on router navigate
 var setPreviousRoute = function setPreviousRoute(currentPath) {
-  _getSuggestions.initialValues.previousRoute = currentPath ? currentPath : [].concat(_toConsumableArray(_getSuggestions.initialValues.previousRoute), [location.pathname.split('/').pop()]);
-};
+  _getSuggestions.initialValues.previousRoute = [].concat(_toConsumableArray(_getSuggestions.initialValues.previousRoute), ["/" + currentPath]);
+}; // Go back to previous path element in array
+
 
 exports.setPreviousRoute = setPreviousRoute;
 
 var goBack = function goBack(s) {
-  var previousRoute = _getSuggestions.initialValues.previousRoute.length > 0 ? _toConsumableArray(_getSuggestions.initialValues.previousRoute).pop() : "/";
-  console.log(previousRoute);
+  _getSuggestions.initialValues.previousRoute.pop();
 
-  _router.router.navigate(previousRoute);
+  var pathToGoBack = "/" + _getSuggestions.initialValues.previousRoute.slice(-1).join("");
+
+  _router.router.navigate(pathToGoBack);
 
   (0, _getSuggestions.getSuggestions)(_getSuggestions.initialValues.feedbackArray);
-  _getSuggestions.initialValues.previousRoute = _getSuggestions.initialValues.previousRoute.slice(previousRoute.length - 1);
-};
+
+  _getSuggestions.initialValues.previousRoute.pop();
+}; // Details navigate
+
 
 exports.goBack = goBack;
 
@@ -8512,9 +8483,9 @@ var sortItems = function sortItems(e) {
   var selectSort = document.querySelector(".feedback__sort .current");
   var checkMarks = document.querySelectorAll(".feedback__sort .checked");
   var current = e.currentTarget;
-  var filterBy = e.currentTarget.getAttribute("filter-by");
-  var direction = e.currentTarget.getAttribute("data-direction");
-  selectSort.innerHTML = e.currentTarget.firstElementChild.innerHTML;
+  var filterBy = current.getAttribute("filter-by");
+  var direction = current.getAttribute("data-direction");
+  selectSort.innerHTML = current.firstElementChild.innerHTML;
   checkMarks.forEach(function (el) {
     return el.style.display = "none";
   });
@@ -8548,7 +8519,6 @@ var _sharedFunctions = require("../shared/shared-functions");
 
 var _router = require("./router");
 
-// import an from "../../images/user-images/image-anne.jpg";
 _router.router.on("/item/:id", function (match) {
   document.body.style = "background: #f2f2f2";
   var currentId = match.data.id;
@@ -8557,13 +8527,36 @@ _router.router.on("/item/:id", function (match) {
     return el.id == currentId;
   })[0];
 
-  var items = current.comments.map(function (el) {
-    return "\n      <div class=\"item\">\n        <div class=\"info\">\n          <div class=\"profile-image\">\n            <div style=\"background-image: url(/src/assets/images/user-images/".concat(el.user.image.split("/").pop(), ")\">\n            </div>\n          </div>\n          <div class=\"name\">\n            <bold>").concat(el.user.name, "</bold>\n            <div>@").concat(el.user.username, "</div>\n          </div>\n          <span class=\"reply-activate\">reply</span>\n        </div>\n        <div class=\"text\">").concat(el.content, "</div>\n        <div class=\"reply\">\n          <textarea placeholder=\"Type your reply here\"></textarea>\n          <button>Post Reply</button>\n        </div>\n      </div>");
-  });
-  var detailsTemplate = "\n    <section class=\"details\">\n      <div class=\"details__controls\">\n        <div class=\"back\">\n          <span class=\"arrow\"></span>\n          <span class=\"text\">Go back</span>\n        </div>\n        <span class=\"edit-feedback\">+ Edit Feedback</span>\n      </div>\n      <div class=\"details__current\">\n        <div class=\"feedback feedback--details\">\n          <div class=\"feedback-items-wrapper\">\n            <div class=\"feedback-item\" id=\"".concat(current.id, "\">\n              <div class=\"feedback-item__left\">\n                <span class=\"arrow\"></span>\n                <div class=\"count\">").concat(current.upvotes, "</div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(current.title, "</h4>\n                <p>\n                  ").concat(current.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(current.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count\">\n                  ").concat(current.comments ? current.comments.length : 0, "\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"comments\">\n        <bold>\n          <span>").concat(current.comments ? current.comments.length : 0, "</span>\n          Comments\n        </bold>\n          <div class=\"items-wrapper\">\n            ").concat(items.join(""), "\n          </div>\n          <div class=\"add\">\n            <bold></bold>\n            <textarea name=\"\" id=\"\" cols=\"30\" rows=\"10\" placeholder=\"Type your comment here\"></textarea>\n            <div class=\"post\">\n              <span>asd lef</span>\n              <button>Post Comment</button>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section>");
-  document.body.innerHTML = detailsTemplate; // set current route as back destination, and imported back function
+  var getItems = function getItems() {
+    var items = current.comments && current.comments.map(function (el) {
+      return "\n        <div class=\"item\">\n          <div class=\"info\">\n            <div class=\"profile-image\">\n              <div style=\"background-image: url(/src/assets/images/user-images/".concat(el.user.image.split("/").pop(), ")\">\n              </div>\n            </div>\n            <div class=\"name\">\n              <bold>").concat(el.user.name, "</bold>\n              <div>@").concat(el.user.username, "</div>\n            </div>\n            <span class=\"reply-activate\">reply</span>\n          </div>\n          <div class=\"text\">").concat(el.content, "</div>\n          <div class=\"reply\">\n            <textarea placeholder=\"Type your reply here\"></textarea>\n            <button>Post Reply</button>\n          </div>\n        </div>");
+    });
+    return items.join("");
+  };
 
-  (0, _sharedFunctions.setPreviousRoute)();
+  var detailsTemplate = "\n    <section class=\"details\">\n      <div class=\"details__controls\">\n        <div class=\"back\">\n          <span class=\"arrow\"></span>\n          <span class=\"text\">Go back</span>\n        </div>\n        <span class=\"edit-feedback\">+ Edit Feedback</span>\n      </div>\n      <div class=\"details__current\">\n        <div class=\"feedback feedback--details\">\n          <div class=\"feedback-items-wrapper\">\n            <div class=\"feedback-item\" id=\"".concat(current.id, "\">\n              <div class=\"feedback-item__left\">\n                <span class=\"arrow\"></span>\n                <div class=\"count\">").concat(current.upvotes, "</div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(current.title, "</h4>\n                <p>\n                  ").concat(current.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(current.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count\">\n                  ").concat(current.comments ? current.comments.length : 0, "\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"comments\">\n        <bold>\n          <span>").concat(current.comments ? current.comments.length : 0, "</span>\n          Comments\n        </bold>\n          <div class=\"items-wrapper\">\n            ").concat(getItems(), "\n          </div>\n          <div class=\"add\">\n            <bold></bold>\n            <textarea name=\"\" id=\"\" cols=\"30\" rows=\"10\" placeholder=\"Type your comment here\"></textarea>\n            <div class=\"post\">\n              <span>asd lef</span>\n              <button class=\"post-comment\">Post Comment</button>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section>");
+  document.body.innerHTML = detailsTemplate; // Functions
+
+  var addComment = document.querySelector(".post-comment");
+
+  var addCommentFunction = function addCommentFunction() {
+    var newComment = {
+      content: "Awesome idea! Trying to find framework-specific projects within the hubs can be tedious",
+      id: 1,
+      user: {
+        image: "./assets/user-images/image-suzanne.jpg",
+        name: "Suzanne Chang",
+        username: "upbeat1811"
+      }
+    };
+    current.comments.push(newComment);
+    getItems();
+    var items = document.querySelector('.items-wrapper');
+    items.innerHTML = getItems();
+  }; // set current route as back destination, and imported back function
+
+
+  (0, _sharedFunctions.setPreviousRoute)(match.url);
   var back = document.querySelector(".details__controls .back");
   var goToEdit = document.querySelector(".details__controls .edit-feedback");
 
@@ -8572,6 +8565,7 @@ _router.router.on("/item/:id", function (match) {
   };
 
   back.addEventListener("click", _sharedFunctions.goBack);
+  addComment.addEventListener("click", addCommentFunction);
 });
 },{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/modules/getSuggestions.js":[function(require,module,exports) {
 "use strict";
@@ -8598,7 +8592,7 @@ var initialValues = {
   getFilteredSuggestions: [],
   currentUser: null,
   selectedItem: null,
-  previousRoute: ["/"]
+  previousRoute: []
 }; // get list results globally
 
 exports.initialValues = initialValues;
@@ -8673,19 +8667,16 @@ function _fetchSuggestions() {
 window.addEventListener("load", fetchSuggestions);
 window.addEventListener("popstate", fetchSuggestions);
 },{"/src/data/data":"src/data/data.json","/src/assets/scripts/routes/details":"src/assets/scripts/routes/details.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js"}],"src/assets/scripts/modules/editFeedback.js":[function(require,module,exports) {
-"use strict";
-
-var _getSuggestions = require("./getSuggestions");
-
-var feedbackItem = document.querySelectorAll(".feedback-item");
-
-function editFeedback() {
-  var sidebarStatusDisplay = document.querySelector(".sidebar__status-display"); //   getSuggestions(initialValues.feedbackArray, );
-} // module invoked on load
-
-
-window.addEventListener("load", editFeedback);
-},{"./getSuggestions":"src/assets/scripts/modules/getSuggestions.js"}],"src/assets/scripts/modules/roadmap.js":[function(require,module,exports) {
+// import { getSuggestions, initialValues } from "./getSuggestions";
+// const feedbackItem = document.querySelectorAll(".feedback-item");
+// function editFeedback() {
+//   const sidebarStatusDisplay = document.querySelector(
+//     ".sidebar__status-display"
+//   );
+// }
+// // module invoked on load
+// window.addEventListener("load", editFeedback);
+},{}],"src/assets/scripts/modules/roadmap.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8739,8 +8730,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.editFeedbackTemplate = void 0;
-var editFeedbackTemplate = "\n<section class=\"edit\">\n    <div class=\"edit__controls\">\n        <div class=\"back\">\n        <span class=\"arrow\"></span>\n        <span class=\"text\">Go back</span>\n    </div>\n</div>\n    <div class=\"edit__wrapper\">\n    <div>\n        <h3>Feedback Title</h3>\n        <div>Add a short, descriptive headline</div>\n        <input class=\"select select--1\"></input>\n    </div>\n    <div>\n        <h3>Category</h3>\n        <div>Choose a category for your feedback</div>\n        <select class=\"custom-select select select--2\">\n            <option>All</option>\n            <option>UX</option>\n            <option>UI</option>\n            <option>Enhancement</option>\n            <option>Feature</option>\n            <option>Bug</option>\n        </select>\n    </div>\n    <div>\n        <h3>Update Status</h3>\n        <div>Change feedback state</div>\n        <select class=\"custom-select select select--3\">\n            <option>Suggestion</option>\n            <option>Planned</option>\n            <option>In-Progress</option>\n            <option>Live</option>\n        </select>\n    </div>\n    <div>\n        <h3>Feedback detail</h3>\n        <div>\n        Include any specific comments on what should be improved, added,\n        etc.\n        </div>\n        <textarea name=\"\" id=\"\" cols=\"30\" rows=\"10\"></textarea>\n    </div>\n    <div class=\"btns\">\n        <button class=\"delete\">Delete</button>\n        <button class=\"cancel\">Cancel</button>\n        <button class=\"save\">Add feedback</button>\n    </div>\n    </div>\n</section>";
+var editFeedbackTemplate = "\n<section class=\"edit\">\n    <div class=\"edit__controls\">\n        <div class=\"back\">\n        <span class=\"arrow\"></span>\n        <span class=\"text\">Go back</span>\n    </div>\n</div>\n    <div class=\"edit__wrapper\">\n    <div class=\"title\">\n        <h3>Feedback Title</h3>\n        <div>Add a short, descriptive headline</div>\n        <input class=\"name\"></input>\n    </div>\n    <div class=\"category\">\n        <h3>Category</h3>\n        <div>Choose a category for your feedback</div>\n        <select class=\"custom-select select select--1\">\n            <option value=\"UX\">UX</option>\n            <option value=\"UI\">UI</option>\n            <option value=\"Enhancement\">Enhancement</option>\n            <option value=\"Feature\">Feature</option>\n            <option value=\"Bug\">Bug</option>\n        </select>\n    </div>\n    <div class=\"status\">\n        <h3>Update Status</h3>\n        <div>Change feedback state</div>\n        <select class=\"custom-select select select--2\">\n            <option value=\"Suggestion\">Suggestion</option>\n            <option value=\"Planned\">Planned</option>\n            <option value=\"In-Progress\">In-Progress</option>\n            <option value=\"Live\">Live</option>\n        </select>\n    </div>\n    <div class=\"details\">\n        <h3>Feedback detail</h3>\n        <div>\n        Include any specific comments on what should be improved, added,\n        etc.\n        </div>\n        <textarea name=\"\" id=\"\" cols=\"30\" rows=\"10\"></textarea>\n    </div>\n    <div class=\"btns\">\n        <button class=\"delete\">Delete</button>\n        <button class=\"cancel\">Cancel</button>\n        <button class=\"submit\">Add feedback</button>\n    </div>\n    </div>\n</section>";
 exports.editFeedbackTemplate = editFeedbackTemplate;
+var firstOption = "<option value=\"\" selected disabled hidden>Choose</option>";
 },{}],"src/assets/scripts/shared/helpers.js":[function(require,module,exports) {
 var x, i, j, l, ll, selElmnt, a, b, c;
 /* Look for any elements with the class "custom-select": */
@@ -8855,26 +8847,66 @@ var _getSuggestions = require("../modules/getSuggestions");
 
 _router.router.on("/item/edit/:id", function (match) {
   document.body.innerHTML = _editFeedback.editFeedbackTemplate;
+  var nameInput = document.querySelector(".edit .title input");
+  var statusSelect = document.querySelector(".edit .select--2");
+  var categorySelect = document.querySelector(".edit .select--1");
+  var details = document.querySelector(".edit .details textarea");
+  var submitBtn = document.querySelector(".edit .submit");
+  submitBtn.classList.add("save");
+  var saveBtn = document.querySelector(".edit .save");
+  var deleteBtn = document.querySelector(".edit .delete"); // Current id
+
   var currentId = match.data.id;
+  var currentObject = _getSuggestions.initialValues.feedbackArray[currentId - 1];
 
-  var current = _getSuggestions.initialValues.feedbackArray.filter(function (el) {
-    return el.id == currentId;
-  })[0]; // set current route as back destination, and imported back function
+  var saveFunction = function saveFunction() {
+    var submitBody = {
+      id: currentId,
+      description: details.value,
+      comments: currentObject.comments,
+      upvotes: currentObject.upvotes,
+      title: nameInput.value,
+      status: statusSelect.value.toLowerCase(),
+      category: categorySelect.value.toLowerCase()
+    };
+    currentObject.title = submitBody.title;
+    currentObject.category = submitBody.category;
+    currentObject.status = submitBody.status;
+    currentObject.description = submitBody.description;
+    (0, _sharedFunctions.goBack)();
+  };
 
+  var deleteFunction = function deleteFunction() {
+    _getSuggestions.initialValues.feedbackArray = _getSuggestions.initialValues.feedbackArray.filter(function (el) {
+      return el.id != currentId;
+    });
 
-  var previousRoute = "item" + "/" + match.data["id"];
-  (0, _sharedFunctions.setPreviousRoute)(previousRoute);
+    _router.router.navigate('/');
+
+    _getSuggestions.initialValues.previousRoute = [];
+  };
+
+  saveBtn.addEventListener("click", saveFunction);
+  deleteBtn.addEventListener("click", deleteFunction);
+  saveBtn.innerHTML = 'Save';
+  nameInput.value = currentObject.title;
+  details.value = currentObject.description;
+  statusSelect.value = currentObject.status;
+  categorySelect.value = currentObject.category;
+  (0, _sharedFunctions.setPreviousRoute)(match.url);
   var back = document.querySelector(".edit .back");
   var cancel = document.querySelector(".edit .cancel");
   back.addEventListener("click", function () {
-    return _router.router.navigate(previousRoute);
+    return (0, _sharedFunctions.goBack)();
   });
   cancel.addEventListener("click", function () {
-    return _router.router.navigate(previousRoute);
+    return (0, _sharedFunctions.goBack)();
   });
 });
 },{"../templates/edit-feedback.template":"src/assets/scripts/templates/edit-feedback.template.js","./router":"src/assets/scripts/routes/router.js","../shared/helpers":"src/assets/scripts/shared/helpers.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js"}],"src/assets/scripts/routes/new-feedback.js":[function(require,module,exports) {
 "use strict";
+
+var _getSuggestions = require("../modules/getSuggestions");
 
 var _sharedFunctions = require("../shared/shared-functions");
 
@@ -8882,16 +8914,52 @@ var _editFeedback = require("../templates/edit-feedback.template");
 
 var _router = require("./router");
 
-_router.router.on("/new-feedback", function () {
-  document.body.innerHTML = _editFeedback.editFeedbackTemplate; // set current route as back destination, and imported back function
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
-  (0, _sharedFunctions.setPreviousRoute)();
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+_router.router.on("/new-feedback", function (match) {
+  document.body.innerHTML = _editFeedback.editFeedbackTemplate;
+  var nameInput = document.querySelector(".edit .title input");
+  var statusSelect = document.querySelector(".edit .status select");
+  var categorySelect = document.querySelector(".edit .category select option");
+  var details = document.querySelector(".edit .details textarea");
+  var addNewBtn = document.querySelector(".edit .submit");
+  addNewBtn.classList.add("add");
+  var addBtn = document.querySelector(".edit .add");
+
+  var addNewFunction = function addNewFunction() {
+    var submitBody = {
+      id: _getSuggestions.initialValues.feedbackArray.length + 1,
+      description: details.value,
+      comments: [],
+      upvotes: 0,
+      title: nameInput.value,
+      category: categorySelect.value,
+      status: null
+    };
+    _getSuggestions.initialValues.feedbackArray = [].concat(_toConsumableArray(_getSuggestions.initialValues.feedbackArray), [submitBody]);
+    (0, _sharedFunctions.goBack)();
+  };
+
+  addBtn.addEventListener("click", addNewFunction);
+  document.querySelector(".edit .status").style.display = "none"; // set current route as back destination, and imported back function
+
+  (0, _sharedFunctions.setPreviousRoute)(match.url);
   var back = document.querySelector(".edit .back");
   var cancel = document.querySelector(".edit .cancel");
   back.addEventListener("click", _sharedFunctions.goBack);
   cancel.addEventListener("click", _sharedFunctions.goBack);
 });
-},{"../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","../templates/edit-feedback.template":"src/assets/scripts/templates/edit-feedback.template.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/templates/roadmap.template.js":[function(require,module,exports) {
+},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","../templates/edit-feedback.template":"src/assets/scripts/templates/edit-feedback.template.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/templates/roadmap.template.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8911,13 +8979,13 @@ var _roadmap2 = require("../templates/roadmap.template");
 
 var _router = require("./router");
 
-_router.router.on("/roadmap", function () {
-  document.body.innerHTML = _roadmap2.roadmapTemplate; // set current route as back destination, and imported back function
+_router.router.on("/roadmap", function (match) {
+  document.body.innerHTML = _roadmap2.roadmapTemplate;
+  (0, _roadmap.roadmapLists)(); // set current route as back destination, and imported back function
 
-  (0, _sharedFunctions.setPreviousRoute)();
+  (0, _sharedFunctions.setPreviousRoute)(match.url);
   var back = document.querySelector(".roadmap .back");
   back.addEventListener("click", _sharedFunctions.goBack);
-  (0, _roadmap.roadmapLists)();
 });
 },{"../modules/roadmap":"src/assets/scripts/modules/roadmap.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","../templates/roadmap.template":"src/assets/scripts/templates/roadmap.template.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/templates/rootTemplate.js":[function(require,module,exports) {
 "use strict";
@@ -8926,7 +8994,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.rootTemplate = void 0;
-var rootTemplate = "\n<section class=\"sidebar\">\n<div class=\"sidebar__titles\">\n  <div>\n    <h1>Frontend Mentor</h1>\n    <h3>Feedback Board</h3>\n  </div>\n  <div class=\"toggleButton\">\n    <div></div>\n    <div></div>\n    <div></div>\n  </div>\n</div>\n<div class=\"sidebar__menu\">\n  <div class=\"sidebar__categories\">\n    <button class=\"category\">All</button>\n    <button>UI</button>\n    <button>UX</button>\n    <button class=\"category enhancement\">Enhancement</button>\n    <button class=\"category bug\">Bug</button>\n    <button class=\"category feature\">Feature</button>\n  </div>\n  <div class=\"sidebar__status-wrapper\">\n    <span>Roadmap</span>\n    <a href=\"/roadmap\" data-navigo>View</a>\n    <div class=\"sidebar__status-display\">\n      <div class=\"sidebar__status sidebar__status--planned\">\n        <span class=\"circle\"></span>Planned <span class=\"count\"></span>\n      </div>\n      <div class=\"sidebar__status sidebar__status--in-progress\">\n        <span class=\"circle\"></span>In-Progress\n        <span class=\"count\"></span>\n      </div>\n      <div class=\"sidebar__status sidebar__status--live\">\n        <span class=\"circle\"></span>Live <span class=\"count\"></span>\n      </div>\n    </div>\n  </div>\n</div>\n</section>\n<section class=\"feedback feedback--root\">\n<div class=\"feedback__controls\">\n  <div class=\"feedback__counter\">\n    <span class=\"bulb\"></span>\n    <span class=\"count\" filterStatus</span>\n      <h3>Suggestions</h3>\n  </div>\n  <div class=\"feedback__sort\">\n    <div class=\"text\">\n      <span class=\"sort-by\">Sort by:</span>\n      <span class=\"current\"></span>\n      <span class=\"arrow\"></span>\n    </div>\n    <div class=\"dropdown\">\n      <div class=\"dropdown-item\" filter-by=\"upvotes\" data-direction=\"reverse\">\n        <span class=\"filter-by\">Most Upvotes</span>\n        <span class=\"checked\"></span>\n      </div>\n      <div class=\"dropdown-item\" filter-by=\"upvotes\" data-direction=\"normal\">\n        <span class=\"filter-by\">Least Upvotes</span>\n        <span class=\"checked\"></span>\n      </div>\n      <div class=\"dropdown-item\" filter-by=\"comments\" data-direction=\"reverse\">\n        <span class=\"filter-by\">Most Comments</span>\n        <span class=\"checked\"></span>\n      </div>\n      <div class=\"dropdown-item\" filter-by=\"comments\" data-direction=\"normal\">\n        <span class=\"filter-by\">Least Comments</span>\n        <span class=\"checked\"></span>\n      </div>\n    </div>\n  </div>\n  <a class=\"add\" href=\"/new-feedback\" data-navigo>+ Add Feedback</a>\n</div>\n<div class=\"feedback-items-wrapper\">\n  <div class=\"feedback-empty\">\n    <figure>\n      <picture>\n        <source />\n        <img src=\"\" alt=\"no-results\" />\n      </picture>\n    </figure>\n    <div>>There is no feedback yet.</div>\n    <p>\n      Got a suggestion? Found a bug that needs to be squashed? We love\n      hearing about new ideas to improve our app.\n    </p>\n    <butotn>Add Feedback</butotn>\n  </div>\n</div>\n</section>\n";
+var rootTemplate = "\n<section class=\"sidebar\">\n<div class=\"sidebar__titles\">\n  <div>\n    <h1>Frontend Mentor</h1>\n    <h3>Feedback Board</h3>\n  </div>\n  <button class=\"toggleButton\">\n    <div></div>\n    <div></div>\n    <div></div>\n  </button>\n</div>\n<div class=\"sidebar__menu\">\n  <div class=\"sidebar__categories\">\n    <button class=\"category\">All</button>\n    <button>UI</button>\n    <button>UX</button>\n    <button class=\"category enhancement\">Enhancement</button>\n    <button class=\"category bug\">Bug</button>\n    <button class=\"category feature\">Feature</button>\n  </div>\n  <div class=\"sidebar__status-wrapper\">\n    <span>Roadmap</span>\n    <a href=\"/roadmap\" data-navigo>View</a>\n    <div class=\"sidebar__status-display\">\n      <div class=\"sidebar__status sidebar__status--planned\">\n        <span class=\"circle\"></span>Planned <span class=\"count\"></span>\n      </div>\n      <div class=\"sidebar__status sidebar__status--in-progress\">\n        <span class=\"circle\"></span>In-Progress\n        <span class=\"count\"></span>\n      </div>\n      <div class=\"sidebar__status sidebar__status--live\">\n        <span class=\"circle\"></span>Live <span class=\"count\"></span>\n      </div>\n    </div>\n  </div>\n</div>\n</section>\n<section class=\"feedback feedback--root\">\n<div class=\"feedback__controls\">\n  <div class=\"feedback__counter\">\n    <span class=\"bulb\"></span>\n    <span class=\"count\" filterStatus</span>\n      <h3>Suggestions</h3>\n  </div>\n  <div class=\"feedback__sort\">\n    <div class=\"text\">\n      <span class=\"sort-by\">Sort by:</span>\n      <span class=\"current\"></span>\n      <span class=\"arrow\"></span>\n    </div>\n    <div class=\"dropdown\">\n      <div class=\"dropdown-item\" filter-by=\"upvotes\" data-direction=\"reverse\">\n        <span class=\"filter-by\">Most Upvotes</span>\n        <span class=\"checked\"></span>\n      </div>\n      <div class=\"dropdown-item\" filter-by=\"upvotes\" data-direction=\"normal\">\n        <span class=\"filter-by\">Least Upvotes</span>\n        <span class=\"checked\"></span>\n      </div>\n      <div class=\"dropdown-item\" filter-by=\"comments\" data-direction=\"reverse\">\n        <span class=\"filter-by\">Most Comments</span>\n        <span class=\"checked\"></span>\n      </div>\n      <div class=\"dropdown-item\" filter-by=\"comments\" data-direction=\"normal\">\n        <span class=\"filter-by\">Least Comments</span>\n        <span class=\"checked\"></span>\n      </div>\n    </div>\n  </div>\n  <a class=\"add\" href=\"/new-feedback\" data-navigo>+ Add Feedback</a>\n</div>\n<div class=\"feedback-items-wrapper\">\n  <div class=\"feedback-empty\">\n    <figure>\n      <picture>\n        <source />\n        <img src=\"\" alt=\"no-results\" />\n      </picture>\n    </figure>\n    <div>>There is no feedback yet.</div>\n    <p>\n      Got a suggestion? Found a bug that needs to be squashed? We love\n      hearing about new ideas to improve our app.\n    </p>\n    <butotn>Add Feedback</butotn>\n  </div>\n</div>\n</section>\n";
 exports.rootTemplate = rootTemplate;
 },{}],"src/assets/scripts/routes/root.js":[function(require,module,exports) {
 "use strict";
@@ -8943,24 +9011,35 @@ document.body.innerHTML = _rootTemplate.rootTemplate;
 
 _router.router.on("/", function () {
   document.body.innerHTML = _rootTemplate.rootTemplate;
+  (0, _getSuggestions.getSuggestions)(_getSuggestions.initialValues.feedbackArray);
   (0, _sharedFunctions.filterStatus)(); // sort
 
-  var sortToggleTarget = document.querySelector(".feedback__sort .text");
+  var sortToggleTarget = document.querySelector(".feedback__sort");
   var dropdown = document.querySelector(".feedback__sort .dropdown");
-  var sortButtons = document.querySelectorAll(".dropdown-item");
+  var sortButtons = document.querySelectorAll(".dropdown-item"); //mobile menu toggle
+
+  var menuIcon = document.querySelector(".toggleButton");
+  var navigation = document.querySelector(".sidebar__menu");
   sortButtons && sortButtons.forEach(function (element) {
     element.addEventListener("click", _sharedFunctions.sortItems);
   });
-  sortToggleTarget && sortToggleTarget.addEventListener("click", function (e) {
-    dropdown.classList.toggle("dropdown--visible");
+  sortToggleTarget && sortToggleTarget.addEventListener("mouseover", function (e) {
+    dropdown.classList.add("dropdown--visible");
   });
+  sortToggleTarget && sortToggleTarget.addEventListener("mouseleave", function (e) {
+    dropdown.classList.remove("dropdown--visible");
+  });
+
+  var toggleNav = function toggleNav() {
+    navigation.classList.toggle("sidebar__menu--visible");
+  };
+
+  menuIcon.addEventListener("click", toggleNav);
 });
 
 window.onload = function (event) {
   if (event) {
     _router.router.navigate("/");
-
-    (0, _getSuggestions.getSuggestions)(_getSuggestions.initialValues.feedbackArray);
   }
 };
 },{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","../templates/rootTemplate":"src/assets/scripts/templates/rootTemplate.js","./router":"src/assets/scripts/routes/router.js"}],"node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
@@ -9091,7 +9170,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50154" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64339" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

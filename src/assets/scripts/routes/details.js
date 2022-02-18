@@ -1,7 +1,6 @@
-import { getSuggestions, initialValues } from "../modules/getSuggestions";
+import { initialValues } from "../modules/getSuggestions";
 import { goBack, setPreviousRoute } from "../shared/shared-functions";
 import { router } from "./router";
-// import an from "../../images/user-images/image-anne.jpg";
 
 router.on("/item/:id", function (match) {
   document.body.style = "background: #f2f2f2";
@@ -10,29 +9,33 @@ router.on("/item/:id", function (match) {
     (el) => el.id == currentId
   )[0];
 
-  let items = current.comments.map((el) => {
-    return `
-      <div class="item">
-        <div class="info">
-          <div class="profile-image">
-            <div style="background-image: url(/src/assets/images/user-images/${el.user.image
-              .split("/")
-              .pop()})">
+  const getItems = () => {
+    let items = current.comments && current.comments.map((el) => {
+      return `
+        <div class="item">
+          <div class="info">
+            <div class="profile-image">
+              <div style="background-image: url(/src/assets/images/user-images/${el.user.image
+                .split("/")
+                .pop()})">
+              </div>
             </div>
+            <div class="name">
+              <bold>${el.user.name}</bold>
+              <div>@${el.user.username}</div>
+            </div>
+            <span class="reply-activate">reply</span>
           </div>
-          <div class="name">
-            <bold>${el.user.name}</bold>
-            <div>@${el.user.username}</div>
+          <div class="text">${el.content}</div>
+          <div class="reply">
+            <textarea placeholder="Type your reply here"></textarea>
+            <button>Post Reply</button>
           </div>
-          <span class="reply-activate">reply</span>
-        </div>
-        <div class="text">${el.content}</div>
-        <div class="reply">
-          <textarea placeholder="Type your reply here"></textarea>
-          <button>Post Reply</button>
-        </div>
-      </div>`;
-  });
+        </div>`;
+    })
+ 
+    return items.join("");
+  }
 
   const detailsTemplate = `
     <section class="details">
@@ -75,14 +78,14 @@ router.on("/item/:id", function (match) {
           Comments
         </bold>
           <div class="items-wrapper">
-            ${items.join("")}
+            ${getItems()}
           </div>
           <div class="add">
             <bold></bold>
             <textarea name="" id="" cols="30" rows="10" placeholder="Type your comment here"></textarea>
             <div class="post">
               <span>asd lef</span>
-              <button>Post Comment</button>
+              <button class="post-comment">Post Comment</button>
             </div>
           </div>
         </div>
@@ -91,12 +94,36 @@ router.on("/item/:id", function (match) {
 
   document.body.innerHTML = detailsTemplate;
 
+  // Functions
+  const addComment = document.querySelector(
+    ".post-comment"
+  );
+
+  const addCommentFunction = () => {
+    let newComment = {
+      content: "Awesome idea! Trying to find framework-specific projects within the hubs can be tedious",
+      id: 1,
+      user: {
+        image: "./assets/user-images/image-suzanne.jpg",
+        name: "Suzanne Chang",
+        username: "upbeat1811"
+      }
+    };
+
+    current.comments.push(newComment);
+    getItems();
+    const items = document.querySelector('.items-wrapper');
+    items.innerHTML = getItems();
+  };
+
   // set current route as back destination, and imported back function
-  setPreviousRoute();
+  setPreviousRoute(match.url);
+
   const back = document.querySelector(".details__controls .back");
   const goToEdit = document.querySelector(".details__controls .edit-feedback");
 
   goToEdit.onclick = () => router.navigate("/item/edit/" + currentId)
 
   back.addEventListener("click", goBack);
+  addComment.addEventListener("click", addCommentFunction);
 });

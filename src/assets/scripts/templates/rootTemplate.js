@@ -5,11 +5,11 @@ export const rootTemplate = `
     <h1>Frontend Mentor</h1>
     <h3>Feedback Board</h3>
   </div>
-  <div class="toggleButton">
+  <button class="toggleButton">
     <div></div>
     <div></div>
     <div></div>
-  </div>
+  </button>
 </div>
 <div class="sidebar__menu">
   <div class="sidebar__categories">

@@ -3,12 +3,12 @@ import { goBack, setPreviousRoute } from "../shared/shared-functions";
 import { roadmapTemplate } from "../templates/roadmap.template";
 import { router } from "./router";
 
-router.on("/roadmap", function () {
-  document.body.innerHTML = roadmapTemplate;
+router.on("/roadmap", function (match) {
+    document.body.innerHTML = roadmapTemplate;
+    roadmapLists();
 
    // set current route as back destination, and imported back function
-   setPreviousRoute();
+   setPreviousRoute(match.url);
    const back = document.querySelector(".roadmap .back");
    back.addEventListener("click", goBack);
-  roadmapLists();
 });

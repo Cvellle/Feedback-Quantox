@@ -130,27 +130,35 @@
         align-self: center;
         background-image: url(/src/assets/images/suggestions/white-arrow.png);
         background-size: cover;
+        margin-left: auto;
       }
 
       & .text {
         min-height: 30px;
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
         cursor: pointer;
         min-width: 200px;
+        padding-right: 15px;
       }
 
       & .current {
-        margin-right: 5px;
+        padding-left: 5px;
       }
 
       & .dropdown {
+        padding: 66px 0 0 0;
         position: absolute;
-        top: 70px;
+        top: 26px;
         left: 0;
         width: 100%;
         height: 200px;
-        border-top: 0.5px solid rgb(207, 207, 207);
         display: none;
+
+        @include desktop {
+          padding: 66px 0 0 0;
+          top: 26px;
+        }
 
         &--visible {
           display: block;
@@ -171,6 +179,10 @@
               cursor: pointer;
             }
 
+            &:nth-child(1) {
+              border-top: 0.5px solid rgb(207, 207, 207);
+            }
+
             & .checked {
               height: 15px;
               width: 15px;
@@ -178,20 +190,27 @@
               background-repeat: no-repeat;
               background-size: contain;
               display: none;
+              margin-right: 10px;
             }
         }
       }
     }
 
     & a.add {
-      font-size: 14px;
-      line-height: 20px;
       background-color: purple;
       display: inline-block;
       padding: 10px 16px;
       color: #f2f4fe;
       border-radius: 10px;
       cursor: pointer;
+      min-width: 140px;
+      font-size: 13px;
+
+      @include desktop {
+        font-size: 14px;
+        line-height: 20px;
+        min-width: unset;
+      }
     }
   }
 

@@ -7,34 +7,33 @@ export const editFeedbackTemplate = `
     </div>
 </div>
     <div class="edit__wrapper">
-    <div>
+    <div class="title">
         <h3>Feedback Title</h3>
         <div>Add a short, descriptive headline</div>
-        <input class="select select--1"></input>
+        <input class="name"></input>
     </div>
-    <div>
+    <div class="category">
         <h3>Category</h3>
         <div>Choose a category for your feedback</div>
-        <select class="custom-select select select--2">
-            <option>All</option>
-            <option>UX</option>
-            <option>UI</option>
-            <option>Enhancement</option>
-            <option>Feature</option>
-            <option>Bug</option>
+        <select class="custom-select select select--1">
+            <option value="UX">UX</option>
+            <option value="UI">UI</option>
+            <option value="Enhancement">Enhancement</option>
+            <option value="Feature">Feature</option>
+            <option value="Bug">Bug</option>
         </select>
     </div>
-    <div>
+    <div class="status">
         <h3>Update Status</h3>
         <div>Change feedback state</div>
-        <select class="custom-select select select--3">
-            <option>Suggestion</option>
-            <option>Planned</option>
-            <option>In-Progress</option>
-            <option>Live</option>
+        <select class="custom-select select select--2">
+            <option value="Suggestion">Suggestion</option>
+            <option value="Planned">Planned</option>
+            <option value="In-Progress">In-Progress</option>
+            <option value="Live">Live</option>
         </select>
     </div>
-    <div>
+    <div class="details">
         <h3>Feedback detail</h3>
         <div>
         Include any specific comments on what should be improved, added,
@@ -45,7 +44,9 @@ export const editFeedbackTemplate = `
     <div class="btns">
         <button class="delete">Delete</button>
         <button class="cancel">Cancel</button>
-        <button class="save">Add feedback</button>
+        <button class="submit">Add feedback</button>
     </div>
     </div>
 </section>`;
+
+ const firstOption = `<option value="" selected disabled hidden>Choose</option>`;

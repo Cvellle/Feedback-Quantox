@@ -7,7 +7,7 @@ export const initialValues = {
   getFilteredSuggestions: [],
   currentUser: null,
   selectedItem: null,
-  previousRoute: ["/"],
+  previousRoute: [],
 };
 
 // get list results globally

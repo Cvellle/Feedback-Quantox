@@ -58,6 +58,10 @@
       border-radius: 5px;
       border: none;
       resize: none;
+
+      &:focus {
+        border: 1px solid #4661e6;
+      }
     }
 
     & .btns {
@@ -83,7 +87,7 @@
         margin-right: 10px;
       }
 
-      &.save {
+      &.submit {
         background-color: purple;
       }
     }
