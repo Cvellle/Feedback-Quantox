@@ -1,11 +1,13 @@
 .sidebar {
   $this: &;
 
-  position: relative;
+  position: fixed;
   width: 100%;
   display: flex;
+  z-index: 2;
 
   @include tablet {
+    position: relative;
     overflow: visible;
     height: vwt(178);
     margin: 56px 40px 40px;
@@ -146,7 +148,11 @@
       display: flex;
       flex-wrap: wrap;
       align-content: flex-start;
-      padding: 24px;
+      padding: 1vw;
+
+      @include tablet {
+        padding: 24px;
+      }
 
       & > button {
         font-size: 13px;

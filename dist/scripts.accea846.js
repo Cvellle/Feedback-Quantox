@@ -8120,17 +8120,7 @@ define(String.prototype, "padRight", "".padEnd);
 "pop,reverse,shift,keys,values,entries,indexOf,every,some,forEach,map,filter,find,findIndex,includes,join,slice,concat,push,splice,unshift,sort,lastIndexOf,reduce,reduceRight,copyWithin,fill".split(",").forEach(function (key) {
   [][key] && define(Array, key, Function.call.bind([][key]));
 });
-},{"core-js/shim":"node_modules/core-js/shim.js","regenerator-runtime/runtime":"node_modules/babel-polyfill/node_modules/regenerator-runtime/runtime.js","core-js/fn/regexp/escape":"node_modules/core-js/fn/regexp/escape.js"}],"src/assets/scripts/modules/buttonToggle.js":[function(require,module,exports) {
-// function mobileNavToggle() {
-//   const menuIcon = document.querySelector(".toggleButton");
-//   const navigation = document.querySelector(".sidebar__menu");
-//   const toggleNav = () => {
-//     navigation.classList.toggle(".sidebar__menu--visible");
-//   };
-//   menuIcon.addEventListener("click", () => alert('s'));
-// }
-// window.addEventListener("load", mobileNavToggle);
-},{}],"src/data/data.json":[function(require,module,exports) {
+},{"core-js/shim":"node_modules/core-js/shim.js","regenerator-runtime/runtime":"node_modules/babel-polyfill/node_modules/regenerator-runtime/runtime.js","core-js/fn/regexp/escape":"node_modules/core-js/fn/regexp/escape.js"}],"src/data/data.json":[function(require,module,exports) {
 module.exports = {
   "currentUser": {
     "image": "./assets/user-images/image-zena.jpg",
@@ -8441,14 +8431,14 @@ var setPreviousRoute = function setPreviousRoute(currentPath) {
 
 exports.setPreviousRoute = setPreviousRoute;
 
-var goBack = function goBack(s) {
+var goBack = function goBack(filterCurrent) {
   _getSuggestions.initialValues.previousRoute.pop();
 
   var pathToGoBack = "/" + _getSuggestions.initialValues.previousRoute.slice(-1).join("");
 
   _router.router.navigate(pathToGoBack);
 
-  (0, _getSuggestions.getSuggestions)(_getSuggestions.initialValues.feedbackArray);
+  (0, _getSuggestions.getSuggestions)(_getSuggestions.initialValues.feedbackArray, typeof filterCurrent == "string" ? filterCurrent : undefined);
 
   _getSuggestions.initialValues.previousRoute.pop();
 }; // Details navigate
@@ -8463,16 +8453,19 @@ function feedbackDetails(e) {
 } // Filter by status
 
 
-var filterStatus = function filterStatus() {
+var filterStatus = function filterStatus(returnArrayBoolean) {
   // statuses count
-  var statuses = ['planned', 'in-progress', 'live'];
+  var statuses = ["planned", "in-progress", "live"];
+  var finalScore = [];
   statuses.forEach(function (el) {
     var filtered = _getSuggestions.initialValues.feedbackArray.filter(function (f) {
-      return f['status'] == el;
+      return f["status"] == el;
     });
 
-    document.querySelector('.sidebar__status--' + el + ' .count') && (document.querySelector('.sidebar__status--' + el + ' .count').innerHTML = filtered.length);
+    !returnArrayBoolean && document.querySelector(".sidebar__status--" + el + " .count") && (document.querySelector(".sidebar__status--" + el + " .count").innerHTML = filtered.length);
+    finalScore.push(filtered);
   });
+  if (returnArrayBoolean) return finalScore;
 }; // Sort
 
 
@@ -8495,8 +8488,8 @@ var sortItems = function sortItems(e) {
     var aCheck = a[filterBy] ? a[filterBy].length : 0;
     var bCheck = b[filterBy] ? b[filterBy].length : 0; // check if the value is an obect or a number - comments length or upvotes
 
-    var aValue = _typeof(a[filterBy]) == 'object' ? aCheck : a[filterBy];
-    var bValue = _typeof(a[filterBy]) == 'object' ? bCheck : b[filterBy];
+    var aValue = _typeof(a[filterBy]) == "object" ? aCheck : a[filterBy];
+    var bValue = _typeof(a[filterBy]) == "object" ? bCheck : b[filterBy];
 
     if (direction == "normal") {
       return aValue > bValue ? 1 : -1;
@@ -8509,64 +8502,7 @@ var sortItems = function sortItems(e) {
 };
 
 exports.sortItems = sortItems;
-},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../routes/router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/routes/details.js":[function(require,module,exports) {
-"use strict";
-
-var _getSuggestions = require("../modules/getSuggestions");
-
-var _sharedFunctions = require("../shared/shared-functions");
-
-var _router = require("./router");
-
-_router.router.on("/item/:id", function (match) {
-  document.body.style = "background: #f2f2f2";
-  var currentId = match.data.id;
-
-  var current = _getSuggestions.initialValues.feedbackArray.filter(function (el) {
-    return el.id == currentId;
-  })[0];
-
-  var getItems = function getItems() {
-    var items = current.comments && current.comments.map(function (el) {
-      return "\n        <div class=\"item\">\n          <div class=\"info\">\n            <div class=\"profile-image\">\n              <div style=\"background-image: url(/src/assets/images/user-images/".concat(el.user.image.split("/").pop(), ")\">\n              </div>\n            </div>\n            <div class=\"name\">\n              <bold>").concat(el.user.name, "</bold>\n              <div>@").concat(el.user.username, "</div>\n            </div>\n            <span class=\"reply-activate\">reply</span>\n          </div>\n          <div class=\"text\">").concat(el.content, "</div>\n          <div class=\"reply\">\n            <textarea placeholder=\"Type your reply here\"></textarea>\n            <button>Post Reply</button>\n          </div>\n        </div>");
-    });
-    return items.join("");
-  };
-
-  var detailsTemplate = "\n    <section class=\"details\">\n      <div class=\"details__controls\">\n        <div class=\"back\">\n          <span class=\"arrow\"></span>\n          <span class=\"text\">Go back</span>\n        </div>\n        <span class=\"edit-feedback\">+ Edit Feedback</span>\n      </div>\n      <div class=\"details__current\">\n        <div class=\"feedback feedback--details\">\n          <div class=\"feedback-items-wrapper\">\n            <div class=\"feedback-item\" id=\"".concat(current.id, "\">\n              <div class=\"feedback-item__left\">\n                <span class=\"arrow\"></span>\n                <div class=\"count\">").concat(current.upvotes, "</div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(current.title, "</h4>\n                <p>\n                  ").concat(current.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(current.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count\">\n                  ").concat(current.comments ? current.comments.length : 0, "\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"comments\">\n        <bold>\n          <span>").concat(current.comments ? current.comments.length : 0, "</span>\n          Comments\n        </bold>\n          <div class=\"items-wrapper\">\n            ").concat(getItems(), "\n          </div>\n          <div class=\"add\">\n            <bold></bold>\n            <textarea name=\"\" id=\"\" cols=\"30\" rows=\"10\" placeholder=\"Type your comment here\"></textarea>\n            <div class=\"post\">\n              <span>asd lef</span>\n              <button class=\"post-comment\">Post Comment</button>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section>");
-  document.body.innerHTML = detailsTemplate; // Functions
-
-  var addComment = document.querySelector(".post-comment");
-
-  var addCommentFunction = function addCommentFunction() {
-    var newComment = {
-      content: "Awesome idea! Trying to find framework-specific projects within the hubs can be tedious",
-      id: 1,
-      user: {
-        image: "./assets/user-images/image-suzanne.jpg",
-        name: "Suzanne Chang",
-        username: "upbeat1811"
-      }
-    };
-    current.comments.push(newComment);
-    getItems();
-    var items = document.querySelector('.items-wrapper');
-    items.innerHTML = getItems();
-  }; // set current route as back destination, and imported back function
-
-
-  (0, _sharedFunctions.setPreviousRoute)(match.url);
-  var back = document.querySelector(".details__controls .back");
-  var goToEdit = document.querySelector(".details__controls .edit-feedback");
-
-  goToEdit.onclick = function () {
-    return _router.router.navigate("/item/edit/" + currentId);
-  };
-
-  back.addEventListener("click", _sharedFunctions.goBack);
-  addComment.addEventListener("click", addCommentFunction);
-});
-},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/modules/getSuggestions.js":[function(require,module,exports) {
+},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../routes/router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/modules/getSuggestions.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8590,7 +8526,7 @@ var initialValues = {
   feedbackArray: [],
   getFilteredSuggestions: [],
   currentUser: {
-    name: 'Nikola Cvetic'
+    name: "Nikola Cvetic"
   },
   selectedItem: null,
   previousRoute: []
@@ -8667,74 +8603,64 @@ function _fetchSuggestions() {
 
 window.addEventListener("load", fetchSuggestions);
 window.addEventListener("popstate", fetchSuggestions);
-},{"/src/data/data":"src/data/data.json","/src/assets/scripts/routes/details":"src/assets/scripts/routes/details.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js"}],"src/assets/scripts/modules/editFeedback.js":[function(require,module,exports) {
-// import { getSuggestions, initialValues } from "./getSuggestions";
-// const feedbackItem = document.querySelectorAll(".feedback-item");
-// function editFeedback() {
-//   const sidebarStatusDisplay = document.querySelector(
-//     ".sidebar__status-display"
-//   );
-// }
-// // module invoked on load
-// window.addEventListener("load", editFeedback);
-},{}],"src/assets/scripts/modules/roadmap.js":[function(require,module,exports) {
+},{"/src/data/data":"src/data/data.json","/src/assets/scripts/routes/details":"src/assets/scripts/routes/details.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js"}],"src/assets/scripts/routes/details.js":[function(require,module,exports) {
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.roadmapLists = roadmapLists;
+var _getSuggestions = require("../modules/getSuggestions");
 
 var _sharedFunctions = require("../shared/shared-functions");
 
-var _getSuggestions = require("./getSuggestions");
+var _router = require("./router");
 
-function roadmapLists() {
-  var roadmapFeedbackWrapper = document.querySelector(".feedback--roadmap .feedback-items-wrapper");
-  var roadmapColumnsWrapper = document.querySelector(".roadmap .roadmap__columns");
-  var columns = [{
-    name: "planned",
-    visible: true
-  }, {
-    name: "in-progress",
-    visible: false
-  }, {
-    name: "live",
-    visible: false
-  }];
-  var shown = [];
-  var all = _getSuggestions.initialValues.feedbackArray;
+_router.router.on("/item/:id", function (match) {
+  document.body.style = "background: #f2f2f2";
+  var currentId = match.data.id;
 
-  var filterInMap = function filterInMap(toFilter) {
-    return toFilter.map(function (el) {
-      return "<div class=\"feedback-item\" id=\"".concat(el.id, "\">\n              <div class=\"feedback-item__left\">\n                <span class=\"arrow\"></span>\n                <div class=\"count\">").concat(el.upvotes, "</div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(el.title, "</h4>\n                <p>\n                  ").concat(el.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(el.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count\">\n                  ").concat(el.comments ? el.comments.length : 0, "\n                </div>\n              </div>\n            </div>");
+  var current = _getSuggestions.initialValues.feedbackArray.filter(function (el) {
+    return el.id == currentId;
+  })[0];
+
+  var getItems = function getItems() {
+    var items = current.comments && current.comments.map(function (el) {
+      return "\n        <div class=\"item\">\n          <div class=\"info\">\n            <div class=\"profile-image\">\n              <div cass=\"".concat(el.user.image.split("/").pop(), "\"\n                 style=\"background-image: url(").concat(el.user.image.split("/").pop(), ")\">\n              </div>\n            </div>\n            <div class=\"name\">\n              <bold>").concat(el.user.name, "</bold>\n              <div>@").concat(el.user.username, "</div>\n            </div>\n            <span class=\"reply-activate\">reply</span>\n          </div>\n          <div class=\"text\">").concat(el.content, "</div>\n          <div class=\"reply\">\n            <textarea placeholder=\"Type your reply here\"></textarea>\n            <button>Post Reply</button>\n          </div>\n        </div>");
     });
+    return items.join("");
   };
 
-  var columnsLists = columns.map(function (el, i) {
-    shown.push(all.filter(function (f) {
-      return f.status == el.name;
-    }));
-    return "\n      <div class=\"roadmap__column roadmap__column--".concat(el.name, "\">\n        <bold>\n          ").concat(el.name, "\n          <span>(<span class=\"count\">").concat(shown[i].length, "</span>)</span>\n        </bold>\n        <div>In search</div>\n        <div>\n          <div class=\"item\">\n            <div><span></span></div>\n          </div>\n        </div>\n        <div class=\"feedback feedback--roadmap\">\n          <div class=\"feedback-items-wrapper\">\n            ").concat(filterInMap(shown[i]).join(''), "\n          </div>\n        </div>\n      </div>\n      ");
-  });
-  roadmapColumnsWrapper.innerHTML = columnsLists.join(''); // item recognition
+  var detailsTemplate = "\n    <section class=\"details\">\n      <div class=\"details__controls\">\n        <div class=\"back\">\n          <span class=\"arrow\"></span>\n          <span class=\"text\">Go back</span>\n        </div>\n        <span class=\"edit-feedback\">+ Edit Feedback</span>\n      </div>\n      <div class=\"details__current\">\n        <div class=\"feedback feedback--details\">\n          <div class=\"feedback-items-wrapper\">\n            <div class=\"feedback-item\" id=\"".concat(current.id, "\">\n              <div class=\"feedback-item__left\">\n                <span class=\"arrow\"></span>\n                <div class=\"count\">").concat(current.upvotes, "</div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(current.title, "</h4>\n                <p>\n                  ").concat(current.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(current.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count\">\n                  ").concat(current.comments ? current.comments.length : 0, "\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"comments\">\n        <bold>\n          <span>").concat(current.comments ? current.comments.length : 0, "</span>\n          Comments\n        </bold>\n          <div class=\"items-wrapper\">\n            ").concat(current.comments && getItems(), "\n          </div>\n          <div class=\"add\">\n            <bold></bold>\n            <textarea name=\"\" id=\"\" cols=\"30\" rows=\"10\" placeholder=\"Type your comment here\"></textarea>\n            <div class=\"post\">\n              <span>asd lef</span>\n              <button class=\"post-comment\">Post Comment</button>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section>");
+  document.body.innerHTML = detailsTemplate; // Functions
 
-  var feedbackItems = document.querySelectorAll(".feedback-item");
-  feedbackItems && feedbackItems.forEach(function (element) {
-    element.addEventListener("click", _sharedFunctions.feedbackDetails);
-  });
-}
-},{"../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","./getSuggestions":"src/assets/scripts/modules/getSuggestions.js"}],"src/assets/scripts/templates/edit-feedback.template.js":[function(require,module,exports) {
-"use strict";
+  var addComment = document.querySelector(".post-comment");
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
+  var addCommentFunction = function addCommentFunction() {
+    var newComment = {
+      content: "Awesome idea! Trying to find framework-specific projects within the hubs can be tedious",
+      id: 1,
+      user: {
+        image: "./assets/user-images/image-suzanne.jpg",
+        name: "Suzanne Chang",
+        username: "upbeat1811"
+      }
+    };
+    current.comments.push(newComment);
+    getItems();
+    var items = document.querySelector(".items-wrapper");
+    items.innerHTML = getItems();
+  }; // set current route as back destination, and imported back function
+
+
+  (0, _sharedFunctions.setPreviousRoute)(match.url);
+  var back = document.querySelector(".details__controls .back");
+  var goToEdit = document.querySelector(".details__controls .edit-feedback");
+
+  goToEdit.onclick = function () {
+    return _router.router.navigate("/item/edit/" + currentId);
+  };
+
+  back.addEventListener("click", _sharedFunctions.goBack);
+  addComment.addEventListener("click", addCommentFunction);
 });
-exports.editFeedbackTemplate = void 0;
-var editFeedbackTemplate = "\n<section class=\"edit\">\n    <div class=\"edit__controls\">\n        <div class=\"back\">\n        <span class=\"arrow\"></span>\n        <span class=\"text\">Go back</span>\n    </div>\n</div>\n    <div class=\"edit__wrapper\">\n    <div class=\"title\">\n        <h3>Feedback Title</h3>\n        <div>Add a short, descriptive headline</div>\n        <input class=\"name\"></input>\n    </div>\n    <div class=\"category\">\n        <h3>Category</h3>\n        <div>Choose a category for your feedback</div>\n        <select class=\"custom-select select select--1\">\n            <option value=\"UX\">UX</option>\n            <option value=\"UI\">UI</option>\n            <option value=\"Enhancement\">Enhancement</option>\n            <option value=\"Feature\">Feature</option>\n            <option value=\"Bug\">Bug</option>\n        </select>\n    </div>\n    <div class=\"status\">\n        <h3>Update Status</h3>\n        <div>Change feedback state</div>\n        <select class=\"custom-select select select--2\">\n            <option value=\"Suggestion\">Suggestion</option>\n            <option value=\"Planned\">Planned</option>\n            <option value=\"In-Progress\">In-Progress</option>\n            <option value=\"Live\">Live</option>\n        </select>\n    </div>\n    <div class=\"details\">\n        <h3>Feedback detail</h3>\n        <div>\n        Include any specific comments on what should be improved, added,\n        etc.\n        </div>\n        <textarea name=\"\" id=\"\" cols=\"30\" rows=\"10\"></textarea>\n    </div>\n    <div class=\"btns\">\n        <button class=\"delete\">Delete</button>\n        <button class=\"cancel\">Cancel</button>\n        <button class=\"submit\">Add feedback</button>\n    </div>\n    </div>\n</section>";
-exports.editFeedbackTemplate = editFeedbackTemplate;
-var firstOption = "<option value=\"\" selected disabled hidden>Choose</option>";
-},{}],"src/assets/scripts/shared/helpers.js":[function(require,module,exports) {
+},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/shared/helpers.js":[function(require,module,exports) {
 var x, i, j, l, ll, selElmnt, a, b, c;
 /* Look for any elements with the class "custom-select": */
 
@@ -8833,12 +8759,13 @@ then close all select boxes: */
 
 
 document.addEventListener("click", closeAllSelect);
-},{}],"src/assets/scripts/routes/edit-feedback.js":[function(require,module,exports) {
+},{}],"src/assets/scripts/modules/edit-feedback-module.js":[function(require,module,exports) {
 "use strict";
 
-var _editFeedback = require("../templates/edit-feedback.template");
-
-var _router = require("./router");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.editFeedbackModule = void 0;
 
 require("../shared/helpers");
 
@@ -8846,11 +8773,31 @@ var _sharedFunctions = require("../shared/shared-functions");
 
 var _getSuggestions = require("../modules/getSuggestions");
 
-_router.router.on("/item/edit/:id", function (match) {
-  document.body.innerHTML = _editFeedback.editFeedbackTemplate;
+var _router = require("../routes/router");
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+var editFeedbackModule = function editFeedbackModule(match) {
+  // Queries
   var nameInput = document.querySelector(".edit .title input");
-  var statusSelect = document.querySelector(".edit .select--2");
   var categorySelect = document.querySelector(".edit .select--1");
+  var statusSelect = document.querySelector(".edit .select--2");
   var details = document.querySelector(".edit .details textarea");
   var submitBtn = document.querySelector(".edit .submit");
   submitBtn.classList.add("save");
@@ -8869,11 +8816,15 @@ _router.router.on("/item/edit/:id", function (match) {
       title: nameInput.value,
       status: statusSelect.value.toLowerCase(),
       category: categorySelect.value.toLowerCase()
-    };
-    currentObject.title = submitBody.title;
-    currentObject.category = submitBody.category;
-    currentObject.status = submitBody.status;
-    currentObject.description = submitBody.description;
+    }; // Change feedbackArray with copied values - spread previous slice,
+    // add current object, spread slice after it
+
+    _getSuggestions.initialValues.feedbackArray = [].concat(_toConsumableArray(_getSuggestions.initialValues.feedbackArray.slice(0, currentId - 1)), [_objectSpread(_objectSpread({}, _getSuggestions.initialValues.feedbackArray[currentId - 1]), {}, {
+      title: submitBody.title,
+      category: submitBody.category,
+      status: submitBody.status,
+      description: submitBody.description
+    })], _toConsumableArray(_getSuggestions.initialValues.feedbackArray.slice(currentId, _getSuggestions.initialValues.feedbackArray.length)));
     (0, _sharedFunctions.goBack)();
   };
 
@@ -8882,14 +8833,14 @@ _router.router.on("/item/edit/:id", function (match) {
       return el.id != currentId;
     });
 
-    _router.router.navigate('/');
+    _router.router.navigate("/");
 
     _getSuggestions.initialValues.previousRoute = [];
   };
 
   saveBtn.addEventListener("click", saveFunction);
   deleteBtn.addEventListener("click", deleteFunction);
-  saveBtn.innerHTML = 'Save';
+  saveBtn.innerHTML = "Save";
   nameInput.value = currentObject.title;
   details.value = currentObject.description;
   statusSelect.value = currentObject.status;
@@ -8898,22 +8849,49 @@ _router.router.on("/item/edit/:id", function (match) {
   var back = document.querySelector(".edit .back");
   var cancel = document.querySelector(".edit .cancel");
   back.addEventListener("click", function () {
-    return (0, _sharedFunctions.goBack)();
+    return (0, _sharedFunctions.goBack)(currentId);
   });
   cancel.addEventListener("click", function () {
-    return (0, _sharedFunctions.goBack)();
+    return (0, _sharedFunctions.goBack)(currentId);
   });
-});
-},{"../templates/edit-feedback.template":"src/assets/scripts/templates/edit-feedback.template.js","./router":"src/assets/scripts/routes/router.js","../shared/helpers":"src/assets/scripts/shared/helpers.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js"}],"src/assets/scripts/routes/new-feedback.js":[function(require,module,exports) {
+};
+
+exports.editFeedbackModule = editFeedbackModule;
+},{"../shared/helpers":"src/assets/scripts/shared/helpers.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../routes/router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/templates/edit-feedback.template.js":[function(require,module,exports) {
 "use strict";
 
-var _getSuggestions = require("../modules/getSuggestions");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.editFeedbackTemplate = void 0;
+var editFeedbackTemplate = "\n<section class=\"edit\">\n    <div class=\"edit__controls\">\n        <div class=\"back\">\n            <span class=\"arrow\"></span>\n            <span class=\"text\">Go back</span>\n        </div>\n    </div>\n    <div class=\"edit__wrapper\">\n        <div class=\"title\">\n            <h3>Feedback Title</h3>\n            <div>Add a short, descriptive headline</div>\n            <input class=\"name\"></input>\n        </div>\n        <div class=\"category\">\n            <h3>Category</h3>\n            <div>Choose a category for your feedback</div>\n            <select class=\"custom-select select select--1\">\n            <option value=\"ux\">UX</option>\n            <option value=\"ui\">UI</option>\n            <option value=\"enhancement\">Enhancement</option>\n            <option value=\"feature\">Feature</option>\n            <option value=\"bug\">Bug</option>\n            </select>\n        </div>\n        <div class=\"status\">\n            <h3>Update Status</h3>\n            <div>Change feedback state</div>\n            <select class=\"custom-select select select--2\">\n            <option value=\"suggestion\">Suggestion</option>\n            <option value=\"planned\">Planned</option>\n            <option value=\"in-progress\">In-Progress</option>\n            <option value=\"live\">Live</option>\n            </select>\n        </div>\n        <div class=\"details\">\n            <h3>Feedback detail</h3>\n            <div>\n            Include any specific comments on what should be improved, added,\n            etc.\n            </div>\n            <textarea name=\"\" id=\"\" cols=\"30\" rows=\"10\"></textarea>\n        </div>\n        <div class=\"btns\">\n            <button class=\"delete\">Delete</button>\n            <button class=\"cancel\">Cancel</button>\n            <button class=\"submit\">Add feedback</button>\n        </div>\n    </div>\n</section>";
+exports.editFeedbackTemplate = editFeedbackTemplate;
+},{}],"src/assets/scripts/routes/edit-feedback.js":[function(require,module,exports) {
+"use strict";
 
-var _sharedFunctions = require("../shared/shared-functions");
+var _editFeedbackModule = require("../modules/edit-feedback-module");
 
 var _editFeedback = require("../templates/edit-feedback.template");
 
 var _router = require("./router");
+
+_router.router.on("/item/edit/:id", function (match) {
+  // set html
+  document.body.innerHTML = _editFeedback.editFeedbackTemplate; // import module functions
+
+  (0, _editFeedbackModule.editFeedbackModule)(match);
+});
+},{"../modules/edit-feedback-module":"src/assets/scripts/modules/edit-feedback-module.js","../templates/edit-feedback.template":"src/assets/scripts/templates/edit-feedback.template.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/modules/new-feedback-module.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.newFeedbackModule = void 0;
+
+var _getSuggestions = require("../modules/getSuggestions");
+
+var _sharedFunctions = require("../shared/shared-functions");
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -8927,15 +8905,16 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-_router.router.on("/new-feedback", function (match) {
-  document.body.innerHTML = _editFeedback.editFeedbackTemplate;
+var newFeedbackModule = function newFeedbackModule(match) {
   var nameInput = document.querySelector(".edit .title input");
   var statusSelect = document.querySelector(".edit .status select");
   var categorySelect = document.querySelector(".edit .category select option");
   var details = document.querySelector(".edit .details textarea");
   var addNewBtn = document.querySelector(".edit .submit");
+  var deleteBtn = document.querySelector(".edit .delete");
   addNewBtn.classList.add("add");
   var addBtn = document.querySelector(".edit .add");
+  deleteBtn.style.display = "none";
 
   var addNewFunction = function addNewFunction() {
     var submitBody = {
@@ -8959,8 +8938,123 @@ _router.router.on("/new-feedback", function (match) {
   var cancel = document.querySelector(".edit .cancel");
   back.addEventListener("click", _sharedFunctions.goBack);
   cancel.addEventListener("click", _sharedFunctions.goBack);
+};
+
+exports.newFeedbackModule = newFeedbackModule;
+},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js"}],"src/assets/scripts/routes/new-feedback.js":[function(require,module,exports) {
+"use strict";
+
+var _newFeedbackModule = require("../modules/new-feedback-module");
+
+var _editFeedback = require("../templates/edit-feedback.template");
+
+var _router = require("./router");
+
+_router.router.on("/new-feedback", function (match) {
+  document.body.innerHTML = _editFeedback.editFeedbackTemplate;
+  (0, _newFeedbackModule.newFeedbackModule)(match);
 });
-},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","../templates/edit-feedback.template":"src/assets/scripts/templates/edit-feedback.template.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/templates/roadmap.template.js":[function(require,module,exports) {
+},{"../modules/new-feedback-module":"src/assets/scripts/modules/new-feedback-module.js","../templates/edit-feedback.template":"src/assets/scripts/templates/edit-feedback.template.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/modules/roadmap.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.roadmapLists = roadmapLists;
+
+var _sharedFunctions = require("../shared/shared-functions");
+
+var _getSuggestions = require("./getSuggestions");
+
+function roadmapLists() {
+  var roadmapFeedbackWrapper = document.querySelector(".feedback--roadmap .feedback-items-wrapper");
+  var feedbackItems = document.querySelectorAll(".feedback-item");
+  var roadmapColumnsWrapper = document.querySelector(".roadmap .roadmap__columns");
+  var columns = [{
+    name: "planned",
+    visible: true
+  }, {
+    name: "in-progress",
+    visible: false
+  }, {
+    name: "live",
+    visible: false
+  }];
+  var shown = [];
+  var all = _getSuggestions.initialValues.feedbackArray;
+
+  var filterInMap = function filterInMap(toFilter) {
+    return toFilter.map(function (el) {
+      return "<div class=\"feedback-item\" id=\"".concat(el.id, "\">\n                <div class=\"feedback-item__left\">\n                  <span class=\"arrow\"></span>\n                  <div class=\"count\">").concat(el.upvotes, "</div>\n                </div>\n                <div class=\"feedback-item__center\">\n                  <h4 class=\"title\">").concat(el.title, "</h4>\n                  <p>\n                    ").concat(el.description, "\n                  </p>\n                  <div class=\"tag\">\n                    <span>").concat(el.category, "</span>\n                  </div>\n                </div>\n                <div class=\"feedback-item__right\">\n                  <span class=\"comment\"></span>\n                  <div class=\"count\">\n                    ").concat(el.comments ? el.comments.length : 0, "\n                  </div>\n                </div>\n            </div>");
+    });
+  };
+
+  var columnsLists = function columnsLists(toMap) {
+    var mapped = toMap.map(function (el, i, self) {
+      shown.push(all.filter(function (f) {
+        return f.status == el.name;
+      }));
+      var visibleColumn = el.visible ? "\n      <div class=\"roadmap__column roadmap__column--".concat(el.name, "\">\n        <bold>\n          ").concat(el.name, "\n          <span>(<span class=\"count\">").concat(shown[i].length, "</span>)</span>\n        </bold>\n        <div>In search</div>\n        <div>\n          <div class=\"item\">\n            <div><span></span></div>\n          </div>\n        </div>\n        <div class=\"feedback feedback--roadmap\">\n          <div class=\"feedback-items-wrapper\">\n            ").concat(filterInMap(shown[i]).join(""), "\n          </div>\n        </div>\n      </div>\n    ") : null;
+      var mobileHeader = self.map(function (buttonEl, buttonIndex) {
+        var allColumns = (0, _sharedFunctions.filterStatus)(true);
+        return "\n        <div class=\"btn-name\">\n          <bold>\n            <span>".concat(buttonEl.name, "</span>\n            <span>(<span class=\"count\">").concat(allColumns[buttonIndex].length, "</span>)</span>\n          </bold>\n        </div> ");
+      });
+      return el.visible ? "\n      <div class=\"roadmap-mobile-header\">\n        ".concat(mobileHeader.join(""), "  \n      </div>\n    ") + visibleColumn : null;
+    });
+    return mapped.join("");
+  };
+
+  roadmapColumnsWrapper.innerHTML = columnsLists(columns);
+
+  var switchColumns = function switchColumns(e) {
+    var current = columns.find(function (el) {
+      return el.name == e.currentTarget.firstElementChild.firstElementChild.innerHTML;
+    });
+    columns.forEach(function (el) {
+      return el.visible = false;
+    });
+    current.visible = true;
+    roadmapColumnsWrapper.innerHTML = columnsLists(columns);
+    var columnSwitchBtns = document.querySelectorAll(".btn-name");
+    columnSwitchBtns.forEach(function (element) {
+      element.addEventListener("click", switchColumns);
+    });
+    e.currentTarget.classList.add("btn-name--active");
+  }; // Add event listeners
+  // item recognition
+
+
+  feedbackItems && feedbackItems.forEach(function (element) {
+    element.addEventListener("click", _sharedFunctions.feedbackDetails);
+  }); // Mobile switch columns
+
+  var columnSwitchBtns = document.querySelectorAll(".btn-name");
+  columnSwitchBtns && columnSwitchBtns.forEach(function (element) {
+    element.addEventListener("click", switchColumns);
+  });
+}
+},{"../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","./getSuggestions":"src/assets/scripts/modules/getSuggestions.js"}],"src/assets/scripts/modules/roadmap-module.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.roadmapModule = void 0;
+
+var _sharedFunctions = require("../shared/shared-functions");
+
+var _roadmap = require("./roadmap");
+
+var roadmapModule = function roadmapModule(match) {
+  (0, _roadmap.roadmapLists)(); // set current route as back destination, and imported back function
+
+  (0, _sharedFunctions.setPreviousRoute)(match.url);
+  var back = document.querySelector(".roadmap .back");
+  back.addEventListener("click", _sharedFunctions.goBack);
+};
+
+exports.roadmapModule = roadmapModule;
+},{"../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","./roadmap":"src/assets/scripts/modules/roadmap.js"}],"src/assets/scripts/templates/roadmap.template.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8972,92 +9066,109 @@ exports.roadmapTemplate = roadmapTemplate;
 },{}],"src/assets/scripts/routes/roadmap-route.js":[function(require,module,exports) {
 "use strict";
 
-var _roadmap = require("../modules/roadmap");
+var _roadmapModule = require("../modules/roadmap-module");
 
-var _sharedFunctions = require("../shared/shared-functions");
-
-var _roadmap2 = require("../templates/roadmap.template");
+var _roadmap = require("../templates/roadmap.template");
 
 var _router = require("./router");
 
 _router.router.on("/roadmap", function (match) {
-  document.body.innerHTML = _roadmap2.roadmapTemplate;
-  (0, _roadmap.roadmapLists)(); // set current route as back destination, and imported back function
-
-  (0, _sharedFunctions.setPreviousRoute)(match.url);
-  var back = document.querySelector(".roadmap .back");
-  back.addEventListener("click", _sharedFunctions.goBack);
+  document.body.innerHTML = _roadmap.roadmapTemplate;
+  (0, _roadmapModule.roadmapModule)(match);
 });
-},{"../modules/roadmap":"src/assets/scripts/modules/roadmap.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","../templates/roadmap.template":"src/assets/scripts/templates/roadmap.template.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/templates/rootTemplate.js":[function(require,module,exports) {
+},{"../modules/roadmap-module":"src/assets/scripts/modules/roadmap-module.js","../templates/roadmap.template":"src/assets/scripts/templates/roadmap.template.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/modules/root-module.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.rootModule = void 0;
+
+var _sharedFunctions = require("../shared/shared-functions");
+
+var rootModule = function rootModule() {
+  // QUERIES
+  // sort
+  var sortToggleTarget = document.querySelector(".feedback__sort");
+  var dropdown = document.querySelector(".feedback__sort .dropdown");
+  var sortButtons = document.querySelectorAll(".dropdown-item");
+  var arrow = document.querySelector(".feedback__controls .arrow"); //mobile menu toggle
+
+  var menuIcon = document.querySelector(".toggleButton");
+  var navigation = document.querySelector(".sidebar__menu"); //upvotes
+
+  var upvotes = document.querySelectorAll(".upvotes"); // FUNCTIONS
+
+  (0, _sharedFunctions.filterStatus)();
+
+  var toggleNav = function toggleNav() {
+    navigation.classList.toggle("sidebar__menu--visible");
+  };
+
+  var upvotesAdd = function upvotesAdd(e) {
+    var current = e.currentTarget;
+    var spanCounter = current.lastElementChild;
+    var currentHiddenInput = spanCounter.previousElementSibling;
+
+    if (currentHiddenInput.value != initialValues.currentUser.name) {
+      e.currentTarget.lastElementChild.innerHTML = +e.currentTarget.lastElementChild.innerHTML + 1;
+      currentHiddenInput.value = initialValues.currentUser.name;
+      e.currentTarget.classList.add("upvotes--highlighted");
+    } else {
+      e.currentTarget.lastElementChild.innerHTML = +e.currentTarget.lastElementChild.innerHTML - 1;
+      currentHiddenInput.value = "";
+      e.currentTarget.classList.remove("upvotes--highlighted");
+    }
+  }; // ADD EVENT LISTENERS
+
+
+  sortButtons && sortButtons.forEach(function (element) {
+    element.addEventListener("click", _sharedFunctions.sortItems);
+  });
+  sortToggleTarget && sortToggleTarget.addEventListener("mouseover", function (e) {
+    dropdown.classList.add("dropdown--visible");
+    arrow.classList.add("arrow--rotated");
+  });
+  sortToggleTarget && sortToggleTarget.addEventListener("mouseleave", function (e) {
+    dropdown.classList.remove("dropdown--visible");
+    arrow.classList.remove("arrow--rotated");
+  });
+  menuIcon.addEventListener("click", toggleNav);
+  upvotes && upvotes.forEach(function (element) {
+    element.addEventListener("click", upvotesAdd);
+  });
+};
+
+exports.rootModule = rootModule;
+},{"../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js"}],"src/assets/scripts/templates/rootTemplate.template.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.rootTemplate = void 0;
-var rootTemplate = "\n<section class=\"sidebar\">\n<div class=\"sidebar__titles\">\n  <div>\n    <h1>Frontend Mentor</h1>\n    <h3>Feedback Board</h3>\n  </div>\n  <button class=\"toggleButton\">\n    <div></div>\n    <div></div>\n    <div></div>\n  </button>\n</div>\n<div class=\"sidebar__menu\">\n  <div class=\"sidebar__categories\">\n    <button class=\"category\">All</button>\n    <button>UI</button>\n    <button>UX</button>\n    <button class=\"category enhancement\">Enhancement</button>\n    <button class=\"category bug\">Bug</button>\n    <button class=\"category feature\">Feature</button>\n  </div>\n  <div class=\"sidebar__status-wrapper\">\n    <span>Roadmap</span>\n    <a href=\"/roadmap\" data-navigo>View</a>\n    <div class=\"sidebar__status-display\">\n      <div class=\"sidebar__status sidebar__status--planned\">\n        <span class=\"circle\"></span>Planned <span class=\"count\"></span>\n      </div>\n      <div class=\"sidebar__status sidebar__status--in-progress\">\n        <span class=\"circle\"></span>In-Progress\n        <span class=\"count\"></span>\n      </div>\n      <div class=\"sidebar__status sidebar__status--live\">\n        <span class=\"circle\"></span>Live <span class=\"count\"></span>\n      </div>\n    </div>\n  </div>\n</div>\n</section>\n<section class=\"feedback feedback--root\">\n<div class=\"feedback__controls\">\n  <div class=\"feedback__counter\">\n    <span class=\"bulb\"></span>\n    <span class=\"count\" filterStatus</span>\n      <h3>Suggestions</h3>\n  </div>\n  <div class=\"feedback__sort\">\n    <div class=\"text\">\n      <span class=\"sort-by\">Sort by:</span>\n      <span class=\"current\"></span>\n      <span class=\"arrow\"></span>\n    </div>\n    <div class=\"dropdown\">\n      <div class=\"dropdown-item\" filter-by=\"upvotes\" data-direction=\"reverse\">\n        <span class=\"filter-by\">Most Upvotes</span>\n        <span class=\"checked\"></span>\n      </div>\n      <div class=\"dropdown-item\" filter-by=\"upvotes\" data-direction=\"normal\">\n        <span class=\"filter-by\">Least Upvotes</span>\n        <span class=\"checked\"></span>\n      </div>\n      <div class=\"dropdown-item\" filter-by=\"comments\" data-direction=\"reverse\">\n        <span class=\"filter-by\">Most Comments</span>\n        <span class=\"checked\"></span>\n      </div>\n      <div class=\"dropdown-item\" filter-by=\"comments\" data-direction=\"normal\">\n        <span class=\"filter-by\">Least Comments</span>\n        <span class=\"checked\"></span>\n      </div>\n    </div>\n  </div>\n  <a class=\"add\" href=\"/new-feedback\" data-navigo>+ Add Feedback</a>\n</div>\n<div class=\"feedback-items-wrapper\">\n  <div class=\"feedback-empty\">\n    <figure>\n      <picture>\n        <source />\n        <img src=\"\" alt=\"no-results\" />\n      </picture>\n    </figure>\n    <div>>There is no feedback yet.</div>\n    <p>\n      Got a suggestion? Found a bug that needs to be squashed? We love\n      hearing about new ideas to improve our app.\n    </p>\n    <butotn>Add Feedback</butotn>\n  </div>\n</div>\n</section>\n";
+var rootTemplate = "\n<section class=\"sidebar\">\n<div class=\"sidebar__titles\">\n  <div>\n    <h1>Frontend Mentor</h1>\n    <h3>Feedback Board</h3>\n  </div>\n  <button class=\"toggleButton\">\n    <div></div>\n    <div></div>\n    <div></div>\n  </button>\n</div>\n<div class=\"sidebar__menu\">\n  <div class=\"sidebar__categories\">\n    <button class=\"category\">All</button>\n    <button class=\"category ui\">UI</button>\n    <button class=\"category ux\"y>UX</button>\n    <button class=\"category enhancement\">Enhancement</button>\n    <button class=\"category bug\">Bug</button>\n    <button class=\"category feature\">Feature</button>\n  </div>\n  <div class=\"sidebar__status-wrapper\">\n    <span>Roadmap</span>\n    <a href=\"/roadmap\" data-navigo>View</a>\n    <div class=\"sidebar__status-display\">\n      <div class=\"sidebar__status sidebar__status--planned\">\n        <span class=\"circle\"></span>Planned <span class=\"count\"></span>\n      </div>\n      <div class=\"sidebar__status sidebar__status--in-progress\">\n        <span class=\"circle\"></span>In-Progress\n        <span class=\"count\"></span>\n      </div>\n      <div class=\"sidebar__status sidebar__status--live\">\n        <span class=\"circle\"></span>Live <span class=\"count\"></span>\n      </div>\n    </div>\n  </div>\n</div>\n</section>\n<section class=\"feedback feedback--root\">\n<div class=\"feedback__controls\">\n  <div class=\"feedback__counter\">\n    <span class=\"bulb\"></span>\n    <span class=\"count\" filterStatus</span>\n      <h3>Suggestions</h3>\n  </div>\n  <div class=\"feedback__sort\">\n    <div class=\"text\">\n      <span class=\"sort-by\">Sort by:</span>\n      <span class=\"current\"></span>\n      <span class=\"arrow\"></span>\n    </div>\n    <div class=\"dropdown\">\n      <div class=\"dropdown-item\" filter-by=\"upvotes\" data-direction=\"reverse\">\n        <span class=\"filter-by\">Most Upvotes</span>\n        <span class=\"checked\"></span>\n      </div>\n      <div class=\"dropdown-item\" filter-by=\"upvotes\" data-direction=\"normal\">\n        <span class=\"filter-by\">Least Upvotes</span>\n        <span class=\"checked\"></span>\n      </div>\n      <div class=\"dropdown-item\" filter-by=\"comments\" data-direction=\"reverse\">\n        <span class=\"filter-by\">Most Comments</span>\n        <span class=\"checked\"></span>\n      </div>\n      <div class=\"dropdown-item\" filter-by=\"comments\" data-direction=\"normal\">\n        <span class=\"filter-by\">Least Comments</span>\n        <span class=\"checked\"></span>\n      </div>\n    </div>\n  </div>\n  <a class=\"add\" href=\"/new-feedback\" data-navigo>+ Add Feedback</a>\n</div>\n<div class=\"feedback-items-wrapper\">\n  <div class=\"feedback-empty\">\n    <figure>\n      <picture>\n        <source />\n        <img src=\"\" alt=\"no-results\" />\n      </picture>\n    </figure>\n    <div>>There is no feedback yet.</div>\n    <p>\n      Got a suggestion? Found a bug that needs to be squashed? We love\n      hearing about new ideas to improve our app.\n    </p>\n    <butotn>Add Feedback</butotn>\n  </div>\n</div>\n</section>\n";
 exports.rootTemplate = rootTemplate;
 },{}],"src/assets/scripts/routes/root.js":[function(require,module,exports) {
 "use strict";
 
 var _getSuggestions = require("../modules/getSuggestions");
 
+var _rootModule = require("../modules/root-module");
+
 var _sharedFunctions = require("../shared/shared-functions");
 
-var _rootTemplate = require("../templates/rootTemplate");
+var _rootTemplate = require("../templates/rootTemplate.template");
 
 var _router = require("./router");
 
 document.body.innerHTML = _rootTemplate.rootTemplate;
 
 _router.router.on("/", function () {
+  // set the HTML
   document.body.innerHTML = _rootTemplate.rootTemplate;
   (0, _getSuggestions.getSuggestions)(_getSuggestions.initialValues.feedbackArray);
-  (0, _sharedFunctions.filterStatus)(); // sort
-
-  var sortToggleTarget = document.querySelector(".feedback__sort");
-  var dropdown = document.querySelector(".feedback__sort .dropdown");
-  var sortButtons = document.querySelectorAll(".dropdown-item"); //mobile menu toggle
-
-  var menuIcon = document.querySelector(".toggleButton");
-  var navigation = document.querySelector(".sidebar__menu"); //upvotes add
-
-  var upvotes = document.querySelectorAll(".upvotes");
-  sortButtons && sortButtons.forEach(function (element) {
-    element.addEventListener("click", _sharedFunctions.sortItems);
-  });
-  sortToggleTarget && sortToggleTarget.addEventListener("mouseover", function (e) {
-    dropdown.classList.add("dropdown--visible");
-  });
-  sortToggleTarget && sortToggleTarget.addEventListener("mouseleave", function (e) {
-    dropdown.classList.remove("dropdown--visible");
-  });
-
-  var toggleNav = function toggleNav() {
-    navigation.classList.toggle("sidebar__menu--visible");
-  };
-
-  menuIcon.addEventListener("click", toggleNav);
-
-  var upvotesAdd = function upvotesAdd(e) {
-    var current = e.currentTarget;
-    var spanCounter = current.lastElementChild;
-    var currentHiddenInput = spanCounter.previousElementSibling; // console.log(spanCounter.previousElementSibling);
-
-    if (currentHiddenInput.value != _getSuggestions.initialValues.currentUser.name) {
-      e.currentTarget.lastElementChild.innerHTML = +e.currentTarget.lastElementChild.innerHTML + 1;
-      currentHiddenInput.value = _getSuggestions.initialValues.currentUser.name;
-      e.currentTarget.classList.add('upvotes--highlighted');
-    } else {
-      e.currentTarget.lastElementChild.innerHTML = +e.currentTarget.lastElementChild.innerHTML - 1;
-      currentHiddenInput.value = "";
-      e.currentTarget.classList.remove('upvotes--highlighted');
-    }
-  };
-
-  upvotes && upvotes.forEach(function (element) {
-    element.addEventListener("click", upvotesAdd);
-  });
+  (0, _rootModule.rootModule)();
 });
 
 window.onload = function (event) {
@@ -9065,7 +9176,17 @@ window.onload = function (event) {
     _router.router.navigate("/");
   }
 };
-},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","../templates/rootTemplate":"src/assets/scripts/templates/rootTemplate.js","./router":"src/assets/scripts/routes/router.js"}],"node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../modules/root-module":"src/assets/scripts/modules/root-module.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","../templates/rootTemplate.template":"src/assets/scripts/templates/rootTemplate.template.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/modules/buttonToggle.js":[function(require,module,exports) {
+// function mobileNavToggle() {
+//   const menuIcon = document.querySelector(".toggleButton");
+//   const navigation = document.querySelector(".sidebar__menu");
+//   const toggleNav = () => {
+//     navigation.classList.toggle(".sidebar__menu--visible");
+//   };
+//   menuIcon.addEventListener("click", () => alert('s'));
+// }
+// window.addEventListener("load", mobileNavToggle);
+},{}],"node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -9137,18 +9258,10 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\bulb.png":[["bulb.da37f33d.png","src/assets/images/suggestions/bulb.png"],"src/assets/images/suggestions/bulb.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\white-arrow.png":[["white-arrow.205849a5.png","src/assets/images/suggestions/white-arrow.png"],"src/assets/images/suggestions/white-arrow.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-check.svg":[["icon-check.66b49a52.svg","src/assets/images/shared/icon-check.svg"],"src/assets/images/shared/icon-check.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-arrow-up.svg":[["icon-arrow-up.8a111df8.svg","src/assets/images/shared/icon-arrow-up.svg"],"src/assets/images/shared/icon-arrow-up.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-comments.svg":[["icon-comments.1db50b47.svg","src/assets/images/shared/icon-comments.svg"],"src/assets/images/shared/icon-comments.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-arrow-left.svg":[["icon-arrow-left.7013d5bc.svg","src/assets/images/shared/icon-arrow-left.svg"],"src/assets/images/shared/icon-arrow-left.svg"],"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/assets/scripts/index.js":[function(require,module,exports) {
+},{"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/suggestions/bulb.png":[["bulb.da37f33d.png","src/assets/images/suggestions/bulb.png"],"src/assets/images/suggestions/bulb.png"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/suggestions/white-arrow.png":[["white-arrow.205849a5.png","src/assets/images/suggestions/white-arrow.png"],"src/assets/images/suggestions/white-arrow.png"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-check.svg":[["icon-check.66b49a52.svg","src/assets/images/shared/icon-check.svg"],"src/assets/images/shared/icon-check.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-arrow-up.svg":[["icon-arrow-up.8a111df8.svg","src/assets/images/shared/icon-arrow-up.svg"],"src/assets/images/shared/icon-arrow-up.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-comments.svg":[["icon-comments.1db50b47.svg","src/assets/images/shared/icon-comments.svg"],"src/assets/images/shared/icon-comments.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-arrow-left.svg":[["icon-arrow-left.7013d5bc.svg","src/assets/images/shared/icon-arrow-left.svg"],"src/assets/images/shared/icon-arrow-left.svg"],"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/assets/scripts/index.js":[function(require,module,exports) {
 "use strict";
 
 require("babel-polyfill");
-
-require("../scripts/modules/buttonToggle");
-
-require("../scripts/modules/getSuggestions");
-
-require("../scripts/modules/editFeedback");
-
-require("../scripts/modules/roadmap");
 
 require("../scripts/routes/details");
 
@@ -9162,10 +9275,20 @@ require("/src/assets/scripts/routes/root");
 
 require("./routes/edit-feedback");
 
+require("../scripts/modules/buttonToggle");
+
+require("../scripts/modules/getSuggestions");
+
+require("../scripts/modules/new-feedback-module");
+
+require("../scripts/modules/edit-feedback-module");
+
+require("../scripts/modules/roadmap");
+
 require("/src/assets/styles/styles");
 
 require("/src/assets/scripts/shared/shared-functions");
-},{"babel-polyfill":"node_modules/babel-polyfill/lib/index.js","../scripts/modules/buttonToggle":"src/assets/scripts/modules/buttonToggle.js","../scripts/modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../scripts/modules/editFeedback":"src/assets/scripts/modules/editFeedback.js","../scripts/modules/roadmap":"src/assets/scripts/modules/roadmap.js","../scripts/routes/details":"src/assets/scripts/routes/details.js","../scripts/routes/edit-feedback":"src/assets/scripts/routes/edit-feedback.js","../scripts/routes/new-feedback":"src/assets/scripts/routes/new-feedback.js","../scripts/routes/roadmap-route":"src/assets/scripts/routes/roadmap-route.js","/src/assets/scripts/routes/root":"src/assets/scripts/routes/root.js","./routes/edit-feedback":"src/assets/scripts/routes/edit-feedback.js","/src/assets/styles/styles":"src/assets/styles/styles.css","/src/assets/scripts/shared/shared-functions":"src/assets/scripts/shared/shared-functions.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"babel-polyfill":"node_modules/babel-polyfill/lib/index.js","../scripts/routes/details":"src/assets/scripts/routes/details.js","../scripts/routes/edit-feedback":"src/assets/scripts/routes/edit-feedback.js","../scripts/routes/new-feedback":"src/assets/scripts/routes/new-feedback.js","../scripts/routes/roadmap-route":"src/assets/scripts/routes/roadmap-route.js","/src/assets/scripts/routes/root":"src/assets/scripts/routes/root.js","./routes/edit-feedback":"src/assets/scripts/routes/edit-feedback.js","../scripts/modules/buttonToggle":"src/assets/scripts/modules/buttonToggle.js","../scripts/modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../scripts/modules/new-feedback-module":"src/assets/scripts/modules/new-feedback-module.js","../scripts/modules/edit-feedback-module":"src/assets/scripts/modules/edit-feedback-module.js","../scripts/modules/roadmap":"src/assets/scripts/modules/roadmap.js","/src/assets/styles/styles":"src/assets/styles/styles.css","/src/assets/scripts/shared/shared-functions":"src/assets/scripts/shared/shared-functions.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -9193,7 +9316,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60516" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "45875" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

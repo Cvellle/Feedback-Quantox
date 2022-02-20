@@ -10,14 +10,17 @@ router.on("/item/:id", function (match) {
   )[0];
 
   const getItems = () => {
-    let items = current.comments && current.comments.map((el) => {
-      return `
+    let items =
+      current.comments &&
+      current.comments.map((el) => {
+        return `
         <div class="item">
           <div class="info">
             <div class="profile-image">
-              <div style="background-image: url(/src/assets/images/user-images/${el.user.image
-                .split("/")
-                .pop()})">
+              <div cass="${el.user.image.split("/").pop()}"
+                 style="background-image: url(${el.user.image
+                   .split("/")
+                   .pop()})">
               </div>
             </div>
             <div class="name">
@@ -32,10 +35,10 @@ router.on("/item/:id", function (match) {
             <button>Post Reply</button>
           </div>
         </div>`;
-    })
- 
+      });
+
     return items.join("");
-  }
+  };
 
   const detailsTemplate = `
     <section class="details">
@@ -78,7 +81,7 @@ router.on("/item/:id", function (match) {
           Comments
         </bold>
           <div class="items-wrapper">
-            ${getItems()}
+            ${current.comments && getItems()}
           </div>
           <div class="add">
             <bold></bold>
@@ -95,24 +98,23 @@ router.on("/item/:id", function (match) {
   document.body.innerHTML = detailsTemplate;
 
   // Functions
-  const addComment = document.querySelector(
-    ".post-comment"
-  );
+  const addComment = document.querySelector(".post-comment");
 
   const addCommentFunction = () => {
     let newComment = {
-      content: "Awesome idea! Trying to find framework-specific projects within the hubs can be tedious",
+      content:
+        "Awesome idea! Trying to find framework-specific projects within the hubs can be tedious",
       id: 1,
       user: {
         image: "./assets/user-images/image-suzanne.jpg",
         name: "Suzanne Chang",
-        username: "upbeat1811"
-      }
+        username: "upbeat1811",
+      },
     };
 
     current.comments.push(newComment);
     getItems();
-    const items = document.querySelector('.items-wrapper');
+    const items = document.querySelector(".items-wrapper");
     items.innerHTML = getItems();
   };
 
@@ -122,7 +124,7 @@ router.on("/item/:id", function (match) {
   const back = document.querySelector(".details__controls .back");
   const goToEdit = document.querySelector(".details__controls .edit-feedback");
 
-  goToEdit.onclick = () => router.navigate("/item/edit/" + currentId)
+  goToEdit.onclick = () => router.navigate("/item/edit/" + currentId);
 
   back.addEventListener("click", goBack);
   addComment.addEventListener("click", addCommentFunction);

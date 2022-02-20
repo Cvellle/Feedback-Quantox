@@ -18,6 +18,21 @@
       height: 72px;
       margin-bottom: 24px;
     }
+
+    & .back {
+      display: flex;
+      align-items: center;
+
+      & .arrow {
+        display: inline-block;
+        margin-right: 5px;
+        height: 8px;
+        width: 4px;
+        background-image: url(/src/assets/images/shared/icon-arrow-left.svg);
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
+    }
   }
 
   &__wrapper {
@@ -94,8 +109,7 @@
   }
 }
 
-
-// custom select 
+// custom select
 .custom-select {
   position: relative;
   font-family: Arial;
@@ -128,7 +142,8 @@
 }
 
 /*style the items (options), including the selected item:*/
-.select-items div,.select-selected {
+.select-items div,
+.select-selected {
   color: black;
   padding: 8px 16px;
   border: 1px solid transparent;
@@ -145,7 +160,7 @@
   left: 0;
   right: 0;
   z-index: 99;
-  color: black
+  color: black;
 }
 
 /*hide the items when the select box is closed:*/
@@ -153,6 +168,7 @@
   display: none;
 }
 
-.select-items div:hover, .same-as-selected {
+.select-items div:hover,
+.same-as-selected {
   background-color: rgba(0, 0, 0, 0.1);
 }

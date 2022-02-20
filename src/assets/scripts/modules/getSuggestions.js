@@ -6,19 +6,16 @@ export const initialValues = {
   feedbackArray: [],
   getFilteredSuggestions: [],
   currentUser: {
-    name: 'Nikola Cvetic'
+    name: "Nikola Cvetic",
   },
   selectedItem: null,
   previousRoute: [],
 };
 
-
 // get list results globally
 export const getSuggestions = (arrayToLoop, toFilter) => {
   const feedbackWrapper = document.querySelector(".feedback-items-wrapper");
-  const upvotes = document.querySelector(
-    ".upvotes"
-  );
+  const upvotes = document.querySelector(".upvotes");
 
   const suggestionsList = arrayToLoop.filter((el) => {
     let final = toFilter ? el.id == toFilter : el;
@@ -76,7 +73,6 @@ export const getSuggestions = (arrayToLoop, toFilter) => {
     feedbackItems.forEach((element) => {
       element.addEventListener("click", feedbackDetails);
     });
-
 };
 
 // initial fetch
@@ -97,4 +93,3 @@ async function fetchSuggestions() {
 // module invoked on load
 window.addEventListener("load", fetchSuggestions);
 window.addEventListener("popstate", fetchSuggestions);
-

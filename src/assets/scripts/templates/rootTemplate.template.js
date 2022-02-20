@@ -14,8 +14,8 @@ export const rootTemplate = `
 <div class="sidebar__menu">
   <div class="sidebar__categories">
     <button class="category">All</button>
-    <button>UI</button>
-    <button>UX</button>
+    <button class="category ui">UI</button>
+    <button class="category ux"y>UX</button>
     <button class="category enhancement">Enhancement</button>
     <button class="category bug">Bug</button>
     <button class="category feature">Feature</button>
@@ -89,4 +89,4 @@ export const rootTemplate = `
   </div>
 </div>
 </section>
-`
+`;

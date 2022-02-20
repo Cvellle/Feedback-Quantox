@@ -2,6 +2,9 @@
   $this: &;
 
   width: 100%;
+  position: relative;
+  margin: 20vw 0 0 0;
+  z-index: 1;
 
   @include tablet {
     margin: 40px 40px;
@@ -44,7 +47,10 @@
 
   &--roadmap {
     width: 350px;
-    margin: 30px 30px 0 0;
+
+    @include tablet {
+      margin: 30px 30px 0 0;
+    }
 
     & {
       .feedback-item__left {
@@ -131,6 +137,12 @@
         background-image: url(/src/assets/images/suggestions/white-arrow.png);
         background-size: cover;
         margin-left: auto;
+        transition: 0.5s transform;
+
+        &--rotated {
+          transition: 0.5s transform;
+          transform: rotateX(180deg);
+        }
       }
 
       & .text {
@@ -138,8 +150,11 @@
         display: inline-flex;
         align-items: center;
         cursor: pointer;
-        min-width: 200px;
         padding-right: 15px;
+
+        @include tablet {
+          min-width: 200px;
+        }
       }
 
       & .current {
@@ -156,7 +171,7 @@
         display: none;
 
         @include desktop {
-          padding: 66px 0 0 0;
+          padding: 46px 0 0 0;
           top: 26px;
         }
 
@@ -165,33 +180,33 @@
         }
 
         & .dropdown-item {
-            height: 50px;
-            background-color: rgb(247, 242, 242);
-            display: flex;
-            padding-left: 10px;
-            align-items: center;
-            color: black;
-            border-bottom: 0.5px solid rgb(207, 207, 207);
-            justify-content: space-between;
+          height: 50px;
+          background-color: rgb(247, 242, 242);
+          display: flex;
+          padding-left: 10px;
+          align-items: center;
+          color: black;
+          border-bottom: 0.5px solid rgb(207, 207, 207);
+          justify-content: space-between;
 
-            &:hover {
-              color: purple;
-              cursor: pointer;
-            }
+          &:hover {
+            color: purple;
+            cursor: pointer;
+          }
 
-            &:nth-child(1) {
-              border-top: 0.5px solid rgb(207, 207, 207);
-            }
+          &:nth-child(1) {
+            border-top: 0.5px solid rgb(207, 207, 207);
+          }
 
-            & .checked {
-              height: 15px;
-              width: 15px;
-              background: url('/src/assets/images/shared/icon-check.svg');
-              background-repeat: no-repeat;
-              background-size: contain;
-              display: none;
-              margin-right: 10px;
-            }
+          & .checked {
+            height: 15px;
+            width: 15px;
+            background: url("/src/assets/images/shared/icon-check.svg");
+            background-repeat: no-repeat;
+            background-size: contain;
+            display: none;
+            margin-right: 10px;
+          }
         }
       }
     }

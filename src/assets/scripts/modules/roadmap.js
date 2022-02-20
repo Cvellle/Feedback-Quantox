@@ -1,10 +1,11 @@
-import { feedbackDetails } from "../shared/shared-functions";
+import { feedbackDetails, filterStatus } from "../shared/shared-functions";
 import { initialValues } from "./getSuggestions";
 
 export function roadmapLists() {
   const roadmapFeedbackWrapper = document.querySelector(
     ".feedback--roadmap .feedback-items-wrapper"
   );
+  const feedbackItems = document.querySelectorAll(".feedback-item");
   const roadmapColumnsWrapper = document.querySelector(
     ".roadmap .roadmap__columns"
   );
@@ -26,34 +27,37 @@ export function roadmapLists() {
 
   let shown = [];
   const all = initialValues.feedbackArray;
-  
-  const filterInMap = (toFilter) => toFilter.map((el) => {
-    return `<div class="feedback-item" id="${el.id}">
-              <div class="feedback-item__left">
-                <span class="arrow"></span>
-                <div class="count">${el.upvotes}</div>
-              </div>
-              <div class="feedback-item__center">
-                <h4 class="title">${el.title}</h4>
-                <p>
-                  ${el.description}
-                </p>
-                <div class="tag">
-                  <span>${el.category}</span>
-                </div>
-              </div>
-              <div class="feedback-item__right">
-                <span class="comment"></span>
-                <div class="count">
-                  ${el.comments ? el.comments.length : 0}
-                </div>
-              </div>
-            </div>`;
-  });
 
-  const columnsLists = columns.map((el, i) => {
-      shown.push(all.filter(f => f.status == el.name));
-      return `
+  const filterInMap = (toFilter) =>
+    toFilter.map((el) => {
+      return `<div class="feedback-item" id="${el.id}">
+                <div class="feedback-item__left">
+                  <span class="arrow"></span>
+                  <div class="count">${el.upvotes}</div>
+                </div>
+                <div class="feedback-item__center">
+                  <h4 class="title">${el.title}</h4>
+                  <p>
+                    ${el.description}
+                  </p>
+                  <div class="tag">
+                    <span>${el.category}</span>
+                  </div>
+                </div>
+                <div class="feedback-item__right">
+                  <span class="comment"></span>
+                  <div class="count">
+                    ${el.comments ? el.comments.length : 0}
+                  </div>
+                </div>
+            </div>`;
+    });
+
+  const columnsLists = (toMap) => {
+    let mapped = toMap.map((el, i, self) => {
+      shown.push(all.filter((f) => f.status == el.name));
+      const visibleColumn = el.visible
+        ? `
       <div class="roadmap__column roadmap__column--${el.name}">
         <bold>
           ${el.name}
@@ -67,19 +71,65 @@ export function roadmapLists() {
         </div>
         <div class="feedback feedback--roadmap">
           <div class="feedback-items-wrapper">
-            ${filterInMap(shown[i]).join('')}
+            ${filterInMap(shown[i]).join("")}
           </div>
         </div>
       </div>
-      `
-    })
+    `
+        : null;
 
-    roadmapColumnsWrapper.innerHTML = columnsLists.join('');
+      const mobileHeader = self.map((buttonEl, buttonIndex) => {
+        let allColumns = filterStatus(true);
+        return `
+        <div class="btn-name">
+          <bold>
+            <span>${buttonEl.name}</span>
+            <span>(<span class="count">${allColumns[buttonIndex].length}</span>)</span>
+          </bold>
+        </div> `;
+      });
 
+      return el.visible
+        ? `
+      <div class="roadmap-mobile-header">
+        ${mobileHeader.join("")}  
+      </div>
+    ` + visibleColumn
+        : null;
+    });
+
+    return mapped.join("");
+  };
+
+  roadmapColumnsWrapper.innerHTML = columnsLists(columns);
+
+  const switchColumns = (e) => {
+    let current = columns.find(
+      (el) =>
+        el.name == e.currentTarget.firstElementChild.firstElementChild.innerHTML
+    );
+    columns.forEach((el) => (el.visible = false));
+    current.visible = true;
+    roadmapColumnsWrapper.innerHTML = columnsLists(columns);
+    const columnSwitchBtns = document.querySelectorAll(".btn-name");
+
+    columnSwitchBtns.forEach((element) => {
+      element.addEventListener("click", switchColumns);
+    });
+    e.currentTarget.classList.add("btn-name--active");
+  };
+
+  // Add event listeners
   // item recognition
-  const feedbackItems = document.querySelectorAll(".feedback-item");
   feedbackItems &&
     feedbackItems.forEach((element) => {
       element.addEventListener("click", feedbackDetails);
-  });
+    });
+  // Mobile switch columns
+  const columnSwitchBtns = document.querySelectorAll(".btn-name");
+
+  columnSwitchBtns &&
+    columnSwitchBtns.forEach((element) => {
+      element.addEventListener("click", switchColumns);
+    });
 }

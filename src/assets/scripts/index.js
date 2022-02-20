@@ -1,23 +1,19 @@
 //globals
-import 'babel-polyfill';
+import "babel-polyfill";
+//routes
+import "../scripts/routes/details";
+import "../scripts/routes/edit-feedback";
+import "../scripts/routes/new-feedback";
+import "../scripts/routes/roadmap-route";
+import "/src/assets/scripts/routes/root";
+import "./routes/edit-feedback";
 //modules
 import "../scripts/modules/buttonToggle";
 import "../scripts/modules/getSuggestions";
-import "../scripts/modules/editFeedback";
+import "../scripts/modules/new-feedback-module";
+import "../scripts/modules/edit-feedback-module";
 import "../scripts/modules/roadmap";
-//routes
-import "../scripts/routes/details"
-import "../scripts/routes/edit-feedback"
-import "../scripts/routes/new-feedback"
-import "../scripts/routes/roadmap-route"
-import '/src/assets/scripts/routes/root'
-import "./routes/edit-feedback"
 //styles
 import "/src/assets/styles/styles";
 //shared
-import "/src/assets/scripts/shared/shared-functions"
-
-
-
-
-
+import "/src/assets/scripts/shared/shared-functions";
