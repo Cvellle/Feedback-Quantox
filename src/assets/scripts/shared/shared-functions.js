@@ -14,11 +14,14 @@ export const goBack = (filterCurrent) => {
   initialValues.previousRoute.pop();
   let pathToGoBack = "/" + initialValues.previousRoute.slice(-1).join("");
   router.navigate(pathToGoBack);
+  let passedArray =
+    initialValues.previousRoute.pop() !== "/roadmap"
+      ? initialValues.feedbackArray
+      : initialValues.feedbackArray.filter((el) => el.status == "planned");
   getSuggestions(
-    initialValues.feedbackArray,
+    passedArray,
     typeof filterCurrent == "string" ? filterCurrent : undefined
   );
-  initialValues.previousRoute.pop();
 };
 
 // Details navigate

@@ -1,0 +1,1 @@
+export const tabletMin = window.matchMedia("(min-width: 768px)").matches;

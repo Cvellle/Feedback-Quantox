@@ -1,3 +1,4 @@
+import { tabletMin } from "../shared/constants";
 import { feedbackDetails, filterStatus } from "../shared/shared-functions";
 import { initialValues } from "./getSuggestions";
 
@@ -9,6 +10,7 @@ export function roadmapLists() {
   const roadmapColumnsWrapper = document.querySelector(
     ".roadmap .roadmap__columns"
   );
+  
 
   const columns = [
     {
@@ -17,11 +19,11 @@ export function roadmapLists() {
     },
     {
       name: "in-progress",
-      visible: false,
+      visible:  tabletMin,
     },
     {
       name: "live",
-      visible: false,
+      visible:  tabletMin,
     },
   ];
 
@@ -53,9 +55,11 @@ export function roadmapLists() {
             </div>`;
     });
 
-  const columnsLists = (toMap) => {
-    let mapped = toMap.map((el, i, self) => {
+  const columnsLists = () => {
+    let mapped = columns.map((el, i, self) => {
+      
       shown.push(all.filter((f) => f.status == el.name));
+
       const visibleColumn = el.visible
         ? `
       <div class="roadmap__column roadmap__column--${el.name}">
@@ -71,7 +75,7 @@ export function roadmapLists() {
         </div>
         <div class="feedback feedback--roadmap">
           <div class="feedback-items-wrapper">
-            ${filterInMap(shown[i]).join("")}
+            ${el.visible && filterInMap(shown[i]).join("")}
           </div>
         </div>
       </div>
@@ -101,8 +105,6 @@ export function roadmapLists() {
     return mapped.join("");
   };
 
-  roadmapColumnsWrapper.innerHTML = columnsLists(columns);
-
   const switchColumns = (e) => {
     let current = columns.find(
       (el) =>
@@ -110,7 +112,7 @@ export function roadmapLists() {
     );
     columns.forEach((el) => (el.visible = false));
     current.visible = true;
-    roadmapColumnsWrapper.innerHTML = columnsLists(columns);
+    roadmapColumnsWrapper.innerHTML = columnsLists();
     const columnSwitchBtns = document.querySelectorAll(".btn-name");
 
     columnSwitchBtns.forEach((element) => {
@@ -118,6 +120,9 @@ export function roadmapLists() {
     });
     e.currentTarget.classList.add("btn-name--active");
   };
+
+  roadmapColumnsWrapper.innerHTML = columnsLists();
+
 
   // Add event listeners
   // item recognition

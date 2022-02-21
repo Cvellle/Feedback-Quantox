@@ -7,6 +7,8 @@ export const initialValues = {
   getFilteredSuggestions: [],
   currentUser: {
     name: "Nikola Cvetic",
+    username: "Cvele",
+    image: "src/assets/images/user-images/nikola.jpg"
   },
   selectedItem: null,
   previousRoute: [],
@@ -48,9 +50,6 @@ export const getSuggestions = (arrayToLoop, toFilter) => {
             </div>`;
   });
 
-  // fill the container
-  feedbackWrapper.innerHTML = mapped.join("");
-
   const filterAll = (e) => {
     let localArray = initialValues.feedbackArray;
     let filtered = localArray.filter((el, i, self) => {
@@ -63,6 +62,9 @@ export const getSuggestions = (arrayToLoop, toFilter) => {
 
     getSuggestions(filtered);
   };
+
+    // fill the container
+  feedbackWrapper.innerHTML = mapped.join("");
 
   const categoryBtns = document.querySelectorAll(".category");
   categoryBtns.forEach((el) => el.addEventListener("click", filterAll));

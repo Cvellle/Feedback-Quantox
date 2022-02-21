@@ -66,7 +66,7 @@ export const editFeedbackModule = (match) => {
   statusSelect.value = currentObject.status;
   categorySelect.value = currentObject.category;
 
-  setPreviousRoute(match.url);
+ 
 
   const back = document.querySelector(".edit .back");
   const cancel = document.querySelector(".edit .cancel");

@@ -789,6 +789,11 @@ button {
   color: #f2f4fe;
   cursor: pointer;
 }
+.details .items-wrapper {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 0 0 10px 10px;
+}
 .details__current {
   padding: 24px;
 }
@@ -799,6 +804,17 @@ button {
 }
 .details__current .comments > * {
   width: 100%;
+}
+.details__current .comments bold {
+  border-radius: 10px 10px 0 0;
+  height: 50px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
+.details__current .comments bold span {
+  margin-right: 5px;
 }
 .details__current .comments .info {
   display: flex;
@@ -834,8 +850,42 @@ button {
   font-size: 14px;
   color: #303030;
 }
+.details__current .comments .text > span {
+  margin-right: 10px;
+}
 .details__current .comments .reply {
+  display: none;
+}
+.details__current .comments .reply--visible {
+  margin-top: 30px;
   display: flex;
+  flex-wrap: wrap;
+  padding-left: 10vw;
+  justify-content: flex-end;
+}
+@media screen and (min-width: 768px) {
+  .details__current .comments .reply--visible {
+    padding-left: 70px;
+  }
+}
+.details__current .comments .reply--visible > :nth-child(1) {
+  flex: 0 0 100%;
+}
+.details__current .comments .reply--visible > :nth-child(2) {
+  flex: 7;
+}
+@media screen and (min-width: 1280px) {
+  .details__current .comments .reply--visible > :nth-child(2) {
+    flex: 0 0 500px;
+  }
+}
+.details__current .comments .reply--visible > :nth-child(3) {
+  flex: 3;
+}
+@media screen and (min-width: 1280px) {
+  .details__current .comments .reply--visible > :nth-child(3) {
+    flex: 0 0 140px;
+  }
 }
 .details__current .comments .reply textarea {
   flex: auto;
@@ -855,6 +905,13 @@ button {
   border-radius: 10px;
   height: 44px;
   color: #f2f4fe;
+  padding: 0 15px;
+}
+.details__current .add {
+  margin-top: 50px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
 }
 .details__current .add textarea {
   height: 80px;

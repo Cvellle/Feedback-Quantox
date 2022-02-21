@@ -8120,7 +8120,25 @@ define(String.prototype, "padRight", "".padEnd);
 "pop,reverse,shift,keys,values,entries,indexOf,every,some,forEach,map,filter,find,findIndex,includes,join,slice,concat,push,splice,unshift,sort,lastIndexOf,reduce,reduceRight,copyWithin,fill".split(",").forEach(function (key) {
   [][key] && define(Array, key, Function.call.bind([][key]));
 });
-},{"core-js/shim":"node_modules/core-js/shim.js","regenerator-runtime/runtime":"node_modules/babel-polyfill/node_modules/regenerator-runtime/runtime.js","core-js/fn/regexp/escape":"node_modules/core-js/fn/regexp/escape.js"}],"src/data/data.json":[function(require,module,exports) {
+},{"core-js/shim":"node_modules/core-js/shim.js","regenerator-runtime/runtime":"node_modules/babel-polyfill/node_modules/regenerator-runtime/runtime.js","core-js/fn/regexp/escape":"node_modules/core-js/fn/regexp/escape.js"}],"node_modules/navigo/lib/navigo.min.js":[function(require,module,exports) {
+var define;
+!function(t,n){"object"==typeof exports&&"object"==typeof module?module.exports=n():"function"==typeof define&&define.amd?define("Navigo",[],n):"object"==typeof exports?exports.Navigo=n():t.Navigo=n()}("undefined"!=typeof self?self:this,(function(){return(()=>{"use strict";var t={407:(t,n,e)=>{e.d(n,{default:()=>N});var o=/([:*])(\w+)/g,r=/\*/g,i=/\/\?/g;function a(t){return void 0===t&&(t="/"),v()?location.pathname+location.search+location.hash:t}function s(t){return t.replace(/\/+$/,"").replace(/^\/+/,"")}function c(t){return"string"==typeof t}function u(t){return t&&t.indexOf("#")>=0&&t.split("#").pop()||""}function h(t){var n=s(t).split(/\?(.*)?$/);return[s(n[0]),n.slice(1).join("")]}function f(t){for(var n={},e=t.split("&"),o=0;o<e.length;o++){var r=e[o].split("=");if(""!==r[0]){var i=decodeURIComponent(r[0]);n[i]?(Array.isArray(n[i])||(n[i]=[n[i]]),n[i].push(decodeURIComponent(r[1]||""))):n[i]=decodeURIComponent(r[1]||"")}}return n}function l(t,n){var e,a=h(s(t.currentLocationPath)),l=a[0],p=a[1],d=""===p?null:f(p),v=[];if(c(n.path)){if(e="(?:/^|^)"+s(n.path).replace(o,(function(t,n,e){return v.push(e),"([^/]+)"})).replace(r,"?(?:.*)").replace(i,"/?([^/]+|)")+"$",""===s(n.path)&&""===s(l))return{url:l,queryString:p,hashString:u(t.to),route:n,data:null,params:d}}else e=n.path;var g=new RegExp(e,""),m=l.match(g);if(m){var y=c(n.path)?function(t,n){return 0===n.length?null:t?t.slice(1,t.length).reduce((function(t,e,o){return null===t&&(t={}),t[n[o]]=decodeURIComponent(e),t}),null):null}(m,v):m.groups?m.groups:m.slice(1);return{url:s(l.replace(new RegExp("^"+t.instance.root),"")),queryString:p,hashString:u(t.to),route:n,data:y,params:d}}return!1}function p(){return!("undefined"==typeof window||!window.history||!window.history.pushState)}function d(t,n){return void 0===t[n]||!0===t[n]}function v(){return"undefined"!=typeof window}function g(t,n){return void 0===t&&(t=[]),void 0===n&&(n={}),t.filter((function(t){return t})).forEach((function(t){["before","after","already","leave"].forEach((function(e){t[e]&&(n[e]||(n[e]=[]),n[e].push(t[e]))}))})),n}function m(t,n,e){var o=n||{},r=0;!function n(){t[r]?Array.isArray(t[r])?(t.splice.apply(t,[r,1].concat(t[r][0](o)?t[r][1]:t[r][2])),n()):t[r](o,(function(t){void 0===t||!0===t?(r+=1,n()):e&&e(o)})):e&&e(o)}()}function y(t,n){void 0===t.currentLocationPath&&(t.currentLocationPath=t.to=a(t.instance.root)),t.currentLocationPath=t.instance._checkForAHash(t.currentLocationPath),n()}function _(t,n){for(var e=0;e<t.instance.routes.length;e++){var o=l(t,t.instance.routes[e]);if(o&&(t.matches||(t.matches=[]),t.matches.push(o),"ONE"===t.resolveOptions.strategy))return void n()}n()}function O(t,n){t.navigateOptions&&(void 0!==t.navigateOptions.shouldResolve&&console.warn('"shouldResolve" is deprecated. Please check the documentation.'),void 0!==t.navigateOptions.silent&&console.warn('"silent" is deprecated. Please check the documentation.')),n()}function k(t,n){!0===t.navigateOptions.force?(t.instance._setCurrent([t.instance._pathToMatchObject(t.to)]),n(!1)):n()}m.if=function(t,n,e){return Array.isArray(n)||(n=[n]),Array.isArray(e)||(e=[e]),[t,n,e]};var L=v(),w=p();function b(t,n){if(d(t.navigateOptions,"updateBrowserURL")){var e=("/"+t.to).replace(/\/\//g,"/"),o=L&&t.resolveOptions&&!0===t.resolveOptions.hash;w?(history[t.navigateOptions.historyAPIMethod||"pushState"](t.navigateOptions.stateObj||{},t.navigateOptions.title||"",o?"#"+e:e),location&&location.hash&&(t.instance.__freezeListening=!0,setTimeout((function(){var n=location.hash;location.hash="",location.hash=n,t.instance.__freezeListening=!1}),1))):L&&(window.location.href=t.to)}n()}function P(t,n){var e=t.instance;e.lastResolved()?m(e.lastResolved().map((function(n){return function(e,o){if(n.route.hooks&&n.route.hooks.leave){var r=!1,i=t.instance.matchLocation(n.route.path,t.currentLocationPath,!1);r="*"!==n.route.path?!i:!(t.matches&&t.matches.find((function(t){return n.route.path===t.route.path}))),d(t.navigateOptions,"callHooks")&&r?m(n.route.hooks.leave.map((function(n){return function(e,o){return n((function(n){!1===n?t.instance.__dirty=!1:o()}),t.matches&&t.matches.length>0?1===t.matches.length?t.matches[0]:t.matches:void 0)}})).concat([function(){return o()}])):o()}else o()}})),{},(function(){return n()})):n()}function A(t,n){d(t.navigateOptions,"updateState")&&t.instance._setCurrent(t.matches),n()}var R=[function(t,n){var e=t.instance.lastResolved();if(e&&e[0]&&e[0].route===t.match.route&&e[0].url===t.match.url&&e[0].queryString===t.match.queryString)return e.forEach((function(n){n.route.hooks&&n.route.hooks.already&&d(t.navigateOptions,"callHooks")&&n.route.hooks.already.forEach((function(n){return n(t.match)}))})),void n(!1);n()},function(t,n){t.match.route.hooks&&t.match.route.hooks.before&&d(t.navigateOptions,"callHooks")?m(t.match.route.hooks.before.map((function(n){return function(e,o){return n((function(n){!1===n?t.instance.__dirty=!1:o()}),t.match)}})).concat([function(){return n()}])):n()},function(t,n){d(t.navigateOptions,"callHandler")&&t.match.route.handler(t.match),t.instance.updatePageLinks(),n()},function(t,n){t.match.route.hooks&&t.match.route.hooks.after&&d(t.navigateOptions,"callHooks")&&t.match.route.hooks.after.forEach((function(n){return n(t.match)})),n()}],S=[P,function(t,n){var e=t.instance._notFoundRoute;if(e){t.notFoundHandled=!0;var o=h(t.currentLocationPath),r=o[0],i=o[1],a=u(t.to);e.path=s(r);var c={url:e.path,queryString:i,hashString:a,data:null,route:e,params:""!==i?f(i):null};t.matches=[c],t.match=c}n()},m.if((function(t){return t.notFoundHandled}),R.concat([A]),[function(t,n){t.resolveOptions&&!1!==t.resolveOptions.noMatchWarning&&void 0!==t.resolveOptions.noMatchWarning||console.warn('Navigo: "'+t.currentLocationPath+"\" didn't match any of the registered routes."),n()},function(t,n){t.instance._setCurrent(null),n()}])];function E(){return(E=Object.assign||function(t){for(var n=1;n<arguments.length;n++){var e=arguments[n];for(var o in e)Object.prototype.hasOwnProperty.call(e,o)&&(t[o]=e[o])}return t}).apply(this,arguments)}function H(t,n){var e=0;P(t,(function o(){e!==t.matches.length?m(R,E({},t,{match:t.matches[e]}),(function(){e+=1,o()})):A(t,n)}))}function x(t){t.instance.__dirty=!1,t.instance.__waiting.length>0&&t.instance.__waiting.shift()()}function j(){return(j=Object.assign||function(t){for(var n=1;n<arguments.length;n++){var e=arguments[n];for(var o in e)Object.prototype.hasOwnProperty.call(e,o)&&(t[o]=e[o])}return t}).apply(this,arguments)}function N(t,n){var e,o=n||{strategy:"ONE",hash:!1,noMatchWarning:!1},r=this,i="/",d=null,L=[],w=!1,P=p(),A=v();function R(t){return t.indexOf("#")>=0&&(t=!0===o.hash?t.split("#")[1]||"/":t.split("#")[0]),t}function E(t){return s(i+"/"+s(t))}function N(t,n,e,o){return t=c(t)?E(t):t,{name:o||s(String(t)),path:t,handler:n,hooks:g(e)}}function C(t,n){if(!r.__dirty){r.__dirty=!0,t=t?s(i)+"/"+s(t):void 0;var e={instance:r,to:t,currentLocationPath:t,navigateOptions:{},resolveOptions:j({},o,n)};return m([y,_,m.if((function(t){var n=t.matches;return n&&n.length>0}),H,S)],e,x),!!e.matches&&e.matches}r.__waiting.push((function(){return r.resolve(t,n)}))}function U(t,n){if(r.__dirty)r.__waiting.push((function(){return r.navigate(t,n)}));else{r.__dirty=!0,t=s(i)+"/"+s(t);var e={instance:r,to:t,navigateOptions:n||{},resolveOptions:n&&n.resolveOptions?n.resolveOptions:o,currentLocationPath:R(t)};m([O,k,_,m.if((function(t){var n=t.matches;return n&&n.length>0}),H,S),b,x],e,x)}}function q(){if(A)return(A?[].slice.call(document.querySelectorAll("[data-navigo]")):[]).forEach((function(t){"false"!==t.getAttribute("data-navigo")&&"_blank"!==t.getAttribute("target")?t.hasListenerAttached||(t.hasListenerAttached=!0,t.navigoHandler=function(n){if((n.ctrlKey||n.metaKey)&&"a"===n.target.tagName.toLowerCase())return!1;var e=t.getAttribute("href");if(null==e)return!1;if(e.match(/^(http|https)/)&&"undefined"!=typeof URL)try{var o=new URL(e);e=o.pathname+o.search}catch(t){}var i=function(t){if(!t)return{};var n,e=t.split(","),o={};return e.forEach((function(t){var e=t.split(":").map((function(t){return t.replace(/(^ +| +$)/g,"")}));switch(e[0]){case"historyAPIMethod":o.historyAPIMethod=e[1];break;case"resolveOptionsStrategy":n||(n={}),n.strategy=e[1];break;case"resolveOptionsHash":n||(n={}),n.hash="true"===e[1];break;case"updateBrowserURL":case"callHandler":case"updateState":case"force":o[e[0]]="true"===e[1]}})),n&&(o.resolveOptions=n),o}(t.getAttribute("data-navigo-options"));w||(n.preventDefault(),n.stopPropagation(),r.navigate(s(e),i))},t.addEventListener("click",t.navigoHandler)):t.hasListenerAttached&&t.removeEventListener("click",t.navigoHandler)})),r}function F(t,n){var e=L.find((function(n){return n.name===t}));if(e){var o=e.path;if(n)for(var r in n)o=o.replace(":"+r,n[r]);return o.match(/^\//)?o:"/"+o}return null}function I(t){var n=h(s(t)),o=n[0],r=n[1],i=""===r?null:f(r);return{url:o,queryString:r,hashString:u(t),route:N(o,(function(){}),[e],o),data:null,params:i}}function M(t,n,e){return"string"==typeof n&&(n=T(n)),n?(n.hooks[t]||(n.hooks[t]=[]),n.hooks[t].push(e),function(){n.hooks[t]=n.hooks[t].filter((function(t){return t!==e}))}):(console.warn("Route doesn't exists: "+n),function(){})}function T(t){return"string"==typeof t?L.find((function(n){return n.name===E(t)})):L.find((function(n){return n.handler===t}))}t?i=s(t):console.warn('Navigo requires a root path in its constructor. If not provided will use "/" as default.'),this.root=i,this.routes=L,this.destroyed=w,this.current=d,this.__freezeListening=!1,this.__waiting=[],this.__dirty=!1,this.on=function(t,n,o){var r=this;return"object"!=typeof t||t instanceof RegExp?("function"==typeof t&&(o=n,n=t,t=i),L.push(N(t,n,[e,o])),this):(Object.keys(t).forEach((function(n){if("function"==typeof t[n])r.on(n,t[n]);else{var o=t[n],i=o.uses,a=o.as,s=o.hooks;L.push(N(n,i,[e,s],a))}})),this)},this.off=function(t){return this.routes=L=L.filter((function(n){return c(t)?s(n.path)!==s(t):"function"==typeof t?t!==n.handler:String(n.path)!==String(t)})),this},this.resolve=C,this.navigate=U,this.navigateByName=function(t,n,e){var o=F(t,n);return null!==o&&(U(o,e),!0)},this.destroy=function(){this.routes=L=[],P&&window.removeEventListener("popstate",this.__popstateListener),this.destroyed=w=!0},this.notFound=function(t,n){return r._notFoundRoute=N("*",t,[e,n],"__NOT_FOUND__"),this},this.updatePageLinks=q,this.link=function(t){return"/"+i+"/"+s(t)},this.hooks=function(t){return e=t,this},this.extractGETParameters=function(t){return h(R(t))},this.lastResolved=function(){return d},this.generate=F,this.getLinkPath=function(t){return t.getAttribute("href")},this.match=function(t){var n={instance:r,currentLocationPath:t,to:t,navigateOptions:{},resolveOptions:o};return _(n,(function(){})),!!n.matches&&n.matches},this.matchLocation=function(t,n,e){void 0===n||void 0!==e&&!e||(n=E(n));var o={instance:r,to:n,currentLocationPath:n};return y(o,(function(){})),"string"==typeof t&&(t=void 0===e||e?E(t):t),l(o,{name:String(t),path:t,handler:function(){},hooks:{}})||!1},this.getCurrentLocation=function(){return I(s(a(i)).replace(new RegExp("^"+i),""))},this.addBeforeHook=M.bind(this,"before"),this.addAfterHook=M.bind(this,"after"),this.addAlreadyHook=M.bind(this,"already"),this.addLeaveHook=M.bind(this,"leave"),this.getRoute=T,this._pathToMatchObject=I,this._clean=s,this._checkForAHash=R,this._setCurrent=function(t){return d=r.current=t},function(){P&&(this.__popstateListener=function(){r.__freezeListening||C()},window.addEventListener("popstate",this.__popstateListener))}.call(this),q.call(this)}}},n={};function e(o){if(n[o])return n[o].exports;var r=n[o]={exports:{}};return t[o](r,r.exports,e),r.exports}return e.d=(t,n)=>{for(var o in n)e.o(n,o)&&!e.o(t,o)&&Object.defineProperty(t,o,{enumerable:!0,get:n[o]})},e.o=(t,n)=>Object.prototype.hasOwnProperty.call(t,n),e(407)})().default}));
+
+},{}],"src/assets/scripts/routes/router.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.router = void 0;
+
+var _navigo = _interopRequireDefault(require("navigo"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var router = new _navigo.default("/");
+exports.router = router;
+},{"navigo":"node_modules/navigo/lib/navigo.min.js"}],"src/data/data.json":[function(require,module,exports) {
 module.exports = {
   "currentUser": {
     "image": "./assets/user-images/image-zena.jpg",
@@ -8378,25 +8396,110 @@ module.exports = {
     }]
   }]
 };
-},{}],"node_modules/navigo/lib/navigo.min.js":[function(require,module,exports) {
-var define;
-!function(t,n){"object"==typeof exports&&"object"==typeof module?module.exports=n():"function"==typeof define&&define.amd?define("Navigo",[],n):"object"==typeof exports?exports.Navigo=n():t.Navigo=n()}("undefined"!=typeof self?self:this,(function(){return(()=>{"use strict";var t={407:(t,n,e)=>{e.d(n,{default:()=>N});var o=/([:*])(\w+)/g,r=/\*/g,i=/\/\?/g;function a(t){return void 0===t&&(t="/"),v()?location.pathname+location.search+location.hash:t}function s(t){return t.replace(/\/+$/,"").replace(/^\/+/,"")}function c(t){return"string"==typeof t}function u(t){return t&&t.indexOf("#")>=0&&t.split("#").pop()||""}function h(t){var n=s(t).split(/\?(.*)?$/);return[s(n[0]),n.slice(1).join("")]}function f(t){for(var n={},e=t.split("&"),o=0;o<e.length;o++){var r=e[o].split("=");if(""!==r[0]){var i=decodeURIComponent(r[0]);n[i]?(Array.isArray(n[i])||(n[i]=[n[i]]),n[i].push(decodeURIComponent(r[1]||""))):n[i]=decodeURIComponent(r[1]||"")}}return n}function l(t,n){var e,a=h(s(t.currentLocationPath)),l=a[0],p=a[1],d=""===p?null:f(p),v=[];if(c(n.path)){if(e="(?:/^|^)"+s(n.path).replace(o,(function(t,n,e){return v.push(e),"([^/]+)"})).replace(r,"?(?:.*)").replace(i,"/?([^/]+|)")+"$",""===s(n.path)&&""===s(l))return{url:l,queryString:p,hashString:u(t.to),route:n,data:null,params:d}}else e=n.path;var g=new RegExp(e,""),m=l.match(g);if(m){var y=c(n.path)?function(t,n){return 0===n.length?null:t?t.slice(1,t.length).reduce((function(t,e,o){return null===t&&(t={}),t[n[o]]=decodeURIComponent(e),t}),null):null}(m,v):m.groups?m.groups:m.slice(1);return{url:s(l.replace(new RegExp("^"+t.instance.root),"")),queryString:p,hashString:u(t.to),route:n,data:y,params:d}}return!1}function p(){return!("undefined"==typeof window||!window.history||!window.history.pushState)}function d(t,n){return void 0===t[n]||!0===t[n]}function v(){return"undefined"!=typeof window}function g(t,n){return void 0===t&&(t=[]),void 0===n&&(n={}),t.filter((function(t){return t})).forEach((function(t){["before","after","already","leave"].forEach((function(e){t[e]&&(n[e]||(n[e]=[]),n[e].push(t[e]))}))})),n}function m(t,n,e){var o=n||{},r=0;!function n(){t[r]?Array.isArray(t[r])?(t.splice.apply(t,[r,1].concat(t[r][0](o)?t[r][1]:t[r][2])),n()):t[r](o,(function(t){void 0===t||!0===t?(r+=1,n()):e&&e(o)})):e&&e(o)}()}function y(t,n){void 0===t.currentLocationPath&&(t.currentLocationPath=t.to=a(t.instance.root)),t.currentLocationPath=t.instance._checkForAHash(t.currentLocationPath),n()}function _(t,n){for(var e=0;e<t.instance.routes.length;e++){var o=l(t,t.instance.routes[e]);if(o&&(t.matches||(t.matches=[]),t.matches.push(o),"ONE"===t.resolveOptions.strategy))return void n()}n()}function O(t,n){t.navigateOptions&&(void 0!==t.navigateOptions.shouldResolve&&console.warn('"shouldResolve" is deprecated. Please check the documentation.'),void 0!==t.navigateOptions.silent&&console.warn('"silent" is deprecated. Please check the documentation.')),n()}function k(t,n){!0===t.navigateOptions.force?(t.instance._setCurrent([t.instance._pathToMatchObject(t.to)]),n(!1)):n()}m.if=function(t,n,e){return Array.isArray(n)||(n=[n]),Array.isArray(e)||(e=[e]),[t,n,e]};var L=v(),w=p();function b(t,n){if(d(t.navigateOptions,"updateBrowserURL")){var e=("/"+t.to).replace(/\/\//g,"/"),o=L&&t.resolveOptions&&!0===t.resolveOptions.hash;w?(history[t.navigateOptions.historyAPIMethod||"pushState"](t.navigateOptions.stateObj||{},t.navigateOptions.title||"",o?"#"+e:e),location&&location.hash&&(t.instance.__freezeListening=!0,setTimeout((function(){var n=location.hash;location.hash="",location.hash=n,t.instance.__freezeListening=!1}),1))):L&&(window.location.href=t.to)}n()}function P(t,n){var e=t.instance;e.lastResolved()?m(e.lastResolved().map((function(n){return function(e,o){if(n.route.hooks&&n.route.hooks.leave){var r=!1,i=t.instance.matchLocation(n.route.path,t.currentLocationPath,!1);r="*"!==n.route.path?!i:!(t.matches&&t.matches.find((function(t){return n.route.path===t.route.path}))),d(t.navigateOptions,"callHooks")&&r?m(n.route.hooks.leave.map((function(n){return function(e,o){return n((function(n){!1===n?t.instance.__dirty=!1:o()}),t.matches&&t.matches.length>0?1===t.matches.length?t.matches[0]:t.matches:void 0)}})).concat([function(){return o()}])):o()}else o()}})),{},(function(){return n()})):n()}function A(t,n){d(t.navigateOptions,"updateState")&&t.instance._setCurrent(t.matches),n()}var R=[function(t,n){var e=t.instance.lastResolved();if(e&&e[0]&&e[0].route===t.match.route&&e[0].url===t.match.url&&e[0].queryString===t.match.queryString)return e.forEach((function(n){n.route.hooks&&n.route.hooks.already&&d(t.navigateOptions,"callHooks")&&n.route.hooks.already.forEach((function(n){return n(t.match)}))})),void n(!1);n()},function(t,n){t.match.route.hooks&&t.match.route.hooks.before&&d(t.navigateOptions,"callHooks")?m(t.match.route.hooks.before.map((function(n){return function(e,o){return n((function(n){!1===n?t.instance.__dirty=!1:o()}),t.match)}})).concat([function(){return n()}])):n()},function(t,n){d(t.navigateOptions,"callHandler")&&t.match.route.handler(t.match),t.instance.updatePageLinks(),n()},function(t,n){t.match.route.hooks&&t.match.route.hooks.after&&d(t.navigateOptions,"callHooks")&&t.match.route.hooks.after.forEach((function(n){return n(t.match)})),n()}],S=[P,function(t,n){var e=t.instance._notFoundRoute;if(e){t.notFoundHandled=!0;var o=h(t.currentLocationPath),r=o[0],i=o[1],a=u(t.to);e.path=s(r);var c={url:e.path,queryString:i,hashString:a,data:null,route:e,params:""!==i?f(i):null};t.matches=[c],t.match=c}n()},m.if((function(t){return t.notFoundHandled}),R.concat([A]),[function(t,n){t.resolveOptions&&!1!==t.resolveOptions.noMatchWarning&&void 0!==t.resolveOptions.noMatchWarning||console.warn('Navigo: "'+t.currentLocationPath+"\" didn't match any of the registered routes."),n()},function(t,n){t.instance._setCurrent(null),n()}])];function E(){return(E=Object.assign||function(t){for(var n=1;n<arguments.length;n++){var e=arguments[n];for(var o in e)Object.prototype.hasOwnProperty.call(e,o)&&(t[o]=e[o])}return t}).apply(this,arguments)}function H(t,n){var e=0;P(t,(function o(){e!==t.matches.length?m(R,E({},t,{match:t.matches[e]}),(function(){e+=1,o()})):A(t,n)}))}function x(t){t.instance.__dirty=!1,t.instance.__waiting.length>0&&t.instance.__waiting.shift()()}function j(){return(j=Object.assign||function(t){for(var n=1;n<arguments.length;n++){var e=arguments[n];for(var o in e)Object.prototype.hasOwnProperty.call(e,o)&&(t[o]=e[o])}return t}).apply(this,arguments)}function N(t,n){var e,o=n||{strategy:"ONE",hash:!1,noMatchWarning:!1},r=this,i="/",d=null,L=[],w=!1,P=p(),A=v();function R(t){return t.indexOf("#")>=0&&(t=!0===o.hash?t.split("#")[1]||"/":t.split("#")[0]),t}function E(t){return s(i+"/"+s(t))}function N(t,n,e,o){return t=c(t)?E(t):t,{name:o||s(String(t)),path:t,handler:n,hooks:g(e)}}function C(t,n){if(!r.__dirty){r.__dirty=!0,t=t?s(i)+"/"+s(t):void 0;var e={instance:r,to:t,currentLocationPath:t,navigateOptions:{},resolveOptions:j({},o,n)};return m([y,_,m.if((function(t){var n=t.matches;return n&&n.length>0}),H,S)],e,x),!!e.matches&&e.matches}r.__waiting.push((function(){return r.resolve(t,n)}))}function U(t,n){if(r.__dirty)r.__waiting.push((function(){return r.navigate(t,n)}));else{r.__dirty=!0,t=s(i)+"/"+s(t);var e={instance:r,to:t,navigateOptions:n||{},resolveOptions:n&&n.resolveOptions?n.resolveOptions:o,currentLocationPath:R(t)};m([O,k,_,m.if((function(t){var n=t.matches;return n&&n.length>0}),H,S),b,x],e,x)}}function q(){if(A)return(A?[].slice.call(document.querySelectorAll("[data-navigo]")):[]).forEach((function(t){"false"!==t.getAttribute("data-navigo")&&"_blank"!==t.getAttribute("target")?t.hasListenerAttached||(t.hasListenerAttached=!0,t.navigoHandler=function(n){if((n.ctrlKey||n.metaKey)&&"a"===n.target.tagName.toLowerCase())return!1;var e=t.getAttribute("href");if(null==e)return!1;if(e.match(/^(http|https)/)&&"undefined"!=typeof URL)try{var o=new URL(e);e=o.pathname+o.search}catch(t){}var i=function(t){if(!t)return{};var n,e=t.split(","),o={};return e.forEach((function(t){var e=t.split(":").map((function(t){return t.replace(/(^ +| +$)/g,"")}));switch(e[0]){case"historyAPIMethod":o.historyAPIMethod=e[1];break;case"resolveOptionsStrategy":n||(n={}),n.strategy=e[1];break;case"resolveOptionsHash":n||(n={}),n.hash="true"===e[1];break;case"updateBrowserURL":case"callHandler":case"updateState":case"force":o[e[0]]="true"===e[1]}})),n&&(o.resolveOptions=n),o}(t.getAttribute("data-navigo-options"));w||(n.preventDefault(),n.stopPropagation(),r.navigate(s(e),i))},t.addEventListener("click",t.navigoHandler)):t.hasListenerAttached&&t.removeEventListener("click",t.navigoHandler)})),r}function F(t,n){var e=L.find((function(n){return n.name===t}));if(e){var o=e.path;if(n)for(var r in n)o=o.replace(":"+r,n[r]);return o.match(/^\//)?o:"/"+o}return null}function I(t){var n=h(s(t)),o=n[0],r=n[1],i=""===r?null:f(r);return{url:o,queryString:r,hashString:u(t),route:N(o,(function(){}),[e],o),data:null,params:i}}function M(t,n,e){return"string"==typeof n&&(n=T(n)),n?(n.hooks[t]||(n.hooks[t]=[]),n.hooks[t].push(e),function(){n.hooks[t]=n.hooks[t].filter((function(t){return t!==e}))}):(console.warn("Route doesn't exists: "+n),function(){})}function T(t){return"string"==typeof t?L.find((function(n){return n.name===E(t)})):L.find((function(n){return n.handler===t}))}t?i=s(t):console.warn('Navigo requires a root path in its constructor. If not provided will use "/" as default.'),this.root=i,this.routes=L,this.destroyed=w,this.current=d,this.__freezeListening=!1,this.__waiting=[],this.__dirty=!1,this.on=function(t,n,o){var r=this;return"object"!=typeof t||t instanceof RegExp?("function"==typeof t&&(o=n,n=t,t=i),L.push(N(t,n,[e,o])),this):(Object.keys(t).forEach((function(n){if("function"==typeof t[n])r.on(n,t[n]);else{var o=t[n],i=o.uses,a=o.as,s=o.hooks;L.push(N(n,i,[e,s],a))}})),this)},this.off=function(t){return this.routes=L=L.filter((function(n){return c(t)?s(n.path)!==s(t):"function"==typeof t?t!==n.handler:String(n.path)!==String(t)})),this},this.resolve=C,this.navigate=U,this.navigateByName=function(t,n,e){var o=F(t,n);return null!==o&&(U(o,e),!0)},this.destroy=function(){this.routes=L=[],P&&window.removeEventListener("popstate",this.__popstateListener),this.destroyed=w=!0},this.notFound=function(t,n){return r._notFoundRoute=N("*",t,[e,n],"__NOT_FOUND__"),this},this.updatePageLinks=q,this.link=function(t){return"/"+i+"/"+s(t)},this.hooks=function(t){return e=t,this},this.extractGETParameters=function(t){return h(R(t))},this.lastResolved=function(){return d},this.generate=F,this.getLinkPath=function(t){return t.getAttribute("href")},this.match=function(t){var n={instance:r,currentLocationPath:t,to:t,navigateOptions:{},resolveOptions:o};return _(n,(function(){})),!!n.matches&&n.matches},this.matchLocation=function(t,n,e){void 0===n||void 0!==e&&!e||(n=E(n));var o={instance:r,to:n,currentLocationPath:n};return y(o,(function(){})),"string"==typeof t&&(t=void 0===e||e?E(t):t),l(o,{name:String(t),path:t,handler:function(){},hooks:{}})||!1},this.getCurrentLocation=function(){return I(s(a(i)).replace(new RegExp("^"+i),""))},this.addBeforeHook=M.bind(this,"before"),this.addAfterHook=M.bind(this,"after"),this.addAlreadyHook=M.bind(this,"already"),this.addLeaveHook=M.bind(this,"leave"),this.getRoute=T,this._pathToMatchObject=I,this._clean=s,this._checkForAHash=R,this._setCurrent=function(t){return d=r.current=t},function(){P&&(this.__popstateListener=function(){r.__freezeListening||C()},window.addEventListener("popstate",this.__popstateListener))}.call(this),q.call(this)}}},n={};function e(o){if(n[o])return n[o].exports;var r=n[o]={exports:{}};return t[o](r,r.exports,e),r.exports}return e.d=(t,n)=>{for(var o in n)e.o(n,o)&&!e.o(t,o)&&Object.defineProperty(t,o,{enumerable:!0,get:n[o]})},e.o=(t,n)=>Object.prototype.hasOwnProperty.call(t,n),e(407)})().default}));
-
-},{}],"src/assets/scripts/routes/router.js":[function(require,module,exports) {
+},{}],"src/assets/scripts/modules/getSuggestions.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.router = void 0;
+exports.initialValues = exports.getSuggestions = void 0;
 
-var _navigo = _interopRequireDefault(require("navigo"));
+var _data = _interopRequireDefault(require("/src/data/data"));
+
+require("/src/assets/scripts/routes/details");
+
+var _sharedFunctions = require("../shared/shared-functions");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var router = new _navigo.default("/");
-exports.router = router;
-},{"navigo":"node_modules/navigo/lib/navigo.min.js"}],"src/assets/scripts/shared/shared-functions.js":[function(require,module,exports) {
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+var initialValues = {
+  feedbackArray: [],
+  getFilteredSuggestions: [],
+  currentUser: {
+    name: "Nikola Cvetic",
+    username: "Cvele",
+    image: "src/assets/images/user-images/nikola.jpg"
+  },
+  selectedItem: null,
+  previousRoute: []
+}; // get list results globally
+
+exports.initialValues = initialValues;
+
+var getSuggestions = function getSuggestions(arrayToLoop, toFilter) {
+  var feedbackWrapper = document.querySelector(".feedback-items-wrapper");
+  var upvotes = document.querySelector(".upvotes");
+  var suggestionsList = arrayToLoop.filter(function (el) {
+    var final = toFilter ? el.id == toFilter : el;
+    return final;
+  });
+  var mapped = suggestionsList.map(function (el) {
+    return "<div class=\"feedback-item\" id=\"".concat(el.id, "\">\n              <div class=\"feedback-item__left upvotes\">\n              <span class=\"arrow\"></span>\n              <input type=\"hidden\"/>\n                <div class=\"count\">").concat(el.upvotes, "</div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(el.title, "</h4>\n                <p>\n                  ").concat(el.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(el.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count\">\n                  ").concat(el.comments ? el.comments.length : 0, "\n                </div>\n              </div>\n            </div>");
+  });
+
+  var filterAll = function filterAll(e) {
+    var localArray = initialValues.feedbackArray;
+    var filtered = localArray.filter(function (el, i, self) {
+      var returnValue = e.currentTarget.innerHTML == "All" ? el : el.category == e.currentTarget.innerHTML.toLowerCase();
+      return returnValue;
+    });
+    getSuggestions(filtered);
+  }; // fill the container
+
+
+  feedbackWrapper.innerHTML = mapped.join("");
+  var categoryBtns = document.querySelectorAll(".category");
+  categoryBtns.forEach(function (el) {
+    return el.addEventListener("click", filterAll);
+  }); // item recognition
+
+  var feedbackItems = document.querySelectorAll(".feedback-item");
+  feedbackItems && feedbackItems.forEach(function (element) {
+    element.addEventListener("click", _sharedFunctions.feedbackDetails);
+  });
+}; // initial fetch
+
+
+exports.getSuggestions = getSuggestions;
+
+function fetchSuggestions() {
+  return _fetchSuggestions.apply(this, arguments);
+} // module invoked on load
+
+
+function _fetchSuggestions() {
+  _fetchSuggestions = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+    var feedbackWrapper;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            feedbackWrapper = document.querySelector(".feedback-items-wrapper"); // fetch
+            // const response = await fetch("/data/data.json");
+            // const json = await response.json();
+            // fill the object
+
+            initialValues.feedbackArray = _data.default.productRequests; //call outer getSuggestions function
+
+            getSuggestions(_data.default.productRequests);
+
+          case 3:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+  return _fetchSuggestions.apply(this, arguments);
+}
+
+window.addEventListener("load", fetchSuggestions);
+window.addEventListener("popstate", fetchSuggestions);
+},{"/src/data/data":"src/data/data.json","/src/assets/scripts/routes/details":"src/assets/scripts/routes/details.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js"}],"src/assets/scripts/shared/shared-functions.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8438,9 +8541,10 @@ var goBack = function goBack(filterCurrent) {
 
   _router.router.navigate(pathToGoBack);
 
-  (0, _getSuggestions.getSuggestions)(_getSuggestions.initialValues.feedbackArray, typeof filterCurrent == "string" ? filterCurrent : undefined);
-
-  _getSuggestions.initialValues.previousRoute.pop();
+  var passedArray = _getSuggestions.initialValues.previousRoute.pop() !== "/roadmap" ? _getSuggestions.initialValues.feedbackArray : _getSuggestions.initialValues.feedbackArray.filter(function (el) {
+    return el.status == "planned";
+  });
+  (0, _getSuggestions.getSuggestions)(passedArray, typeof filterCurrent == "string" ? filterCurrent : undefined);
 }; // Details navigate
 
 
@@ -8502,113 +8606,183 @@ var sortItems = function sortItems(e) {
 };
 
 exports.sortItems = sortItems;
-},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../routes/router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/modules/getSuggestions.js":[function(require,module,exports) {
+},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../routes/router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/templates/details.template.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.initialValues = exports.getSuggestions = void 0;
+exports.getItems = exports.detailsTemplate = void 0;
 
-var _data = _interopRequireDefault(require("/src/data/data"));
+var getItems = function getItems(toMap) {
+  var items = toMap && toMap.map(function (el) {
+    return "\n            <div class=\"item\">\n              <div class=\"info\">\n                <div class=\"profile-image\">\n                  <div cass=\"".concat(el && el.user && el.user.image && el.user.image.split("/").pop(), "\"\n                     style=\"background-image: url(").concat(el && el.user && el.user.image.split("/").pop(), ")\">\n                  </div>\n                </div>\n                <div class=\"name\">\n                  <bold>").concat(el && el.user.name, "</bold>\n                  <div>@").concat(el && el.user.username, "</div>\n                </div>\n                <span class=\"reply-activate\">reply</span>\n              </div>\n              <div class=\"text\">\n                <span>").concat(el.replies ? '@' + el.replyingTo : '', "</span>\n                ").concat(el && el.content, "\n              </div>\n              <div class=\"reply\">\n                <div class=\"items-wrapper\">\n                    ").concat(el.replies ? getItems(el.replies) : '', "\n                </div>\n                <textarea placeholder=\"Type your reply here\"></textarea>\n                <button>Post Reply</button>\n              </div>\n            </div>");
+  });
+  return items && items.join("");
+};
 
-require("/src/assets/scripts/routes/details");
+exports.getItems = getItems;
+
+var detailsTemplate = function detailsTemplate(passedCurrent) {
+  getItems(passedCurrent && passedCurrent.comments);
+  return "\n<section class=\"details\">\n  <div class=\"details__controls\">\n    <div class=\"back\">\n      <span class=\"arrow\"></span>\n      <span class=\"text\">Go back</span>\n    </div>\n    <span class=\"edit-feedback\">+ Edit Feedback</span>\n  </div>\n  <div class=\"details__current\">\n    <div class=\"feedback feedback--details\">\n      <div class=\"feedback-items-wrapper\">\n        <div class=\"feedback-item\" id=\"".concat(passedCurrent.id, "\">\n          <div class=\"feedback-item__left\">\n            <span class=\"arrow\"></span>\n            <div class=\"count\">").concat(passedCurrent.upvotes, "</div>\n          </div>\n          <div class=\"feedback-item__center\">\n            <h4 class=\"title\">").concat(passedCurrent.title, "</h4>\n            <p>\n              ").concat(passedCurrent.description, "\n            </p>\n            <div class=\"tag\">\n              <span>").concat(passedCurrent.category, "</span>\n            </div>\n          </div>\n          <div class=\"feedback-item__right\">\n            <span class=\"comment\"></span>\n            <div class=\"count\">\n              ").concat(passedCurrent.comments ? passedCurrent.comments.length : 0, "\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n    <div class=\"comments\">\n    <bold>\n      <span>").concat(passedCurrent.comments ? passedCurrent.comments.length : '', "</span>\n      <span>").concat(passedCurrent.comments && passedCurrent.comments.length == 1 ? "Comment" : "Comments", "</span>\n    </bold>\n      <div class=\"items-wrapper\">\n        ").concat(passedCurrent.comments && getItems(passedCurrent.comments), "\n      </div>\n      <div class=\"add\">\n        <bold>Add Comments</bold>\n        <textarea name=\"\" id=\"\" cols=\"30\" rows=\"10\" placeholder=\"Type your comment here\"></textarea>\n        <div class=\"post\">\n          <span><span class=\"char-left\"></span> characters left</span>\n          <button class=\"post-comment\">Post Comment</button>\n        </div>\n      </div>\n    </div>\n  </div>\n</section>");
+}; //   <div class="text"><span>${el.replies &&el.user.username}</span>${el && el.content}</div>
+
+
+exports.detailsTemplate = detailsTemplate;
+},{}],"src/assets/scripts/modules/details-module.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.detailsModule = detailsModule;
+
+var _router = require("../routes/router");
 
 var _sharedFunctions = require("../shared/shared-functions");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _details = require("../templates/details.template");
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+var _getSuggestions = require("./getSuggestions");
 
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
-var initialValues = {
-  feedbackArray: [],
-  getFilteredSuggestions: [],
-  currentUser: {
-    name: "Nikola Cvetic"
-  },
-  selectedItem: null,
-  previousRoute: []
-}; // get list results globally
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-exports.initialValues = initialValues;
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-var getSuggestions = function getSuggestions(arrayToLoop, toFilter) {
-  var feedbackWrapper = document.querySelector(".feedback-items-wrapper");
-  var upvotes = document.querySelector(".upvotes");
-  var suggestionsList = arrayToLoop.filter(function (el) {
-    var final = toFilter ? el.id == toFilter : el;
-    return final;
-  });
-  var mapped = suggestionsList.map(function (el) {
-    return "<div class=\"feedback-item\" id=\"".concat(el.id, "\">\n              <div class=\"feedback-item__left upvotes\">\n              <span class=\"arrow\"></span>\n              <input type=\"hidden\"/>\n                <div class=\"count\">").concat(el.upvotes, "</div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(el.title, "</h4>\n                <p>\n                  ").concat(el.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(el.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count\">\n                  ").concat(el.comments ? el.comments.length : 0, "\n                </div>\n              </div>\n            </div>");
-  }); // fill the container
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
 
-  feedbackWrapper.innerHTML = mapped.join("");
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
-  var filterAll = function filterAll(e) {
-    var localArray = initialValues.feedbackArray;
-    var filtered = localArray.filter(function (el, i, self) {
-      var returnValue = e.currentTarget.innerHTML == "All" ? el : el.category == e.currentTarget.innerHTML.toLowerCase();
-      return returnValue;
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function detailsModule(match, currentProp) {
+  var passedCurrent = currentProp;
+  var addComment = document.querySelector(".post-comment");
+  var commentContent = document.querySelector(".add textarea");
+  var replyContent = document.querySelectorAll(".reply textarea");
+  var replyActivate = document.querySelectorAll(".reply-activate");
+  var replyWrapper = document.querySelectorAll(".reply");
+  var replyPost = document.querySelectorAll(".reply button"); // Add comments array where it is undefined
+
+  passedCurrent && !passedCurrent.comments && (passedCurrent = _objectSpread(_objectSpread({}, passedCurrent), {}, {
+    comments: []
+  })); // get the biggest comment id
+
+  var maxCommentIds = [];
+
+  var commentsLength = function commentsLength() {
+    return _getSuggestions.initialValues.feedbackArray && _getSuggestions.initialValues.feedbackArray.forEach(function (el) {
+      el.comments && el.comments.forEach(function (el) {
+        return maxCommentIds = [].concat(_toConsumableArray(maxCommentIds), [el.id]);
+      });
     });
-    getSuggestions(filtered);
+  }; // Add comment
+
+
+  var addCommentFunction = function addCommentFunction() {
+    commentsLength();
+    var nextMax = Math.max.apply(Math, _toConsumableArray(maxCommentIds)) + 1;
+    maxCommentIds = [];
+    var newComment = {
+      content: commentContent.value,
+      id: nextMax,
+      user: {
+        image: _getSuggestions.initialValues.currentUser.image,
+        name: _getSuggestions.initialValues.currentUser.name,
+        username: _getSuggestions.initialValues.currentUser.username
+      }
+    }; // Spread old array with new comments
+
+    var newCommentsArray = passedCurrent.comment ? [].concat(_toConsumableArray(passedCurrent.comments), [newComment]) : [newComment]; // IT SHOULD ALSO BE SENT TO BACKEND
+    // change HTML
+
+    (0, _details.getItems)(newCommentsArray);
+    var items = document.querySelector(".items-wrapper");
+    items.innerHTML += (0, _details.getItems)(newCommentsArray.slice(-1));
+    maxCommentIds = [].concat(_toConsumableArray(maxCommentIds), [nextMax]);
+    addEvenetsListeners();
+  }; // Reply post
+
+
+  var addReply = function addReply(e) {
+    !passedCurrent.comments.replies && (passedCurrent = _objectSpread(_objectSpread({}, passedCurrent), {}, {
+      comments: _objectSpread(_objectSpread({}, passedCurrent.comments), {}, {
+        replies: []
+      })
+    }));
+    var newReply = {
+      content: e.currentTarget.previousElementSibling.value,
+      replyingTo: e.currentTarget.getAttribute("data-reply-to"),
+      user: {
+        image: "./assets/user-images/image-zena.jpg",
+        name: _getSuggestions.initialValues.currentUser.name,
+        username: _getSuggestions.initialValues.currentUser.username
+      }
+    }; // Spread old object with new replies
+
+    passedCurrent = _objectSpread(_objectSpread({}, passedCurrent), {}, {
+      comments: _objectSpread(_objectSpread({}, passedCurrent.comments), {}, {
+        replies: passedCurrent.comments.replies ? [].concat(_toConsumableArray(passedCurrent.comments.replies), [newReply]) : [newReply]
+      })
+    }); // IT SHOULD ALSO BE SENT TO BACKEND
+
+    (0, _details.getItems)(passedCurrent.comments.replies);
+    var commentItems = document.querySelector(".items-wrapper");
+    var replyItems = document.querySelector(".reply .items-wrapper");
+    e.currentTarget.previousElementSibling.previousElementSibling.innerHTML += (0, _details.getItems)(passedCurrent.comments.replies.slice(-1));
+    addEvenetsListeners();
   };
 
-  var categoryBtns = document.querySelectorAll(".category");
-  categoryBtns.forEach(function (el) {
-    return el.addEventListener("click", filterAll);
-  }); // item recognition
-
-  var feedbackItems = document.querySelectorAll(".feedback-item");
-  feedbackItems && feedbackItems.forEach(function (element) {
-    element.addEventListener("click", _sharedFunctions.feedbackDetails);
-  });
-}; // initial fetch
+  var replyShow = function replyShow(e) {
+    e.currentTarget.parentElement.parentElement.lastElementChild.classList.toggle("reply--visible");
+  }; // set current route as return destination, and imported back function
 
 
-exports.getSuggestions = getSuggestions;
+  (0, _sharedFunctions.setPreviousRoute)(match.url);
+  var back = document.querySelector(".details__controls .back");
+  var goToEdit = document.querySelector(".details__controls .edit-feedback");
 
-function fetchSuggestions() {
-  return _fetchSuggestions.apply(this, arguments);
-} // module invoked on load
+  goToEdit.onclick = function () {
+    return _router.router.navigate("/item/edit/" + match.data.id);
+  }; // Function for aading to newly set elements in HTML
 
 
-function _fetchSuggestions() {
-  _fetchSuggestions = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-    var feedbackWrapper;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            feedbackWrapper = document.querySelector(".feedback-items-wrapper"); // fetch
-            // const response = await fetch("/data/data.json");
-            // const json = await response.json();
-            // fill the object
+  function addEvenetsListeners() {
+    var addComment = document.querySelector(".post-comment");
+    var commentContent = document.querySelector(".add textarea");
+    var replyContent = document.querySelectorAll(".reply textarea");
+    var replyActivate = document.querySelectorAll(".reply-activate");
+    var replyWrapper = document.querySelectorAll(".reply");
+    var replyPost = document.querySelectorAll(".reply button");
+    back.addEventListener("click", _sharedFunctions.goBack);
+    addComment.addEventListener("click", addCommentFunction);
+    replyActivate.forEach(function (el) {
+      return el.addEventListener("click", replyShow);
+    });
+    replyPost.forEach(function (el) {
+      return el.addEventListener("click", addReply);
+    });
+  }
 
-            initialValues.feedbackArray = _data.default.productRequests; //call outer getSuggestions function
-
-            getSuggestions(_data.default.productRequests);
-
-          case 3:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-  return _fetchSuggestions.apply(this, arguments);
+  addEvenetsListeners();
 }
-
-window.addEventListener("load", fetchSuggestions);
-window.addEventListener("popstate", fetchSuggestions);
-},{"/src/data/data":"src/data/data.json","/src/assets/scripts/routes/details":"src/assets/scripts/routes/details.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js"}],"src/assets/scripts/routes/details.js":[function(require,module,exports) {
+},{"../routes/router":"src/assets/scripts/routes/router.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","../templates/details.template":"src/assets/scripts/templates/details.template.js","./getSuggestions":"src/assets/scripts/modules/getSuggestions.js"}],"src/assets/scripts/routes/details.js":[function(require,module,exports) {
 "use strict";
+
+var _detailsModule = require("../modules/details-module");
 
 var _getSuggestions = require("../modules/getSuggestions");
 
-var _sharedFunctions = require("../shared/shared-functions");
+var _details = require("../templates/details.template");
 
 var _router = require("./router");
 
@@ -8620,47 +8794,11 @@ _router.router.on("/item/:id", function (match) {
     return el.id == currentId;
   })[0];
 
-  var getItems = function getItems() {
-    var items = current.comments && current.comments.map(function (el) {
-      return "\n        <div class=\"item\">\n          <div class=\"info\">\n            <div class=\"profile-image\">\n              <div cass=\"".concat(el.user.image.split("/").pop(), "\"\n                 style=\"background-image: url(").concat(el.user.image.split("/").pop(), ")\">\n              </div>\n            </div>\n            <div class=\"name\">\n              <bold>").concat(el.user.name, "</bold>\n              <div>@").concat(el.user.username, "</div>\n            </div>\n            <span class=\"reply-activate\">reply</span>\n          </div>\n          <div class=\"text\">").concat(el.content, "</div>\n          <div class=\"reply\">\n            <textarea placeholder=\"Type your reply here\"></textarea>\n            <button>Post Reply</button>\n          </div>\n        </div>");
-    });
-    return items.join("");
-  };
+  document.body.innerHTML = (0, _details.detailsTemplate)(current); // Functions
 
-  var detailsTemplate = "\n    <section class=\"details\">\n      <div class=\"details__controls\">\n        <div class=\"back\">\n          <span class=\"arrow\"></span>\n          <span class=\"text\">Go back</span>\n        </div>\n        <span class=\"edit-feedback\">+ Edit Feedback</span>\n      </div>\n      <div class=\"details__current\">\n        <div class=\"feedback feedback--details\">\n          <div class=\"feedback-items-wrapper\">\n            <div class=\"feedback-item\" id=\"".concat(current.id, "\">\n              <div class=\"feedback-item__left\">\n                <span class=\"arrow\"></span>\n                <div class=\"count\">").concat(current.upvotes, "</div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(current.title, "</h4>\n                <p>\n                  ").concat(current.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(current.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count\">\n                  ").concat(current.comments ? current.comments.length : 0, "\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"comments\">\n        <bold>\n          <span>").concat(current.comments ? current.comments.length : 0, "</span>\n          Comments\n        </bold>\n          <div class=\"items-wrapper\">\n            ").concat(current.comments && getItems(), "\n          </div>\n          <div class=\"add\">\n            <bold></bold>\n            <textarea name=\"\" id=\"\" cols=\"30\" rows=\"10\" placeholder=\"Type your comment here\"></textarea>\n            <div class=\"post\">\n              <span>asd lef</span>\n              <button class=\"post-comment\">Post Comment</button>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section>");
-  document.body.innerHTML = detailsTemplate; // Functions
-
-  var addComment = document.querySelector(".post-comment");
-
-  var addCommentFunction = function addCommentFunction() {
-    var newComment = {
-      content: "Awesome idea! Trying to find framework-specific projects within the hubs can be tedious",
-      id: 1,
-      user: {
-        image: "./assets/user-images/image-suzanne.jpg",
-        name: "Suzanne Chang",
-        username: "upbeat1811"
-      }
-    };
-    current.comments.push(newComment);
-    getItems();
-    var items = document.querySelector(".items-wrapper");
-    items.innerHTML = getItems();
-  }; // set current route as back destination, and imported back function
-
-
-  (0, _sharedFunctions.setPreviousRoute)(match.url);
-  var back = document.querySelector(".details__controls .back");
-  var goToEdit = document.querySelector(".details__controls .edit-feedback");
-
-  goToEdit.onclick = function () {
-    return _router.router.navigate("/item/edit/" + currentId);
-  };
-
-  back.addEventListener("click", _sharedFunctions.goBack);
-  addComment.addEventListener("click", addCommentFunction);
+  (0, _detailsModule.detailsModule)(match, current);
 });
-},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/shared/helpers.js":[function(require,module,exports) {
+},{"../modules/details-module":"src/assets/scripts/modules/details-module.js","../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../templates/details.template":"src/assets/scripts/templates/details.template.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/shared/helpers.js":[function(require,module,exports) {
 var x, i, j, l, ll, selElmnt, a, b, c;
 /* Look for any elements with the class "custom-select": */
 
@@ -8845,7 +8983,6 @@ var editFeedbackModule = function editFeedbackModule(match) {
   details.value = currentObject.description;
   statusSelect.value = currentObject.status;
   categorySelect.value = currentObject.category;
-  (0, _sharedFunctions.setPreviousRoute)(match.url);
   var back = document.querySelector(".edit .back");
   var cancel = document.querySelector(".edit .cancel");
   back.addEventListener("click", function () {
@@ -8871,17 +9008,20 @@ exports.editFeedbackTemplate = editFeedbackTemplate;
 
 var _editFeedbackModule = require("../modules/edit-feedback-module");
 
+var _sharedFunctions = require("../shared/shared-functions");
+
 var _editFeedback = require("../templates/edit-feedback.template");
 
 var _router = require("./router");
 
 _router.router.on("/item/edit/:id", function (match) {
-  // set html
+  (0, _sharedFunctions.setPreviousRoute)(match.url); // set html
+
   document.body.innerHTML = _editFeedback.editFeedbackTemplate; // import module functions
 
   (0, _editFeedbackModule.editFeedbackModule)(match);
 });
-},{"../modules/edit-feedback-module":"src/assets/scripts/modules/edit-feedback-module.js","../templates/edit-feedback.template":"src/assets/scripts/templates/edit-feedback.template.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/modules/new-feedback-module.js":[function(require,module,exports) {
+},{"../modules/edit-feedback-module":"src/assets/scripts/modules/edit-feedback-module.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","../templates/edit-feedback.template":"src/assets/scripts/templates/edit-feedback.template.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/modules/new-feedback-module.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8954,13 +9094,24 @@ _router.router.on("/new-feedback", function (match) {
   document.body.innerHTML = _editFeedback.editFeedbackTemplate;
   (0, _newFeedbackModule.newFeedbackModule)(match);
 });
-},{"../modules/new-feedback-module":"src/assets/scripts/modules/new-feedback-module.js","../templates/edit-feedback.template":"src/assets/scripts/templates/edit-feedback.template.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/modules/roadmap.js":[function(require,module,exports) {
+},{"../modules/new-feedback-module":"src/assets/scripts/modules/new-feedback-module.js","../templates/edit-feedback.template":"src/assets/scripts/templates/edit-feedback.template.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/shared/constants.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.tabletMin = void 0;
+var tabletMin = window.matchMedia("(min-width: 768px)").matches;
+exports.tabletMin = tabletMin;
+},{}],"src/assets/scripts/modules/roadmap.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.roadmapLists = roadmapLists;
+
+var _constants = require("../shared/constants");
 
 var _sharedFunctions = require("../shared/shared-functions");
 
@@ -8975,10 +9126,10 @@ function roadmapLists() {
     visible: true
   }, {
     name: "in-progress",
-    visible: false
+    visible: _constants.tabletMin
   }, {
     name: "live",
-    visible: false
+    visible: _constants.tabletMin
   }];
   var shown = [];
   var all = _getSuggestions.initialValues.feedbackArray;
@@ -8989,12 +9140,12 @@ function roadmapLists() {
     });
   };
 
-  var columnsLists = function columnsLists(toMap) {
-    var mapped = toMap.map(function (el, i, self) {
+  var columnsLists = function columnsLists() {
+    var mapped = columns.map(function (el, i, self) {
       shown.push(all.filter(function (f) {
         return f.status == el.name;
       }));
-      var visibleColumn = el.visible ? "\n      <div class=\"roadmap__column roadmap__column--".concat(el.name, "\">\n        <bold>\n          ").concat(el.name, "\n          <span>(<span class=\"count\">").concat(shown[i].length, "</span>)</span>\n        </bold>\n        <div>In search</div>\n        <div>\n          <div class=\"item\">\n            <div><span></span></div>\n          </div>\n        </div>\n        <div class=\"feedback feedback--roadmap\">\n          <div class=\"feedback-items-wrapper\">\n            ").concat(filterInMap(shown[i]).join(""), "\n          </div>\n        </div>\n      </div>\n    ") : null;
+      var visibleColumn = el.visible ? "\n      <div class=\"roadmap__column roadmap__column--".concat(el.name, "\">\n        <bold>\n          ").concat(el.name, "\n          <span>(<span class=\"count\">").concat(shown[i].length, "</span>)</span>\n        </bold>\n        <div>In search</div>\n        <div>\n          <div class=\"item\">\n            <div><span></span></div>\n          </div>\n        </div>\n        <div class=\"feedback feedback--roadmap\">\n          <div class=\"feedback-items-wrapper\">\n            ").concat(el.visible && filterInMap(shown[i]).join(""), "\n          </div>\n        </div>\n      </div>\n    ") : null;
       var mobileHeader = self.map(function (buttonEl, buttonIndex) {
         var allColumns = (0, _sharedFunctions.filterStatus)(true);
         return "\n        <div class=\"btn-name\">\n          <bold>\n            <span>".concat(buttonEl.name, "</span>\n            <span>(<span class=\"count\">").concat(allColumns[buttonIndex].length, "</span>)</span>\n          </bold>\n        </div> ");
@@ -9004,8 +9155,6 @@ function roadmapLists() {
     return mapped.join("");
   };
 
-  roadmapColumnsWrapper.innerHTML = columnsLists(columns);
-
   var switchColumns = function switchColumns(e) {
     var current = columns.find(function (el) {
       return el.name == e.currentTarget.firstElementChild.firstElementChild.innerHTML;
@@ -9014,15 +9163,16 @@ function roadmapLists() {
       return el.visible = false;
     });
     current.visible = true;
-    roadmapColumnsWrapper.innerHTML = columnsLists(columns);
+    roadmapColumnsWrapper.innerHTML = columnsLists();
     var columnSwitchBtns = document.querySelectorAll(".btn-name");
     columnSwitchBtns.forEach(function (element) {
       element.addEventListener("click", switchColumns);
     });
     e.currentTarget.classList.add("btn-name--active");
-  }; // Add event listeners
-  // item recognition
+  };
 
+  roadmapColumnsWrapper.innerHTML = columnsLists(); // Add event listeners
+  // item recognition
 
   feedbackItems && feedbackItems.forEach(function (element) {
     element.addEventListener("click", _sharedFunctions.feedbackDetails);
@@ -9033,7 +9183,7 @@ function roadmapLists() {
     element.addEventListener("click", switchColumns);
   });
 }
-},{"../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","./getSuggestions":"src/assets/scripts/modules/getSuggestions.js"}],"src/assets/scripts/modules/roadmap-module.js":[function(require,module,exports) {
+},{"../shared/constants":"src/assets/scripts/shared/constants.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","./getSuggestions":"src/assets/scripts/modules/getSuggestions.js"}],"src/assets/scripts/modules/roadmap-module.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9086,6 +9236,8 @@ exports.rootModule = void 0;
 
 var _sharedFunctions = require("../shared/shared-functions");
 
+var _getSuggestions = require("./getSuggestions");
+
 var rootModule = function rootModule() {
   // QUERIES
   // sort
@@ -9110,9 +9262,9 @@ var rootModule = function rootModule() {
     var spanCounter = current.lastElementChild;
     var currentHiddenInput = spanCounter.previousElementSibling;
 
-    if (currentHiddenInput.value != initialValues.currentUser.name) {
+    if (currentHiddenInput.value != _getSuggestions.initialValues.currentUser.name) {
       e.currentTarget.lastElementChild.innerHTML = +e.currentTarget.lastElementChild.innerHTML + 1;
-      currentHiddenInput.value = initialValues.currentUser.name;
+      currentHiddenInput.value = _getSuggestions.initialValues.currentUser.name;
       e.currentTarget.classList.add("upvotes--highlighted");
     } else {
       e.currentTarget.lastElementChild.innerHTML = +e.currentTarget.lastElementChild.innerHTML - 1;
@@ -9140,7 +9292,7 @@ var rootModule = function rootModule() {
 };
 
 exports.rootModule = rootModule;
-},{"../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js"}],"src/assets/scripts/templates/rootTemplate.template.js":[function(require,module,exports) {
+},{"../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","./getSuggestions":"src/assets/scripts/modules/getSuggestions.js"}],"src/assets/scripts/templates/rootTemplate.template.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9258,7 +9410,7 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/suggestions/bulb.png":[["bulb.da37f33d.png","src/assets/images/suggestions/bulb.png"],"src/assets/images/suggestions/bulb.png"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/suggestions/white-arrow.png":[["white-arrow.205849a5.png","src/assets/images/suggestions/white-arrow.png"],"src/assets/images/suggestions/white-arrow.png"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-check.svg":[["icon-check.66b49a52.svg","src/assets/images/shared/icon-check.svg"],"src/assets/images/shared/icon-check.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-arrow-up.svg":[["icon-arrow-up.8a111df8.svg","src/assets/images/shared/icon-arrow-up.svg"],"src/assets/images/shared/icon-arrow-up.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-comments.svg":[["icon-comments.1db50b47.svg","src/assets/images/shared/icon-comments.svg"],"src/assets/images/shared/icon-comments.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-arrow-left.svg":[["icon-arrow-left.7013d5bc.svg","src/assets/images/shared/icon-arrow-left.svg"],"src/assets/images/shared/icon-arrow-left.svg"],"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/assets/scripts/index.js":[function(require,module,exports) {
+},{"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\bulb.png":[["bulb.da37f33d.png","src/assets/images/suggestions/bulb.png"],"src/assets/images/suggestions/bulb.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\white-arrow.png":[["white-arrow.205849a5.png","src/assets/images/suggestions/white-arrow.png"],"src/assets/images/suggestions/white-arrow.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-check.svg":[["icon-check.66b49a52.svg","src/assets/images/shared/icon-check.svg"],"src/assets/images/shared/icon-check.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-arrow-up.svg":[["icon-arrow-up.8a111df8.svg","src/assets/images/shared/icon-arrow-up.svg"],"src/assets/images/shared/icon-arrow-up.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-comments.svg":[["icon-comments.1db50b47.svg","src/assets/images/shared/icon-comments.svg"],"src/assets/images/shared/icon-comments.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-arrow-left.svg":[["icon-arrow-left.7013d5bc.svg","src/assets/images/shared/icon-arrow-left.svg"],"src/assets/images/shared/icon-arrow-left.svg"],"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/assets/scripts/index.js":[function(require,module,exports) {
 "use strict";
 
 require("babel-polyfill");
@@ -9316,7 +9468,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "45875" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58690" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
