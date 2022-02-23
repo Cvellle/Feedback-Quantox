@@ -44,7 +44,7 @@ export const getSuggestions = (arrayToLoop, toFilter) => {
   });
 
   let mapped = suggestionsList.map((el, i) => {
-    let currentObject = getLS("feedbackArray")[i];
+    let currentObject = getLS("feedbackArray")[el.id - 1];
     return `<div class="feedback-item" id="${el.id}">
               <div class="feedback-item__left">
                 <div class="upvotes ${
@@ -55,7 +55,7 @@ export const getSuggestions = (arrayToLoop, toFilter) => {
                 }">
                   <span class="arrow"></span>
                   <input type="hidden"/>
-                  <div class="count">${currentObject.upvotes}</div>
+                  <div class="count">${el.upvotes}</div>
               </div>
               </div>
               <div class="feedback-item__center">

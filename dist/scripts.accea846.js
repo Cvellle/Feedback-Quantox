@@ -8477,8 +8477,8 @@ var getSuggestions = function getSuggestions(arrayToLoop, toFilter) {
     return final;
   });
   var mapped = suggestionsList.map(function (el, i) {
-    var currentObject = getLS("feedbackArray")[i];
-    return "<div class=\"feedback-item\" id=\"".concat(el.id, "\">\n              <div class=\"feedback-item__left\">\n                <div class=\"upvotes ").concat(currentObject.likedBy && currentObject.likedBy.includes(getLS("currentUser").name) ? "upvotes--highlighted" : "", "\">\n                  <span class=\"arrow\"></span>\n                  <input type=\"hidden\"/>\n                  <div class=\"count\">").concat(currentObject.upvotes, "</div>\n              </div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(el.title, "</h4>\n                <p>\n                  ").concat(el.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(el.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count item-count-comments\">\n                  ").concat(el.comments ? el.comments.length : 0, "\n                </div>\n              </div>\n            </div>");
+    var currentObject = getLS("feedbackArray")[el.id - 1];
+    return "<div class=\"feedback-item\" id=\"".concat(el.id, "\">\n              <div class=\"feedback-item__left\">\n                <div class=\"upvotes ").concat(currentObject.likedBy && currentObject.likedBy.includes(getLS("currentUser").name) ? "upvotes--highlighted" : "", "\">\n                  <span class=\"arrow\"></span>\n                  <input type=\"hidden\"/>\n                  <div class=\"count\">").concat(el.upvotes, "</div>\n              </div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(el.title, "</h4>\n                <p>\n                  ").concat(el.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(el.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count item-count-comments\">\n                  ").concat(el.comments ? el.comments.length : 0, "\n                </div>\n              </div>\n            </div>");
   });
 
   var filterAll = function filterAll(e) {
@@ -9606,7 +9606,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "35059" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "38973" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
