@@ -8462,7 +8462,7 @@ var getLS = function getLS(storageKey) {
 exports.getLS = getLS;
 
 var getInitialValues = function getInitialValues(current) {
-  var returnValue = current == undefined ? JSON.parse(localStorage.getItem('initialValues')) : JSON.parse(localStorage.getItem('initialValues'))[current];
+  var returnValue = current == undefined ? JSON.parse(localStorage.getItem("initialValues")) : JSON.parse(localStorage.getItem("initialValues"))[current];
   return returnValue;
 }; // get list results globally
 
@@ -8476,8 +8476,9 @@ var getSuggestions = function getSuggestions(arrayToLoop, toFilter) {
     var final = toFilter ? el.id == toFilter : el;
     return final;
   });
-  var mapped = suggestionsList.map(function (el) {
-    return "<div class=\"feedback-item\" id=\"".concat(el.id, "\">\n              <div class=\"feedback-item__left upvotes\">\n              <span class=\"arrow\"></span>\n              <input type=\"hidden\"/>\n                <div class=\"count\">").concat(el.upvotes, "</div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(el.title, "</h4>\n                <p>\n                  ").concat(el.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(el.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count item-count-comments\">\n                  ").concat(el.comments ? el.comments.length : 0, "\n                </div>\n              </div>\n            </div>");
+  var mapped = suggestionsList.map(function (el, i) {
+    var currentObject = getLS("feedbackArray")[i];
+    return "<div class=\"feedback-item\" id=\"".concat(el.id, "\">\n              <div class=\"feedback-item__left\">\n                <div class=\"upvotes ").concat(currentObject.likedBy && currentObject.likedBy.includes(getLS("currentUser").name) ? "upvotes--highlighted" : "", "\">\n                  <span class=\"arrow\"></span>\n                  <input type=\"hidden\"/>\n                  <div class=\"count\">").concat(currentObject.upvotes, "</div>\n              </div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(el.title, "</h4>\n                <p>\n                  ").concat(el.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(el.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count item-count-comments\">\n                  ").concat(el.comments ? el.comments.length : 0, "\n                </div>\n              </div>\n            </div>");
   });
 
   var filterAll = function filterAll(e) {
@@ -8529,7 +8530,7 @@ function _fetchSuggestions() {
 
             initialValues.feedbackArray = _data.default.productRequests; //call outer getSuggestions function
 
-            getSuggestions(getLS('feedbackArray'));
+            getSuggestions(getLS("feedbackArray"));
 
           case 5:
           case "end":
@@ -8665,39 +8666,37 @@ var upvotesAdd = function upvotesAdd(e) {
   var currentUser = (0, _getSuggestions.getLS)("currentUser");
   var current = e.currentTarget;
   var spanCounter = current.lastElementChild;
-  var currentHiddenInput = spanCounter.previousElementSibling;
-  console.log(feedbackArray[e.currentTarget.parentNode.id]);
-  var newUpvotesNumber = 0;
+  var currentHiddenInput = spanCounter.previousElementSibling; // Values for item object spread
 
-  if (currentHiddenInput.value != currentUser.name) {
-    e.currentTarget.lastElementChild.innerHTML = +e.currentTarget.lastElementChild.innerHTML + 1;
-    currentHiddenInput.value = currentUser.name;
-    e.currentTarget.classList.add("upvotes--highlighted");
-    newUpvotesNumber = 1;
-  } else {
+  var newUpvotesNumber = 0;
+  var newLikes = feedbackArray[e.currentTarget.parentNode.parentNode.id - 1].likedBy && feedbackArray[e.currentTarget.parentNode.parentNode.id - 1].likedBy;
+
+  if ( // If there is user's name in the likedBy array
+  feedbackArray[e.currentTarget.parentNode.parentNode.id - 1].likedBy && feedbackArray[e.currentTarget.parentNode.parentNode.id - 1].likedBy.includes(currentUser.name)) {
     e.currentTarget.lastElementChild.innerHTML = +e.currentTarget.lastElementChild.innerHTML - 1;
     currentHiddenInput.value = "";
     e.currentTarget.classList.remove("upvotes--highlighted");
     newUpvotesNumber = -1;
-  } // feedbackArray = [
-  //   ...feedbackArray.slice(0, e.currentTarget.parentNode.id - 1),
-  //   {
-  //     ...feedbackArray[e.currentTarget.parentNode.id - 1],
-  //     upvotes: +feedbackArray[e.currentTarget.parentNode.id - 1].upvotes + newUpvotesNumber,
-  //     'likedBy': []
-  //   },
-  //   ...feedbackArray.slice(
-  //     e.currentTarget.parentNode.id
-  //   ),
-  // ];
+    newLikes = newLikes.slice().filter(function (el) {
+      el !== currentUser.name;
+    });
+  } else {
+    // Initial click goes here - no likedBy property at the moment
+    e.currentTarget.lastElementChild.innerHTML = +e.currentTarget.lastElementChild.innerHTML + 1;
+    currentHiddenInput.value = currentUser.name;
+    e.currentTarget.classList.add("upvotes--highlighted");
+    newUpvotesNumber = 1;
+    newLikes = feedbackArray[e.currentTarget.parentNode.parentNode.id - 1].likedBy ? [].concat(_toConsumableArray(feedbackArray[e.currentTarget.parentNode.parentNode.id - 1].likedBy), [currentUser.name]) : [currentUser.name];
+  } // Final spread with calculated values
 
 
-  feedbackArray = [].concat(_toConsumableArray(feedbackArray.slice(0, e.currentTarget.parentNode.id - 1)), [_objectSpread(_objectSpread({}, feedbackArray[e.currentTarget.parentNode.id - 1]), {}, {
-    upvotes: +feedbackArray[e.currentTarget.parentNode.id - 1].upvotes + newUpvotesNumber // likedBy: [...likedBy, currentUser]
+  feedbackArray = [].concat(_toConsumableArray(feedbackArray.slice(0, e.currentTarget.parentNode.parentNode.id - 1)), [_objectSpread(_objectSpread({}, feedbackArray[e.currentTarget.parentNode.parentNode.id - 1]), {}, {
+    upvotes: +feedbackArray[e.currentTarget.parentNode.parentNode.id - 1].upvotes + newUpvotesNumber,
+    likedBy: newLikes
+  })], _toConsumableArray(feedbackArray.slice(e.currentTarget.parentNode.parentNode.id)));
+  (0, _getSuggestions.updateStorage)("feedbackArray", feedbackArray);
+}; // Add function - after setting the innerHTML (repainting the ond one)
 
-  })], _toConsumableArray(feedbackArray.slice(e.currentTarget.parentNode.id)));
-  (0, _getSuggestions.updateStorage)('feedbackArray', feedbackArray);
-};
 
 exports.upvotesAdd = upvotesAdd;
 
@@ -8707,7 +8706,8 @@ var addItemDetailsListener = function addItemDetailsListener() {
 
   feedbackItems && feedbackItems.forEach(function (element) {
     element.addEventListener("click", feedbackDetails);
-  });
+  }); // Upvotes change
+
   upvotes && upvotes.forEach(function (element) {
     element.addEventListener("click", upvotesAdd);
   });
@@ -8724,7 +8724,7 @@ exports.getItems = exports.detailsTemplate = void 0;
 
 var getItems = function getItems(toMap, elementKind) {
   var items = toMap && toMap.map(function (el, i) {
-    return "\n        <div class=\"item item--".concat(elementKind, "\" data-index=\"").concat(i, "\">\n          <div class=\"info\">\n            <div class=\"profile-image\">\n              <div cass=\"").concat(el && el.user && el.user.image && el.user.image.split("/").pop(), "\"\n                style=\"background-image: url(").concat(el && el.user && el.user.image.split("/").pop(), ")\">\n              </div>\n            </div>\n            <div class=\"name\">\n              <bold>").concat(el && el.user.name, "</bold>\n              <div>@").concat(el && el.user.username, "</div>\n            </div>\n            <span class=\"reply-activate\">reply</span>\n          </div>\n          <div class=\"text\">\n            <span>").concat(!el.replies && el.replyingTo ? '@' + el.replyingTo : '', "</span>\n            ").concat(el && el.content, "\n          </div>\n          <div class=\"reply\">\n            <div class=\"").concat(!el.replies ? 'replies-wrapper' : '', "\">\n            ").concat(el.replies ? getItems(el.replies, 'reply') : '', "\n            </div>\n            <textarea placeholder=\"Type your reply here\"></textarea>\n            <button class=\"reply-btn\" data-reply-to=\"").concat(el.user.username, "\">Post Reply</button>\n          </div>\n        </div>");
+    return "\n        <div class=\"item item--".concat(elementKind, "\" data-index=\"").concat(i, "\">\n          <div class=\"info\">\n            <div class=\"profile-image\">\n              <div cass=\"").concat(el && el.user && el.user.image && el.user.image.split("/").pop(), "\"\n                style=\"background-image: url(").concat(el && el.user && el.user.image.split("/").pop(), ")\">\n              </div>\n            </div>\n            <div class=\"name\">\n              <bold>").concat(el && el.user.name, "</bold>\n              <div>@").concat(el && el.user.username, "</div>\n            </div>\n            <span class=\"reply-activate\">reply</span>\n          </div>\n          <div class=\"text\">\n            <span>").concat(!el.replies && el.replyingTo ? "@" + el.replyingTo : "", "</span>\n            ").concat(el && el.content, "\n          </div>\n          <div class=\"reply\">\n            <div class=\"replies-wrapper\"}\">\n            ").concat(el.replies ? getItems(el.replies, "reply") : "", "\n            </div>\n            <textarea placeholder=\"Type your reply here\"></textarea>\n            <button class=\"reply-btn\" data-reply-to=\"").concat(el.user.username, "\">Post Reply</button>\n          </div>\n        </div>");
   });
   return items && items.join("");
 };
@@ -8732,8 +8732,8 @@ var getItems = function getItems(toMap, elementKind) {
 exports.getItems = getItems;
 
 var detailsTemplate = function detailsTemplate(passedCurrent) {
-  getItems(passedCurrent && passedCurrent.comments, 'comment');
-  return "\n    <section class=\"details\">\n      <div class=\"details__controls\">\n        <div class=\"back\">\n          <span class=\"arrow\"></span>\n          <span class=\"text\">Go back</span>\n        </div>\n        <span class=\"edit-feedback\">+ Edit Feedback</span>\n      </div>\n      <div class=\"details__current\">\n        <div class=\"feedback feedback--details\">\n          <div class=\"feedback-items-wrapper\">\n            <div class=\"feedback-item\" id=\"".concat(passedCurrent.id, "\">\n              <div class=\"feedback-item__left\">\n                <span class=\"arrow\"></span>\n                <div class=\"count\">").concat(passedCurrent.upvotes, "</div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(passedCurrent.title, "</h4>\n                <p>\n                  ").concat(passedCurrent.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(passedCurrent.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count count-comments\">\n                  ").concat(passedCurrent.comments ? passedCurrent.comments.length : 0, "\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"comments\">\n        <bold>\n          <span class=\"count-comments\">").concat(passedCurrent.comments ? passedCurrent.comments.length : '', "</span>\n          <span>").concat(passedCurrent.comments && passedCurrent.comments.length == 1 ? "Comment" : "Comments", "</span>\n        </bold>\n          <div class=\"items-wrapper\">\n            ").concat(passedCurrent.comments ? getItems(passedCurrent.comments, 'comment') : '', "\n          </div>\n          <div class=\"add\">\n            <bold>Add Comments</bold>\n            <textarea name=\"\" id=\"\" cols=\"30\" rows=\"10\" placeholder=\"Type your comment here\"></textarea>\n            <div class=\"post\">\n              <span><span class=\"char-left\" max=\"250\">250</span> characters left</span>\n              <button class=\"post-comment\">Post Comment</button>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section>");
+  getItems(passedCurrent && passedCurrent.comments, "comment");
+  return "\n    <section class=\"details\">\n      <div class=\"details__controls\">\n        <div class=\"back\">\n          <span class=\"arrow\"></span>\n          <span class=\"text\">Go back</span>\n        </div>\n        <span class=\"edit-feedback\">+ Edit Feedback</span>\n      </div>\n      <div class=\"details__current\">\n        <div class=\"feedback feedback--details\">\n          <div class=\"feedback-items-wrapper\">\n            <div class=\"feedback-item\" id=\"".concat(passedCurrent.id, "\">\n              <div class=\"feedback-item__left\">\n                <span class=\"arrow\"></span>\n                <div class=\"count\">").concat(passedCurrent.upvotes, "</div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(passedCurrent.title, "</h4>\n                <p>\n                  ").concat(passedCurrent.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(passedCurrent.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count count-comments\">\n                  ").concat(passedCurrent.comments ? passedCurrent.comments.length : 0, "\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"comments\">\n        <bold>\n          <span class=\"count-comments\">").concat(passedCurrent.comments ? passedCurrent.comments.length : "", "</span>\n          <span>").concat(passedCurrent.comments && passedCurrent.comments.length == 1 ? "Comment" : "Comments", "</span>\n        </bold>\n          <div class=\"items-wrapper\">\n            ").concat(passedCurrent.comments ? getItems(passedCurrent.comments, "comment") : "", "\n          </div>\n          <div class=\"add\">\n            <bold>Add Comments</bold>\n            <textarea name=\"\" id=\"\" cols=\"30\" rows=\"10\" placeholder=\"Type your comment here\"></textarea>\n            <div class=\"post\">\n              <span><span class=\"char-left\" max=\"250\">250</span> characters left</span>\n              <button class=\"post-comment\">Post Comment</button>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section>");
 };
 
 exports.detailsTemplate = detailsTemplate;
@@ -9091,7 +9091,7 @@ var editFeedbackModule = function editFeedbackModule(match) {
   var saveBtn = document.querySelector(".edit .save");
   var deleteBtn = document.querySelector(".edit .delete"); // Main array import
 
-  var feedbackArray = (0, _getSuggestions.getLS)('feedbackArray'); // Current id
+  var feedbackArray = (0, _getSuggestions.getLS)("feedbackArray"); // Current id
 
   var currentId = match.data.id;
   var currentObject = feedbackArray[currentId - 1];
@@ -9114,7 +9114,7 @@ var editFeedbackModule = function editFeedbackModule(match) {
       status: submitBody.status,
       description: submitBody.description
     })], _toConsumableArray(feedbackArray.slice(currentId, feedbackArray.length)));
-    (0, _getSuggestions.updateStorage)('feedbackArray', feedbackArray);
+    (0, _getSuggestions.updateStorage)("feedbackArray", feedbackArray);
     (0, _sharedFunctions.goBack)(currentId);
   };
 
@@ -9292,8 +9292,9 @@ function roadmapLists() {
   var all = _getSuggestions.initialValues.feedbackArray;
 
   var filterInMap = function filterInMap(toFilter) {
-    return toFilter.map(function (el) {
-      return "<div class=\"feedback-item\" id=\"".concat(el.id, "\">\n                <div class=\"feedback-item__left\">\n                  <span class=\"arrow\"></span>\n                  <div class=\"count\">").concat(el.upvotes, "</div>\n                </div>\n                <div class=\"feedback-item__center\">\n                  <h4 class=\"title\">").concat(el.title, "</h4>\n                  <p>\n                    ").concat(el.description, "\n                  </p>\n                  <div class=\"tag\">\n                    <span>").concat(el.category, "</span>\n                  </div>\n                </div>\n                <div class=\"feedback-item__right\">\n                  <span class=\"comment\"></span>\n                  <div class=\"count\">\n                    ").concat(el.comments ? el.comments.length : 0, "\n                  </div>\n                </div>\n            </div>");
+    return toFilter.map(function (el, i) {
+      var currentObject = (0, _getSuggestions.getLS)("feedbackArray")[el.id - 1];
+      return "<div class=\"feedback-item\" id=\"".concat(el.id, "\">\n                <div class=\"feedback-item__left\">\n                  <div class=\"upvotes ").concat(currentObject.likedBy && currentObject.likedBy.includes((0, _getSuggestions.getLS)("currentUser").name) ? "upvotes--highlighted" : "", "\">\n                    <span class=\"arrow\"></span>\n                    <input type=\"hidden\"/>\n                    <div class=\"count\">").concat(el.upvotes, "</div>\n                </div>\n                </div>\n                <div class=\"feedback-item__center\">\n                  <h4 class=\"title\">").concat(el.title, "</h4>\n                  <p>\n                    ").concat(el.description, "\n                  </p>\n                  <div class=\"tag\">\n                    <span>").concat(el.category, "</span>\n                  </div>\n                </div>\n                <div class=\"feedback-item__right\">\n                  <span class=\"comment\"></span>\n                  <div class=\"count\">\n                    ").concat(el.comments ? el.comments.length : 0, "\n                  </div>\n                </div>\n            </div>");
     });
   };
 
@@ -9330,7 +9331,8 @@ function roadmapLists() {
     (0, _sharedFunctions.addItemDetailsListener)();
   };
 
-  roadmapColumnsWrapper.innerHTML = columnsLists(); // Mobile switch columns
+  roadmapColumnsWrapper.innerHTML = columnsLists();
+  (0, _sharedFunctions.addItemDetailsListener)(); // Mobile switch columns
 
   var columnSwitchBtns = document.querySelectorAll(".btn-name");
   columnSwitchBtns && columnSwitchBtns.forEach(function (element) {
@@ -9546,7 +9548,7 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\bulb.png":[["bulb.da37f33d.png","src/assets/images/suggestions/bulb.png"],"src/assets/images/suggestions/bulb.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\white-arrow.png":[["white-arrow.205849a5.png","src/assets/images/suggestions/white-arrow.png"],"src/assets/images/suggestions/white-arrow.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-check.svg":[["icon-check.66b49a52.svg","src/assets/images/shared/icon-check.svg"],"src/assets/images/shared/icon-check.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-arrow-up.svg":[["icon-arrow-up.8a111df8.svg","src/assets/images/shared/icon-arrow-up.svg"],"src/assets/images/shared/icon-arrow-up.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-comments.svg":[["icon-comments.1db50b47.svg","src/assets/images/shared/icon-comments.svg"],"src/assets/images/shared/icon-comments.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-arrow-left.svg":[["icon-arrow-left.7013d5bc.svg","src/assets/images/shared/icon-arrow-left.svg"],"src/assets/images/shared/icon-arrow-left.svg"],"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/assets/scripts/index.js":[function(require,module,exports) {
+},{"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/suggestions/bulb.png":[["bulb.da37f33d.png","src/assets/images/suggestions/bulb.png"],"src/assets/images/suggestions/bulb.png"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/suggestions/white-arrow.png":[["white-arrow.205849a5.png","src/assets/images/suggestions/white-arrow.png"],"src/assets/images/suggestions/white-arrow.png"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-check.svg":[["icon-check.66b49a52.svg","src/assets/images/shared/icon-check.svg"],"src/assets/images/shared/icon-check.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-arrow-up.svg":[["icon-arrow-up.8a111df8.svg","src/assets/images/shared/icon-arrow-up.svg"],"src/assets/images/shared/icon-arrow-up.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-comments.svg":[["icon-comments.1db50b47.svg","src/assets/images/shared/icon-comments.svg"],"src/assets/images/shared/icon-comments.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-arrow-left.svg":[["icon-arrow-left.7013d5bc.svg","src/assets/images/shared/icon-arrow-left.svg"],"src/assets/images/shared/icon-arrow-left.svg"],"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/assets/scripts/index.js":[function(require,module,exports) {
 "use strict";
 
 require("babel-polyfill");
@@ -9604,7 +9606,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56669" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "34725" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

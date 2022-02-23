@@ -8,7 +8,7 @@ export let initialValues = {
   currentUser: {
     name: "Nikola Cvetic",
     username: "Cvele",
-    image: "src/assets/images/user-images/nikola.jpg"
+    image: "src/assets/images/user-images/nikola.jpg",
   },
   selectedItem: null,
   previousRoute: [],
@@ -20,12 +20,15 @@ export const updateStorage = (storageKey, value) => {
 
 // Get speciffic item from LS
 export const getLS = (storageKey) => {
-  return JSON.parse(localStorage.getItem(storageKey))
+  return JSON.parse(localStorage.getItem(storageKey));
 };
 
 // get the whole object or the current one
 export const getInitialValues = (current) => {
-  let returnValue = current == undefined ? JSON.parse(localStorage.getItem('initialValues')) : JSON.parse(localStorage.getItem('initialValues'))[current]
+  let returnValue =
+    current == undefined
+      ? JSON.parse(localStorage.getItem("initialValues"))
+      : JSON.parse(localStorage.getItem("initialValues"))[current];
   return returnValue;
 };
 
@@ -40,12 +43,20 @@ export const getSuggestions = (arrayToLoop, toFilter) => {
     return final;
   });
 
-  let mapped = suggestionsList.map((el) => {
+  let mapped = suggestionsList.map((el, i) => {
+    let currentObject = getLS("feedbackArray")[i];
     return `<div class="feedback-item" id="${el.id}">
-              <div class="feedback-item__left upvotes">
-              <span class="arrow"></span>
-              <input type="hidden"/>
-                <div class="count">${el.upvotes}</div>
+              <div class="feedback-item__left">
+                <div class="upvotes ${
+                  currentObject.likedBy &&
+                  currentObject.likedBy.includes(getLS("currentUser").name)
+                    ? "upvotes--highlighted"
+                    : ""
+                }">
+                  <span class="arrow"></span>
+                  <input type="hidden"/>
+                  <div class="count">${currentObject.upvotes}</div>
+              </div>
               </div>
               <div class="feedback-item__center">
                 <h4 class="title">${el.title}</h4>
@@ -78,13 +89,13 @@ export const getSuggestions = (arrayToLoop, toFilter) => {
     getSuggestions(filtered);
   };
 
-    // fill the container
+  // fill the container
   feedbackWrapper.innerHTML = mapped.join("");
 
   const categoryBtns = document.querySelectorAll(".category");
   categoryBtns.forEach((el) => el.addEventListener("click", filterAll));
 
-  addItemDetailsListener()
+  addItemDetailsListener();
 };
 
 // initial fetch
@@ -98,11 +109,8 @@ async function fetchSuggestions() {
   // fill the object
   initialValues = {
     ...initialValues,
-    feedbackArray: [
-      ...initialValues.feedbackArray,
-      ...data.productRequests
-    ]
-  }  
+    feedbackArray: [...initialValues.feedbackArray, ...data.productRequests],
+  };
 
   for (const property in initialValues) {
     // set local storage
@@ -112,7 +120,7 @@ async function fetchSuggestions() {
   initialValues.feedbackArray = data.productRequests;
 
   //call outer getSuggestions function
-  getSuggestions(getLS('feedbackArray'));
+  getSuggestions(getLS("feedbackArray"));
 }
 
 // module invoked on load

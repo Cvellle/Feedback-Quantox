@@ -1,6 +1,10 @@
 import { tabletMin } from "../shared/constants";
-import { addItemDetailsListener, feedbackDetails, filterStatus } from "../shared/shared-functions";
-import { initialValues } from "./getSuggestions";
+import {
+  addItemDetailsListener,
+  feedbackDetails,
+  filterStatus,
+} from "../shared/shared-functions";
+import { getLS, initialValues } from "./getSuggestions";
 
 export function roadmapLists() {
   const roadmapFeedbackWrapper = document.querySelector(
@@ -10,7 +14,6 @@ export function roadmapLists() {
   const roadmapColumnsWrapper = document.querySelector(
     ".roadmap .roadmap__columns"
   );
-  
 
   const columns = [
     {
@@ -19,11 +22,11 @@ export function roadmapLists() {
     },
     {
       name: "in-progress",
-      visible:  tabletMin,
+      visible: tabletMin,
     },
     {
       name: "live",
-      visible:  tabletMin,
+      visible: tabletMin,
     },
   ];
 
@@ -31,11 +34,20 @@ export function roadmapLists() {
   const all = initialValues.feedbackArray;
 
   const filterInMap = (toFilter) =>
-    toFilter.map((el) => {
+    toFilter.map((el, i) => {
+      let currentObject = getLS("feedbackArray")[el.id - 1];
       return `<div class="feedback-item" id="${el.id}">
                 <div class="feedback-item__left">
-                  <span class="arrow"></span>
-                  <div class="count">${el.upvotes}</div>
+                  <div class="upvotes ${
+                    currentObject.likedBy &&
+                    currentObject.likedBy.includes(getLS("currentUser").name)
+                      ? "upvotes--highlighted"
+                      : ""
+                  }">
+                    <span class="arrow"></span>
+                    <input type="hidden"/>
+                    <div class="count">${el.upvotes}</div>
+                </div>
                 </div>
                 <div class="feedback-item__center">
                   <h4 class="title">${el.title}</h4>
@@ -57,7 +69,6 @@ export function roadmapLists() {
 
   const columnsLists = () => {
     let mapped = columns.map((el, i, self) => {
-      
       shown.push(all.filter((f) => f.status == el.name));
 
       const visibleColumn = el.visible
@@ -120,10 +131,11 @@ export function roadmapLists() {
     });
     e.currentTarget.classList.add("btn-name--active");
     // add event listeners after repiant
-    addItemDetailsListener()
+    addItemDetailsListener();
   };
 
   roadmapColumnsWrapper.innerHTML = columnsLists();
+  addItemDetailsListener();
 
   // Mobile switch columns
   const columnSwitchBtns = document.querySelectorAll(".btn-name");

@@ -15,7 +15,7 @@ export const editFeedbackModule = (match) => {
   const deleteBtn = document.querySelector(".edit .delete");
 
   // Main array import
-  let feedbackArray = getLS('feedbackArray');
+  let feedbackArray = getLS("feedbackArray");
   // Current id
   let currentId = match.data.id;
   var currentObject = feedbackArray[currentId - 1];
@@ -42,13 +42,10 @@ export const editFeedbackModule = (match) => {
         status: submitBody.status,
         description: submitBody.description,
       },
-      ...feedbackArray.slice(
-        currentId,
-        feedbackArray.length
-      ),
+      ...feedbackArray.slice(currentId, feedbackArray.length),
     ];
 
-    updateStorage('feedbackArray', feedbackArray);
+    updateStorage("feedbackArray", feedbackArray);
     goBack(currentId);
   };
 

@@ -1,4 +1,8 @@
-import { getLS, getSuggestions, updateStorage } from "../modules/getSuggestions";
+import {
+  getLS,
+  getSuggestions,
+  updateStorage,
+} from "../modules/getSuggestions";
 import { router } from "../routes/router";
 
 let currentRoute = getLS("previousRoute");
@@ -87,57 +91,67 @@ export const sortItems = (e) => {
 };
 
 export const upvotesAdd = (e) => {
-  let feedbackArray = getLS("feedbackArray")
-  let currentUser = getLS("currentUser")
+  let feedbackArray = getLS("feedbackArray");
+  let currentUser = getLS("currentUser");
   let current = e.currentTarget;
   let spanCounter = current.lastElementChild;
   let currentHiddenInput = spanCounter.previousElementSibling;
-
-  console.log(feedbackArray[e.currentTarget.parentNode.id]);
-
+  // Values for item object spread
   let newUpvotesNumber = 0;
+  let newLikes =
+    feedbackArray[e.currentTarget.parentNode.parentNode.id - 1].likedBy &&
+    feedbackArray[e.currentTarget.parentNode.parentNode.id - 1].likedBy;
 
-  if (currentHiddenInput.value != currentUser.name) {
-    e.currentTarget.lastElementChild.innerHTML =
-      +e.currentTarget.lastElementChild.innerHTML + 1;
-    currentHiddenInput.value = currentUser.name;
-    e.currentTarget.classList.add("upvotes--highlighted");
-    newUpvotesNumber = 1;
-  } else {
+  if (
+    // If there is user's name in the likedBy array
+    feedbackArray[e.currentTarget.parentNode.parentNode.id - 1].likedBy &&
+    feedbackArray[
+      e.currentTarget.parentNode.parentNode.id - 1
+    ].likedBy.includes(currentUser.name)
+  ) {
     e.currentTarget.lastElementChild.innerHTML =
       +e.currentTarget.lastElementChild.innerHTML - 1;
     currentHiddenInput.value = "";
     e.currentTarget.classList.remove("upvotes--highlighted");
     newUpvotesNumber = -1;
+    newLikes = newLikes.slice().filter((el) => {
+      el !== currentUser.name;
+    });
+  } else {
+    // Initial click goes here - no likedBy property at the moment
+    e.currentTarget.lastElementChild.innerHTML =
+      +e.currentTarget.lastElementChild.innerHTML + 1;
+    currentHiddenInput.value = currentUser.name;
+    e.currentTarget.classList.add("upvotes--highlighted");
+    newUpvotesNumber = 1;
+
+    newLikes = feedbackArray[e.currentTarget.parentNode.parentNode.id - 1]
+      .likedBy
+      ? [
+          ...feedbackArray[e.currentTarget.parentNode.parentNode.id - 1]
+            .likedBy,
+          currentUser.name,
+        ]
+      : [currentUser.name];
   }
 
-  // feedbackArray = [
-  //   ...feedbackArray.slice(0, e.currentTarget.parentNode.id - 1),
-  //   {
-  //     ...feedbackArray[e.currentTarget.parentNode.id - 1],
-  //     upvotes: +feedbackArray[e.currentTarget.parentNode.id - 1].upvotes + newUpvotesNumber,
-  //     'likedBy': []
-  //   },
-  //   ...feedbackArray.slice(
-  //     e.currentTarget.parentNode.id
-  //   ),
-  // ];
-
+  // Final spread with calculated values
   feedbackArray = [
-    ...feedbackArray.slice(0, e.currentTarget.parentNode.id - 1),
+    ...feedbackArray.slice(0, e.currentTarget.parentNode.parentNode.id - 1),
     {
-      ...feedbackArray[e.currentTarget.parentNode.id - 1],
-      upvotes: +feedbackArray[e.currentTarget.parentNode.id - 1].upvotes + newUpvotesNumber,
-      // likedBy: [...likedBy, currentUser]
+      ...feedbackArray[e.currentTarget.parentNode.parentNode.id - 1],
+      upvotes:
+        +feedbackArray[e.currentTarget.parentNode.parentNode.id - 1].upvotes +
+        newUpvotesNumber,
+      likedBy: newLikes,
     },
-    ...feedbackArray.slice(
-      e.currentTarget.parentNode.id
-    ),
+    ...feedbackArray.slice(e.currentTarget.parentNode.parentNode.id),
   ];
 
-  updateStorage('feedbackArray', feedbackArray);
+  updateStorage("feedbackArray", feedbackArray);
 };
 
+// Add function - after setting the innerHTML (repainting the ond one)
 export const addItemDetailsListener = () => {
   const feedbackItems = document.querySelectorAll(".feedback-item");
   const upvotes = document.querySelectorAll(".upvotes");
@@ -147,7 +161,7 @@ export const addItemDetailsListener = () => {
     feedbackItems.forEach((element) => {
       element.addEventListener("click", feedbackDetails);
     });
-
+  // Upvotes change
   upvotes &&
     upvotes.forEach((element) => {
       element.addEventListener("click", upvotesAdd);

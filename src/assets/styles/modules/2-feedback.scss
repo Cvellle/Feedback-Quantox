@@ -248,6 +248,7 @@
       border-radius: 10px;
       background: #ffffff;
       margin-bottom: 16px;
+      cursor: pointer;
 
       @include tablet {
         padding: 28px 32px;
@@ -267,17 +268,42 @@
           padding: 14px 11px 0;
         }
 
-        & .arrow {
-          width: 8px;
-          height: 4px;
-          background-image: url(/src/assets/images/shared/icon-arrow-up.svg);
-          background-size: cover;
-          display: inline-block;
-          align-self: center;
-          margin-right: 10px;
+        & .upvotes {
+          cursor: pointer;
+          border-radius: 5px;
+          min-width: 40px;
+          padding: 5px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-wrap: wrap;
 
-          @include tablet {
-            margin: 0 auto 8px;
+          & > * {
+            flex: 100%;
+            text-align: center;
+          }
+
+          &:hover {
+            background-color: rgb(173, 173, 173);
+          }
+
+          &--highlighted {
+            background-color: rgb(58, 58, 196);
+            color: white;
+          }
+
+          & .arrow {
+            width: 8px;
+            height: 4px;
+            background-image: url(/src/assets/images/shared/icon-arrow-up.svg);
+            background-size: cover;
+            display: inline-block;
+            align-self: center;
+            margin: 0 10px 0 0;
+
+            @include tablet {
+              margin: 0 auto 8px;
+            }
           }
         }
       }
