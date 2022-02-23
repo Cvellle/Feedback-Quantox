@@ -82,6 +82,13 @@
   }
 
   &__column {
+    width: 100%;
+
+    @include tablet {
+      width: 30%;
+      margin: 1.5%;
+    }
+
     &--planned {
       .feedback-item {
         border-top: 5px solid orange;
