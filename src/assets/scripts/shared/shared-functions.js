@@ -1,23 +1,22 @@
-import { getSuggestions, initialValues } from "../modules/getSuggestions";
+import { getLS, getSuggestions, updateStorage } from "../modules/getSuggestions";
 import { router } from "../routes/router";
+
+let currentRoute = getLS("previousRoute");
 
 // Set previous path on router navigate
 export const setPreviousRoute = (currentPath) => {
-  initialValues.previousRoute = [
-    ...initialValues.previousRoute,
-    "/" + currentPath,
-  ];
+  currentRoute = [...currentRoute, "/" + currentPath];
 };
 
 // Go back to previous path element in array
 export const goBack = (filterCurrent) => {
-  initialValues.previousRoute.pop();
-  let pathToGoBack = "/" + initialValues.previousRoute.slice(-1).join("");
+  currentRoute.pop();
+  let pathToGoBack = "/" + currentRoute.slice(-1).join("");
   router.navigate(pathToGoBack);
   let passedArray =
-    initialValues.previousRoute.pop() !== "/roadmap"
-      ? initialValues.feedbackArray
-      : initialValues.feedbackArray.filter((el) => el.status == "planned");
+    currentRoute.pop() !== "/roadmap"
+      ? getLS("feedbackArray")
+      : getLS("feedbackArray").filter((el) => el.status == "planned");
   getSuggestions(
     passedArray,
     typeof filterCurrent == "string" ? filterCurrent : undefined
@@ -26,8 +25,17 @@ export const goBack = (filterCurrent) => {
 
 // Details navigate
 export function feedbackDetails(e) {
+  // let asd = ['upovotes', 'arrow', 'count'].some((el) => { e.target.classList.contains(el) })
+  if (
+    e.target.classList.contains("upvotes") ||
+    e.target.classList.contains("arrow") ||
+    e.target.classList.contains("count")
+  ) {
+    return;
+  }
+
   router.navigate("/item/" + e.currentTarget.id);
-  getSuggestions(initialValues.feedbackArray, e.currentTarget.id);
+  getSuggestions(getLS("feedbackArray"), e.currentTarget.id);
 }
 
 // Filter by status
@@ -36,7 +44,7 @@ export const filterStatus = (returnArrayBoolean) => {
   const statuses = ["planned", "in-progress", "live"];
   let finalScore = [];
   statuses.forEach((el) => {
-    let filtered = initialValues.feedbackArray.filter((f) => {
+    let filtered = getLS("feedbackArray").filter((f) => {
       return f["status"] == el;
     });
     !returnArrayBoolean &&
@@ -60,7 +68,7 @@ export const sortItems = (e) => {
   checkMarks.forEach((el) => (el.style.display = "none"));
   current.lastElementChild.style.display = "block";
 
-  let sorted = initialValues.feedbackArray.sort((a, b) => {
+  let sorted = getLS("feedbackArray").sort((a, b) => {
     // check if comments object exists
     let aCheck = a[filterBy] ? a[filterBy].length : 0;
     let bCheck = b[filterBy] ? b[filterBy].length : 0;
@@ -76,4 +84,72 @@ export const sortItems = (e) => {
   });
 
   getSuggestions(sorted);
+};
+
+export const upvotesAdd = (e) => {
+  let feedbackArray = getLS("feedbackArray")
+  let currentUser = getLS("currentUser")
+  let current = e.currentTarget;
+  let spanCounter = current.lastElementChild;
+  let currentHiddenInput = spanCounter.previousElementSibling;
+
+  console.log(feedbackArray[e.currentTarget.parentNode.id]);
+
+  let newUpvotesNumber = 0;
+
+  if (currentHiddenInput.value != currentUser.name) {
+    e.currentTarget.lastElementChild.innerHTML =
+      +e.currentTarget.lastElementChild.innerHTML + 1;
+    currentHiddenInput.value = currentUser.name;
+    e.currentTarget.classList.add("upvotes--highlighted");
+    newUpvotesNumber = 1;
+  } else {
+    e.currentTarget.lastElementChild.innerHTML =
+      +e.currentTarget.lastElementChild.innerHTML - 1;
+    currentHiddenInput.value = "";
+    e.currentTarget.classList.remove("upvotes--highlighted");
+    newUpvotesNumber = -1;
+  }
+
+  // feedbackArray = [
+  //   ...feedbackArray.slice(0, e.currentTarget.parentNode.id - 1),
+  //   {
+  //     ...feedbackArray[e.currentTarget.parentNode.id - 1],
+  //     upvotes: +feedbackArray[e.currentTarget.parentNode.id - 1].upvotes + newUpvotesNumber,
+  //     'likedBy': []
+  //   },
+  //   ...feedbackArray.slice(
+  //     e.currentTarget.parentNode.id
+  //   ),
+  // ];
+
+  feedbackArray = [
+    ...feedbackArray.slice(0, e.currentTarget.parentNode.id - 1),
+    {
+      ...feedbackArray[e.currentTarget.parentNode.id - 1],
+      upvotes: +feedbackArray[e.currentTarget.parentNode.id - 1].upvotes + newUpvotesNumber,
+      // likedBy: [...likedBy, currentUser]
+    },
+    ...feedbackArray.slice(
+      e.currentTarget.parentNode.id
+    ),
+  ];
+
+  updateStorage('feedbackArray', feedbackArray);
+};
+
+export const addItemDetailsListener = () => {
+  const feedbackItems = document.querySelectorAll(".feedback-item");
+  const upvotes = document.querySelectorAll(".upvotes");
+
+  // item recognition
+  feedbackItems &&
+    feedbackItems.forEach((element) => {
+      element.addEventListener("click", feedbackDetails);
+    });
+
+  upvotes &&
+    upvotes.forEach((element) => {
+      element.addEventListener("click", upvotesAdd);
+    });
 };

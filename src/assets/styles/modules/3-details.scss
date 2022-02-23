@@ -91,11 +91,13 @@
         background-color: #fff;
         display: flex;
         align-items: center;
-        padding: 20px;
+        margin: 30px 0 0px;
+        width: 100%;
 
-      & span {
-        margin-right: 5px;
-      }}
+        & span {
+          margin-right: 5px;
+        }
+      }
 
       & .info {
         display: flex;
@@ -137,9 +139,38 @@
         font-size: 14px;
         color: #303030;
 
-        & > span {
-          margin-right: 10px;
+        & > span.reply-to {
+          margin-right: 5px;
+          font-weight: 800;
+          color: rgb(148, 21, 148);
         }
+      }
+
+      & bold + .items-wrapper {
+        & .reply {
+          padding-left: 0vw;
+
+          @include tablet {
+            padding-left: 0px;
+          }
+        }
+      }
+
+      & .replies-wrapper {
+          border: 1px solid rgb(255, 255, 255);
+          background-color: rgb(243, 236, 236);
+          border-radius: 10px;
+          padding: 20px;
+          padding-left: 5vw;
+          margin-bottom: 20px;
+
+          @include tablet {
+            padding-left: 5vw;
+          }
+
+          @include desktop {
+            padding-left: 70px;
+          }
       }
 
       & .reply {
@@ -149,12 +180,7 @@
           margin-top: 30px;
           display: flex;
           flex-wrap: wrap;
-          padding-left: 10vw;
           justify-content: flex-end;
-
-          @include tablet {
-            padding-left: 70px;
-          }
 
           & > :nth-child(1) {
             flex: 0 0 100%;

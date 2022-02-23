@@ -8402,7 +8402,7 @@ module.exports = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.initialValues = exports.getSuggestions = void 0;
+exports.updateStorage = exports.initialValues = exports.getSuggestions = exports.getLS = exports.getInitialValues = void 0;
 
 var _data = _interopRequireDefault(require("/src/data/data"));
 
@@ -8411,6 +8411,24 @@ require("/src/assets/scripts/routes/details");
 var _sharedFunctions = require("../shared/shared-functions");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -8426,9 +8444,30 @@ var initialValues = {
   },
   selectedItem: null,
   previousRoute: []
+};
+exports.initialValues = initialValues;
+
+var updateStorage = function updateStorage(storageKey, value) {
+  window.localStorage.setItem(storageKey, JSON.stringify(value));
+}; // Get speciffic item from LS
+
+
+exports.updateStorage = updateStorage;
+
+var getLS = function getLS(storageKey) {
+  return JSON.parse(localStorage.getItem(storageKey));
+}; // get the whole object or the current one
+
+
+exports.getLS = getLS;
+
+var getInitialValues = function getInitialValues(current) {
+  var returnValue = current == undefined ? JSON.parse(localStorage.getItem('initialValues')) : JSON.parse(localStorage.getItem('initialValues'))[current];
+  return returnValue;
 }; // get list results globally
 
-exports.initialValues = initialValues;
+
+exports.getInitialValues = getInitialValues;
 
 var getSuggestions = function getSuggestions(arrayToLoop, toFilter) {
   var feedbackWrapper = document.querySelector(".feedback-items-wrapper");
@@ -8438,7 +8477,7 @@ var getSuggestions = function getSuggestions(arrayToLoop, toFilter) {
     return final;
   });
   var mapped = suggestionsList.map(function (el) {
-    return "<div class=\"feedback-item\" id=\"".concat(el.id, "\">\n              <div class=\"feedback-item__left upvotes\">\n              <span class=\"arrow\"></span>\n              <input type=\"hidden\"/>\n                <div class=\"count\">").concat(el.upvotes, "</div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(el.title, "</h4>\n                <p>\n                  ").concat(el.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(el.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count\">\n                  ").concat(el.comments ? el.comments.length : 0, "\n                </div>\n              </div>\n            </div>");
+    return "<div class=\"feedback-item\" id=\"".concat(el.id, "\">\n              <div class=\"feedback-item__left upvotes\">\n              <span class=\"arrow\"></span>\n              <input type=\"hidden\"/>\n                <div class=\"count\">").concat(el.upvotes, "</div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(el.title, "</h4>\n                <p>\n                  ").concat(el.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(el.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count item-count-comments\">\n                  ").concat(el.comments ? el.comments.length : 0, "\n                </div>\n              </div>\n            </div>");
   });
 
   var filterAll = function filterAll(e) {
@@ -8455,12 +8494,8 @@ var getSuggestions = function getSuggestions(arrayToLoop, toFilter) {
   var categoryBtns = document.querySelectorAll(".category");
   categoryBtns.forEach(function (el) {
     return el.addEventListener("click", filterAll);
-  }); // item recognition
-
-  var feedbackItems = document.querySelectorAll(".feedback-item");
-  feedbackItems && feedbackItems.forEach(function (element) {
-    element.addEventListener("click", _sharedFunctions.feedbackDetails);
   });
+  (0, _sharedFunctions.addItemDetailsListener)();
 }; // initial fetch
 
 
@@ -8473,7 +8508,7 @@ function fetchSuggestions() {
 
 function _fetchSuggestions() {
   _fetchSuggestions = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-    var feedbackWrapper;
+    var feedbackWrapper, property;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -8483,11 +8518,20 @@ function _fetchSuggestions() {
             // const json = await response.json();
             // fill the object
 
+            exports.initialValues = initialValues = _objectSpread(_objectSpread({}, initialValues), {}, {
+              feedbackArray: [].concat(_toConsumableArray(initialValues.feedbackArray), _toConsumableArray(_data.default.productRequests))
+            });
+
+            for (property in initialValues) {
+              // set local storage
+              updateStorage(property, initialValues[property]);
+            }
+
             initialValues.feedbackArray = _data.default.productRequests; //call outer getSuggestions function
 
-            getSuggestions(_data.default.productRequests);
+            getSuggestions(getLS('feedbackArray'));
 
-          case 3:
+          case 5:
           case "end":
             return _context.stop();
         }
@@ -8505,12 +8549,19 @@ window.addEventListener("popstate", fetchSuggestions);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.addItemDetailsListener = void 0;
 exports.feedbackDetails = feedbackDetails;
-exports.sortItems = exports.setPreviousRoute = exports.goBack = exports.filterStatus = void 0;
+exports.upvotesAdd = exports.sortItems = exports.setPreviousRoute = exports.goBack = exports.filterStatus = void 0;
 
 var _getSuggestions = require("../modules/getSuggestions");
 
 var _router = require("../routes/router");
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
@@ -8526,22 +8577,22 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-// Set previous path on router navigate
+var currentRoute = (0, _getSuggestions.getLS)("previousRoute"); // Set previous path on router navigate
+
 var setPreviousRoute = function setPreviousRoute(currentPath) {
-  _getSuggestions.initialValues.previousRoute = [].concat(_toConsumableArray(_getSuggestions.initialValues.previousRoute), ["/" + currentPath]);
+  currentRoute = [].concat(_toConsumableArray(currentRoute), ["/" + currentPath]);
 }; // Go back to previous path element in array
 
 
 exports.setPreviousRoute = setPreviousRoute;
 
 var goBack = function goBack(filterCurrent) {
-  _getSuggestions.initialValues.previousRoute.pop();
-
-  var pathToGoBack = "/" + _getSuggestions.initialValues.previousRoute.slice(-1).join("");
+  currentRoute.pop();
+  var pathToGoBack = "/" + currentRoute.slice(-1).join("");
 
   _router.router.navigate(pathToGoBack);
 
-  var passedArray = _getSuggestions.initialValues.previousRoute.pop() !== "/roadmap" ? _getSuggestions.initialValues.feedbackArray : _getSuggestions.initialValues.feedbackArray.filter(function (el) {
+  var passedArray = currentRoute.pop() !== "/roadmap" ? (0, _getSuggestions.getLS)("feedbackArray") : (0, _getSuggestions.getLS)("feedbackArray").filter(function (el) {
     return el.status == "planned";
   });
   (0, _getSuggestions.getSuggestions)(passedArray, typeof filterCurrent == "string" ? filterCurrent : undefined);
@@ -8551,9 +8602,14 @@ var goBack = function goBack(filterCurrent) {
 exports.goBack = goBack;
 
 function feedbackDetails(e) {
+  // let asd = ['upovotes', 'arrow', 'count'].some((el) => { e.target.classList.contains(el) })
+  if (e.target.classList.contains("upvotes") || e.target.classList.contains("arrow") || e.target.classList.contains("count")) {
+    return;
+  }
+
   _router.router.navigate("/item/" + e.currentTarget.id);
 
-  (0, _getSuggestions.getSuggestions)(_getSuggestions.initialValues.feedbackArray, e.currentTarget.id);
+  (0, _getSuggestions.getSuggestions)((0, _getSuggestions.getLS)("feedbackArray"), e.currentTarget.id);
 } // Filter by status
 
 
@@ -8562,10 +8618,9 @@ var filterStatus = function filterStatus(returnArrayBoolean) {
   var statuses = ["planned", "in-progress", "live"];
   var finalScore = [];
   statuses.forEach(function (el) {
-    var filtered = _getSuggestions.initialValues.feedbackArray.filter(function (f) {
+    var filtered = (0, _getSuggestions.getLS)("feedbackArray").filter(function (f) {
       return f["status"] == el;
     });
-
     !returnArrayBoolean && document.querySelector(".sidebar__status--" + el + " .count") && (document.querySelector(".sidebar__status--" + el + " .count").innerHTML = filtered.length);
     finalScore.push(filtered);
   });
@@ -8586,8 +8641,7 @@ var sortItems = function sortItems(e) {
     return el.style.display = "none";
   });
   current.lastElementChild.style.display = "block";
-
-  var sorted = _getSuggestions.initialValues.feedbackArray.sort(function (a, b) {
+  var sorted = (0, _getSuggestions.getLS)("feedbackArray").sort(function (a, b) {
     // check if comments object exists
     var aCheck = a[filterBy] ? a[filterBy].length : 0;
     var bCheck = b[filterBy] ? b[filterBy].length : 0; // check if the value is an obect or a number - comments length or upvotes
@@ -8601,11 +8655,65 @@ var sortItems = function sortItems(e) {
       return aValue > bValue ? -1 : 1;
     }
   });
-
   (0, _getSuggestions.getSuggestions)(sorted);
 };
 
 exports.sortItems = sortItems;
+
+var upvotesAdd = function upvotesAdd(e) {
+  var feedbackArray = (0, _getSuggestions.getLS)("feedbackArray");
+  var currentUser = (0, _getSuggestions.getLS)("currentUser");
+  var current = e.currentTarget;
+  var spanCounter = current.lastElementChild;
+  var currentHiddenInput = spanCounter.previousElementSibling;
+  console.log(feedbackArray[e.currentTarget.parentNode.id]);
+  var newUpvotesNumber = 0;
+
+  if (currentHiddenInput.value != currentUser.name) {
+    e.currentTarget.lastElementChild.innerHTML = +e.currentTarget.lastElementChild.innerHTML + 1;
+    currentHiddenInput.value = currentUser.name;
+    e.currentTarget.classList.add("upvotes--highlighted");
+    newUpvotesNumber = 1;
+  } else {
+    e.currentTarget.lastElementChild.innerHTML = +e.currentTarget.lastElementChild.innerHTML - 1;
+    currentHiddenInput.value = "";
+    e.currentTarget.classList.remove("upvotes--highlighted");
+    newUpvotesNumber = -1;
+  } // feedbackArray = [
+  //   ...feedbackArray.slice(0, e.currentTarget.parentNode.id - 1),
+  //   {
+  //     ...feedbackArray[e.currentTarget.parentNode.id - 1],
+  //     upvotes: +feedbackArray[e.currentTarget.parentNode.id - 1].upvotes + newUpvotesNumber,
+  //     'likedBy': []
+  //   },
+  //   ...feedbackArray.slice(
+  //     e.currentTarget.parentNode.id
+  //   ),
+  // ];
+
+
+  feedbackArray = [].concat(_toConsumableArray(feedbackArray.slice(0, e.currentTarget.parentNode.id - 1)), [_objectSpread(_objectSpread({}, feedbackArray[e.currentTarget.parentNode.id - 1]), {}, {
+    upvotes: +feedbackArray[e.currentTarget.parentNode.id - 1].upvotes + newUpvotesNumber // likedBy: [...likedBy, currentUser]
+
+  })], _toConsumableArray(feedbackArray.slice(e.currentTarget.parentNode.id)));
+  (0, _getSuggestions.updateStorage)('feedbackArray', feedbackArray);
+};
+
+exports.upvotesAdd = upvotesAdd;
+
+var addItemDetailsListener = function addItemDetailsListener() {
+  var feedbackItems = document.querySelectorAll(".feedback-item");
+  var upvotes = document.querySelectorAll(".upvotes"); // item recognition
+
+  feedbackItems && feedbackItems.forEach(function (element) {
+    element.addEventListener("click", feedbackDetails);
+  });
+  upvotes && upvotes.forEach(function (element) {
+    element.addEventListener("click", upvotesAdd);
+  });
+};
+
+exports.addItemDetailsListener = addItemDetailsListener;
 },{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../routes/router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/templates/details.template.js":[function(require,module,exports) {
 "use strict";
 
@@ -8614,9 +8722,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getItems = exports.detailsTemplate = void 0;
 
-var getItems = function getItems(toMap) {
-  var items = toMap && toMap.map(function (el) {
-    return "\n            <div class=\"item\">\n              <div class=\"info\">\n                <div class=\"profile-image\">\n                  <div cass=\"".concat(el && el.user && el.user.image && el.user.image.split("/").pop(), "\"\n                     style=\"background-image: url(").concat(el && el.user && el.user.image.split("/").pop(), ")\">\n                  </div>\n                </div>\n                <div class=\"name\">\n                  <bold>").concat(el && el.user.name, "</bold>\n                  <div>@").concat(el && el.user.username, "</div>\n                </div>\n                <span class=\"reply-activate\">reply</span>\n              </div>\n              <div class=\"text\">\n                <span>").concat(el.replies ? '@' + el.replyingTo : '', "</span>\n                ").concat(el && el.content, "\n              </div>\n              <div class=\"reply\">\n                <div class=\"items-wrapper\">\n                    ").concat(el.replies ? getItems(el.replies) : '', "\n                </div>\n                <textarea placeholder=\"Type your reply here\"></textarea>\n                <button>Post Reply</button>\n              </div>\n            </div>");
+var getItems = function getItems(toMap, elementKind) {
+  var items = toMap && toMap.map(function (el, i) {
+    return "\n        <div class=\"item item--".concat(elementKind, "\" data-index=\"").concat(i, "\">\n          <div class=\"info\">\n            <div class=\"profile-image\">\n              <div cass=\"").concat(el && el.user && el.user.image && el.user.image.split("/").pop(), "\"\n                style=\"background-image: url(").concat(el && el.user && el.user.image.split("/").pop(), ")\">\n              </div>\n            </div>\n            <div class=\"name\">\n              <bold>").concat(el && el.user.name, "</bold>\n              <div>@").concat(el && el.user.username, "</div>\n            </div>\n            <span class=\"reply-activate\">reply</span>\n          </div>\n          <div class=\"text\">\n            <span>").concat(!el.replies && el.replyingTo ? '@' + el.replyingTo : '', "</span>\n            ").concat(el && el.content, "\n          </div>\n          <div class=\"reply\">\n            <div class=\"").concat(!el.replies ? 'replies-wrapper' : '', "\">\n            ").concat(el.replies ? getItems(el.replies, 'reply') : '', "\n            </div>\n            <textarea placeholder=\"Type your reply here\"></textarea>\n            <button class=\"reply-btn\" data-reply-to=\"").concat(el.user.username, "\">Post Reply</button>\n          </div>\n        </div>");
   });
   return items && items.join("");
 };
@@ -8624,10 +8732,9 @@ var getItems = function getItems(toMap) {
 exports.getItems = getItems;
 
 var detailsTemplate = function detailsTemplate(passedCurrent) {
-  getItems(passedCurrent && passedCurrent.comments);
-  return "\n<section class=\"details\">\n  <div class=\"details__controls\">\n    <div class=\"back\">\n      <span class=\"arrow\"></span>\n      <span class=\"text\">Go back</span>\n    </div>\n    <span class=\"edit-feedback\">+ Edit Feedback</span>\n  </div>\n  <div class=\"details__current\">\n    <div class=\"feedback feedback--details\">\n      <div class=\"feedback-items-wrapper\">\n        <div class=\"feedback-item\" id=\"".concat(passedCurrent.id, "\">\n          <div class=\"feedback-item__left\">\n            <span class=\"arrow\"></span>\n            <div class=\"count\">").concat(passedCurrent.upvotes, "</div>\n          </div>\n          <div class=\"feedback-item__center\">\n            <h4 class=\"title\">").concat(passedCurrent.title, "</h4>\n            <p>\n              ").concat(passedCurrent.description, "\n            </p>\n            <div class=\"tag\">\n              <span>").concat(passedCurrent.category, "</span>\n            </div>\n          </div>\n          <div class=\"feedback-item__right\">\n            <span class=\"comment\"></span>\n            <div class=\"count\">\n              ").concat(passedCurrent.comments ? passedCurrent.comments.length : 0, "\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n    <div class=\"comments\">\n    <bold>\n      <span>").concat(passedCurrent.comments ? passedCurrent.comments.length : '', "</span>\n      <span>").concat(passedCurrent.comments && passedCurrent.comments.length == 1 ? "Comment" : "Comments", "</span>\n    </bold>\n      <div class=\"items-wrapper\">\n        ").concat(passedCurrent.comments && getItems(passedCurrent.comments), "\n      </div>\n      <div class=\"add\">\n        <bold>Add Comments</bold>\n        <textarea name=\"\" id=\"\" cols=\"30\" rows=\"10\" placeholder=\"Type your comment here\"></textarea>\n        <div class=\"post\">\n          <span><span class=\"char-left\"></span> characters left</span>\n          <button class=\"post-comment\">Post Comment</button>\n        </div>\n      </div>\n    </div>\n  </div>\n</section>");
-}; //   <div class="text"><span>${el.replies &&el.user.username}</span>${el && el.content}</div>
-
+  getItems(passedCurrent && passedCurrent.comments, 'comment');
+  return "\n    <section class=\"details\">\n      <div class=\"details__controls\">\n        <div class=\"back\">\n          <span class=\"arrow\"></span>\n          <span class=\"text\">Go back</span>\n        </div>\n        <span class=\"edit-feedback\">+ Edit Feedback</span>\n      </div>\n      <div class=\"details__current\">\n        <div class=\"feedback feedback--details\">\n          <div class=\"feedback-items-wrapper\">\n            <div class=\"feedback-item\" id=\"".concat(passedCurrent.id, "\">\n              <div class=\"feedback-item__left\">\n                <span class=\"arrow\"></span>\n                <div class=\"count\">").concat(passedCurrent.upvotes, "</div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(passedCurrent.title, "</h4>\n                <p>\n                  ").concat(passedCurrent.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(passedCurrent.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count count-comments\">\n                  ").concat(passedCurrent.comments ? passedCurrent.comments.length : 0, "\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"comments\">\n        <bold>\n          <span class=\"count-comments\">").concat(passedCurrent.comments ? passedCurrent.comments.length : '', "</span>\n          <span>").concat(passedCurrent.comments && passedCurrent.comments.length == 1 ? "Comment" : "Comments", "</span>\n        </bold>\n          <div class=\"items-wrapper\">\n            ").concat(passedCurrent.comments ? getItems(passedCurrent.comments, 'comment') : '', "\n          </div>\n          <div class=\"add\">\n            <bold>Add Comments</bold>\n            <textarea name=\"\" id=\"\" cols=\"30\" rows=\"10\" placeholder=\"Type your comment here\"></textarea>\n            <div class=\"post\">\n              <span><span class=\"char-left\" max=\"250\">250</span> characters left</span>\n              <button class=\"post-comment\">Post Comment</button>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section>");
+};
 
 exports.detailsTemplate = detailsTemplate;
 },{}],"src/assets/scripts/modules/details-module.js":[function(require,module,exports) {
@@ -8666,12 +8773,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 function detailsModule(match, currentProp) {
   var passedCurrent = currentProp;
+  var count = document.querySelectorAll('.count-comments');
+  var itemCommentsCount = document.querySelector('.item-count-comments');
   var addComment = document.querySelector(".post-comment");
   var commentContent = document.querySelector(".add textarea");
   var replyContent = document.querySelectorAll(".reply textarea");
   var replyActivate = document.querySelectorAll(".reply-activate");
   var replyWrapper = document.querySelectorAll(".reply");
-  var replyPost = document.querySelectorAll(".reply button"); // Add comments array where it is undefined
+  var replyPost = document.querySelectorAll(".reply button");
+  var items = document.querySelectorAll(".items-wrapper .comment");
+  var comment = document.querySelectorAll(".items-wrapper > .item--comment");
+  var commentsWrapper = document.querySelectorAll(".items-wrapper .comment");
+  var feedbackArray = (0, _getSuggestions.getLS)("feedbackArray");
+  var currentUser = (0, _getSuggestions.getLS)("currentUser"); // Add comments array where it is undefined
 
   passedCurrent && !passedCurrent.comments && (passedCurrent = _objectSpread(_objectSpread({}, passedCurrent), {}, {
     comments: []
@@ -8680,9 +8794,12 @@ function detailsModule(match, currentProp) {
   var maxCommentIds = [];
 
   var commentsLength = function commentsLength() {
-    return _getSuggestions.initialValues.feedbackArray && _getSuggestions.initialValues.feedbackArray.forEach(function (el) {
-      el.comments && el.comments.forEach(function (el) {
-        return maxCommentIds = [].concat(_toConsumableArray(maxCommentIds), [el.id]);
+    feedbackArray && feedbackArray.forEach(function (el) {
+      el.comments && el.comments.forEach(function (c) {
+        maxCommentIds = [].concat(_toConsumableArray(maxCommentIds), [el.id]);
+        !c.replies && (c = _objectSpread(_objectSpread({}, c), {}, {
+          replies: []
+        }));
       });
     });
   }; // Add comment
@@ -8696,54 +8813,83 @@ function detailsModule(match, currentProp) {
       content: commentContent.value,
       id: nextMax,
       user: {
-        image: _getSuggestions.initialValues.currentUser.image,
-        name: _getSuggestions.initialValues.currentUser.name,
-        username: _getSuggestions.initialValues.currentUser.username
+        image: currentUser.image,
+        name: currentUser.name,
+        username: currentUser.username
       }
     }; // Spread old array with new comments
 
     var newCommentsArray = passedCurrent.comment ? [].concat(_toConsumableArray(passedCurrent.comments), [newComment]) : [newComment]; // IT SHOULD ALSO BE SENT TO BACKEND
-    // change HTML
-
-    (0, _details.getItems)(newCommentsArray);
-    var items = document.querySelector(".items-wrapper");
-    items.innerHTML += (0, _details.getItems)(newCommentsArray.slice(-1));
-    maxCommentIds = [].concat(_toConsumableArray(maxCommentIds), [nextMax]);
-    addEvenetsListeners();
-  }; // Reply post
-
-
-  var addReply = function addReply(e) {
-    !passedCurrent.comments.replies && (passedCurrent = _objectSpread(_objectSpread({}, passedCurrent), {}, {
-      comments: _objectSpread(_objectSpread({}, passedCurrent.comments), {}, {
-        replies: []
-      })
-    }));
-    var newReply = {
-      content: e.currentTarget.previousElementSibling.value,
-      replyingTo: e.currentTarget.getAttribute("data-reply-to"),
-      user: {
-        image: "./assets/user-images/image-zena.jpg",
-        name: _getSuggestions.initialValues.currentUser.name,
-        username: _getSuggestions.initialValues.currentUser.username
-      }
-    }; // Spread old object with new replies
+    // Spread old feedbackArray
 
     passedCurrent = _objectSpread(_objectSpread({}, passedCurrent), {}, {
-      comments: _objectSpread(_objectSpread({}, passedCurrent.comments), {}, {
-        replies: passedCurrent.comments.replies ? [].concat(_toConsumableArray(passedCurrent.comments.replies), [newReply]) : [newReply]
-      })
-    }); // IT SHOULD ALSO BE SENT TO BACKEND
+      comments: [].concat(_toConsumableArray(passedCurrent.comments), [newComment])
+    });
+    feedbackArray = [].concat(_toConsumableArray(feedbackArray.slice(0, match.data.id - 1)), [passedCurrent], _toConsumableArray(feedbackArray.slice(match.data.id))); // change HTML
 
-    (0, _details.getItems)(passedCurrent.comments.replies);
+    var items = document.querySelector(".items-wrapper");
+    items.innerHTML = (0, _details.getItems)(passedCurrent.comments, "comment");
+    addEvenetsListeners();
+    count.forEach(function (el) {
+      el.innerHTML = passedCurrent.comments.length;
+    });
+    maxCommentIds = [].concat(_toConsumableArray(maxCommentIds), [nextMax]);
+    (0, _getSuggestions.updateStorage)("feedbackArray", feedbackArray);
+    (0, _getSuggestions.getSuggestions)(feedbackArray, match.data.id);
+  }; // Reply to post
+
+
+  var addReplyFunction = function addReplyFunction(e) {
+    if (e.target.className !== "reply-btn") {
+      return;
+    }
+
+    var indexOfComment = e.currentTarget.getAttribute("data-index"); // Add comments replies where it is undefined
+
+    _toConsumableArray(Array(passedCurrent.comments.length).keys()).forEach(function (el, i) {
+      !passedCurrent.comments[i].replies && (passedCurrent.comments[i] = _objectSpread(_objectSpread({}, passedCurrent.comments[i]), {}, {
+        replies: []
+      }));
+    });
+
+    var newReply = {
+      content: e.target.previousElementSibling.value,
+      replyingTo: e.target.getAttribute("data-reply-to"),
+      user: {
+        image: "./assets/user-images/image-zena.jpg",
+        name: currentUser.name,
+        username: currentUser.username
+      }
+    };
+
+    var newCommentObject = _objectSpread(_objectSpread({}, passedCurrent.comments[indexOfComment]), {}, {
+      replies: passedCurrent.comments[indexOfComment].replies.length ? [].concat(_toConsumableArray(passedCurrent.comments[indexOfComment].replies), [newReply]) : [newReply]
+    }); // Spread old object with new replies
+
+
+    passedCurrent = _objectSpread(_objectSpread({}, passedCurrent), {}, {
+      comments: [].concat(_toConsumableArray(passedCurrent.comments.slice(0, indexOfComment)), [newCommentObject], _toConsumableArray(passedCurrent.comments.slice(indexOfComment + 1)))
+    });
+    feedbackArray = [].concat(_toConsumableArray(feedbackArray.slice(0, match.data.id - 1)), [passedCurrent], _toConsumableArray(feedbackArray.slice(match.data.id))); // IT SHOULD ALSO BE SENT TO BACKEND
+
     var commentItems = document.querySelector(".items-wrapper");
     var replyItems = document.querySelector(".reply .items-wrapper");
-    e.currentTarget.previousElementSibling.previousElementSibling.innerHTML += (0, _details.getItems)(passedCurrent.comments.replies.slice(-1));
+    (0, _getSuggestions.updateStorage)("feedbackArray", feedbackArray);
+    feedbackArray = (0, _getSuggestions.getLS)('feedbackArray');
+    e.target.previousElementSibling.previousElementSibling.innerHTML += (0, _details.getItems)(passedCurrent.comments[indexOfComment].replies.slice(-1), "reply");
+
+    var currentWrapper = _toConsumableArray(document.querySelectorAll(".item--comment>div+div+div>.replies-wrapper"));
+
     addEvenetsListeners();
   };
 
   var replyShow = function replyShow(e) {
     e.currentTarget.parentElement.parentElement.lastElementChild.classList.toggle("reply--visible");
+  };
+
+  var countChar = function countChar(e) {
+    var charLeft = 250 - e.currentTarget.value.length;
+    e.currentTarget.nextElementSibling.firstElementChild.firstElementChild.innerHTML = charLeft;
   }; // set current route as return destination, and imported back function
 
 
@@ -8757,19 +8903,24 @@ function detailsModule(match, currentProp) {
 
 
   function addEvenetsListeners() {
+    var count = document.querySelectorAll('.count-comments');
+    var itemCommentsCount = document.querySelector('.item-count-comments');
     var addComment = document.querySelector(".post-comment");
     var commentContent = document.querySelector(".add textarea");
     var replyContent = document.querySelectorAll(".reply textarea");
     var replyActivate = document.querySelectorAll(".reply-activate");
     var replyWrapper = document.querySelectorAll(".reply");
     var replyPost = document.querySelectorAll(".reply button");
+    var commentsWrapper = document.querySelectorAll(".items-wrapper .comment");
+    var comment = document.querySelectorAll(".items-wrapper > .item--comment");
     back.addEventListener("click", _sharedFunctions.goBack);
     addComment.addEventListener("click", addCommentFunction);
     replyActivate.forEach(function (el) {
       return el.addEventListener("click", replyShow);
     });
-    replyPost.forEach(function (el) {
-      return el.addEventListener("click", addReply);
+    commentContent.addEventListener("input", countChar);
+    comment.forEach(function (el) {
+      return el.addEventListener("click", addReplyFunction);
     });
   }
 
@@ -8789,11 +8940,9 @@ var _router = require("./router");
 _router.router.on("/item/:id", function (match) {
   document.body.style = "background: #f2f2f2";
   var currentId = match.data.id;
-
-  var current = _getSuggestions.initialValues.feedbackArray.filter(function (el) {
+  var current = (0, _getSuggestions.getLS)('feedbackArray').filter(function (el) {
     return el.id == currentId;
   })[0];
-
   document.body.innerHTML = (0, _details.detailsTemplate)(current); // Functions
 
   (0, _detailsModule.detailsModule)(match, current);
@@ -8940,10 +9089,12 @@ var editFeedbackModule = function editFeedbackModule(match) {
   var submitBtn = document.querySelector(".edit .submit");
   submitBtn.classList.add("save");
   var saveBtn = document.querySelector(".edit .save");
-  var deleteBtn = document.querySelector(".edit .delete"); // Current id
+  var deleteBtn = document.querySelector(".edit .delete"); // Main array import
+
+  var feedbackArray = (0, _getSuggestions.getLS)('feedbackArray'); // Current id
 
   var currentId = match.data.id;
-  var currentObject = _getSuggestions.initialValues.feedbackArray[currentId - 1];
+  var currentObject = feedbackArray[currentId - 1];
 
   var saveFunction = function saveFunction() {
     var submitBody = {
@@ -8957,13 +9108,14 @@ var editFeedbackModule = function editFeedbackModule(match) {
     }; // Change feedbackArray with copied values - spread previous slice,
     // add current object, spread slice after it
 
-    _getSuggestions.initialValues.feedbackArray = [].concat(_toConsumableArray(_getSuggestions.initialValues.feedbackArray.slice(0, currentId - 1)), [_objectSpread(_objectSpread({}, _getSuggestions.initialValues.feedbackArray[currentId - 1]), {}, {
+    feedbackArray = [].concat(_toConsumableArray(feedbackArray.slice(0, currentId - 1)), [_objectSpread(_objectSpread({}, feedbackArray[currentId - 1]), {}, {
       title: submitBody.title,
       category: submitBody.category,
       status: submitBody.status,
       description: submitBody.description
-    })], _toConsumableArray(_getSuggestions.initialValues.feedbackArray.slice(currentId, _getSuggestions.initialValues.feedbackArray.length)));
-    (0, _sharedFunctions.goBack)();
+    })], _toConsumableArray(feedbackArray.slice(currentId, feedbackArray.length)));
+    (0, _getSuggestions.updateStorage)('feedbackArray', feedbackArray);
+    (0, _sharedFunctions.goBack)(currentId);
   };
 
   var deleteFunction = function deleteFunction() {
@@ -8978,13 +9130,15 @@ var editFeedbackModule = function editFeedbackModule(match) {
 
   saveBtn.addEventListener("click", saveFunction);
   deleteBtn.addEventListener("click", deleteFunction);
-  saveBtn.innerHTML = "Save";
+  saveBtn.innerHTML = "Save"; // Set initial values (current values)
+
   nameInput.value = currentObject.title;
   details.value = currentObject.description;
   statusSelect.value = currentObject.status;
   categorySelect.value = currentObject.category;
   var back = document.querySelector(".edit .back");
-  var cancel = document.querySelector(".edit .cancel");
+  var cancel = document.querySelector(".edit .cancel"); // Add listeners
+
   back.addEventListener("click", function () {
     return (0, _sharedFunctions.goBack)(currentId);
   });
@@ -9051,14 +9205,16 @@ var newFeedbackModule = function newFeedbackModule(match) {
   var categorySelect = document.querySelector(".edit .category select option");
   var details = document.querySelector(".edit .details textarea");
   var addNewBtn = document.querySelector(".edit .submit");
-  var deleteBtn = document.querySelector(".edit .delete");
+  var deleteBtn = document.querySelector(".edit .delete"); // get main feedback array
+
+  var feedbackArray = (0, _getSuggestions.getLS)('feedbackArray');
   addNewBtn.classList.add("add");
   var addBtn = document.querySelector(".edit .add");
   deleteBtn.style.display = "none";
 
   var addNewFunction = function addNewFunction() {
     var submitBody = {
-      id: _getSuggestions.initialValues.feedbackArray.length + 1,
+      id: feedbackArray.length + 1,
       description: details.value,
       comments: [],
       upvotes: 0,
@@ -9066,7 +9222,8 @@ var newFeedbackModule = function newFeedbackModule(match) {
       category: categorySelect.value,
       status: null
     };
-    _getSuggestions.initialValues.feedbackArray = [].concat(_toConsumableArray(_getSuggestions.initialValues.feedbackArray), [submitBody]);
+    feedbackArray = [].concat(_toConsumableArray(feedbackArray), [submitBody]);
+    (0, _getSuggestions.updateStorage)('feedbackArray', feedbackArray);
     (0, _sharedFunctions.goBack)();
   };
 
@@ -9168,15 +9325,12 @@ function roadmapLists() {
     columnSwitchBtns.forEach(function (element) {
       element.addEventListener("click", switchColumns);
     });
-    e.currentTarget.classList.add("btn-name--active");
+    e.currentTarget.classList.add("btn-name--active"); // add event listeners after repiant
+
+    (0, _sharedFunctions.addItemDetailsListener)();
   };
 
-  roadmapColumnsWrapper.innerHTML = columnsLists(); // Add event listeners
-  // item recognition
-
-  feedbackItems && feedbackItems.forEach(function (element) {
-    element.addEventListener("click", _sharedFunctions.feedbackDetails);
-  }); // Mobile switch columns
+  roadmapColumnsWrapper.innerHTML = columnsLists(); // Mobile switch columns
 
   var columnSwitchBtns = document.querySelectorAll(".btn-name");
   columnSwitchBtns && columnSwitchBtns.forEach(function (element) {
@@ -9200,7 +9354,9 @@ var roadmapModule = function roadmapModule(match) {
 
   (0, _sharedFunctions.setPreviousRoute)(match.url);
   var back = document.querySelector(".roadmap .back");
-  back.addEventListener("click", _sharedFunctions.goBack);
+  back.addEventListener("click", _sharedFunctions.goBack); // item recognition
+
+  (0, _sharedFunctions.addItemDetailsListener)();
 };
 
 exports.roadmapModule = roadmapModule;
@@ -9236,8 +9392,6 @@ exports.rootModule = void 0;
 
 var _sharedFunctions = require("../shared/shared-functions");
 
-var _getSuggestions = require("./getSuggestions");
-
 var rootModule = function rootModule() {
   // QUERIES
   // sort
@@ -9255,22 +9409,6 @@ var rootModule = function rootModule() {
 
   var toggleNav = function toggleNav() {
     navigation.classList.toggle("sidebar__menu--visible");
-  };
-
-  var upvotesAdd = function upvotesAdd(e) {
-    var current = e.currentTarget;
-    var spanCounter = current.lastElementChild;
-    var currentHiddenInput = spanCounter.previousElementSibling;
-
-    if (currentHiddenInput.value != _getSuggestions.initialValues.currentUser.name) {
-      e.currentTarget.lastElementChild.innerHTML = +e.currentTarget.lastElementChild.innerHTML + 1;
-      currentHiddenInput.value = _getSuggestions.initialValues.currentUser.name;
-      e.currentTarget.classList.add("upvotes--highlighted");
-    } else {
-      e.currentTarget.lastElementChild.innerHTML = +e.currentTarget.lastElementChild.innerHTML - 1;
-      currentHiddenInput.value = "";
-      e.currentTarget.classList.remove("upvotes--highlighted");
-    }
   }; // ADD EVENT LISTENERS
 
 
@@ -9286,13 +9424,10 @@ var rootModule = function rootModule() {
     arrow.classList.remove("arrow--rotated");
   });
   menuIcon.addEventListener("click", toggleNav);
-  upvotes && upvotes.forEach(function (element) {
-    element.addEventListener("click", upvotesAdd);
-  });
 };
 
 exports.rootModule = rootModule;
-},{"../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","./getSuggestions":"src/assets/scripts/modules/getSuggestions.js"}],"src/assets/scripts/templates/rootTemplate.template.js":[function(require,module,exports) {
+},{"../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js"}],"src/assets/scripts/templates/rootTemplate.template.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9321,6 +9456,7 @@ _router.router.on("/", function () {
   document.body.innerHTML = _rootTemplate.rootTemplate;
   (0, _getSuggestions.getSuggestions)(_getSuggestions.initialValues.feedbackArray);
   (0, _rootModule.rootModule)();
+  (0, _sharedFunctions.addItemDetailsListener)();
 });
 
 window.onload = function (event) {
@@ -9468,7 +9604,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58690" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56669" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

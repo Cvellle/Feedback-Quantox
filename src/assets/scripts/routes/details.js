@@ -1,14 +1,15 @@
 import { detailsModule } from "../modules/details-module";
-import { initialValues } from "../modules/getSuggestions";
+import { getLS } from "../modules/getSuggestions";
 import { detailsTemplate } from "../templates/details.template";
 import { router } from "./router";
 
 router.on("/item/:id", function (match) {
   document.body.style = "background: #f2f2f2";
   let currentId = match.data.id;
-  let current = initialValues.feedbackArray.filter(
+  let current = getLS('feedbackArray').filter(
     (el) => el.id == currentId
   )[0];
+
 
   document.body.innerHTML = detailsTemplate(current);
 

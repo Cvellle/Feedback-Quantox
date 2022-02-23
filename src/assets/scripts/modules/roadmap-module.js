@@ -1,4 +1,4 @@
-import { goBack, setPreviousRoute } from "../shared/shared-functions";
+import { addItemDetailsListener, feedbackDetails, goBack, setPreviousRoute } from "../shared/shared-functions";
 import { roadmapLists } from "./roadmap";
 
 export const roadmapModule = (match) => {
@@ -8,4 +8,6 @@ export const roadmapModule = (match) => {
   setPreviousRoute(match.url);
   const back = document.querySelector(".roadmap .back");
   back.addEventListener("click", goBack);
+  // item recognition
+  addItemDetailsListener()
 };

@@ -1,5 +1,5 @@
 import { tabletMin } from "../shared/constants";
-import { feedbackDetails, filterStatus } from "../shared/shared-functions";
+import { addItemDetailsListener, feedbackDetails, filterStatus } from "../shared/shared-functions";
 import { initialValues } from "./getSuggestions";
 
 export function roadmapLists() {
@@ -119,17 +119,12 @@ export function roadmapLists() {
       element.addEventListener("click", switchColumns);
     });
     e.currentTarget.classList.add("btn-name--active");
+    // add event listeners after repiant
+    addItemDetailsListener()
   };
 
   roadmapColumnsWrapper.innerHTML = columnsLists();
 
-
-  // Add event listeners
-  // item recognition
-  feedbackItems &&
-    feedbackItems.forEach((element) => {
-      element.addEventListener("click", feedbackDetails);
-    });
   // Mobile switch columns
   const columnSwitchBtns = document.querySelectorAll(".btn-name");
 

@@ -1,5 +1,4 @@
-import { filterStatus, sortItems } from "../shared/shared-functions";
-import { initialValues } from "./getSuggestions";
+import { addItemDetailsListener, filterStatus, sortItems } from "../shared/shared-functions";
 
 export const rootModule = () => {
   // QUERIES
@@ -19,24 +18,6 @@ export const rootModule = () => {
 
   const toggleNav = () => {
     navigation.classList.toggle("sidebar__menu--visible");
-  };
-
-  const upvotesAdd = (e) => {
-    let current = e.currentTarget;
-    let spanCounter = current.lastElementChild;
-    let currentHiddenInput = spanCounter.previousElementSibling;
-
-    if (currentHiddenInput.value != initialValues.currentUser.name) {
-      e.currentTarget.lastElementChild.innerHTML =
-        +e.currentTarget.lastElementChild.innerHTML + 1;
-      currentHiddenInput.value = initialValues.currentUser.name;
-      e.currentTarget.classList.add("upvotes--highlighted");
-    } else {
-      e.currentTarget.lastElementChild.innerHTML =
-        +e.currentTarget.lastElementChild.innerHTML - 1;
-      currentHiddenInput.value = "";
-      e.currentTarget.classList.remove("upvotes--highlighted");
-    }
   };
 
   // ADD EVENT LISTENERS
@@ -59,8 +40,4 @@ export const rootModule = () => {
 
   menuIcon.addEventListener("click", toggleNav);
 
-  upvotes &&
-    upvotes.forEach((element) => {
-      element.addEventListener("click", upvotesAdd);
-    });
 };

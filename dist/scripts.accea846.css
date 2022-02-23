@@ -811,7 +811,8 @@ button {
   background-color: #fff;
   display: flex;
   align-items: center;
-  padding: 20px;
+  margin: 30px 0 0px;
+  width: 100%;
 }
 .details__current .comments bold span {
   margin-right: 5px;
@@ -850,8 +851,36 @@ button {
   font-size: 14px;
   color: #303030;
 }
-.details__current .comments .text > span {
-  margin-right: 10px;
+.details__current .comments .text > span.reply-to {
+  margin-right: 5px;
+  font-weight: 800;
+  color: #941594;
+}
+.details__current .comments bold + .items-wrapper .reply {
+  padding-left: 0vw;
+}
+@media screen and (min-width: 768px) {
+  .details__current .comments bold + .items-wrapper .reply {
+    padding-left: 0px;
+  }
+}
+.details__current .comments .replies-wrapper {
+  border: 1px solid white;
+  background-color: #f3ecec;
+  border-radius: 10px;
+  padding: 20px;
+  padding-left: 5vw;
+  margin-bottom: 20px;
+}
+@media screen and (min-width: 768px) {
+  .details__current .comments .replies-wrapper {
+    padding-left: 5vw;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .details__current .comments .replies-wrapper {
+    padding-left: 70px;
+  }
 }
 .details__current .comments .reply {
   display: none;
@@ -860,13 +889,7 @@ button {
   margin-top: 30px;
   display: flex;
   flex-wrap: wrap;
-  padding-left: 10vw;
   justify-content: flex-end;
-}
-@media screen and (min-width: 768px) {
-  .details__current .comments .reply--visible {
-    padding-left: 70px;
-  }
 }
 .details__current .comments .reply--visible > :nth-child(1) {
   flex: 0 0 100%;

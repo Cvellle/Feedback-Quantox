@@ -1,16 +1,28 @@
 import { router } from "../routes/router";
 import { goBack, setPreviousRoute } from "../shared/shared-functions";
 import { getItems } from "../templates/details.template";
-import { initialValues } from "./getSuggestions";
+import {
+  getLS,
+  getSuggestions,
+  updateStorage,
+} from "./getSuggestions";
 
 export function detailsModule(match, currentProp) {
   let passedCurrent = currentProp;
+  const count = document.querySelectorAll('.count-comments');
+  const itemCommentsCount = document.querySelector('.item-count-comments');
   const addComment = document.querySelector(".post-comment");
   const commentContent = document.querySelector(".add textarea");
   const replyContent = document.querySelectorAll(".reply textarea");
   const replyActivate = document.querySelectorAll(".reply-activate");
   const replyWrapper = document.querySelectorAll(".reply");
   const replyPost = document.querySelectorAll(".reply button");
+  const items = document.querySelectorAll(".items-wrapper .comment");
+  const comment = document.querySelectorAll(".items-wrapper > .item--comment");
+  const commentsWrapper = document.querySelectorAll(".items-wrapper .comment");
+
+  let feedbackArray = getLS("feedbackArray");
+  let currentUser = getLS("currentUser");
 
   // Add comments array where it is undefined
   passedCurrent &&
@@ -22,14 +34,16 @@ export function detailsModule(match, currentProp) {
 
   // get the biggest comment id
   let maxCommentIds = [];
-  let commentsLength = () =>
-    initialValues.feedbackArray &&
-    initialValues.feedbackArray.forEach((el) => {
-      el.comments &&
-        el.comments.forEach(
-          (el) => (maxCommentIds = [...maxCommentIds, el.id])
-        );
-    });
+  let commentsLength = () => {
+    feedbackArray &&
+      feedbackArray.forEach((el) => {
+        el.comments &&
+          el.comments.forEach((c) => {
+            maxCommentIds = [...maxCommentIds, el.id];
+            !c.replies && (c = { ...c, replies: [] });
+          });
+      });
+  };
 
   // Add comment
   const addCommentFunction = () => {
@@ -40,9 +54,9 @@ export function detailsModule(match, currentProp) {
       content: commentContent.value,
       id: nextMax,
       user: {
-        image: initialValues.currentUser.image,
-        name: initialValues.currentUser.name,
-        username: initialValues.currentUser.username,
+        image: currentUser.image,
+        name: currentUser.name,
+        username: currentUser.username,
       },
     };
     // Spread old array with new comments
@@ -51,54 +65,97 @@ export function detailsModule(match, currentProp) {
       : [newComment];
     // IT SHOULD ALSO BE SENT TO BACKEND
 
+    // Spread old feedbackArray
+    passedCurrent = {
+      ...passedCurrent,
+      comments: [...passedCurrent.comments, newComment],
+    };
+
+    feedbackArray = [
+      ...feedbackArray.slice(0, match.data.id - 1),
+      passedCurrent,
+      ...feedbackArray.slice(match.data.id),
+    ];
+
     // change HTML
-    getItems(newCommentsArray);
     const items = document.querySelector(".items-wrapper");
-    items.innerHTML += getItems(newCommentsArray.slice(-1));
-    maxCommentIds = [...maxCommentIds, nextMax];
+    items.innerHTML = getItems(passedCurrent.comments, "comment");
     addEvenetsListeners();
+
+    count.forEach((el) => { el.innerHTML = passedCurrent.comments.length })
+    maxCommentIds = [...maxCommentIds, nextMax];
+
+    updateStorage("feedbackArray", feedbackArray);
+    getSuggestions(feedbackArray, match.data.id)
   };
 
-  // Reply post
-  const addReply = (e) => {
-    !passedCurrent.comments.replies &&
-      (passedCurrent = {
-        // Add comments replies where it is undefined
-        ...passedCurrent,
-        comments: {
-          ...passedCurrent.comments,
+  // Reply to post
+  const addReplyFunction = (e) => {
+    if (e.target.className !== "reply-btn") {
+      return;
+    }
+    let indexOfComment = e.currentTarget.getAttribute("data-index");
+
+    // Add comments replies where it is undefined
+    [...Array(passedCurrent.comments.length).keys()].forEach((el, i) => {
+      !passedCurrent.comments[i].replies &&
+        (passedCurrent.comments[i] = {
+          ...passedCurrent.comments[i],
           replies: [],
-        },
-      });
+        });
+    });
 
     let newReply = {
-      content: e.currentTarget.previousElementSibling.value,
-      replyingTo: e.currentTarget.getAttribute("data-reply-to"),
+      content: e.target.previousElementSibling.value,
+      replyingTo: e.target.getAttribute("data-reply-to"),
       user: {
         image: "./assets/user-images/image-zena.jpg",
-        name: initialValues.currentUser.name,
-        username: initialValues.currentUser.username,
+        name: currentUser.name,
+        username: currentUser.username,
       },
     };
+
+    let newCommentObject = {
+      ...passedCurrent.comments[indexOfComment],
+      replies: passedCurrent.comments[indexOfComment].replies.length
+      ? [...passedCurrent.comments[indexOfComment].replies, newReply]
+      : [newReply]
+    }
 
     // Spread old object with new replies
     passedCurrent = {
       ...passedCurrent,
-      comments: {
-        ...passedCurrent.comments,
-        replies: passedCurrent.comments.replies
-          ? [...passedCurrent.comments.replies, newReply]
-          : [newReply],
-      },
+      comments: [
+        ...passedCurrent.comments.slice(0, indexOfComment),
+        newCommentObject,
+        ...passedCurrent.comments.slice(indexOfComment + 1),
+      ],
     };
+
+    feedbackArray = [
+      ...feedbackArray.slice(0, match.data.id - 1),
+      passedCurrent,
+      ...feedbackArray.slice(match.data.id),
+    ];   
     // IT SHOULD ALSO BE SENT TO BACKEND
 
-    getItems(passedCurrent.comments.replies);
     const commentItems = document.querySelector(".items-wrapper");
     const replyItems = document.querySelector(".reply .items-wrapper");
 
-    e.currentTarget.previousElementSibling.previousElementSibling.innerHTML +=
-      getItems(passedCurrent.comments.replies.slice(-1));
+    updateStorage("feedbackArray", feedbackArray);
+    feedbackArray = getLS('feedbackArray');
+
+    e.target.previousElementSibling.previousElementSibling.innerHTML += getItems(
+      passedCurrent.comments[indexOfComment].replies.slice(-1),
+      "reply"
+    );
+
+    const currentWrapper = [
+      ...document.querySelectorAll(
+        ".item--comment>div+div+div>.replies-wrapper"
+      ),
+    ];
+
     addEvenetsListeners();
   };
 
@@ -106,6 +163,12 @@ export function detailsModule(match, currentProp) {
     e.currentTarget.parentElement.parentElement.lastElementChild.classList.toggle(
       "reply--visible"
     );
+  };
+
+  const countChar = (e) => {
+    let charLeft = 250 - e.currentTarget.value.length;
+    e.currentTarget.nextElementSibling.firstElementChild.firstElementChild.innerHTML =
+      charLeft;
   };
 
   // set current route as return destination, and imported back function
@@ -118,17 +181,26 @@ export function detailsModule(match, currentProp) {
 
   // Function for aading to newly set elements in HTML
   function addEvenetsListeners() {
+    const count = document.querySelectorAll('.count-comments');
+    const itemCommentsCount = document.querySelector('.item-count-comments');
     const addComment = document.querySelector(".post-comment");
     const commentContent = document.querySelector(".add textarea");
     const replyContent = document.querySelectorAll(".reply textarea");
     const replyActivate = document.querySelectorAll(".reply-activate");
     const replyWrapper = document.querySelectorAll(".reply");
     const replyPost = document.querySelectorAll(".reply button");
+    const commentsWrapper = document.querySelectorAll(
+      ".items-wrapper .comment"
+    );
+    const comment = document.querySelectorAll(
+      ".items-wrapper > .item--comment"
+    );
 
     back.addEventListener("click", goBack);
     addComment.addEventListener("click", addCommentFunction);
     replyActivate.forEach((el) => el.addEventListener("click", replyShow));
-    replyPost.forEach((el) => el.addEventListener("click", addReply));
+    commentContent.addEventListener("input", countChar);
+    comment.forEach((el) => el.addEventListener("click", addReplyFunction));
   }
 
   addEvenetsListeners();

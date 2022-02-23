@@ -1,8 +1,8 @@
 import data from "/src/data/data";
 import "/src/assets/scripts/routes/details";
-import { feedbackDetails } from "../shared/shared-functions";
+import { addItemDetailsListener } from "../shared/shared-functions";
 
-export const initialValues = {
+export let initialValues = {
   feedbackArray: [],
   getFilteredSuggestions: [],
   currentUser: {
@@ -12,6 +12,21 @@ export const initialValues = {
   },
   selectedItem: null,
   previousRoute: [],
+};
+
+export const updateStorage = (storageKey, value) => {
+  window.localStorage.setItem(storageKey, JSON.stringify(value));
+};
+
+// Get speciffic item from LS
+export const getLS = (storageKey) => {
+  return JSON.parse(localStorage.getItem(storageKey))
+};
+
+// get the whole object or the current one
+export const getInitialValues = (current) => {
+  let returnValue = current == undefined ? JSON.parse(localStorage.getItem('initialValues')) : JSON.parse(localStorage.getItem('initialValues'))[current]
+  return returnValue;
 };
 
 // get list results globally
@@ -43,7 +58,7 @@ export const getSuggestions = (arrayToLoop, toFilter) => {
               </div>
               <div class="feedback-item__right">
                 <span class="comment"></span>
-                <div class="count">
+                <div class="count item-count-comments">
                   ${el.comments ? el.comments.length : 0}
                 </div>
               </div>
@@ -69,12 +84,7 @@ export const getSuggestions = (arrayToLoop, toFilter) => {
   const categoryBtns = document.querySelectorAll(".category");
   categoryBtns.forEach((el) => el.addEventListener("click", filterAll));
 
-  // item recognition
-  const feedbackItems = document.querySelectorAll(".feedback-item");
-  feedbackItems &&
-    feedbackItems.forEach((element) => {
-      element.addEventListener("click", feedbackDetails);
-    });
+  addItemDetailsListener()
 };
 
 // initial fetch
@@ -86,10 +96,23 @@ async function fetchSuggestions() {
   // const json = await response.json();
 
   // fill the object
+  initialValues = {
+    ...initialValues,
+    feedbackArray: [
+      ...initialValues.feedbackArray,
+      ...data.productRequests
+    ]
+  }  
+
+  for (const property in initialValues) {
+    // set local storage
+    updateStorage(property, initialValues[property]);
+  }
+
   initialValues.feedbackArray = data.productRequests;
 
   //call outer getSuggestions function
-  getSuggestions(data.productRequests);
+  getSuggestions(getLS('feedbackArray'));
 }
 
 // module invoked on load

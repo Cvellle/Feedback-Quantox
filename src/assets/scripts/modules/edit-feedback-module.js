@@ -1,6 +1,6 @@
 import "../shared/helpers";
 import { goBack, setPreviousRoute } from "../shared/shared-functions";
-import { initialValues } from "../modules/getSuggestions";
+import { getLS, initialValues, updateStorage } from "../modules/getSuggestions";
 import { router } from "../routes/router";
 
 export const editFeedbackModule = (match) => {
@@ -14,9 +14,11 @@ export const editFeedbackModule = (match) => {
   const saveBtn = document.querySelector(".edit .save");
   const deleteBtn = document.querySelector(".edit .delete");
 
+  // Main array import
+  let feedbackArray = getLS('feedbackArray');
   // Current id
   let currentId = match.data.id;
-  var currentObject = initialValues.feedbackArray[currentId - 1];
+  var currentObject = feedbackArray[currentId - 1];
 
   const saveFunction = () => {
     let submitBody = {
@@ -31,22 +33,23 @@ export const editFeedbackModule = (match) => {
 
     // Change feedbackArray with copied values - spread previous slice,
     // add current object, spread slice after it
-    initialValues.feedbackArray = [
-      ...initialValues.feedbackArray.slice(0, currentId - 1),
+    feedbackArray = [
+      ...feedbackArray.slice(0, currentId - 1),
       {
-        ...initialValues.feedbackArray[currentId - 1],
+        ...feedbackArray[currentId - 1],
         title: submitBody.title,
         category: submitBody.category,
         status: submitBody.status,
         description: submitBody.description,
       },
-      ...initialValues.feedbackArray.slice(
+      ...feedbackArray.slice(
         currentId,
-        initialValues.feedbackArray.length
+        feedbackArray.length
       ),
     ];
 
-    goBack();
+    updateStorage('feedbackArray', feedbackArray);
+    goBack(currentId);
   };
 
   const deleteFunction = () => {
@@ -60,17 +63,15 @@ export const editFeedbackModule = (match) => {
   saveBtn.addEventListener("click", saveFunction);
   deleteBtn.addEventListener("click", deleteFunction);
   saveBtn.innerHTML = "Save";
-
+  // Set initial values (current values)
   nameInput.value = currentObject.title;
   details.value = currentObject.description;
   statusSelect.value = currentObject.status;
   categorySelect.value = currentObject.category;
 
- 
-
   const back = document.querySelector(".edit .back");
   const cancel = document.querySelector(".edit .cancel");
-
+  // Add listeners
   back.addEventListener("click", () => goBack(currentId));
   cancel.addEventListener("click", () => goBack(currentId));
 };

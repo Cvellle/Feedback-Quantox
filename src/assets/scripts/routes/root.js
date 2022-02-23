@@ -1,6 +1,6 @@
 import { getSuggestions, initialValues } from "../modules/getSuggestions";
 import { rootModule } from "../modules/root-module";
-import { filterStatus } from "../shared/shared-functions";
+import { addItemDetailsListener, filterStatus } from "../shared/shared-functions";
 import { rootTemplate } from "../templates/rootTemplate.template";
 import { router } from "./router";
 
@@ -12,6 +12,7 @@ router.on("/", function () {
 
   getSuggestions(initialValues.feedbackArray);
   rootModule();
+  addItemDetailsListener();
 });
 
 window.onload = function (event) {

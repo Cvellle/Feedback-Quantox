@@ -1,4 +1,4 @@
-import { initialValues } from "../modules/getSuggestions";
+import { getLS, updateStorage } from "../modules/getSuggestions";
 import { goBack, setPreviousRoute } from "../shared/shared-functions";
 
 export const newFeedbackModule = (match) => {
@@ -11,13 +11,16 @@ export const newFeedbackModule = (match) => {
   const addNewBtn = document.querySelector(".edit .submit");
   const deleteBtn = document.querySelector(".edit .delete");
 
+  // get main feedback array
+  let feedbackArray = getLS('feedbackArray');
+
   addNewBtn.classList.add("add");
   const addBtn = document.querySelector(".edit .add");
   deleteBtn.style.display = "none";
 
   const addNewFunction = () => {
     let submitBody = {
-      id: initialValues.feedbackArray.length + 1,
+      id: feedbackArray.length + 1,
       description: details.value,
       comments: [],
       upvotes: 0,
@@ -26,7 +29,9 @@ export const newFeedbackModule = (match) => {
       status: null,
     };
 
-    initialValues.feedbackArray = [...initialValues.feedbackArray, submitBody];
+    feedbackArray = [...feedbackArray, submitBody];
+    updateStorage('feedbackArray', feedbackArray);
+
     goBack();
   };
 
