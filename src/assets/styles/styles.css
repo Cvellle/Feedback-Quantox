@@ -619,7 +619,6 @@ button {
     min-height: 151px;
     overflow: auto;
     margin-bottom: 20px;
-    height: 360px;
   }
 }
 .feedback .feedback-items-wrapper .feedback-item__left {
@@ -1251,6 +1250,11 @@ button {
 }
 .roadmap__column .name-btn--active {
   border-bottom: 1px solid #000;
+}
+@media screen and (min-width: 768px) {
+  .roadmap__column .feedback-item {
+    height: 360px;
+  }
 }
 
 /*# sourceMappingURL=styles.css.map */

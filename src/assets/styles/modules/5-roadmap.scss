@@ -115,5 +115,11 @@
         border-bottom: 1px solid #000;
       }
     }
+
+    & .feedback-item {
+      @include tablet {
+        height: 360px;
+      }
+    }
   }
 }
