@@ -8402,7 +8402,7 @@ module.exports = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.updateStorage = exports.initialValues = exports.getSuggestions = exports.getLS = exports.getInitialValues = void 0;
+exports.updateStorage = exports.initialValues = exports.getSuggestions = exports.getLS = exports.getInitialValues = exports.filterBy = void 0;
 
 var _data = _interopRequireDefault(require("/src/data/data"));
 
@@ -8446,6 +8446,14 @@ var initialValues = {
   previousRoute: []
 };
 exports.initialValues = initialValues;
+
+var filterBy = function filterBy(toMap, filterProp, filterAvoid) {
+  return toMap.filter(function (el) {
+    return el[filterProp] == filterAvoid;
+  });
+};
+
+exports.filterBy = filterBy;
 
 var updateStorage = function updateStorage(storageKey, value) {
   window.localStorage.setItem(storageKey, JSON.stringify(value));
@@ -8509,30 +8517,36 @@ function fetchSuggestions() {
 
 function _fetchSuggestions() {
   _fetchSuggestions = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-    var feedbackWrapper, property;
+    var property, suggestions;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            feedbackWrapper = document.querySelector(".feedback-items-wrapper"); // fetch
-            // const response = await fetch("/data/data.json");
+            // fetch
+            // const response = await fetch("/data/data.json", {
+            //   headers: {
+            //     'Accept': 'application/json',
+            //     'Content-Type': 'application/json'
+            //   },
+            //   method: "GET"
+            // })
             // const json = await response.json();
             // fill the object
-
             exports.initialValues = initialValues = _objectSpread(_objectSpread({}, initialValues), {}, {
               feedbackArray: [].concat(_toConsumableArray(initialValues.feedbackArray), _toConsumableArray(_data.default.productRequests))
-            });
+            }); // set local storage
 
             for (property in initialValues) {
-              // set local storage
               updateStorage(property, initialValues[property]);
             }
 
+            suggestions = filterBy(initialValues.feedbackArray, 'status', 'suggestion');
+            updateStorage('suggestions', suggestions);
             initialValues.feedbackArray = _data.default.productRequests; //call outer getSuggestions function
 
-            getSuggestions(getLS("feedbackArray"));
+            getSuggestions(getLS("suggestions"));
 
-          case 5:
+          case 6:
           case "end":
             return _context.stop();
         }
@@ -8593,7 +8607,8 @@ var goBack = function goBack(filterCurrent) {
 
   _router.router.navigate(pathToGoBack);
 
-  var passedArray = currentRoute.pop() !== "/roadmap" ? (0, _getSuggestions.getLS)("feedbackArray") : (0, _getSuggestions.getLS)("feedbackArray").filter(function (el) {
+  var arrayToMap = currentRoute.pop() == undefined ? (0, _getSuggestions.getLS)("suggestions") : (0, _getSuggestions.getLS)("feedbackArray");
+  var passedArray = currentRoute.pop() !== "/roadmap" ? arrayToMap : arrayToMap.filter(function (el) {
     return el.status == "planned";
   });
   (0, _getSuggestions.getSuggestions)(passedArray, typeof filterCurrent == "string" ? filterCurrent : undefined);
@@ -8642,7 +8657,7 @@ var sortItems = function sortItems(e) {
     return el.style.display = "none";
   });
   current.lastElementChild.style.display = "block";
-  var sorted = (0, _getSuggestions.getLS)("feedbackArray").sort(function (a, b) {
+  var sorted = (0, _getSuggestions.getLS)("suggestions").sort(function (a, b) {
     // check if comments object exists
     var aCheck = a[filterBy] ? a[filterBy].length : 0;
     var bCheck = b[filterBy] ? b[filterBy].length : 0; // check if the value is an obect or a number - comments length or upvotes
@@ -8695,6 +8710,7 @@ var upvotesAdd = function upvotesAdd(e) {
     likedBy: newLikes
   })], _toConsumableArray(feedbackArray.slice(e.currentTarget.parentNode.parentNode.id)));
   (0, _getSuggestions.updateStorage)("feedbackArray", feedbackArray);
+  (0, _getSuggestions.updateStorage)('suggestions', (0, _getSuggestions.filterBy)((0, _getSuggestions.getLS)('feedbackArray'), 'status', 'suggestion'));
 }; // Add function - after setting the innerHTML (repainting the ond one)
 
 
@@ -8724,7 +8740,7 @@ exports.getItems = exports.detailsTemplate = void 0;
 
 var getItems = function getItems(toMap, elementKind) {
   var items = toMap && toMap.map(function (el, i) {
-    return "\n        <div class=\"item item--".concat(elementKind, "\" data-index=\"").concat(i, "\">\n          <div class=\"info\">\n            <div class=\"profile-image\">\n              <div cass=\"").concat(el && el.user && el.user.image && el.user.image.split("/").pop(), "\"\n                style=\"background-image: url(").concat(el && el.user && el.user.image.split("/").pop(), ")\">\n              </div>\n            </div>\n            <div class=\"name\">\n              <bold>").concat(el && el.user.name, "</bold>\n              <div>@").concat(el && el.user.username, "</div>\n            </div>\n            <span class=\"reply-activate\">reply</span>\n          </div>\n          <div class=\"text\">\n            <span>").concat(!el.replies && el.replyingTo ? "@" + el.replyingTo : "", "</span>\n            ").concat(el && el.content, "\n          </div>\n          <div class=\"reply\">\n            <div class=\"replies-wrapper\"}\">\n            ").concat(el.replies ? getItems(el.replies, "reply") : "", "\n            </div>\n            <textarea placeholder=\"Type your reply here\"></textarea>\n            <button class=\"reply-btn\" data-reply-to=\"").concat(el.user.username, "\">Post Reply</button>\n          </div>\n        </div>");
+    return "\n        <div class=\"item item--".concat(elementKind, "\" data-index=\"").concat(i, "\">\n          <div class=\"info\">\n            <div class=\"profile-image\">\n              <div cass=\"").concat(el && el.user && el.user.image && el.user.image.split("/").pop(), "\"\n                style=\"background-image: url(").concat(el && el.user && el.user.image.split("/").pop(), ")\">\n              </div>\n            </div>\n            <div class=\"name\">\n              <bold>").concat(el && el.user.name, "</bold>\n              <div>@").concat(el && el.user.username, "</div>\n            </div>\n            <span class=\"reply-activate\">reply</span>\n          </div>\n          <div class=\"text\">\n            <span>").concat(!el.replies && el.replyingTo ? '@' + el.replyingTo : '', "</span>\n            ").concat(el && el.content, "\n          </div>\n          <div class=\"reply\">\n            <div class=\"").concat(!el.replies ? 'replies-wrapper' : '', "\">\n              ").concat(el.replies ? getItems(el.replies, 'reply') : '', "\n            </div>\n            <textarea placeholder=\"Type your reply here\"></textarea>\n            <button class=\"reply-btn\" data-reply-to=\"").concat(el.user.username, "\">Post Reply</button>\n          </div>\n        </div>");
   });
   return items && items.join("");
 };
@@ -8732,8 +8748,8 @@ var getItems = function getItems(toMap, elementKind) {
 exports.getItems = getItems;
 
 var detailsTemplate = function detailsTemplate(passedCurrent) {
-  getItems(passedCurrent && passedCurrent.comments, "comment");
-  return "\n    <section class=\"details\">\n      <div class=\"details__controls\">\n        <div class=\"back\">\n          <span class=\"arrow\"></span>\n          <span class=\"text\">Go back</span>\n        </div>\n        <span class=\"edit-feedback\">+ Edit Feedback</span>\n      </div>\n      <div class=\"details__current\">\n        <div class=\"feedback feedback--details\">\n          <div class=\"feedback-items-wrapper\">\n            <div class=\"feedback-item\" id=\"".concat(passedCurrent.id, "\">\n              <div class=\"feedback-item__left\">\n                <span class=\"arrow\"></span>\n                <div class=\"count\">").concat(passedCurrent.upvotes, "</div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(passedCurrent.title, "</h4>\n                <p>\n                  ").concat(passedCurrent.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(passedCurrent.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count count-comments\">\n                  ").concat(passedCurrent.comments ? passedCurrent.comments.length : 0, "\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"comments\">\n        <bold>\n          <span class=\"count-comments\">").concat(passedCurrent.comments ? passedCurrent.comments.length : "", "</span>\n          <span>").concat(passedCurrent.comments && passedCurrent.comments.length == 1 ? "Comment" : "Comments", "</span>\n        </bold>\n          <div class=\"items-wrapper\">\n            ").concat(passedCurrent.comments ? getItems(passedCurrent.comments, "comment") : "", "\n          </div>\n          <div class=\"add\">\n            <bold>Add Comments</bold>\n            <textarea name=\"\" id=\"\" cols=\"30\" rows=\"10\" placeholder=\"Type your comment here\"></textarea>\n            <div class=\"post\">\n              <span><span class=\"char-left\" max=\"250\">250</span> characters left</span>\n              <button class=\"post-comment\">Post Comment</button>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section>");
+  getItems(passedCurrent && passedCurrent.comments, 'comment');
+  return "\n    <section class=\"details\">\n      <div class=\"details__controls\">\n        <div class=\"back\">\n          <span class=\"arrow\"></span>\n          <span class=\"text\">Go back</span>\n        </div>\n        <span class=\"edit-feedback\">+ Edit Feedback</span>\n      </div>\n      <div class=\"details__current\">\n        <div class=\"feedback feedback--details\">\n          <div class=\"feedback-items-wrapper\">\n            <div class=\"feedback-item\" id=\"".concat(passedCurrent.id, "\">\n              <div class=\"feedback-item__left\">\n                <span class=\"arrow\"></span>\n                <div class=\"count\">").concat(passedCurrent.upvotes, "</div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(passedCurrent.title, "</h4>\n                <p>\n                  ").concat(passedCurrent.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(passedCurrent.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count count-comments\">\n                  ").concat(passedCurrent.comments ? passedCurrent.comments.length : 0, "\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"comments\">\n        <bold>\n          <span class=\"count-comments\">").concat(passedCurrent.comments ? passedCurrent.comments.length : '', "</span>\n          <span>").concat(passedCurrent.comments && passedCurrent.comments.length == 1 ? "Comment" : "Comments", "</span>\n        </bold>\n          <div class=\"items-wrapper\">\n            ").concat(passedCurrent.comments ? getItems(passedCurrent.comments, 'comment') : '', "\n          </div>\n          <div class=\"add\">\n            <bold>Add Comments</bold>\n            <textarea name=\"\" id=\"\" cols=\"30\" rows=\"10\" placeholder=\"Type your comment here\"></textarea>\n            <div class=\"post\">\n              <span><span class=\"char-left\" max=\"250\">250</span> characters left</span>\n              <button class=\"post-comment\">Post Comment</button>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section>");
 };
 
 exports.detailsTemplate = detailsTemplate;
@@ -9091,7 +9107,8 @@ var editFeedbackModule = function editFeedbackModule(match) {
   var saveBtn = document.querySelector(".edit .save");
   var deleteBtn = document.querySelector(".edit .delete"); // Main array import
 
-  var feedbackArray = (0, _getSuggestions.getLS)("feedbackArray"); // Current id
+  var feedbackArray = (0, _getSuggestions.getLS)("feedbackArray");
+  var suggestions = (0, _getSuggestions.getLS)("suggestion"); // Current id
 
   var currentId = match.data.id;
   var currentObject = feedbackArray[currentId - 1];
@@ -9114,7 +9131,13 @@ var editFeedbackModule = function editFeedbackModule(match) {
       status: submitBody.status,
       description: submitBody.description
     })], _toConsumableArray(feedbackArray.slice(currentId, feedbackArray.length)));
+    var suggestionsChange = submitBody.status != currentObject.status ? suggestions.filter(function (el) {
+      return el.id != currentId;
+    }) : [].concat(_toConsumableArray(suggestions.slice(0, currentId - 1)), [submitBody], _toConsumableArray(suggestions.slice(currentId))); // Update storage
+
     (0, _getSuggestions.updateStorage)("feedbackArray", feedbackArray);
+    (0, _getSuggestions.updateStorage)('suggestions', suggestionsChange); // Go back to speciffic route
+
     (0, _sharedFunctions.goBack)(currentId);
   };
 
@@ -9128,6 +9151,15 @@ var editFeedbackModule = function editFeedbackModule(match) {
     _getSuggestions.initialValues.previousRoute = [];
   };
 
+  var validateFunction = function validateFunction() {
+    var btnBoolean = [nameInput, details].every(function (el) {
+      return el.value.length > 0;
+    });
+    !btnBoolean ? submitBtn.disabled = true : submitBtn.disabled = false;
+  };
+
+  nameInput.addEventListener("input", validateFunction);
+  details.addEventListener("input", validateFunction);
   saveBtn.addEventListener("click", saveFunction);
   deleteBtn.addEventListener("click", deleteFunction);
   saveBtn.innerHTML = "Save"; // Set initial values (current values)
@@ -9155,7 +9187,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.editFeedbackTemplate = void 0;
-var editFeedbackTemplate = "\n<section class=\"edit\">\n    <div class=\"edit__controls\">\n        <div class=\"back\">\n            <span class=\"arrow\"></span>\n            <span class=\"text\">Go back</span>\n        </div>\n    </div>\n    <div class=\"edit__wrapper\">\n        <div class=\"title\">\n            <h3>Feedback Title</h3>\n            <div>Add a short, descriptive headline</div>\n            <input class=\"name\"></input>\n        </div>\n        <div class=\"category\">\n            <h3>Category</h3>\n            <div>Choose a category for your feedback</div>\n            <select class=\"custom-select select select--1\">\n            <option value=\"ux\">UX</option>\n            <option value=\"ui\">UI</option>\n            <option value=\"enhancement\">Enhancement</option>\n            <option value=\"feature\">Feature</option>\n            <option value=\"bug\">Bug</option>\n            </select>\n        </div>\n        <div class=\"status\">\n            <h3>Update Status</h3>\n            <div>Change feedback state</div>\n            <select class=\"custom-select select select--2\">\n            <option value=\"suggestion\">Suggestion</option>\n            <option value=\"planned\">Planned</option>\n            <option value=\"in-progress\">In-Progress</option>\n            <option value=\"live\">Live</option>\n            </select>\n        </div>\n        <div class=\"details\">\n            <h3>Feedback detail</h3>\n            <div>\n            Include any specific comments on what should be improved, added,\n            etc.\n            </div>\n            <textarea name=\"\" id=\"\" cols=\"30\" rows=\"10\"></textarea>\n        </div>\n        <div class=\"btns\">\n            <button class=\"delete\">Delete</button>\n            <button class=\"cancel\">Cancel</button>\n            <button class=\"submit\">Add feedback</button>\n        </div>\n    </div>\n</section>";
+var editFeedbackTemplate = "\n<form class=\"edit\" onsubmit=\"return false\">\n    <div class=\"edit__controls\">\n        <div class=\"back\">\n            <span class=\"arrow\"></span>\n            <span class=\"text\">Go back</span>\n        </div>\n    </div>\n    <div class=\"edit__wrapper\">\n        <div class=\"title\">\n            <h3>Feedback Title</h3>\n            <div>Add a short, descriptive headline</div>\n            <input class=\"name\" required></input>\n        </div>\n        <div class=\"category\">\n            <h3>Category</h3>\n            <div>Choose a category for your feedback</div>\n            <select class=\"custom-select select select--1\">\n            <option value=\"ux\">UX</option>\n            <option value=\"ui\">UI</option>\n            <option value=\"enhancement\">Enhancement</option>\n            <option value=\"feature\">Feature</option>\n            <option value=\"bug\">Bug</option>\n            </select>\n        </div>\n        <div class=\"status\">\n            <h3>Update Status</h3>\n            <div>Change feedback state</div>\n            <select class=\"custom-select select select--2\">\n            <option value=\"suggestion\">Suggestion</option>\n            <option value=\"planned\">Planned</option>\n            <option value=\"in-progress\">In-Progress</option>\n            <option value=\"live\">Live</option>\n            </select>\n        </div>\n        <div class=\"details\">\n            <h3>Feedback detail</h3>\n            <div>\n            Include any specific comments on what should be improved, added,\n            etc.\n            </div>\n            <textarea name=\"\" id=\"\" cols=\"30\" rows=\"10\"></textarea>\n        </div>\n        <div class=\"btns\">\n            <button class=\"delete\">Delete</button>\n            <button class=\"cancel\">Cancel</button>\n            <button class=\"submit\" type=\"submit\">Add feedback</button>\n        </div>\n    </div>\n</form>";
 exports.editFeedbackTemplate = editFeedbackTemplate;
 },{}],"src/assets/scripts/routes/edit-feedback.js":[function(require,module,exports) {
 "use strict";
@@ -9208,9 +9240,11 @@ var newFeedbackModule = function newFeedbackModule(match) {
   var deleteBtn = document.querySelector(".edit .delete"); // get main feedback array
 
   var feedbackArray = (0, _getSuggestions.getLS)('feedbackArray');
+  var suggestions = (0, _getSuggestions.getLS)("suggestion");
   addNewBtn.classList.add("add");
   var addBtn = document.querySelector(".edit .add");
   deleteBtn.style.display = "none";
+  addBtn.disabled = true;
 
   var addNewFunction = function addNewFunction() {
     var submitBody = {
@@ -9220,14 +9254,25 @@ var newFeedbackModule = function newFeedbackModule(match) {
       upvotes: 0,
       title: nameInput.value,
       category: categorySelect.value,
-      status: null
+      status: 'suggestion'
     };
     feedbackArray = [].concat(_toConsumableArray(feedbackArray), [submitBody]);
+    suggestions = [].concat(_toConsumableArray(suggestions), [submitBody]);
     (0, _getSuggestions.updateStorage)('feedbackArray', feedbackArray);
+    (0, _getSuggestions.updateStorage)('suggestions', suggestions);
     (0, _sharedFunctions.goBack)();
   };
 
+  var validateFunction = function validateFunction() {
+    var btnBoolean = [nameInput, details].every(function (el) {
+      return el.value.length > 0;
+    });
+    !btnBoolean ? addBtn.disabled = true : addBtn.disabled = false;
+  };
+
   addBtn.addEventListener("click", addNewFunction);
+  nameInput.addEventListener("input", validateFunction);
+  details.addEventListener("input", validateFunction);
   document.querySelector(".edit .status").style.display = "none"; // set current route as back destination, and imported back function
 
   (0, _sharedFunctions.setPreviousRoute)(match.url);
@@ -9289,13 +9334,21 @@ function roadmapLists() {
     visible: _constants.tabletMin
   }];
   var shown = [];
-  var all = _getSuggestions.initialValues.feedbackArray;
+  var all = (0, _getSuggestions.getLS)("feedbackArray");
 
   var filterInMap = function filterInMap(toFilter) {
     return toFilter.map(function (el, i) {
       var currentObject = (0, _getSuggestions.getLS)("feedbackArray")[el.id - 1];
-      return "<div class=\"feedback-item\" id=\"".concat(el.id, "\">\n                <div class=\"feedback-item__left\">\n                  <div class=\"upvotes ").concat(currentObject.likedBy && currentObject.likedBy.includes((0, _getSuggestions.getLS)("currentUser").name) ? "upvotes--highlighted" : "", "\">\n                    <span class=\"arrow\"></span>\n                    <input type=\"hidden\"/>\n                    <div class=\"count\">").concat(el.upvotes, "</div>\n                </div>\n                </div>\n                <div class=\"feedback-item__center\">\n                  <h4 class=\"title\">").concat(el.title, "</h4>\n                  <p>\n                    ").concat(el.description, "\n                  </p>\n                  <div class=\"tag\">\n                    <span>").concat(el.category, "</span>\n                  </div>\n                </div>\n                <div class=\"feedback-item__right\">\n                  <span class=\"comment\"></span>\n                  <div class=\"count\">\n                    ").concat(el.comments ? el.comments.length : 0, "\n                  </div>\n                </div>\n            </div>");
+      return "\n      <section class=\"feedback-item\" id=\"".concat(el.id, "\">\n        <div class=\"feedback-item__left\">\n          <div class=\"upvotes ").concat(currentObject.likedBy && currentObject.likedBy.includes((0, _getSuggestions.getLS)("currentUser").name) ? "upvotes--highlighted" : "", "\">\n            <span class=\"arrow\"></span>\n            <input type=\"hidden\" />\n            <div class=\"count\">").concat(currentObject.upvotes, "</div>\n          </div>\n        </div>\n        <div class=\"feedback-item__center\">\n          <h4 class=\"title\">").concat(currentObject.title, "</h4>\n          <p>").concat(currentObject.description, "</p>\n          <div class=\"tag\">\n            <span>").concat(currentObject.category, "</span>\n          </div>\n        </div>\n        <div class=\"feedback-item__right\">\n          <span class=\"comment\"></span>\n          <div class=\"count\">\n            ").concat(currentObject.comments ? currentObject.comments.length : 0, "\n          </div>\n        </div>\n      </section>\n      ");
     });
+  };
+
+  var mobileHeader = function mobileHeader() {
+    var header = columns.map(function (buttonEl, buttonIndex) {
+      var allColumns = (0, _sharedFunctions.filterStatus)(true);
+      return "\n      <div class=\"btn-name ".concat(buttonEl.visible ? 'btn-name--active' : '', "\">\n        <bold>\n          <span>").concat(buttonEl.name, "</span>\n          <span>(<span class=\"count\">").concat(allColumns[buttonIndex].length, "</span>)</span>\n        </bold>\n      </div> ");
+    });
+    return header.join('');
   };
 
   var columnsLists = function columnsLists() {
@@ -9303,12 +9356,8 @@ function roadmapLists() {
       shown.push(all.filter(function (f) {
         return f.status == el.name;
       }));
-      var visibleColumn = el.visible ? "\n      <div class=\"roadmap__column roadmap__column--".concat(el.name, "\">\n        <bold>\n          ").concat(el.name, "\n          <span>(<span class=\"count\">").concat(shown[i].length, "</span>)</span>\n        </bold>\n        <div>In search</div>\n        <div>\n          <div class=\"item\">\n            <div><span></span></div>\n          </div>\n        </div>\n        <div class=\"feedback feedback--roadmap\">\n          <div class=\"feedback-items-wrapper\">\n            ").concat(el.visible && filterInMap(shown[i]).join(""), "\n          </div>\n        </div>\n      </div>\n    ") : null;
-      var mobileHeader = self.map(function (buttonEl, buttonIndex) {
-        var allColumns = (0, _sharedFunctions.filterStatus)(true);
-        return "\n        <div class=\"btn-name\">\n          <bold>\n            <span>".concat(buttonEl.name, "</span>\n            <span>(<span class=\"count\">").concat(allColumns[buttonIndex].length, "</span>)</span>\n          </bold>\n        </div> ");
-      });
-      return el.visible ? "\n      <div class=\"roadmap-mobile-header\">\n        ".concat(mobileHeader.join(""), "  \n      </div>\n    ") + visibleColumn : null;
+      var visibleColumn = el.visible ? "\n          <div class=\"roadmap__column roadmap__column--".concat(el.name, "\">\n            <bold>\n              ").concat(el.name, "\n              <span>(<span class=\"count\">").concat(shown[i].length, "</span>)</span>\n            </bold>\n            <div>In search</div>\n            <div>\n              <div class=\"item\">\n                <div><span></span></div>\n              </div>\n            </div>\n            <div class=\"feedback feedback--roadmap\">\n              <div class=\"feedback-items-wrapper\">\n                ").concat(el.visible && filterInMap(shown[i]).join(""), "\n              </div>\n            </div>\n          </div>\n        ") : null;
+      return el.visible ? "\n        <div class=\"roadmap-mobile-header\">\n          ".concat(mobileHeader(), "  \n        </div>\n        ") + visibleColumn : null;
     });
     return mapped.join("");
   };
@@ -9326,9 +9375,11 @@ function roadmapLists() {
     columnSwitchBtns.forEach(function (element) {
       element.addEventListener("click", switchColumns);
     });
-    e.currentTarget.classList.add("btn-name--active"); // add event listeners after repiant
+    e.currentTarget.classList.add("btn-name--active");
+    e.currentTarget.style.display = "none"; // add event listeners after repiant
 
     (0, _sharedFunctions.addItemDetailsListener)();
+    console.log(e.currentTarget);
   };
 
   roadmapColumnsWrapper.innerHTML = columnsLists();
@@ -9436,7 +9487,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.rootTemplate = void 0;
-var rootTemplate = "\n<section class=\"sidebar\">\n<div class=\"sidebar__titles\">\n  <div>\n    <h1>Frontend Mentor</h1>\n    <h3>Feedback Board</h3>\n  </div>\n  <button class=\"toggleButton\">\n    <div></div>\n    <div></div>\n    <div></div>\n  </button>\n</div>\n<div class=\"sidebar__menu\">\n  <div class=\"sidebar__categories\">\n    <button class=\"category\">All</button>\n    <button class=\"category ui\">UI</button>\n    <button class=\"category ux\"y>UX</button>\n    <button class=\"category enhancement\">Enhancement</button>\n    <button class=\"category bug\">Bug</button>\n    <button class=\"category feature\">Feature</button>\n  </div>\n  <div class=\"sidebar__status-wrapper\">\n    <span>Roadmap</span>\n    <a href=\"/roadmap\" data-navigo>View</a>\n    <div class=\"sidebar__status-display\">\n      <div class=\"sidebar__status sidebar__status--planned\">\n        <span class=\"circle\"></span>Planned <span class=\"count\"></span>\n      </div>\n      <div class=\"sidebar__status sidebar__status--in-progress\">\n        <span class=\"circle\"></span>In-Progress\n        <span class=\"count\"></span>\n      </div>\n      <div class=\"sidebar__status sidebar__status--live\">\n        <span class=\"circle\"></span>Live <span class=\"count\"></span>\n      </div>\n    </div>\n  </div>\n</div>\n</section>\n<section class=\"feedback feedback--root\">\n<div class=\"feedback__controls\">\n  <div class=\"feedback__counter\">\n    <span class=\"bulb\"></span>\n    <span class=\"count\" filterStatus</span>\n      <h3>Suggestions</h3>\n  </div>\n  <div class=\"feedback__sort\">\n    <div class=\"text\">\n      <span class=\"sort-by\">Sort by:</span>\n      <span class=\"current\"></span>\n      <span class=\"arrow\"></span>\n    </div>\n    <div class=\"dropdown\">\n      <div class=\"dropdown-item\" filter-by=\"upvotes\" data-direction=\"reverse\">\n        <span class=\"filter-by\">Most Upvotes</span>\n        <span class=\"checked\"></span>\n      </div>\n      <div class=\"dropdown-item\" filter-by=\"upvotes\" data-direction=\"normal\">\n        <span class=\"filter-by\">Least Upvotes</span>\n        <span class=\"checked\"></span>\n      </div>\n      <div class=\"dropdown-item\" filter-by=\"comments\" data-direction=\"reverse\">\n        <span class=\"filter-by\">Most Comments</span>\n        <span class=\"checked\"></span>\n      </div>\n      <div class=\"dropdown-item\" filter-by=\"comments\" data-direction=\"normal\">\n        <span class=\"filter-by\">Least Comments</span>\n        <span class=\"checked\"></span>\n      </div>\n    </div>\n  </div>\n  <a class=\"add\" href=\"/new-feedback\" data-navigo>+ Add Feedback</a>\n</div>\n<div class=\"feedback-items-wrapper\">\n  <div class=\"feedback-empty\">\n    <figure>\n      <picture>\n        <source />\n        <img src=\"\" alt=\"no-results\" />\n      </picture>\n    </figure>\n    <div>>There is no feedback yet.</div>\n    <p>\n      Got a suggestion? Found a bug that needs to be squashed? We love\n      hearing about new ideas to improve our app.\n    </p>\n    <butotn>Add Feedback</butotn>\n  </div>\n</div>\n</section>\n";
+
+var rootTemplate = function rootTemplate(arrayProp) {
+  return "\n   <section class=\"sidebar\">\n   <div class=\"sidebar__titles\">\n     <div>\n       <h1>Frontend Mentor</h1>\n       <h3>Feedback Board</h3>\n     </div>\n     <button class=\"toggleButton\">\n       <div></div>\n       <div></div>\n       <div></div>\n     </button>\n   </div>\n   <div class=\"sidebar__menu\">\n     <div class=\"sidebar__categories\">\n       <button class=\"category\">All</button>\n       <button class=\"category ui\">UI</button>\n       <button class=\"category ux\"y>UX</button>\n       <button class=\"category enhancement\">Enhancement</button>\n       <button class=\"category bug\">Bug</button>\n       <button class=\"category feature\">Feature</button>\n     </div>\n     <div class=\"sidebar__status-wrapper\">\n       <span>Roadmap</span>\n       <a href=\"/roadmap\" data-navigo>View</a>\n       <div class=\"sidebar__status-display\">\n         <div class=\"sidebar__status sidebar__status--planned\">\n           <span class=\"circle\"></span>Planned <span class=\"count\"></span>\n         </div>\n         <div class=\"sidebar__status sidebar__status--in-progress\">\n           <span class=\"circle\"></span>In-Progress\n           <span class=\"count\"></span>\n         </div>\n         <div class=\"sidebar__status sidebar__status--live\">\n           <span class=\"circle\"></span>Live <span class=\"count\"></span>\n         </div>\n       </div>\n     </div>\n   </div>\n   </section>\n   <section class=\"feedback feedback--root\">\n   <div class=\"feedback__controls\">\n     <div class=\"feedback__counter\">\n       <span class=\"bulb\"></span>\n       <span class=\"count filterStatus\">".concat(arrayProp.length, "</span>\n         <h3>Suggestions</h3>\n     </div>\n     <div class=\"feedback__sort\">\n       <div class=\"text\">\n         <span class=\"sort-by\">Sort by:</span>\n         <span class=\"current\"></span>\n         <span class=\"arrow\"></span>\n       </div>\n       <div class=\"dropdown\">\n         <div class=\"dropdown-item\" filter-by=\"upvotes\" data-direction=\"reverse\">\n           <span class=\"filter-by\">Most Upvotes</span>\n           <span class=\"checked\"></span>\n         </div>\n         <div class=\"dropdown-item\" filter-by=\"upvotes\" data-direction=\"normal\">\n           <span class=\"filter-by\">Least Upvotes</span>\n           <span class=\"checked\"></span>\n         </div>\n         <div class=\"dropdown-item\" filter-by=\"comments\" data-direction=\"reverse\">\n           <span class=\"filter-by\">Most Comments</span>\n           <span class=\"checked\"></span>\n         </div>\n         <div class=\"dropdown-item\" filter-by=\"comments\" data-direction=\"normal\">\n           <span class=\"filter-by\">Least Comments</span>\n           <span class=\"checked\"></span>\n         </div>\n       </div>\n     </div>\n     <a class=\"add\" href=\"/new-feedback\" data-navigo>+ Add Feedback</a>\n   </div>\n   <div class=\"feedback-items-wrapper\">\n     <div class=\"feedback-empty\">\n       <div>\n         <div id=\"loading\"></div>\n       </div>\n       <div class=\"feedback-empty__no-results\">\n         <div class=\"img-wrapper\">   \n           <div></div>\n         </div>\n         <div>There is no feedback yet.</div>\n         <p>\n           Got a suggestion? Found a bug that needs to be squashed? We love\n           hearing about new ideas to improve our app.\n         </p>\n         <div class=\"feedback-empty__add-btn\">\n           <a class=\"add\" href=\"/new-feedback\" data-navigo>+ Add Feedback</a>\n         </div>\n       </div>\n     </div>\n   </div>\n </section>\n ");
+};
+
 exports.rootTemplate = rootTemplate;
 },{}],"src/assets/scripts/routes/root.js":[function(require,module,exports) {
 "use strict";
@@ -9455,8 +9510,8 @@ document.body.innerHTML = _rootTemplate.rootTemplate;
 
 _router.router.on("/", function () {
   // set the HTML
-  document.body.innerHTML = _rootTemplate.rootTemplate;
-  (0, _getSuggestions.getSuggestions)(_getSuggestions.initialValues.feedbackArray);
+  document.body.innerHTML = (0, _rootTemplate.rootTemplate)((0, _getSuggestions.getLS)('suggestions'));
+  (0, _getSuggestions.getSuggestions)((0, _getSuggestions.getLS)('suggestions'));
   (0, _rootModule.rootModule)();
   (0, _sharedFunctions.addItemDetailsListener)();
 });
@@ -9548,7 +9603,7 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/suggestions/bulb.png":[["bulb.da37f33d.png","src/assets/images/suggestions/bulb.png"],"src/assets/images/suggestions/bulb.png"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/suggestions/white-arrow.png":[["white-arrow.205849a5.png","src/assets/images/suggestions/white-arrow.png"],"src/assets/images/suggestions/white-arrow.png"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-check.svg":[["icon-check.66b49a52.svg","src/assets/images/shared/icon-check.svg"],"src/assets/images/shared/icon-check.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-arrow-up.svg":[["icon-arrow-up.8a111df8.svg","src/assets/images/shared/icon-arrow-up.svg"],"src/assets/images/shared/icon-arrow-up.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-comments.svg":[["icon-comments.1db50b47.svg","src/assets/images/shared/icon-comments.svg"],"src/assets/images/shared/icon-comments.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-arrow-left.svg":[["icon-arrow-left.7013d5bc.svg","src/assets/images/shared/icon-arrow-left.svg"],"src/assets/images/shared/icon-arrow-left.svg"],"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/assets/scripts/index.js":[function(require,module,exports) {
+},{"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\bulb.png":[["bulb.da37f33d.png","src/assets/images/suggestions/bulb.png"],"src/assets/images/suggestions/bulb.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\white-arrow.png":[["white-arrow.205849a5.png","src/assets/images/suggestions/white-arrow.png"],"src/assets/images/suggestions/white-arrow.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-check.svg":[["icon-check.66b49a52.svg","src/assets/images/shared/icon-check.svg"],"src/assets/images/shared/icon-check.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-arrow-up.svg":[["icon-arrow-up.8a111df8.svg","src/assets/images/shared/icon-arrow-up.svg"],"src/assets/images/shared/icon-arrow-up.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-comments.svg":[["icon-comments.1db50b47.svg","src/assets/images/shared/icon-comments.svg"],"src/assets/images/shared/icon-comments.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\illustration-empty.svg":[["illustration-empty.229151ae.svg","src/assets/images/suggestions/illustration-empty.svg"],"src/assets/images/suggestions/illustration-empty.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-arrow-left.svg":[["icon-arrow-left.7013d5bc.svg","src/assets/images/shared/icon-arrow-left.svg"],"src/assets/images/shared/icon-arrow-left.svg"],"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/assets/scripts/index.js":[function(require,module,exports) {
 "use strict";
 
 require("babel-polyfill");
@@ -9606,7 +9661,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "38973" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49803" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -16,6 +16,7 @@ export const editFeedbackModule = (match) => {
 
   // Main array import
   let feedbackArray = getLS("feedbackArray");
+  let suggestions =  getLS("suggestion");
   // Current id
   let currentId = match.data.id;
   var currentObject = feedbackArray[currentId - 1];
@@ -45,7 +46,17 @@ export const editFeedbackModule = (match) => {
       ...feedbackArray.slice(currentId, feedbackArray.length),
     ];
 
+    let suggestionsChange = submitBody.status != currentObject.status ? 
+      suggestions.filter(el => el.id != currentId) : [
+      ...suggestions.slice(0, currentId - 1),
+      submitBody,
+      ...suggestions.slice(currentId),
+    ]
+
+    // Update storage
     updateStorage("feedbackArray", feedbackArray);
+    updateStorage('suggestions', suggestionsChange);
+    // Go back to speciffic route
     goBack(currentId);
   };
 
@@ -56,6 +67,19 @@ export const editFeedbackModule = (match) => {
     router.navigate("/");
     initialValues.previousRoute = [];
   };
+
+  const validateFunction = () => {
+    let btnBoolean = [nameInput, details].every(el => {
+      return el.value.length > 0
+    });
+    
+    !btnBoolean ? 
+    submitBtn.disabled = true 
+    : submitBtn.disabled = false;
+  }
+
+  nameInput.addEventListener("input", validateFunction);
+  details.addEventListener("input", validateFunction);
 
   saveBtn.addEventListener("click", saveFunction);
   deleteBtn.addEventListener("click", deleteFunction);

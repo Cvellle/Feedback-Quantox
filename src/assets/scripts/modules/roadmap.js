@@ -31,41 +31,56 @@ export function roadmapLists() {
   ];
 
   let shown = [];
-  const all = initialValues.feedbackArray;
+  const all = getLS("feedbackArray");
 
   const filterInMap = (toFilter) =>
     toFilter.map((el, i) => {
       let currentObject = getLS("feedbackArray")[el.id - 1];
-      return `<div class="feedback-item" id="${el.id}">
-                <div class="feedback-item__left">
-                  <div class="upvotes ${
-                    currentObject.likedBy &&
-                    currentObject.likedBy.includes(getLS("currentUser").name)
-                      ? "upvotes--highlighted"
-                      : ""
-                  }">
-                    <span class="arrow"></span>
-                    <input type="hidden"/>
-                    <div class="count">${el.upvotes}</div>
-                </div>
-                </div>
-                <div class="feedback-item__center">
-                  <h4 class="title">${el.title}</h4>
-                  <p>
-                    ${el.description}
-                  </p>
-                  <div class="tag">
-                    <span>${el.category}</span>
-                  </div>
-                </div>
-                <div class="feedback-item__right">
-                  <span class="comment"></span>
-                  <div class="count">
-                    ${el.comments ? el.comments.length : 0}
-                  </div>
-                </div>
-            </div>`;
+      return `
+      <section class="feedback-item" id="${el.id}">
+        <div class="feedback-item__left">
+          <div class="upvotes ${
+            currentObject.likedBy &&
+            currentObject.likedBy.includes(getLS("currentUser").name)
+              ? "upvotes--highlighted"
+              : ""
+          }">
+            <span class="arrow"></span>
+            <input type="hidden" />
+            <div class="count">${currentObject.upvotes}</div>
+          </div>
+        </div>
+        <div class="feedback-item__center">
+          <h4 class="title">${currentObject.title}</h4>
+          <p>${currentObject.description}</p>
+          <div class="tag">
+            <span>${currentObject.category}</span>
+          </div>
+        </div>
+        <div class="feedback-item__right">
+          <span class="comment"></span>
+          <div class="count">
+            ${currentObject.comments ? currentObject.comments.length : 0}
+          </div>
+        </div>
+      </section>
+      `;
     });
+
+  const mobileHeader = () => {
+    let header = columns.map((buttonEl, buttonIndex) => {
+    let allColumns = filterStatus(true);
+    return `
+      <div class="btn-name ${buttonEl.visible ? 'btn-name--active' : ''}">
+        <bold>
+          <span>${buttonEl.name}</span>
+          <span>(<span class="count">${allColumns[buttonIndex].length}</span>)</span>
+        </bold>
+      </div> `;
+    });  
+
+    return header.join('')
+  }
 
   const columnsLists = () => {
     let mapped = columns.map((el, i, self) => {
@@ -73,43 +88,32 @@ export function roadmapLists() {
 
       const visibleColumn = el.visible
         ? `
-      <div class="roadmap__column roadmap__column--${el.name}">
-        <bold>
-          ${el.name}
-          <span>(<span class="count">${shown[i].length}</span>)</span>
-        </bold>
-        <div>In search</div>
-        <div>
-          <div class="item">
-            <div><span></span></div>
+          <div class="roadmap__column roadmap__column--${el.name}">
+            <bold>
+              ${el.name}
+              <span>(<span class="count">${shown[i].length}</span>)</span>
+            </bold>
+            <div>In search</div>
+            <div>
+              <div class="item">
+                <div><span></span></div>
+              </div>
+            </div>
+            <div class="feedback feedback--roadmap">
+              <div class="feedback-items-wrapper">
+                ${el.visible && filterInMap(shown[i]).join("")}
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="feedback feedback--roadmap">
-          <div class="feedback-items-wrapper">
-            ${el.visible && filterInMap(shown[i]).join("")}
-          </div>
-        </div>
-      </div>
-    `
+        `
         : null;
-
-      const mobileHeader = self.map((buttonEl, buttonIndex) => {
-        let allColumns = filterStatus(true);
-        return `
-        <div class="btn-name">
-          <bold>
-            <span>${buttonEl.name}</span>
-            <span>(<span class="count">${allColumns[buttonIndex].length}</span>)</span>
-          </bold>
-        </div> `;
-      });
 
       return el.visible
         ? `
-      <div class="roadmap-mobile-header">
-        ${mobileHeader.join("")}  
-      </div>
-    ` + visibleColumn
+        <div class="roadmap-mobile-header">
+          ${mobileHeader()}  
+        </div>
+        ` + visibleColumn
         : null;
     });
 
@@ -130,8 +134,10 @@ export function roadmapLists() {
       element.addEventListener("click", switchColumns);
     });
     e.currentTarget.classList.add("btn-name--active");
+    e.currentTarget.style.display = "none"
     // add event listeners after repiant
     addItemDetailsListener();
+    console.log(e.currentTarget);
   };
 
   roadmapColumnsWrapper.innerHTML = columnsLists();

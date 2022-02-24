@@ -1,5 +1,5 @@
 export const editFeedbackTemplate = `
-<section class="edit">
+<form class="edit" onsubmit="return false">
     <div class="edit__controls">
         <div class="back">
             <span class="arrow"></span>
@@ -10,7 +10,7 @@ export const editFeedbackTemplate = `
         <div class="title">
             <h3>Feedback Title</h3>
             <div>Add a short, descriptive headline</div>
-            <input class="name"></input>
+            <input class="name" required></input>
         </div>
         <div class="category">
             <h3>Category</h3>
@@ -44,7 +44,7 @@ export const editFeedbackTemplate = `
         <div class="btns">
             <button class="delete">Delete</button>
             <button class="cancel">Cancel</button>
-            <button class="submit">Add feedback</button>
+            <button class="submit" type="submit">Add feedback</button>
         </div>
     </div>
-</section>`;
+</form>`;

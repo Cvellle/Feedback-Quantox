@@ -13,10 +13,12 @@ export const newFeedbackModule = (match) => {
 
   // get main feedback array
   let feedbackArray = getLS('feedbackArray');
+  let suggestions =  getLS("suggestion");
 
   addNewBtn.classList.add("add");
   const addBtn = document.querySelector(".edit .add");
   deleteBtn.style.display = "none";
+  addBtn.disabled = true;
 
   const addNewFunction = () => {
     let submitBody = {
@@ -26,16 +28,31 @@ export const newFeedbackModule = (match) => {
       upvotes: 0,
       title: nameInput.value,
       category: categorySelect.value,
-      status: null,
+      status: 'suggestion',
     };
 
     feedbackArray = [...feedbackArray, submitBody];
+    suggestions = [...suggestions, submitBody];
+    
     updateStorage('feedbackArray', feedbackArray);
+    updateStorage('suggestions', suggestions);
 
     goBack();
   };
 
+  const validateFunction = () => {
+    let btnBoolean = [nameInput, details].every(el => {
+      return el.value.length > 0
+    });
+    
+    !btnBoolean ? 
+    addBtn.disabled = true 
+    : addBtn.disabled = false;
+  }
+
   addBtn.addEventListener("click", addNewFunction);
+  nameInput.addEventListener("input", validateFunction);
+  details.addEventListener("input", validateFunction);
   document.querySelector(".edit .status").style.display = "none";
 
   // set current route as back destination, and imported back function

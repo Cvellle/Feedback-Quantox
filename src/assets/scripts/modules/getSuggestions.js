@@ -14,6 +14,8 @@ export let initialValues = {
   previousRoute: [],
 };
 
+export const filterBy = (toMap, filterProp, filterAvoid) => toMap.filter((el) => el[filterProp] == filterAvoid);
+
 export const updateStorage = (storageKey, value) => {
   window.localStorage.setItem(storageKey, JSON.stringify(value));
 };
@@ -100,10 +102,14 @@ export const getSuggestions = (arrayToLoop, toFilter) => {
 
 // initial fetch
 async function fetchSuggestions() {
-  const feedbackWrapper = document.querySelector(".feedback-items-wrapper");
-
   // fetch
-  // const response = await fetch("/data/data.json");
+  // const response = await fetch("/data/data.json", {
+  //   headers: {
+  //     'Accept': 'application/json',
+  //     'Content-Type': 'application/json'
+  //   },
+  //   method: "GET"
+  // })
   // const json = await response.json();
 
   // fill the object
@@ -112,15 +118,19 @@ async function fetchSuggestions() {
     feedbackArray: [...initialValues.feedbackArray, ...data.productRequests],
   };
 
+  // set local storage
   for (const property in initialValues) {
-    // set local storage
     updateStorage(property, initialValues[property]);
   }
+
+
+  let suggestions = filterBy(initialValues.feedbackArray, 'status', 'suggestion');
+  updateStorage('suggestions', suggestions);
 
   initialValues.feedbackArray = data.productRequests;
 
   //call outer getSuggestions function
-  getSuggestions(getLS("feedbackArray"));
+  getSuggestions(getLS("suggestions"));
 }
 
 // module invoked on load

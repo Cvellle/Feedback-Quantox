@@ -75,8 +75,14 @@
         justify-content: center;
         align-items: center;
         height: 50px;
-        border-bottom: 1px solid rgb(192, 192, 192);
+        border-bottom: 2px solid rgb(192, 192, 192);
         flex: 1;
+      }
+
+      & .btn-name {
+        &--active {
+          border-bottom: 2px solid #000;
+        }
       }
     }
   }
@@ -110,15 +116,25 @@
       }
     }
 
-    & .name-btn {
-      &--active {
-        border-bottom: 1px solid #000;
-      }
-    }
-
     & .feedback-item {
       @include tablet {
         height: 360px;
+        align-content: space-between;
+      }
+
+      @include desktop {
+        height: unset;
+      }
+
+      &__left {
+        @include tablet {
+          margin-top: 18px;
+        }
+
+        @include desktop {
+          height: unset;
+          margin-top: 15px;
+        }
       }
     }
   }

@@ -1,11 +1,15 @@
 .edit {
   $this: &;
 
-  width: 540px;
+  width: 100%;
   margin: 100px auto;
   background-color: white;
   padding: 24px;
   border-radius: 10px;
+
+  @include desktop {
+    width: 540px;
+  }
 
   &__controls {
     display: flex;
@@ -52,10 +56,14 @@
 
     input {
       height: 30px;
+      border-radius: 5px;
+      background: #fbe6e6;
+      padding-left: 5px;
     }
 
     .select {
       background: #f7f8fd;
+      background: #fbe6e6;
       box-sizing: border-box;
       border-radius: 5px;
       border: none;
@@ -69,6 +77,7 @@
     textarea {
       width: 100%;
       background: #f7f8fd;
+      background: #fbe6e6;
       box-sizing: border-box;
       border-radius: 5px;
       border: none;
@@ -87,10 +96,15 @@
     }
 
     button {
-      width: 130px;
-      height: 50px;
+      width: 27vw;
+      height: 11vw;
       font-weight: 700;
       border-radius: 10px;
+
+      @include tablet {
+        width: 130px;
+        height: 50px;
+      }
 
       &.delete {
         background-color: red;
@@ -99,11 +113,19 @@
 
       &.cancel {
         background-color: rgb(26, 29, 54);
-        margin-right: 10px;
+        margin-right: 1vw;
+
+        @include tablet {
+          margin-right: 10px;
+        }
       }
 
       &.submit {
         background-color: purple;
+
+        &:disabled {
+          background-color: rgba(128, 0, 128, 0.274);
+        }
       }
     }
   }

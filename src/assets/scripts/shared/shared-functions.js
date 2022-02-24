@@ -1,4 +1,5 @@
 import {
+  filterBy,
   getLS,
   getSuggestions,
   updateStorage,
@@ -17,10 +18,11 @@ export const goBack = (filterCurrent) => {
   currentRoute.pop();
   let pathToGoBack = "/" + currentRoute.slice(-1).join("");
   router.navigate(pathToGoBack);
-  let passedArray =
+  let arrayToMap = currentRoute.pop() == undefined ? getLS("suggestions") : getLS("feedbackArray");
+  let passedArray = 
     currentRoute.pop() !== "/roadmap"
-      ? getLS("feedbackArray")
-      : getLS("feedbackArray").filter((el) => el.status == "planned");
+      ? arrayToMap
+      : arrayToMap.filter((el) => el.status == "planned");
   getSuggestions(
     passedArray,
     typeof filterCurrent == "string" ? filterCurrent : undefined
@@ -72,7 +74,7 @@ export const sortItems = (e) => {
   checkMarks.forEach((el) => (el.style.display = "none"));
   current.lastElementChild.style.display = "block";
 
-  let sorted = getLS("feedbackArray").sort((a, b) => {
+  let sorted = getLS("suggestions").sort((a, b) => {
     // check if comments object exists
     let aCheck = a[filterBy] ? a[filterBy].length : 0;
     let bCheck = b[filterBy] ? b[filterBy].length : 0;
@@ -149,6 +151,7 @@ export const upvotesAdd = (e) => {
   ];
 
   updateStorage("feedbackArray", feedbackArray);
+  updateStorage('suggestions', filterBy(getLS('feedbackArray'), 'status', 'suggestion'));
 };
 
 // Add function - after setting the innerHTML (repainting the ond one)

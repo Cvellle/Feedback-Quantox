@@ -102,7 +102,7 @@
     display: flex;
     flex-direction: column;
     padding: 24px;
-    background: transparent;
+    background: #F2F4FF;
     transform: translateX(100%);
     transition: 0.3s;
     z-index: 10;
@@ -120,6 +120,7 @@
       height: 100%;
       transform: translateX(0%);
       padding: 0;
+      background: transparent;
     }
 
     @include desktop {

@@ -1,4 +1,4 @@
-import { getSuggestions, initialValues } from "../modules/getSuggestions";
+import { getLS, getSuggestions, initialValues } from "../modules/getSuggestions";
 import { rootModule } from "../modules/root-module";
 import { addItemDetailsListener, filterStatus } from "../shared/shared-functions";
 import { rootTemplate } from "../templates/rootTemplate.template";
@@ -8,9 +8,9 @@ document.body.innerHTML = rootTemplate;
 
 router.on("/", function () {
   // set the HTML
-  document.body.innerHTML = rootTemplate;
+  document.body.innerHTML = rootTemplate(getLS('suggestions'));
 
-  getSuggestions(initialValues.feedbackArray);
+  getSuggestions(getLS('suggestions'));
   rootModule();
   addItemDetailsListener();
 });
