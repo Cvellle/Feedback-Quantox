@@ -9117,7 +9117,7 @@ var editFeedbackModule = function editFeedbackModule(match) {
   var deleteBtn = document.querySelector(".edit .delete"); // Main array import
 
   var feedbackArray = (0, _getSuggestions.getLS)("feedbackArray");
-  var suggestions = (0, _getSuggestions.getLS)("suggestion"); // Current id
+  var suggestions = (0, _getSuggestions.getLS)("suggestions"); // Current id
 
   var currentId = match.data.id;
   var currentObject = feedbackArray[currentId - 1];
@@ -9657,7 +9657,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63252" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50898" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

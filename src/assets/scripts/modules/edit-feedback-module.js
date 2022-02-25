@@ -16,7 +16,7 @@ export const editFeedbackModule = (match) => {
 
   // Main array import
   let feedbackArray = getLS("feedbackArray");
-  let suggestions =  getLS("suggestion");
+  let suggestions =  getLS("suggestions");
   // Current id
   let currentId = match.data.id;
   var currentObject = feedbackArray[currentId - 1];
