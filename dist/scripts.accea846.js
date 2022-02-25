@@ -9151,11 +9151,9 @@ var editFeedbackModule = function editFeedbackModule(match) {
   };
 
   var deleteFunction = function deleteFunction() {
-    var chooseListToFilter = _getSuggestions.initialValues.previousRoute == '/roadmap' ? "suggestions" : "feedbackArray";
     var newArray = (0, _getSuggestions.getLS)('feedbackArray').filter(function (el) {
       return el.id != currentId;
     });
-    console.log((0, _getSuggestions.getLS)('feedbackArray'));
     (0, _getSuggestions.updateStorage)("feedbackArray", newArray);
     (0, _getSuggestions.updateStorage)('suggestions', (0, _getSuggestions.filterBy)((0, _getSuggestions.getLS)("feedbackArray"), 'status', 'suggestion'));
 

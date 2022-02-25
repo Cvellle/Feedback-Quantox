@@ -61,11 +61,9 @@ export const editFeedbackModule = (match) => {
   };
 
   const deleteFunction = () => {
-    const chooseListToFilter = initialValues.previousRoute == '/roadmap' ? "suggestions" : "feedbackArray";
     let newArray = getLS('feedbackArray').filter(
       (el) => el.id != currentId
     );
-    console.log( getLS('feedbackArray'));
     updateStorage("feedbackArray", newArray);
     updateStorage('suggestions', filterBy(getLS("feedbackArray"), 'status', 'suggestion'));
 
