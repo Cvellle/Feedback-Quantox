@@ -37,12 +37,9 @@ export const getInitialValues = (current) => {
 // get list results globally
 export const getSuggestions = (arrayToLoop, toFilter) => {
   const feedbackWrapper = document.querySelector(".feedback-items-wrapper");
-  
-  const upvotes = document.querySelector(".upvotes");
 
   const suggestionsList = arrayToLoop.filter((el) => {
     let final = toFilter ? el.id == toFilter : el;
-
     return final;
   });
 
@@ -80,7 +77,7 @@ export const getSuggestions = (arrayToLoop, toFilter) => {
   });
 
   const filterAll = (e) => {
-    let localArray = initialValues.feedbackArray;
+    let localArray = getLS("suggestions");
     let filtered = localArray.filter((el, i, self) => {
       let returnValue =
         e.currentTarget.innerHTML == "All"
@@ -124,11 +121,8 @@ async function fetchSuggestions() {
     updateStorage(property, initialValues[property]);
   }
 
-
   let suggestions = filterBy(initialValues.feedbackArray, 'status', 'suggestion');
   updateStorage('suggestions', suggestions);
-
-  initialValues.feedbackArray = data.productRequests;
 
   //call outer getSuggestions function
   getSuggestions(getLS("suggestions"));

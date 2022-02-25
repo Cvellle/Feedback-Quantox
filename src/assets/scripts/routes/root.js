@@ -9,7 +9,6 @@ document.body.innerHTML = rootTemplate(getLS('suggestions'));
 router.on("/", function () {
   // set the HTML
   document.body.innerHTML = rootTemplate(getLS('suggestions'));
-
   getSuggestions(getLS('suggestions'));
   rootModule();
   addItemDetailsListener();

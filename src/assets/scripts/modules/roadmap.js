@@ -35,32 +35,31 @@ export function roadmapLists() {
 
   const filterInMap = (toFilter) =>
     toFilter.map((el, i) => {
-      let currentObject = getLS("feedbackArray")[el.id - 1];
       return `
       <section class="feedback-item" id="${el.id}">
         <div class="feedback-item__left">
           <div class="upvotes ${
-            currentObject.likedBy &&
-            currentObject.likedBy.includes(getLS("currentUser").name)
+            el.likedBy &&
+            el.likedBy.includes(getLS("currentUser").name)
               ? "upvotes--highlighted"
               : ""
           }">
             <span class="arrow"></span>
             <input type="hidden" />
-            <div class="count">${currentObject.upvotes}</div>
+            <div class="count">${el.upvotes}</div>
           </div>
         </div>
         <div class="feedback-item__center">
-          <h4 class="title">${currentObject.title}</h4>
-          <p>${currentObject.description}</p>
+          <h4 class="title">${el.title}</h4>
+          <p>${el.description}</p>
           <div class="tag">
-            <span>${currentObject.category}</span>
+            <span>${el.category}</span>
           </div>
         </div>
         <div class="feedback-item__right">
           <span class="comment"></span>
           <div class="count">
-            ${currentObject.comments ? currentObject.comments.length : 0}
+            ${el.comments ? el.comments.length : 0}
           </div>
         </div>
       </section>

@@ -8479,7 +8479,6 @@ exports.getInitialValues = getInitialValues;
 
 var getSuggestions = function getSuggestions(arrayToLoop, toFilter) {
   var feedbackWrapper = document.querySelector(".feedback-items-wrapper");
-  var upvotes = document.querySelector(".upvotes");
   var suggestionsList = arrayToLoop.filter(function (el) {
     var final = toFilter ? el.id == toFilter : el;
     return final;
@@ -8490,7 +8489,7 @@ var getSuggestions = function getSuggestions(arrayToLoop, toFilter) {
   });
 
   var filterAll = function filterAll(e) {
-    var localArray = initialValues.feedbackArray;
+    var localArray = getLS("suggestions");
     var filtered = localArray.filter(function (el, i, self) {
       var returnValue = e.currentTarget.innerHTML == "All" ? el : el.category == e.currentTarget.innerHTML.toLowerCase();
       return returnValue;
@@ -8541,12 +8540,11 @@ function _fetchSuggestions() {
             }
 
             suggestions = filterBy(initialValues.feedbackArray, 'status', 'suggestion');
-            updateStorage('suggestions', suggestions);
-            initialValues.feedbackArray = _data.default.productRequests; //call outer getSuggestions function
+            updateStorage('suggestions', suggestions); //call outer getSuggestions function
 
             getSuggestions(getLS("suggestions"));
 
-          case 6:
+          case 5:
           case "end":
             return _context.stop();
         }
@@ -9081,7 +9079,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.editFeedbackModule = void 0;
 
-var _helpers = require("../shared/helpers");
+require("../shared/helpers");
 
 var _sharedFunctions = require("../shared/shared-functions");
 
@@ -9153,9 +9151,13 @@ var editFeedbackModule = function editFeedbackModule(match) {
   };
 
   var deleteFunction = function deleteFunction() {
-    _getSuggestions.initialValues.feedbackArray = _getSuggestions.initialValues.feedbackArray.filter(function (el) {
+    var chooseListToFilter = _getSuggestions.initialValues.previousRoute == '/roadmap' ? "suggestions" : "feedbackArray";
+    var newArray = (0, _getSuggestions.getLS)('feedbackArray').filter(function (el) {
       return el.id != currentId;
     });
+    console.log((0, _getSuggestions.getLS)('feedbackArray'));
+    (0, _getSuggestions.updateStorage)("feedbackArray", newArray);
+    (0, _getSuggestions.updateStorage)('suggestions', (0, _getSuggestions.filterBy)((0, _getSuggestions.getLS)("feedbackArray"), 'status', 'suggestion'));
 
     _router.router.navigate("/");
 
@@ -9169,7 +9171,6 @@ var editFeedbackModule = function editFeedbackModule(match) {
     !btnBoolean ? submitBtn.disabled = true : submitBtn.disabled = false;
   };
 
-  (0, _helpers.selectRepaint)();
   nameInput.addEventListener("input", validateFunction);
   details.addEventListener("input", validateFunction);
   saveBtn.addEventListener("click", saveFunction);
@@ -9350,8 +9351,7 @@ function roadmapLists() {
 
   var filterInMap = function filterInMap(toFilter) {
     return toFilter.map(function (el, i) {
-      var currentObject = (0, _getSuggestions.getLS)("feedbackArray")[el.id - 1];
-      return "\n      <section class=\"feedback-item\" id=\"".concat(el.id, "\">\n        <div class=\"feedback-item__left\">\n          <div class=\"upvotes ").concat(currentObject.likedBy && currentObject.likedBy.includes((0, _getSuggestions.getLS)("currentUser").name) ? "upvotes--highlighted" : "", "\">\n            <span class=\"arrow\"></span>\n            <input type=\"hidden\" />\n            <div class=\"count\">").concat(currentObject.upvotes, "</div>\n          </div>\n        </div>\n        <div class=\"feedback-item__center\">\n          <h4 class=\"title\">").concat(currentObject.title, "</h4>\n          <p>").concat(currentObject.description, "</p>\n          <div class=\"tag\">\n            <span>").concat(currentObject.category, "</span>\n          </div>\n        </div>\n        <div class=\"feedback-item__right\">\n          <span class=\"comment\"></span>\n          <div class=\"count\">\n            ").concat(currentObject.comments ? currentObject.comments.length : 0, "\n          </div>\n        </div>\n      </section>\n      ");
+      return "\n      <section class=\"feedback-item\" id=\"".concat(el.id, "\">\n        <div class=\"feedback-item__left\">\n          <div class=\"upvotes ").concat(el.likedBy && el.likedBy.includes((0, _getSuggestions.getLS)("currentUser").name) ? "upvotes--highlighted" : "", "\">\n            <span class=\"arrow\"></span>\n            <input type=\"hidden\" />\n            <div class=\"count\">").concat(el.upvotes, "</div>\n          </div>\n        </div>\n        <div class=\"feedback-item__center\">\n          <h4 class=\"title\">").concat(el.title, "</h4>\n          <p>").concat(el.description, "</p>\n          <div class=\"tag\">\n            <span>").concat(el.category, "</span>\n          </div>\n        </div>\n        <div class=\"feedback-item__right\">\n          <span class=\"comment\"></span>\n          <div class=\"count\">\n            ").concat(el.comments ? el.comments.length : 0, "\n          </div>\n        </div>\n      </section>\n      ");
     });
   };
 
@@ -9414,7 +9414,7 @@ var _sharedFunctions = require("../shared/shared-functions");
 var _roadmap = require("./roadmap");
 
 var roadmapModule = function roadmapModule(match) {
-  (0, _roadmap.roadmapLists)(); // set current route as back destination, and imported back function
+  (0, _roadmap.roadmapLists)(); // set current route as return destination, and imported back function
 
   (0, _sharedFunctions.setPreviousRoute)(match.url);
   var back = document.querySelector(".roadmap .back");
@@ -9659,7 +9659,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54685" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55013" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -1,4 +1,4 @@
-import { addItemDetailsListener, filterStatus, sortItems } from "../shared/shared-functions";
+import { filterStatus, sortItems } from "../shared/shared-functions";
 
 export const rootModule = () => {
   // QUERIES

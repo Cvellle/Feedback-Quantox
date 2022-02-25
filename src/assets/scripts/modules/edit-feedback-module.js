@@ -1,8 +1,7 @@
 import "../shared/helpers";
 import { goBack, setPreviousRoute } from "../shared/shared-functions";
-import { getLS, initialValues, updateStorage } from "../modules/getSuggestions";
+import { filterBy, getLS, initialValues, updateStorage } from "../modules/getSuggestions";
 import { router } from "../routes/router";
-import { selectRepaint } from "../shared/helpers";
 
 export const editFeedbackModule = (match) => {
   // Queries
@@ -62,9 +61,14 @@ export const editFeedbackModule = (match) => {
   };
 
   const deleteFunction = () => {
-    initialValues.feedbackArray = initialValues.feedbackArray.filter(
+    const chooseListToFilter = initialValues.previousRoute == '/roadmap' ? "suggestions" : "feedbackArray";
+    let newArray = getLS('feedbackArray').filter(
       (el) => el.id != currentId
     );
+    console.log( getLS('feedbackArray'));
+    updateStorage("feedbackArray", newArray);
+    updateStorage('suggestions', filterBy(getLS("feedbackArray"), 'status', 'suggestion'));
+
     router.navigate("/");
     initialValues.previousRoute = [];
   };
@@ -78,8 +82,6 @@ export const editFeedbackModule = (match) => {
     submitBtn.disabled = true 
     : submitBtn.disabled = false;
   }
-
-  selectRepaint()
 
   nameInput.addEventListener("input", validateFunction);
   details.addEventListener("input", validateFunction);

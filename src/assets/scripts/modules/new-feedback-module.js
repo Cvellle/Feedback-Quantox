@@ -33,10 +33,8 @@ export const newFeedbackModule = (match) => {
 
     feedbackArray = [...feedbackArray, submitBody];
     suggestions = [...suggestions, submitBody];
-    
     updateStorage('feedbackArray', feedbackArray);
     updateStorage('suggestions', suggestions);
-
     goBack();
   };
 
