@@ -137,7 +137,6 @@ export function roadmapLists() {
     e.currentTarget.style.display = "none"
     // add event listeners after repiant
     addItemDetailsListener();
-    console.log(e.currentTarget);
   };
 
   roadmapColumnsWrapper.innerHTML = columnsLists();

@@ -10,14 +10,13 @@ export const rootModule = () => {
   //mobile menu toggle
   const menuIcon = document.querySelector(".toggleButton");
   const navigation = document.querySelector(".sidebar__menu");
-  //upvotes
-  const upvotes = document.querySelectorAll(".upvotes");
 
   // FUNCTIONS
   filterStatus();
 
-  const toggleNav = () => {
+  const toggleNav = (e) => {
     navigation.classList.toggle("sidebar__menu--visible");
+    e.currentTarget.classList.toggle("toggleButton--visible");
   };
 
   // ADD EVENT LISTENERS
@@ -39,5 +38,4 @@ export const rootModule = () => {
     });
 
   menuIcon.addEventListener("click", toggleNav);
-
 };

@@ -37,6 +37,7 @@ export const getInitialValues = (current) => {
 // get list results globally
 export const getSuggestions = (arrayToLoop, toFilter) => {
   const feedbackWrapper = document.querySelector(".feedback-items-wrapper");
+  
   const upvotes = document.querySelector(".upvotes");
 
   const suggestionsList = arrayToLoop.filter((el) => {

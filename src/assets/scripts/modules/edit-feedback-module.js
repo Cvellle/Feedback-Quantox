@@ -2,6 +2,7 @@ import "../shared/helpers";
 import { goBack, setPreviousRoute } from "../shared/shared-functions";
 import { getLS, initialValues, updateStorage } from "../modules/getSuggestions";
 import { router } from "../routes/router";
+import { selectRepaint } from "../shared/helpers";
 
 export const editFeedbackModule = (match) => {
   // Queries
@@ -77,6 +78,8 @@ export const editFeedbackModule = (match) => {
     submitBtn.disabled = true 
     : submitBtn.disabled = false;
   }
+
+  selectRepaint()
 
   nameInput.addEventListener("input", validateFunction);
   details.addEventListener("input", validateFunction);

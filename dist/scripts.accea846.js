@@ -8964,104 +8964,115 @@ _router.router.on("/item/:id", function (match) {
   (0, _detailsModule.detailsModule)(match, current);
 });
 },{"../modules/details-module":"src/assets/scripts/modules/details-module.js","../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../templates/details.template":"src/assets/scripts/templates/details.template.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/shared/helpers.js":[function(require,module,exports) {
-var x, i, j, l, ll, selElmnt, a, b, c;
-/* Look for any elements with the class "custom-select": */
+"use strict";
 
-x = document.getElementsByClassName("custom-select");
-l = x.length;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.selectRepaint = void 0;
 
-for (i = 0; i < l; i++) {
-  selElmnt = x[i].getElementsByTagName("select")[0];
-  ll = selElmnt.length;
-  /* For each element, create a new DIV that will act as the selected item: */
+var selectRepaint = function selectRepaint() {
+  var x, i, j, l, ll, selElmnt, a, b, c;
+  /* Look for any elements with the class "custom-select": */
 
-  a = document.createElement("DIV");
-  a.setAttribute("class", "select-selected");
-  a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
-  x[i].appendChild(a);
-  /* For each element, create a new DIV that will contain the option list: */
+  x = document.getElementsByClassName("custom-select");
+  l = x.length;
 
-  b = document.createElement("DIV");
-  b.setAttribute("class", "select-items select-hide");
+  for (i = 0; i < l; i++) {
+    selElmnt = x[i].getElementsByTagName("select")[0];
+    ll = selElmnt.length;
+    /* For each element, create a new DIV that will act as the selected item: */
 
-  for (j = 1; j < ll; j++) {
-    /* For each option in the original select element,
-    create a new DIV that will act as an option item: */
-    c = document.createElement("DIV");
-    c.innerHTML = selElmnt.options[j].innerHTML;
-    c.addEventListener("click", function (e) {
-      /* When an item is clicked, update the original select box,
-      and the selected item: */
-      var y, i, k, s, h, sl, yl;
-      s = this.parentNode.parentNode.getElementsByTagName("select")[0];
-      sl = s.length;
-      h = this.parentNode.previousSibling;
+    a = document.createElement("DIV");
+    a.setAttribute("class", "select-selected");
+    a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+    x[i].appendChild(a);
+    /* For each element, create a new DIV that will contain the option list: */
 
-      for (i = 0; i < sl; i++) {
-        if (s.options[i].innerHTML == this.innerHTML) {
-          s.selectedIndex = i;
-          h.innerHTML = this.innerHTML;
-          y = this.parentNode.getElementsByClassName("same-as-selected");
-          yl = y.length;
+    b = document.createElement("DIV");
+    b.setAttribute("class", "select-items select-hide");
 
-          for (k = 0; k < yl; k++) {
-            y[k].removeAttribute("class");
+    for (j = 1; j < ll; j++) {
+      /* For each option in the original select element,
+      create a new DIV that will act as an option item: */
+      c = document.createElement("DIV");
+      c.innerHTML = selElmnt.options[j].innerHTML;
+      c.addEventListener("click", function (e) {
+        /* When an item is clicked, update the original select box,
+        and the selected item: */
+        var y, i, k, s, h, sl, yl;
+        s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+        sl = s.length;
+        h = this.parentNode.previousSibling;
+
+        for (i = 0; i < sl; i++) {
+          if (s.options[i].innerHTML == this.innerHTML) {
+            s.selectedIndex = i;
+            h.innerHTML = this.innerHTML;
+            y = this.parentNode.getElementsByClassName("same-as-selected");
+            yl = y.length;
+
+            for (k = 0; k < yl; k++) {
+              y[k].removeAttribute("class");
+            }
+
+            this.setAttribute("class", "same-as-selected");
+            break;
           }
-
-          this.setAttribute("class", "same-as-selected");
-          break;
         }
-      }
 
-      h.click();
+        h.click();
+      });
+      b.appendChild(c);
+    }
+
+    x[i].appendChild(b);
+    a.addEventListener("click", function (e) {
+      /* When the select box is clicked, close any other select boxes,
+      and open/close the current select box: */
+      e.stopPropagation();
+      closeAllSelect(this);
+      this.nextSibling.classList.toggle("select-hide");
+      this.classList.toggle("select-arrow-active");
     });
-    b.appendChild(c);
   }
 
-  x[i].appendChild(b);
-  a.addEventListener("click", function (e) {
-    /* When the select box is clicked, close any other select boxes,
-    and open/close the current select box: */
-    e.stopPropagation();
-    closeAllSelect(this);
-    this.nextSibling.classList.toggle("select-hide");
-    this.classList.toggle("select-arrow-active");
-  });
-}
+  function closeAllSelect(elmnt) {
+    /* A function that will close all select boxes in the document,
+    except the current select box: */
+    var x,
+        y,
+        i,
+        xl,
+        yl,
+        arrNo = [];
+    x = document.getElementsByClassName("select-items");
+    y = document.getElementsByClassName("select-selected");
+    xl = x.length;
+    yl = y.length;
 
-function closeAllSelect(elmnt) {
-  /* A function that will close all select boxes in the document,
-  except the current select box: */
-  var x,
-      y,
-      i,
-      xl,
-      yl,
-      arrNo = [];
-  x = document.getElementsByClassName("select-items");
-  y = document.getElementsByClassName("select-selected");
-  xl = x.length;
-  yl = y.length;
+    for (i = 0; i < yl; i++) {
+      if (elmnt == y[i]) {
+        arrNo.push(i);
+      } else {
+        y[i].classList.remove("select-arrow-active");
+      }
+    }
 
-  for (i = 0; i < yl; i++) {
-    if (elmnt == y[i]) {
-      arrNo.push(i);
-    } else {
-      y[i].classList.remove("select-arrow-active");
+    for (i = 0; i < xl; i++) {
+      if (arrNo.indexOf(i)) {
+        x[i].classList.add("select-hide");
+      }
     }
   }
-
-  for (i = 0; i < xl; i++) {
-    if (arrNo.indexOf(i)) {
-      x[i].classList.add("select-hide");
-    }
-  }
-}
-/* If the user clicks anywhere outside the select box,
-then close all select boxes: */
+  /* If the user clicks anywhere outside the select box,
+  then close all select boxes: */
 
 
-document.addEventListener("click", closeAllSelect);
+  document.addEventListener("click", closeAllSelect);
+};
+
+exports.selectRepaint = selectRepaint;
 },{}],"src/assets/scripts/modules/edit-feedback-module.js":[function(require,module,exports) {
 "use strict";
 
@@ -9070,7 +9081,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.editFeedbackModule = void 0;
 
-require("../shared/helpers");
+var _helpers = require("../shared/helpers");
 
 var _sharedFunctions = require("../shared/shared-functions");
 
@@ -9158,6 +9169,7 @@ var editFeedbackModule = function editFeedbackModule(match) {
     !btnBoolean ? submitBtn.disabled = true : submitBtn.disabled = false;
   };
 
+  (0, _helpers.selectRepaint)();
   nameInput.addEventListener("input", validateFunction);
   details.addEventListener("input", validateFunction);
   saveBtn.addEventListener("click", saveFunction);
@@ -9379,7 +9391,6 @@ function roadmapLists() {
     e.currentTarget.style.display = "none"; // add event listeners after repiant
 
     (0, _sharedFunctions.addItemDetailsListener)();
-    console.log(e.currentTarget);
   };
 
   roadmapColumnsWrapper.innerHTML = columnsLists();
@@ -9454,14 +9465,13 @@ var rootModule = function rootModule() {
   var arrow = document.querySelector(".feedback__controls .arrow"); //mobile menu toggle
 
   var menuIcon = document.querySelector(".toggleButton");
-  var navigation = document.querySelector(".sidebar__menu"); //upvotes
-
-  var upvotes = document.querySelectorAll(".upvotes"); // FUNCTIONS
+  var navigation = document.querySelector(".sidebar__menu"); // FUNCTIONS
 
   (0, _sharedFunctions.filterStatus)();
 
-  var toggleNav = function toggleNav() {
+  var toggleNav = function toggleNav(e) {
     navigation.classList.toggle("sidebar__menu--visible");
+    e.currentTarget.classList.toggle("toggleButton--visible");
   }; // ADD EVENT LISTENERS
 
 
@@ -9506,7 +9516,7 @@ var _rootTemplate = require("../templates/rootTemplate.template");
 
 var _router = require("./router");
 
-document.body.innerHTML = _rootTemplate.rootTemplate;
+document.body.innerHTML = (0, _rootTemplate.rootTemplate)((0, _getSuggestions.getLS)('suggestions'));
 
 _router.router.on("/", function () {
   // set the HTML
@@ -9521,17 +9531,7 @@ window.onload = function (event) {
     _router.router.navigate("/");
   }
 };
-},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../modules/root-module":"src/assets/scripts/modules/root-module.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","../templates/rootTemplate.template":"src/assets/scripts/templates/rootTemplate.template.js","./router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/modules/buttonToggle.js":[function(require,module,exports) {
-// function mobileNavToggle() {
-//   const menuIcon = document.querySelector(".toggleButton");
-//   const navigation = document.querySelector(".sidebar__menu");
-//   const toggleNav = () => {
-//     navigation.classList.toggle(".sidebar__menu--visible");
-//   };
-//   menuIcon.addEventListener("click", () => alert('s'));
-// }
-// window.addEventListener("load", mobileNavToggle);
-},{}],"node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../modules/root-module":"src/assets/scripts/modules/root-module.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","../templates/rootTemplate.template":"src/assets/scripts/templates/rootTemplate.template.js","./router":"src/assets/scripts/routes/router.js"}],"node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -9603,7 +9603,7 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\bulb.png":[["bulb.da37f33d.png","src/assets/images/suggestions/bulb.png"],"src/assets/images/suggestions/bulb.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\white-arrow.png":[["white-arrow.205849a5.png","src/assets/images/suggestions/white-arrow.png"],"src/assets/images/suggestions/white-arrow.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-check.svg":[["icon-check.66b49a52.svg","src/assets/images/shared/icon-check.svg"],"src/assets/images/shared/icon-check.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-arrow-up.svg":[["icon-arrow-up.8a111df8.svg","src/assets/images/shared/icon-arrow-up.svg"],"src/assets/images/shared/icon-arrow-up.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-comments.svg":[["icon-comments.1db50b47.svg","src/assets/images/shared/icon-comments.svg"],"src/assets/images/shared/icon-comments.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\illustration-empty.svg":[["illustration-empty.229151ae.svg","src/assets/images/suggestions/illustration-empty.svg"],"src/assets/images/suggestions/illustration-empty.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-arrow-left.svg":[["icon-arrow-left.7013d5bc.svg","src/assets/images/shared/icon-arrow-left.svg"],"src/assets/images/shared/icon-arrow-left.svg"],"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/assets/scripts/index.js":[function(require,module,exports) {
+},{"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\mobile\\icon-hamburger.svg":[["icon-hamburger.012d75cd.svg","src/assets/images/shared/mobile/icon-hamburger.svg"],"src/assets/images/shared/mobile/icon-hamburger.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\mobile\\icon-close.svg":[["icon-close.e5603582.svg","src/assets/images/shared/mobile/icon-close.svg"],"src/assets/images/shared/mobile/icon-close.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\bulb.png":[["bulb.da37f33d.png","src/assets/images/suggestions/bulb.png"],"src/assets/images/suggestions/bulb.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\white-arrow.png":[["white-arrow.205849a5.png","src/assets/images/suggestions/white-arrow.png"],"src/assets/images/suggestions/white-arrow.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-check.svg":[["icon-check.66b49a52.svg","src/assets/images/shared/icon-check.svg"],"src/assets/images/shared/icon-check.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-arrow-up.svg":[["icon-arrow-up.8a111df8.svg","src/assets/images/shared/icon-arrow-up.svg"],"src/assets/images/shared/icon-arrow-up.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-comments.svg":[["icon-comments.1db50b47.svg","src/assets/images/shared/icon-comments.svg"],"src/assets/images/shared/icon-comments.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\illustration-empty.svg":[["illustration-empty.229151ae.svg","src/assets/images/suggestions/illustration-empty.svg"],"src/assets/images/suggestions/illustration-empty.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-arrow-left.svg":[["icon-arrow-left.7013d5bc.svg","src/assets/images/shared/icon-arrow-left.svg"],"src/assets/images/shared/icon-arrow-left.svg"],"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/assets/scripts/index.js":[function(require,module,exports) {
 "use strict";
 
 require("babel-polyfill");
@@ -9620,8 +9620,6 @@ require("/src/assets/scripts/routes/root");
 
 require("./routes/edit-feedback");
 
-require("../scripts/modules/buttonToggle");
-
 require("../scripts/modules/getSuggestions");
 
 require("../scripts/modules/new-feedback-module");
@@ -9633,7 +9631,7 @@ require("../scripts/modules/roadmap");
 require("/src/assets/styles/styles");
 
 require("/src/assets/scripts/shared/shared-functions");
-},{"babel-polyfill":"node_modules/babel-polyfill/lib/index.js","../scripts/routes/details":"src/assets/scripts/routes/details.js","../scripts/routes/edit-feedback":"src/assets/scripts/routes/edit-feedback.js","../scripts/routes/new-feedback":"src/assets/scripts/routes/new-feedback.js","../scripts/routes/roadmap-route":"src/assets/scripts/routes/roadmap-route.js","/src/assets/scripts/routes/root":"src/assets/scripts/routes/root.js","./routes/edit-feedback":"src/assets/scripts/routes/edit-feedback.js","../scripts/modules/buttonToggle":"src/assets/scripts/modules/buttonToggle.js","../scripts/modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../scripts/modules/new-feedback-module":"src/assets/scripts/modules/new-feedback-module.js","../scripts/modules/edit-feedback-module":"src/assets/scripts/modules/edit-feedback-module.js","../scripts/modules/roadmap":"src/assets/scripts/modules/roadmap.js","/src/assets/styles/styles":"src/assets/styles/styles.css","/src/assets/scripts/shared/shared-functions":"src/assets/scripts/shared/shared-functions.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"babel-polyfill":"node_modules/babel-polyfill/lib/index.js","../scripts/routes/details":"src/assets/scripts/routes/details.js","../scripts/routes/edit-feedback":"src/assets/scripts/routes/edit-feedback.js","../scripts/routes/new-feedback":"src/assets/scripts/routes/new-feedback.js","../scripts/routes/roadmap-route":"src/assets/scripts/routes/roadmap-route.js","/src/assets/scripts/routes/root":"src/assets/scripts/routes/root.js","./routes/edit-feedback":"src/assets/scripts/routes/edit-feedback.js","../scripts/modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../scripts/modules/new-feedback-module":"src/assets/scripts/modules/new-feedback-module.js","../scripts/modules/edit-feedback-module":"src/assets/scripts/modules/edit-feedback-module.js","../scripts/modules/roadmap":"src/assets/scripts/modules/roadmap.js","/src/assets/styles/styles":"src/assets/styles/styles.css","/src/assets/scripts/shared/shared-functions":"src/assets/scripts/shared/shared-functions.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -9661,7 +9659,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49803" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54685" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

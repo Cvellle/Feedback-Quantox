@@ -212,16 +212,17 @@ button {
   display: flex;
   flex-wrap: wrap;
   align-items: space-between;
+  background: url(/src/assets/images/shared/mobile/icon-hamburger.svg);
+  background-size: cover;
 }
 @media screen and (min-width: 768px) {
   .sidebar__titles .toggleButton {
     display: none;
   }
 }
-.sidebar__titles .toggleButton > div {
-  width: 100%;
-  height: 0.8vw;
-  background: white;
+.sidebar__titles .toggleButton--visible {
+  background: url(/src/assets/images/shared/mobile/icon-close.svg);
+  background-size: cover;
 }
 .sidebar__menu {
   position: absolute;
