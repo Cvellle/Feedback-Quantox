@@ -11,16 +11,22 @@ let currentRoute = getLS("previousRoute");
 // Set previous path on router navigate
 export const setPreviousRoute = (currentPath) => {
   currentRoute = [...currentRoute, "/" + currentPath];
+  currentRoute[currentRoute.length - 1] ==
+    currentRoute[currentRoute.length - 2] &&
+    (currentRoute = currentRoute.slice(0, currentRoute.length - 1));
 };
 
 // Go back to previous path element in array
 export const goBack = (filterCurrent) => {
-  currentRoute.pop();
+  currentRoute = currentRoute.slice(0, currentRoute.length - 1);
   let pathToGoBack = "/" + currentRoute.slice(-1).join("");
   router.navigate(pathToGoBack);
-  let arrayToMap = currentRoute.pop() == undefined ? getLS("suggestions") : getLS("feedbackArray");
-  let passedArray = 
-    currentRoute.pop() !== "/roadmap"
+  let arrayToMap =
+    currentRoute.slice(-1).join("") == undefined
+      ? getLS("suggestions")
+      : getLS("feedbackArray");
+  let passedArray =
+    currentRoute.slice(-1).join("") !== "/roadmap"
       ? arrayToMap
       : arrayToMap.filter((el) => el.status == "planned");
   getSuggestions(
@@ -31,7 +37,6 @@ export const goBack = (filterCurrent) => {
 
 // Details navigate
 export function feedbackDetails(e) {
-  // let asd = ['upovotes', 'arrow', 'count'].some((el) => { e.target.classList.contains(el) })
   if (
     e.target.classList.contains("upvotes") ||
     e.target.classList.contains("arrow") ||
@@ -151,7 +156,10 @@ export const upvotesAdd = (e) => {
   ];
 
   updateStorage("feedbackArray", feedbackArray);
-  updateStorage('suggestions', filterBy(getLS('feedbackArray'), 'status', 'suggestion'));
+  updateStorage(
+    "suggestions",
+    filterBy(getLS("feedbackArray"), "status", "suggestion")
+  );
 };
 
 // Add function - after setting the innerHTML (repainting the ond one)

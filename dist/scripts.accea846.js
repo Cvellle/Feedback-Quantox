@@ -8485,7 +8485,7 @@ var getSuggestions = function getSuggestions(arrayToLoop, toFilter) {
   });
   var mapped = suggestionsList.map(function (el, i) {
     var currentObject = getLS("feedbackArray")[el.id - 1];
-    return "<div class=\"feedback-item\" id=\"".concat(el.id, "\">\n              <div class=\"feedback-item__left\">\n                <div class=\"upvotes ").concat(currentObject.likedBy && currentObject.likedBy.includes(getLS("currentUser").name) ? "upvotes--highlighted" : "", "\">\n                  <span class=\"arrow\"></span>\n                  <input type=\"hidden\"/>\n                  <div class=\"count\">").concat(el.upvotes, "</div>\n              </div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(el.title, "</h4>\n                <p>\n                  ").concat(el.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(el.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count item-count-comments\">\n                  ").concat(el.comments ? el.comments.length : 0, "\n                </div>\n              </div>\n            </div>");
+    return "<div class=\"feedback-item\" id=\"".concat(el.id, "\">\n              <div class=\"feedback-item__left\">\n                <div class=\"upvotes ").concat(currentObject.likedBy && currentObject.likedBy.includes(getLS("currentUser").name) ? "upvotes--highlighted" : "", "\">\n                  <span class=\"arrow\"></span>\n                  <div class=\"count\">").concat(el.upvotes, "</div>\n              </div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(el.title, "</h4>\n                <p>\n                  ").concat(el.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(el.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count item-count-comments\">\n                  ").concat(el.comments ? el.comments.length : 0, "\n                </div>\n              </div>\n            </div>");
   });
 
   var filterAll = function filterAll(e) {
@@ -8539,8 +8539,8 @@ function _fetchSuggestions() {
               updateStorage(property, initialValues[property]);
             }
 
-            suggestions = filterBy(initialValues.feedbackArray, 'status', 'suggestion');
-            updateStorage('suggestions', suggestions); //call outer getSuggestions function
+            suggestions = filterBy(initialValues.feedbackArray, "status", "suggestion");
+            updateStorage("suggestions", suggestions); //call outer getSuggestions function
 
             getSuggestions(getLS("suggestions"));
 
@@ -8594,19 +8594,20 @@ var currentRoute = (0, _getSuggestions.getLS)("previousRoute"); // Set previous 
 
 var setPreviousRoute = function setPreviousRoute(currentPath) {
   currentRoute = [].concat(_toConsumableArray(currentRoute), ["/" + currentPath]);
+  currentRoute[currentRoute.length - 1] == currentRoute[currentRoute.length - 2] && (currentRoute = currentRoute.slice(0, currentRoute.length - 1));
 }; // Go back to previous path element in array
 
 
 exports.setPreviousRoute = setPreviousRoute;
 
 var goBack = function goBack(filterCurrent) {
-  currentRoute.pop();
+  currentRoute = currentRoute.slice(0, currentRoute.length - 1);
   var pathToGoBack = "/" + currentRoute.slice(-1).join("");
 
   _router.router.navigate(pathToGoBack);
 
-  var arrayToMap = currentRoute.pop() == undefined ? (0, _getSuggestions.getLS)("suggestions") : (0, _getSuggestions.getLS)("feedbackArray");
-  var passedArray = currentRoute.pop() !== "/roadmap" ? arrayToMap : arrayToMap.filter(function (el) {
+  var arrayToMap = currentRoute.slice(-1).join("") == undefined ? (0, _getSuggestions.getLS)("suggestions") : (0, _getSuggestions.getLS)("feedbackArray");
+  var passedArray = currentRoute.slice(-1).join("") !== "/roadmap" ? arrayToMap : arrayToMap.filter(function (el) {
     return el.status == "planned";
   });
   (0, _getSuggestions.getSuggestions)(passedArray, typeof filterCurrent == "string" ? filterCurrent : undefined);
@@ -8616,7 +8617,6 @@ var goBack = function goBack(filterCurrent) {
 exports.goBack = goBack;
 
 function feedbackDetails(e) {
-  // let asd = ['upovotes', 'arrow', 'count'].some((el) => { e.target.classList.contains(el) })
   if (e.target.classList.contains("upvotes") || e.target.classList.contains("arrow") || e.target.classList.contains("count")) {
     return;
   }
@@ -8708,7 +8708,7 @@ var upvotesAdd = function upvotesAdd(e) {
     likedBy: newLikes
   })], _toConsumableArray(feedbackArray.slice(e.currentTarget.parentNode.parentNode.id)));
   (0, _getSuggestions.updateStorage)("feedbackArray", feedbackArray);
-  (0, _getSuggestions.updateStorage)('suggestions', (0, _getSuggestions.filterBy)((0, _getSuggestions.getLS)('feedbackArray'), 'status', 'suggestion'));
+  (0, _getSuggestions.updateStorage)("suggestions", (0, _getSuggestions.filterBy)((0, _getSuggestions.getLS)("feedbackArray"), "status", "suggestion"));
 }; // Add function - after setting the innerHTML (repainting the ond one)
 
 
@@ -9514,14 +9514,15 @@ var _rootTemplate = require("../templates/rootTemplate.template");
 
 var _router = require("./router");
 
-document.body.innerHTML = (0, _rootTemplate.rootTemplate)((0, _getSuggestions.getLS)('suggestions'));
+document.body.innerHTML = (0, _rootTemplate.rootTemplate)((0, _getSuggestions.getLS)("suggestions"));
 
-_router.router.on("/", function () {
+_router.router.on("/", function (match) {
   // set the HTML
-  document.body.innerHTML = (0, _rootTemplate.rootTemplate)((0, _getSuggestions.getLS)('suggestions'));
-  (0, _getSuggestions.getSuggestions)((0, _getSuggestions.getLS)('suggestions'));
+  document.body.innerHTML = (0, _rootTemplate.rootTemplate)((0, _getSuggestions.getLS)("suggestions"));
+  (0, _getSuggestions.getSuggestions)((0, _getSuggestions.getLS)("suggestions"));
   (0, _rootModule.rootModule)();
   (0, _sharedFunctions.addItemDetailsListener)();
+  (0, _sharedFunctions.setPreviousRoute)(match.url);
 });
 
 window.onload = function (event) {
@@ -9601,7 +9602,7 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\mobile\\icon-hamburger.svg":[["icon-hamburger.012d75cd.svg","src/assets/images/shared/mobile/icon-hamburger.svg"],"src/assets/images/shared/mobile/icon-hamburger.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\mobile\\icon-close.svg":[["icon-close.e5603582.svg","src/assets/images/shared/mobile/icon-close.svg"],"src/assets/images/shared/mobile/icon-close.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\bulb.png":[["bulb.da37f33d.png","src/assets/images/suggestions/bulb.png"],"src/assets/images/suggestions/bulb.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\white-arrow.png":[["white-arrow.205849a5.png","src/assets/images/suggestions/white-arrow.png"],"src/assets/images/suggestions/white-arrow.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-check.svg":[["icon-check.66b49a52.svg","src/assets/images/shared/icon-check.svg"],"src/assets/images/shared/icon-check.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-arrow-up.svg":[["icon-arrow-up.8a111df8.svg","src/assets/images/shared/icon-arrow-up.svg"],"src/assets/images/shared/icon-arrow-up.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-comments.svg":[["icon-comments.1db50b47.svg","src/assets/images/shared/icon-comments.svg"],"src/assets/images/shared/icon-comments.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\illustration-empty.svg":[["illustration-empty.229151ae.svg","src/assets/images/suggestions/illustration-empty.svg"],"src/assets/images/suggestions/illustration-empty.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-arrow-left.svg":[["icon-arrow-left.7013d5bc.svg","src/assets/images/shared/icon-arrow-left.svg"],"src/assets/images/shared/icon-arrow-left.svg"],"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/assets/scripts/index.js":[function(require,module,exports) {
+},{"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/mobile/icon-hamburger.svg":[["icon-hamburger.012d75cd.svg","src/assets/images/shared/mobile/icon-hamburger.svg"],"src/assets/images/shared/mobile/icon-hamburger.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/mobile/icon-close.svg":[["icon-close.e5603582.svg","src/assets/images/shared/mobile/icon-close.svg"],"src/assets/images/shared/mobile/icon-close.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/suggestions/bulb.png":[["bulb.da37f33d.png","src/assets/images/suggestions/bulb.png"],"src/assets/images/suggestions/bulb.png"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/suggestions/white-arrow.png":[["white-arrow.205849a5.png","src/assets/images/suggestions/white-arrow.png"],"src/assets/images/suggestions/white-arrow.png"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-check.svg":[["icon-check.66b49a52.svg","src/assets/images/shared/icon-check.svg"],"src/assets/images/shared/icon-check.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-arrow-up.svg":[["icon-arrow-up.8a111df8.svg","src/assets/images/shared/icon-arrow-up.svg"],"src/assets/images/shared/icon-arrow-up.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-comments.svg":[["icon-comments.1db50b47.svg","src/assets/images/shared/icon-comments.svg"],"src/assets/images/shared/icon-comments.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/suggestions/illustration-empty.svg":[["illustration-empty.229151ae.svg","src/assets/images/suggestions/illustration-empty.svg"],"src/assets/images/suggestions/illustration-empty.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-arrow-left.svg":[["icon-arrow-left.7013d5bc.svg","src/assets/images/shared/icon-arrow-left.svg"],"src/assets/images/shared/icon-arrow-left.svg"],"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/assets/scripts/index.js":[function(require,module,exports) {
 "use strict";
 
 require("babel-polyfill");
@@ -9657,7 +9658,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50898" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "37357" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

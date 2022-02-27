@@ -14,7 +14,8 @@ export let initialValues = {
   previousRoute: [],
 };
 
-export const filterBy = (toMap, filterProp, filterAvoid) => toMap.filter((el) => el[filterProp] == filterAvoid);
+export const filterBy = (toMap, filterProp, filterAvoid) =>
+  toMap.filter((el) => el[filterProp] == filterAvoid);
 
 export const updateStorage = (storageKey, value) => {
   window.localStorage.setItem(storageKey, JSON.stringify(value));
@@ -54,7 +55,6 @@ export const getSuggestions = (arrayToLoop, toFilter) => {
                     : ""
                 }">
                   <span class="arrow"></span>
-                  <input type="hidden"/>
                   <div class="count">${el.upvotes}</div>
               </div>
               </div>
@@ -121,8 +121,12 @@ async function fetchSuggestions() {
     updateStorage(property, initialValues[property]);
   }
 
-  let suggestions = filterBy(initialValues.feedbackArray, 'status', 'suggestion');
-  updateStorage('suggestions', suggestions);
+  let suggestions = filterBy(
+    initialValues.feedbackArray,
+    "status",
+    "suggestion"
+  );
+  updateStorage("suggestions", suggestions);
 
   //call outer getSuggestions function
   getSuggestions(getLS("suggestions"));
