@@ -9514,8 +9514,6 @@ var _rootTemplate = require("../templates/rootTemplate.template");
 
 var _router = require("./router");
 
-document.body.innerHTML = (0, _rootTemplate.rootTemplate)((0, _getSuggestions.getLS)("suggestions"));
-
 _router.router.on("/", function (match) {
   // set the HTML
   document.body.innerHTML = (0, _rootTemplate.rootTemplate)((0, _getSuggestions.getLS)("suggestions"));
@@ -9658,7 +9656,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56324" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64907" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
