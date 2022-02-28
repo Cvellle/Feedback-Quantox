@@ -8485,7 +8485,7 @@ var getSuggestions = function getSuggestions(arrayToLoop, toFilter) {
   });
   var mapped = suggestionsList.map(function (el, i) {
     var currentObject = getLS("feedbackArray")[el.id - 1];
-    return "<div class=\"feedback-item\" id=\"".concat(el.id, "\">\n              <div class=\"feedback-item__left\">\n                <div class=\"upvotes ").concat(currentObject.likedBy && currentObject.likedBy.includes(getLS("currentUser").name) ? "upvotes--highlighted" : "", "\">\n                  <span class=\"arrow\"></span>\n                  <div class=\"count\">").concat(el.upvotes, "</div>\n              </div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(el.title, "</h4>\n                <p>\n                  ").concat(el.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(el.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count item-count-comments\">\n                  ").concat(el.comments ? el.comments.length : 0, "\n                </div>\n              </div>\n            </div>");
+    return "<div class=\"feedback-item\" id=\"".concat(el.id, "\">\n              <div class=\"feedback-item__left\">\n                <div class=\"upvotes ").concat(el.likedBy && el.likedBy.includes(getLS("currentUser").name) ? "upvotes--highlighted" : "", "\">\n                  <span class=\"arrow\"></span>\n                  <div class=\"count\">").concat(el.upvotes, "</div>\n              </div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(el.title, "</h4>\n                <p>\n                  ").concat(el.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(el.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count item-count-comments\">\n                  ").concat(el.comments ? el.comments.length : 0, "\n                </div>\n              </div>\n            </div>");
   });
 
   var filterAll = function filterAll(e) {
@@ -8602,12 +8602,12 @@ exports.setPreviousRoute = setPreviousRoute;
 
 var goBack = function goBack(filterCurrent) {
   currentRoute = currentRoute.slice(0, currentRoute.length - 1);
-  var pathToGoBack = "/" + currentRoute.slice(-1).join("");
+  var pathToGoBack = "/" + currentRoute.slice(-1);
 
   _router.router.navigate(pathToGoBack);
 
-  var arrayToMap = currentRoute.slice(-1).join("") == undefined ? (0, _getSuggestions.getLS)("suggestions") : (0, _getSuggestions.getLS)("feedbackArray");
-  var passedArray = currentRoute.slice(-1).join("") !== "/roadmap" ? arrayToMap : arrayToMap.filter(function (el) {
+  var arrayToMap = currentRoute.slice(-1) == '/' ? (0, _getSuggestions.getLS)("suggestions") : (0, _getSuggestions.getLS)("feedbackArray");
+  var passedArray = currentRoute.slice(-1) !== "/roadmap" ? arrayToMap : arrayToMap.filter(function (el) {
     return el.status == "planned";
   });
   (0, _getSuggestions.getSuggestions)(passedArray, typeof filterCurrent == "string" ? filterCurrent : undefined);
@@ -9602,7 +9602,7 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/mobile/icon-hamburger.svg":[["icon-hamburger.012d75cd.svg","src/assets/images/shared/mobile/icon-hamburger.svg"],"src/assets/images/shared/mobile/icon-hamburger.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/mobile/icon-close.svg":[["icon-close.e5603582.svg","src/assets/images/shared/mobile/icon-close.svg"],"src/assets/images/shared/mobile/icon-close.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/suggestions/bulb.png":[["bulb.da37f33d.png","src/assets/images/suggestions/bulb.png"],"src/assets/images/suggestions/bulb.png"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/suggestions/white-arrow.png":[["white-arrow.205849a5.png","src/assets/images/suggestions/white-arrow.png"],"src/assets/images/suggestions/white-arrow.png"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-check.svg":[["icon-check.66b49a52.svg","src/assets/images/shared/icon-check.svg"],"src/assets/images/shared/icon-check.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-arrow-up.svg":[["icon-arrow-up.8a111df8.svg","src/assets/images/shared/icon-arrow-up.svg"],"src/assets/images/shared/icon-arrow-up.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-comments.svg":[["icon-comments.1db50b47.svg","src/assets/images/shared/icon-comments.svg"],"src/assets/images/shared/icon-comments.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/suggestions/illustration-empty.svg":[["illustration-empty.229151ae.svg","src/assets/images/suggestions/illustration-empty.svg"],"src/assets/images/suggestions/illustration-empty.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-arrow-left.svg":[["icon-arrow-left.7013d5bc.svg","src/assets/images/shared/icon-arrow-left.svg"],"src/assets/images/shared/icon-arrow-left.svg"],"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/assets/scripts/index.js":[function(require,module,exports) {
+},{"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\mobile\\icon-hamburger.svg":[["icon-hamburger.012d75cd.svg","src/assets/images/shared/mobile/icon-hamburger.svg"],"src/assets/images/shared/mobile/icon-hamburger.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\mobile\\icon-close.svg":[["icon-close.e5603582.svg","src/assets/images/shared/mobile/icon-close.svg"],"src/assets/images/shared/mobile/icon-close.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\bulb.png":[["bulb.da37f33d.png","src/assets/images/suggestions/bulb.png"],"src/assets/images/suggestions/bulb.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\white-arrow.png":[["white-arrow.205849a5.png","src/assets/images/suggestions/white-arrow.png"],"src/assets/images/suggestions/white-arrow.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-check.svg":[["icon-check.66b49a52.svg","src/assets/images/shared/icon-check.svg"],"src/assets/images/shared/icon-check.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-arrow-up.svg":[["icon-arrow-up.8a111df8.svg","src/assets/images/shared/icon-arrow-up.svg"],"src/assets/images/shared/icon-arrow-up.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-comments.svg":[["icon-comments.1db50b47.svg","src/assets/images/shared/icon-comments.svg"],"src/assets/images/shared/icon-comments.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\illustration-empty.svg":[["illustration-empty.229151ae.svg","src/assets/images/suggestions/illustration-empty.svg"],"src/assets/images/suggestions/illustration-empty.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-arrow-left.svg":[["icon-arrow-left.7013d5bc.svg","src/assets/images/shared/icon-arrow-left.svg"],"src/assets/images/shared/icon-arrow-left.svg"],"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/assets/scripts/index.js":[function(require,module,exports) {
 "use strict";
 
 require("babel-polyfill");
@@ -9658,7 +9658,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "37357" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56324" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -19,14 +19,14 @@ export const setPreviousRoute = (currentPath) => {
 // Go back to previous path element in array
 export const goBack = (filterCurrent) => {
   currentRoute = currentRoute.slice(0, currentRoute.length - 1);
-  let pathToGoBack = "/" + currentRoute.slice(-1).join("");
+  let pathToGoBack = "/" + currentRoute.slice(-1);
   router.navigate(pathToGoBack);
   let arrayToMap =
-    currentRoute.slice(-1).join("") == undefined
+    currentRoute.slice(-1) == '/'
       ? getLS("suggestions")
       : getLS("feedbackArray");
   let passedArray =
-    currentRoute.slice(-1).join("") !== "/roadmap"
+    currentRoute.slice(-1) !== "/roadmap"
       ? arrayToMap
       : arrayToMap.filter((el) => el.status == "planned");
   getSuggestions(

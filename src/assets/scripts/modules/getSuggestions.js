@@ -49,8 +49,8 @@ export const getSuggestions = (arrayToLoop, toFilter) => {
     return `<div class="feedback-item" id="${el.id}">
               <div class="feedback-item__left">
                 <div class="upvotes ${
-                  currentObject.likedBy &&
-                  currentObject.likedBy.includes(getLS("currentUser").name)
+                  el.likedBy &&
+                  el.likedBy.includes(getLS("currentUser").name)
                     ? "upvotes--highlighted"
                     : ""
                 }">
