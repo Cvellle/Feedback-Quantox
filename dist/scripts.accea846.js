@@ -8738,6 +8738,8 @@ exports.getItems = exports.detailsTemplate = void 0;
 
 var getItems = function getItems(toMap, elementKind) {
   var items = toMap && toMap.map(function (el, i) {
+    // let a = () => require('/src/assets/images/' + el.user.image.substring(1).split('/').slice(2).join('/'))
+    // let a = async () => await import('/src/assets/images/' + el.user.image.substring(1).split('/').slice(2).join('/'))    
     return "\n        <div class=\"item item--".concat(elementKind, "\" data-index=\"").concat(i, "\">\n          <div class=\"info\">\n            <div class=\"profile-image\">\n              <div cass=\"").concat(el && el.user && el.user.image && el.user.image.split("/").pop(), "\"\n                style=\"background-image: url(").concat(el && el.user && el.user.image.split("/").pop(), ")\">\n              </div>\n            </div>\n            <div class=\"name\">\n              <bold>").concat(el && el.user.name, "</bold>\n              <div>@").concat(el && el.user.username, "</div>\n            </div>\n            <span class=\"reply-activate\">reply</span>\n          </div>\n          <div class=\"text\">\n            <span>").concat(!el.replies && el.replyingTo ? '@' + el.replyingTo : '', "</span>\n            ").concat(el && el.content, "\n          </div>\n          <div class=\"reply\">\n            <div class=\"").concat(!el.replies ? 'replies-wrapper' : '', "\">\n              ").concat(el.replies ? getItems(el.replies, 'reply') : '', "\n            </div>\n            <textarea placeholder=\"Type your reply here\"></textarea>\n            <button class=\"reply-btn\" data-reply-to=\"").concat(el.user.username, "\">Post Reply</button>\n          </div>\n        </div>");
   });
   return items && items.join("");
@@ -9158,8 +9160,6 @@ var editFeedbackModule = function editFeedbackModule(match) {
     (0, _getSuggestions.updateStorage)('suggestions', (0, _getSuggestions.filterBy)((0, _getSuggestions.getLS)("feedbackArray"), 'status', 'suggestion'));
 
     _router.router.navigate("/");
-
-    _getSuggestions.initialValues.previousRoute = [];
   };
 
   var validateFunction = function validateFunction() {
@@ -9228,6 +9228,8 @@ exports.newFeedbackModule = void 0;
 
 var _getSuggestions = require("../modules/getSuggestions");
 
+var _router = require("../routes/router");
+
 var _sharedFunctions = require("../shared/shared-functions");
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -9271,7 +9273,8 @@ var newFeedbackModule = function newFeedbackModule(match) {
     suggestions = [].concat(_toConsumableArray(suggestions), [submitBody]);
     (0, _getSuggestions.updateStorage)('feedbackArray', feedbackArray);
     (0, _getSuggestions.updateStorage)('suggestions', suggestions);
-    (0, _sharedFunctions.goBack)();
+
+    _router.router.navigate("/");
   };
 
   var validateFunction = function validateFunction() {
@@ -9294,7 +9297,7 @@ var newFeedbackModule = function newFeedbackModule(match) {
 };
 
 exports.newFeedbackModule = newFeedbackModule;
-},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js"}],"src/assets/scripts/routes/new-feedback.js":[function(require,module,exports) {
+},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../routes/router":"src/assets/scripts/routes/router.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js"}],"src/assets/scripts/routes/new-feedback.js":[function(require,module,exports) {
 "use strict";
 
 var _newFeedbackModule = require("../modules/new-feedback-module");
@@ -9514,6 +9517,8 @@ var _rootTemplate = require("../templates/rootTemplate.template");
 
 var _router = require("./router");
 
+document.body.innerHTML = (0, _rootTemplate.rootTemplate)((0, _getSuggestions.getLS)("suggestions"));
+
 _router.router.on("/", function (match) {
   // set the HTML
   document.body.innerHTML = (0, _rootTemplate.rootTemplate)((0, _getSuggestions.getLS)("suggestions"));
@@ -9656,7 +9661,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64907" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49528" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

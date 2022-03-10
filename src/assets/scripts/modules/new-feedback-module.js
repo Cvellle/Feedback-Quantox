@@ -1,4 +1,5 @@
 import { getLS, updateStorage } from "../modules/getSuggestions";
+import { router } from "../routes/router";
 import { goBack, setPreviousRoute } from "../shared/shared-functions";
 
 export const newFeedbackModule = (match) => {
@@ -35,7 +36,7 @@ export const newFeedbackModule = (match) => {
     suggestions = [...suggestions, submitBody];
     updateStorage('feedbackArray', feedbackArray);
     updateStorage('suggestions', suggestions);
-    goBack();
+    router.navigate("/");
   };
 
   const validateFunction = () => {

@@ -1,6 +1,10 @@
+
+
 export const getItems = (toMap, elementKind) => {
   let items =
       toMap && toMap.map((el, i) => {
+      // let a = () => require('/src/assets/images/' + el.user.image.substring(1).split('/').slice(2).join('/'))
+      // let a = async () => await import('/src/assets/images/' + el.user.image.substring(1).split('/').slice(2).join('/'))    
       return `
         <div class="item item--${elementKind}" data-index="${i}">
           <div class="info">

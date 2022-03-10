@@ -68,7 +68,6 @@ export const editFeedbackModule = (match) => {
     updateStorage('suggestions', filterBy(getLS("feedbackArray"), 'status', 'suggestion'));
 
     router.navigate("/");
-    initialValues.previousRoute = [];
   };
 
   const validateFunction = () => {

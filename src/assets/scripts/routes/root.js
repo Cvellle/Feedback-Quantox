@@ -10,6 +10,8 @@ import {
 import { rootTemplate } from "../templates/rootTemplate.template";
 import { router } from "./router";
 
+document.body.innerHTML = rootTemplate(getLS("suggestions"));
+
 router.on("/", function (match) {
   // set the HTML
   document.body.innerHTML = rootTemplate(getLS("suggestions"));
