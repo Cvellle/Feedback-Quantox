@@ -17,7 +17,7 @@
 :octocat:
 
 ```
-git clone https://github.com/Cvellle/feedback-Quantox.git
+git clone https://github.com/Cvellle/Feedback-Quantox.git
 ```
 
 ```
