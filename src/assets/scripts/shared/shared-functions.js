@@ -108,7 +108,7 @@ export const upvotesAdd = (e) => {
   let newLikes =
     feedbackArray[e.currentTarget.parentNode.parentNode.id - 1].likedBy &&
     feedbackArray[e.currentTarget.parentNode.parentNode.id - 1].likedBy;
-
+  let currentElement = e.currentTarget.lastElementChild;
   if (
     // If there is user's name in the likedBy array
     feedbackArray[e.currentTarget.parentNode.parentNode.id - 1].likedBy &&
@@ -116,8 +116,8 @@ export const upvotesAdd = (e) => {
       e.currentTarget.parentNode.parentNode.id - 1
     ].likedBy.includes(currentUser.name)
   ) {
-    e.currentTarget.lastElementChild.innerHTML =
-      +e.currentTarget.lastElementChild.innerHTML - 1;
+    currentElement.innerHTML =
+      +currentElement.innerHTML - 1;
     currentHiddenInput.value = "";
     e.currentTarget.classList.remove("upvotes--highlighted");
     newUpvotesNumber = -1;
@@ -126,8 +126,8 @@ export const upvotesAdd = (e) => {
     });
   } else {
     // Initial click goes here - no likedBy property at the moment
-    e.currentTarget.lastElementChild.innerHTML =
-      +e.currentTarget.lastElementChild.innerHTML + 1;
+    currentElement.innerHTML =
+      +currentElement.innerHTML + 1;
     currentHiddenInput.value = currentUser.name;
     e.currentTarget.classList.add("upvotes--highlighted");
     newUpvotesNumber = 1;

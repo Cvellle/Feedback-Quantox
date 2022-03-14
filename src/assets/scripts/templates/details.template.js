@@ -1,3 +1,4 @@
+import { getLS } from "../modules/getSuggestions";
 
 
 export const getItems = (toMap, elementKind) => {
@@ -54,8 +55,15 @@ export const detailsTemplate = (passedCurrent) => {
           <div class="feedback-items-wrapper">
             <div class="feedback-item" id="${passedCurrent.id}">
               <div class="feedback-item__left">
+              <div class="upvotes ${
+                passedCurrent.likedBy &&
+                passedCurrent.likedBy.includes(getLS("currentUser").name)
+                  ? "upvotes--highlighted"
+                  : ""
+              }">
                 <span class="arrow"></span>
                 <div class="count">${passedCurrent.upvotes}</div>
+              </div>
               </div>
               <div class="feedback-item__center">
                 <h4 class="title">${passedCurrent.title}</h4>

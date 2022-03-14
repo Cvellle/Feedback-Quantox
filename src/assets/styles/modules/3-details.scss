@@ -14,16 +14,15 @@
       border-radius: 10px;
       height: 72px;
       margin-bottom: 24px;
+      display: flex;
+      align-items: center;
     }
 
     @include desktop {
       padding-top: unset;
+      margin: 30px 0px;
     }
 
-    @include tablet {
-      display: flex;
-      align-items: center;
-    }
 
     & .back {
       margin-right: 5px;

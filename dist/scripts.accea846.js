@@ -8483,14 +8483,13 @@ var getSuggestions = function getSuggestions(arrayToLoop, toFilter) {
     var final = toFilter ? el.id == toFilter : el;
     return final;
   });
-  var mapped = suggestionsList.map(function (el, i) {
-    var currentObject = getLS("feedbackArray")[el.id - 1];
-    return "<div class=\"feedback-item\" id=\"".concat(el.id, "\">\n              <div class=\"feedback-item__left\">\n                <div class=\"upvotes ").concat(el.likedBy && el.likedBy.includes(getLS("currentUser").name) ? "upvotes--highlighted" : "", "\">\n                  <span class=\"arrow\"></span>\n                  <div class=\"count\">").concat(el.upvotes, "</div>\n              </div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(el.title, "</h4>\n                <p>\n                  ").concat(el.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(el.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count item-count-comments\">\n                  ").concat(el.comments ? el.comments.length : 0, "\n                </div>\n              </div>\n            </div>");
+  var mapped = suggestionsList.map(function (el) {
+    return "<div class=\"feedback-item\" id=\"".concat(el.id, "\">\n              <div class=\"feedback-item__left\">\n                <div class=\"upvotes ").concat(el.likedBy && el.likedBy.includes(getLS("currentUser").name) ? "upvotes--highlighted" : "", "\">\n                  <span class=\"arrow\"></span>\n                  <div class=\"count\">").concat(el.upvotes, "</div>\n                </div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(el.title, "</h4>\n                <p>\n                  ").concat(el.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(el.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count item-count-comments\">\n                  ").concat(el.comments ? el.comments.length : 0, "\n                </div>\n              </div>\n            </div>");
   });
 
   var filterAll = function filterAll(e) {
     var localArray = getLS("suggestions");
-    var filtered = localArray.filter(function (el, i, self) {
+    var filtered = localArray.filter(function (el) {
       var returnValue = e.currentTarget.innerHTML == "All" ? el : el.category == e.currentTarget.innerHTML.toLowerCase();
       return returnValue;
     });
@@ -8511,8 +8510,7 @@ exports.getSuggestions = getSuggestions;
 
 function fetchSuggestions() {
   return _fetchSuggestions.apply(this, arguments);
-} // module invoked on load
-
+}
 
 function _fetchSuggestions() {
   _fetchSuggestions = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
@@ -8553,9 +8551,6 @@ function _fetchSuggestions() {
   }));
   return _fetchSuggestions.apply(this, arguments);
 }
-
-window.addEventListener("load", fetchSuggestions);
-window.addEventListener("popstate", fetchSuggestions);
 },{"/src/data/data":"src/data/data.json","/src/assets/scripts/routes/details":"src/assets/scripts/routes/details.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js"}],"src/assets/scripts/shared/shared-functions.js":[function(require,module,exports) {
 "use strict";
 
@@ -8683,10 +8678,11 @@ var upvotesAdd = function upvotesAdd(e) {
 
   var newUpvotesNumber = 0;
   var newLikes = feedbackArray[e.currentTarget.parentNode.parentNode.id - 1].likedBy && feedbackArray[e.currentTarget.parentNode.parentNode.id - 1].likedBy;
+  var currentElement = e.currentTarget.lastElementChild;
 
   if ( // If there is user's name in the likedBy array
   feedbackArray[e.currentTarget.parentNode.parentNode.id - 1].likedBy && feedbackArray[e.currentTarget.parentNode.parentNode.id - 1].likedBy.includes(currentUser.name)) {
-    e.currentTarget.lastElementChild.innerHTML = +e.currentTarget.lastElementChild.innerHTML - 1;
+    currentElement.innerHTML = +currentElement.innerHTML - 1;
     currentHiddenInput.value = "";
     e.currentTarget.classList.remove("upvotes--highlighted");
     newUpvotesNumber = -1;
@@ -8695,7 +8691,7 @@ var upvotesAdd = function upvotesAdd(e) {
     });
   } else {
     // Initial click goes here - no likedBy property at the moment
-    e.currentTarget.lastElementChild.innerHTML = +e.currentTarget.lastElementChild.innerHTML + 1;
+    currentElement.innerHTML = +currentElement.innerHTML + 1;
     currentHiddenInput.value = currentUser.name;
     e.currentTarget.classList.add("upvotes--highlighted");
     newUpvotesNumber = 1;
@@ -8736,6 +8732,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getItems = exports.detailsTemplate = void 0;
 
+var _getSuggestions = require("../modules/getSuggestions");
+
 var getItems = function getItems(toMap, elementKind) {
   var items = toMap && toMap.map(function (el, i) {
     // let a = () => require('/src/assets/images/' + el.user.image.substring(1).split('/').slice(2).join('/'))
@@ -8749,11 +8747,11 @@ exports.getItems = getItems;
 
 var detailsTemplate = function detailsTemplate(passedCurrent) {
   getItems(passedCurrent && passedCurrent.comments, 'comment');
-  return "\n    <section class=\"details\">\n      <div class=\"details__controls\">\n        <div class=\"back\">\n          <span class=\"arrow\"></span>\n          <span class=\"text\">Go back</span>\n        </div>\n        <span class=\"edit-feedback\">+ Edit Feedback</span>\n      </div>\n      <div class=\"details__current\">\n        <div class=\"feedback feedback--details\">\n          <div class=\"feedback-items-wrapper\">\n            <div class=\"feedback-item\" id=\"".concat(passedCurrent.id, "\">\n              <div class=\"feedback-item__left\">\n                <span class=\"arrow\"></span>\n                <div class=\"count\">").concat(passedCurrent.upvotes, "</div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(passedCurrent.title, "</h4>\n                <p>\n                  ").concat(passedCurrent.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(passedCurrent.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count count-comments\">\n                  ").concat(passedCurrent.comments ? passedCurrent.comments.length : 0, "\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"comments\">\n        <bold>\n          <span class=\"count-comments\">").concat(passedCurrent.comments ? passedCurrent.comments.length : '', "</span>\n          <span>").concat(passedCurrent.comments && passedCurrent.comments.length == 1 ? "Comment" : "Comments", "</span>\n        </bold>\n          <div class=\"items-wrapper\">\n            ").concat(passedCurrent.comments ? getItems(passedCurrent.comments, 'comment') : '', "\n          </div>\n          <div class=\"add\">\n            <bold>Add Comments</bold>\n            <textarea name=\"\" id=\"\" cols=\"30\" rows=\"10\" placeholder=\"Type your comment here\"></textarea>\n            <div class=\"post\">\n              <span><span class=\"char-left\" max=\"250\">250</span> characters left</span>\n              <button class=\"post-comment\">Post Comment</button>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section>");
+  return "\n    <section class=\"details\">\n      <div class=\"details__controls\">\n        <div class=\"back\">\n          <span class=\"arrow\"></span>\n          <span class=\"text\">Go back</span>\n        </div>\n        <span class=\"edit-feedback\">+ Edit Feedback</span>\n      </div>\n      <div class=\"details__current\">\n        <div class=\"feedback feedback--details\">\n          <div class=\"feedback-items-wrapper\">\n            <div class=\"feedback-item\" id=\"".concat(passedCurrent.id, "\">\n              <div class=\"feedback-item__left\">\n              <div class=\"upvotes ").concat(passedCurrent.likedBy && passedCurrent.likedBy.includes((0, _getSuggestions.getLS)("currentUser").name) ? "upvotes--highlighted" : "", "\">\n                <span class=\"arrow\"></span>\n                <div class=\"count\">").concat(passedCurrent.upvotes, "</div>\n              </div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(passedCurrent.title, "</h4>\n                <p>\n                  ").concat(passedCurrent.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(passedCurrent.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count count-comments\">\n                  ").concat(passedCurrent.comments ? passedCurrent.comments.length : 0, "\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"comments\">\n        <bold>\n          <span class=\"count-comments\">").concat(passedCurrent.comments ? passedCurrent.comments.length : '', "</span>\n          <span>").concat(passedCurrent.comments && passedCurrent.comments.length == 1 ? "Comment" : "Comments", "</span>\n        </bold>\n          <div class=\"items-wrapper\">\n            ").concat(passedCurrent.comments ? getItems(passedCurrent.comments, 'comment') : '', "\n          </div>\n          <div class=\"add\">\n            <bold>Add Comments</bold>\n            <textarea name=\"\" id=\"\" cols=\"30\" rows=\"10\" placeholder=\"Type your comment here\"></textarea>\n            <div class=\"post\">\n              <span><span class=\"char-left\" max=\"250\">250</span> characters left</span>\n              <button class=\"post-comment\">Post Comment</button>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section>");
 };
 
 exports.detailsTemplate = detailsTemplate;
-},{}],"src/assets/scripts/modules/details-module.js":[function(require,module,exports) {
+},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js"}],"src/assets/scripts/modules/details-module.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8788,20 +8786,11 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function detailsModule(match, currentProp) {
-  var passedCurrent = currentProp;
   var count = document.querySelectorAll('.count-comments');
-  var itemCommentsCount = document.querySelector('.item-count-comments');
-  var addComment = document.querySelector(".post-comment");
   var commentContent = document.querySelector(".add textarea");
-  var replyContent = document.querySelectorAll(".reply textarea");
-  var replyActivate = document.querySelectorAll(".reply-activate");
-  var replyWrapper = document.querySelectorAll(".reply");
-  var replyPost = document.querySelectorAll(".reply button");
-  var items = document.querySelectorAll(".items-wrapper .comment");
-  var comment = document.querySelectorAll(".items-wrapper > .item--comment");
-  var commentsWrapper = document.querySelectorAll(".items-wrapper .comment");
   var feedbackArray = (0, _getSuggestions.getLS)("feedbackArray");
-  var currentUser = (0, _getSuggestions.getLS)("currentUser"); // Add comments array where it is undefined
+  var currentUser = (0, _getSuggestions.getLS)("currentUser");
+  var passedCurrent = currentProp; // Add comments array where it is undefined
 
   passedCurrent && !passedCurrent.comments && (passedCurrent = _objectSpread(_objectSpread({}, passedCurrent), {}, {
     comments: []
@@ -8888,8 +8877,6 @@ function detailsModule(match, currentProp) {
     });
     feedbackArray = [].concat(_toConsumableArray(feedbackArray.slice(0, match.data.id - 1)), [passedCurrent], _toConsumableArray(feedbackArray.slice(match.data.id))); // IT SHOULD ALSO BE SENT TO BACKEND
 
-    var commentItems = document.querySelector(".items-wrapper");
-    var replyItems = document.querySelector(".reply .items-wrapper");
     (0, _getSuggestions.updateStorage)("feedbackArray", feedbackArray);
     feedbackArray = (0, _getSuggestions.getLS)('feedbackArray');
     e.target.previousElementSibling.previousElementSibling.innerHTML += (0, _details.getItems)(passedCurrent.comments[indexOfComment].replies.slice(-1), "reply");
@@ -8910,7 +8897,6 @@ function detailsModule(match, currentProp) {
 
 
   (0, _sharedFunctions.setPreviousRoute)(match.url);
-  var back = document.querySelector(".details__controls .back");
   var goToEdit = document.querySelector(".details__controls .edit-feedback");
 
   goToEdit.onclick = function () {
@@ -8919,15 +8905,10 @@ function detailsModule(match, currentProp) {
 
 
   function addEvenetsListeners() {
-    var count = document.querySelectorAll('.count-comments');
-    var itemCommentsCount = document.querySelector('.item-count-comments');
+    var back = document.querySelector(".details__controls .back");
     var addComment = document.querySelector(".post-comment");
     var commentContent = document.querySelector(".add textarea");
-    var replyContent = document.querySelectorAll(".reply textarea");
     var replyActivate = document.querySelectorAll(".reply-activate");
-    var replyWrapper = document.querySelectorAll(".reply");
-    var replyPost = document.querySelectorAll(".reply button");
-    var commentsWrapper = document.querySelectorAll(".items-wrapper .comment");
     var comment = document.querySelectorAll(".items-wrapper > .item--comment");
     back.addEventListener("click", _sharedFunctions.goBack);
     addComment.addEventListener("click", addCommentFunction);
@@ -8941,6 +8922,7 @@ function detailsModule(match, currentProp) {
   }
 
   addEvenetsListeners();
+  (0, _sharedFunctions.addItemDetailsListener)();
 }
 },{"../routes/router":"src/assets/scripts/routes/router.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","../templates/details.template":"src/assets/scripts/templates/details.template.js","./getSuggestions":"src/assets/scripts/modules/getSuggestions.js"}],"src/assets/scripts/routes/details.js":[function(require,module,exports) {
 "use strict";
@@ -9661,7 +9643,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49528" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58265" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

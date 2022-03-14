@@ -44,8 +44,7 @@ export const getSuggestions = (arrayToLoop, toFilter) => {
     return final;
   });
 
-  let mapped = suggestionsList.map((el, i) => {
-    let currentObject = getLS("feedbackArray")[el.id - 1];
+  let mapped = suggestionsList.map((el) => {
     return `<div class="feedback-item" id="${el.id}">
               <div class="feedback-item__left">
                 <div class="upvotes ${
@@ -56,7 +55,7 @@ export const getSuggestions = (arrayToLoop, toFilter) => {
                 }">
                   <span class="arrow"></span>
                   <div class="count">${el.upvotes}</div>
-              </div>
+                </div>
               </div>
               <div class="feedback-item__center">
                 <h4 class="title">${el.title}</h4>
@@ -78,7 +77,7 @@ export const getSuggestions = (arrayToLoop, toFilter) => {
 
   const filterAll = (e) => {
     let localArray = getLS("suggestions");
-    let filtered = localArray.filter((el, i, self) => {
+    let filtered = localArray.filter((el) => {
       let returnValue =
         e.currentTarget.innerHTML == "All"
           ? el
@@ -131,7 +130,3 @@ async function fetchSuggestions() {
   //call outer getSuggestions function
   getSuggestions(getLS("suggestions"));
 }
-
-// module invoked on load
-window.addEventListener("load", fetchSuggestions);
-window.addEventListener("popstate", fetchSuggestions);

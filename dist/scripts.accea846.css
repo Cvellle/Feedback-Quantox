@@ -868,17 +868,14 @@ button {
     border-radius: 10px;
     height: 72px;
     margin-bottom: 24px;
+    display: flex;
+    align-items: center;
   }
 }
 @media screen and (min-width: 1280px) {
   .details__controls {
     padding-top: unset;
-  }
-}
-@media screen and (min-width: 768px) {
-  .details__controls {
-    display: flex;
-    align-items: center;
+    margin: 30px 0px;
   }
 }
 .details__controls .back {

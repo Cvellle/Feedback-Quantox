@@ -1,5 +1,5 @@
 import { router } from "../routes/router";
-import { goBack, setPreviousRoute } from "../shared/shared-functions";
+import { addItemDetailsListener, goBack, setPreviousRoute } from "../shared/shared-functions";
 import { getItems } from "../templates/details.template";
 import {
   getLS,
@@ -8,22 +8,13 @@ import {
 } from "./getSuggestions";
 
 export function detailsModule(match, currentProp) {
-  let passedCurrent = currentProp;
   const count = document.querySelectorAll('.count-comments');
-  const itemCommentsCount = document.querySelector('.item-count-comments');
-  const addComment = document.querySelector(".post-comment");
   const commentContent = document.querySelector(".add textarea");
-  const replyContent = document.querySelectorAll(".reply textarea");
-  const replyActivate = document.querySelectorAll(".reply-activate");
-  const replyWrapper = document.querySelectorAll(".reply");
-  const replyPost = document.querySelectorAll(".reply button");
-  const items = document.querySelectorAll(".items-wrapper .comment");
-  const comment = document.querySelectorAll(".items-wrapper > .item--comment");
-  const commentsWrapper = document.querySelectorAll(".items-wrapper .comment");
 
   let feedbackArray = getLS("feedbackArray");
   let currentUser = getLS("currentUser");
 
+  let passedCurrent = currentProp;
   // Add comments array where it is undefined
   passedCurrent &&
     !passedCurrent.comments &&
@@ -139,9 +130,6 @@ export function detailsModule(match, currentProp) {
     ];   
     // IT SHOULD ALSO BE SENT TO BACKEND
 
-    const commentItems = document.querySelector(".items-wrapper");
-    const replyItems = document.querySelector(".reply .items-wrapper");
-
     updateStorage("feedbackArray", feedbackArray);
     feedbackArray = getLS('feedbackArray');
 
@@ -174,24 +162,15 @@ export function detailsModule(match, currentProp) {
   // set current route as return destination, and imported back function
   setPreviousRoute(match.url);
 
-  const back = document.querySelector(".details__controls .back");
   const goToEdit = document.querySelector(".details__controls .edit-feedback");
-
   goToEdit.onclick = () => router.navigate("/item/edit/" + match.data.id);
 
   // Function for aading to newly set elements in HTML
   function addEvenetsListeners() {
-    const count = document.querySelectorAll('.count-comments');
-    const itemCommentsCount = document.querySelector('.item-count-comments');
+    const back = document.querySelector(".details__controls .back");
     const addComment = document.querySelector(".post-comment");
     const commentContent = document.querySelector(".add textarea");
-    const replyContent = document.querySelectorAll(".reply textarea");
     const replyActivate = document.querySelectorAll(".reply-activate");
-    const replyWrapper = document.querySelectorAll(".reply");
-    const replyPost = document.querySelectorAll(".reply button");
-    const commentsWrapper = document.querySelectorAll(
-      ".items-wrapper .comment"
-    );
     const comment = document.querySelectorAll(
       ".items-wrapper > .item--comment"
     );
@@ -204,4 +183,5 @@ export function detailsModule(match, currentProp) {
   }
 
   addEvenetsListeners();
+  addItemDetailsListener();
 }
