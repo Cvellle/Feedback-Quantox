@@ -5,12 +5,7 @@ export const getItems = (toMap, elementKind) => {
   let items =
     toMap &&
     toMap.map((el, i) => {
-      let fileName =
-        el &&
-        el.user &&
-        el.user.image &&
-        el.user.image.split("/").pop().split(".jpg")[0];
-
+      let fileName = el?.user?.image?.split("/").pop().split(".jpg")[0];
       let image = images[fileName];
 
       return `
@@ -20,13 +15,13 @@ export const getItems = (toMap, elementKind) => {
               <div class="${
                 el && el.user && el.user.image && el.user.image.split("/").pop()
               }"
+              style="background-image: url(${image})
              ">
-                <img src="${image}" /> 
               </div>  
             </div>
             <div class="name">
-              <bold>${el && el.user.name}</bold>
-              <div>@${el && el.user.username}</div>
+              <bold>${el?.user.name}</bold>
+              <div>@${el?.user.username}</div>
             </div>
             <span class="reply-activate">reply</span>
           </div>
@@ -34,15 +29,15 @@ export const getItems = (toMap, elementKind) => {
             <span>${
               !el.replies && el.replyingTo ? "@" + el.replyingTo : ""
             }</span>
-            ${el && el.content}
+            ${el?.content}
           </div>
           <div class="reply">
             <div class="${!el.replies ? "replies-wrapper" : ""}">
-              ${el.replies ? getItems(el.replies, "reply") : ""}
+              ${el?.replies ? getItems(el?.replies, "reply") : ""}
             </div>
             <textarea placeholder="Type your reply here"></textarea>
             <button class="reply-btn" data-reply-to="${
-              el.user.username
+              el?.user.username
             }">Post Reply</button>
           </div>
         </div>`;
