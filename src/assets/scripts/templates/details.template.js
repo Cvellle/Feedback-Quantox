@@ -1,20 +1,28 @@
 import { getLS } from "../modules/getSuggestions";
-
+import images from "../../images/user-images/*.jpg";
 
 export const getItems = (toMap, elementKind) => {
   let items =
-      toMap && toMap.map((el, i) => {
-      // let a = () => require('/src/assets/images/' + el.user.image.substring(1).split('/').slice(2).join('/'))
-      // let a = async () => await import('/src/assets/images/' + el.user.image.substring(1).split('/').slice(2).join('/'))    
+    toMap &&
+    toMap.map((el, i) => {
+      let fileName =
+        el &&
+        el.user &&
+        el.user.image &&
+        el.user.image.split("/").pop().split(".jpg")[0];
+
+      let image = images[fileName];
+
       return `
         <div class="item item--${elementKind}" data-index="${i}">
           <div class="info">
             <div class="profile-image">
-              <div cass="${el && el.user && el.user.image && el.user.image.split("/").pop()}"
-                style="background-image: url(${el && el.user && el.user.image
-                  .split("/")
-                  .pop()})">
-              </div>
+              <div class="${
+                el && el.user && el.user.image && el.user.image.split("/").pop()
+              }"
+             ">
+                <img src="${image}" /> 
+              </div>  
             </div>
             <div class="name">
               <bold>${el && el.user.name}</bold>
@@ -23,15 +31,19 @@ export const getItems = (toMap, elementKind) => {
             <span class="reply-activate">reply</span>
           </div>
           <div class="text">
-            <span>${!el.replies && el.replyingTo ? '@' + el.replyingTo : ''}</span>
+            <span>${
+              !el.replies && el.replyingTo ? "@" + el.replyingTo : ""
+            }</span>
             ${el && el.content}
           </div>
           <div class="reply">
-            <div class="${!el.replies ? 'replies-wrapper' : ''}">
-              ${el.replies ? getItems(el.replies, 'reply') : ''}
+            <div class="${!el.replies ? "replies-wrapper" : ""}">
+              ${el.replies ? getItems(el.replies, "reply") : ""}
             </div>
             <textarea placeholder="Type your reply here"></textarea>
-            <button class="reply-btn" data-reply-to="${el.user.username}">Post Reply</button>
+            <button class="reply-btn" data-reply-to="${
+              el.user.username
+            }">Post Reply</button>
           </div>
         </div>`;
     });
@@ -40,7 +52,7 @@ export const getItems = (toMap, elementKind) => {
 };
 
 export const detailsTemplate = (passedCurrent) => {
-  getItems(passedCurrent && passedCurrent.comments, 'comment');
+  getItems(passedCurrent && passedCurrent.comments, "comment");
   return `
     <section class="details">
       <div class="details__controls">
@@ -85,11 +97,21 @@ export const detailsTemplate = (passedCurrent) => {
         </div>
         <div class="comments">
         <bold>
-          <span class="count-comments">${passedCurrent.comments ? passedCurrent.comments.length : ''}</span>
-          <span>${passedCurrent.comments && passedCurrent.comments.length == 1 ? "Comment" : "Comments"}</span>
+          <span class="count-comments">${
+            passedCurrent.comments ? passedCurrent.comments.length : ""
+          }</span>
+          <span>${
+            passedCurrent.comments && passedCurrent.comments.length == 1
+              ? "Comment"
+              : "Comments"
+          }</span>
         </bold>
           <div class="items-wrapper">
-            ${passedCurrent.comments ? getItems(passedCurrent.comments, 'comment') : ''}
+            ${
+              passedCurrent.comments
+                ? getItems(passedCurrent.comments, "comment")
+                : ""
+            }
           </div>
           <div class="add">
             <bold>Add Comments</bold>

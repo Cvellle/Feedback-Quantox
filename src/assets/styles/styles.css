@@ -958,6 +958,13 @@ button {
   border-radius: 50%;
   background-size: cover;
 }
+.details__current .comments .info .profile-image div img {
+  width: 80%;
+  height: 80%;
+  display: block;
+  margin: auto;
+  border-radius: 50%;
+}
 .details__current .comments .info .name {
   width: calc(100% - 50px);
 }

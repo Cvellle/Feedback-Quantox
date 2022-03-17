@@ -8724,7 +8724,52 @@ var addItemDetailsListener = function addItemDetailsListener() {
 };
 
 exports.addItemDetailsListener = addItemDetailsListener;
-},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../routes/router":"src/assets/scripts/routes/router.js"}],"src/assets/scripts/templates/details.template.js":[function(require,module,exports) {
+},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../routes/router":"src/assets/scripts/routes/router.js"}],"src/assets/images/user-images/image-anne.jpg":[function(require,module,exports) {
+module.exports = "/image-anne.e1318e5a.jpg";
+},{}],"src/assets/images/user-images/image-elijah.jpg":[function(require,module,exports) {
+module.exports = "/image-elijah.8c4ad573.jpg";
+},{}],"src/assets/images/user-images/image-george.jpg":[function(require,module,exports) {
+module.exports = "/image-george.62438ad3.jpg";
+},{}],"src/assets/images/user-images/image-jackson.jpg":[function(require,module,exports) {
+module.exports = "/image-jackson.cd11012a.jpg";
+},{}],"src/assets/images/user-images/image-james.jpg":[function(require,module,exports) {
+module.exports = "/image-james.a791447d.jpg";
+},{}],"src/assets/images/user-images/image-javier.jpg":[function(require,module,exports) {
+module.exports = "/image-javier.b49d29af.jpg";
+},{}],"src/assets/images/user-images/image-judah.jpg":[function(require,module,exports) {
+module.exports = "/image-judah.1d98639e.jpg";
+},{}],"src/assets/images/user-images/image-roxanne.jpg":[function(require,module,exports) {
+module.exports = "/image-roxanne.a07964bc.jpg";
+},{}],"src/assets/images/user-images/image-ryan.jpg":[function(require,module,exports) {
+module.exports = "/image-ryan.18c2b6c7.jpg";
+},{}],"src/assets/images/user-images/image-suzanne.jpg":[function(require,module,exports) {
+module.exports = "/image-suzanne.1297fae5.jpg";
+},{}],"src/assets/images/user-images/image-thomas.jpg":[function(require,module,exports) {
+module.exports = "/image-thomas.8806a9d8.jpg";
+},{}],"src/assets/images/user-images/image-victoria.jpg":[function(require,module,exports) {
+module.exports = "/image-victoria.1a770d23.jpg";
+},{}],"src/assets/images/user-images/image-zena.jpg":[function(require,module,exports) {
+module.exports = "/image-zena.becb16d0.jpg";
+},{}],"src/assets/images/user-images/nikola.jpg":[function(require,module,exports) {
+module.exports = "/nikola.e280ae2f.jpg";
+},{}],"src/assets/images/user-images/*.jpg":[function(require,module,exports) {
+module.exports = {
+  "image-anne": require("./image-anne.jpg"),
+  "image-elijah": require("./image-elijah.jpg"),
+  "image-george": require("./image-george.jpg"),
+  "image-jackson": require("./image-jackson.jpg"),
+  "image-james": require("./image-james.jpg"),
+  "image-javier": require("./image-javier.jpg"),
+  "image-judah": require("./image-judah.jpg"),
+  "image-roxanne": require("./image-roxanne.jpg"),
+  "image-ryan": require("./image-ryan.jpg"),
+  "image-suzanne": require("./image-suzanne.jpg"),
+  "image-thomas": require("./image-thomas.jpg"),
+  "image-victoria": require("./image-victoria.jpg"),
+  "image-zena": require("./image-zena.jpg"),
+  "nikola": require("./nikola.jpg")
+};
+},{"./image-anne.jpg":"src/assets/images/user-images/image-anne.jpg","./image-elijah.jpg":"src/assets/images/user-images/image-elijah.jpg","./image-george.jpg":"src/assets/images/user-images/image-george.jpg","./image-jackson.jpg":"src/assets/images/user-images/image-jackson.jpg","./image-james.jpg":"src/assets/images/user-images/image-james.jpg","./image-javier.jpg":"src/assets/images/user-images/image-javier.jpg","./image-judah.jpg":"src/assets/images/user-images/image-judah.jpg","./image-roxanne.jpg":"src/assets/images/user-images/image-roxanne.jpg","./image-ryan.jpg":"src/assets/images/user-images/image-ryan.jpg","./image-suzanne.jpg":"src/assets/images/user-images/image-suzanne.jpg","./image-thomas.jpg":"src/assets/images/user-images/image-thomas.jpg","./image-victoria.jpg":"src/assets/images/user-images/image-victoria.jpg","./image-zena.jpg":"src/assets/images/user-images/image-zena.jpg","./nikola.jpg":"src/assets/images/user-images/nikola.jpg"}],"src/assets/scripts/templates/details.template.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8734,11 +8779,15 @@ exports.getItems = exports.detailsTemplate = void 0;
 
 var _getSuggestions = require("../modules/getSuggestions");
 
+var _ = _interopRequireDefault(require("../../images/user-images/*.jpg"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var getItems = function getItems(toMap, elementKind) {
   var items = toMap && toMap.map(function (el, i) {
-    // let a = () => require('/src/assets/images/' + el.user.image.substring(1).split('/').slice(2).join('/'))
-    // let a = async () => await import('/src/assets/images/' + el.user.image.substring(1).split('/').slice(2).join('/'))    
-    return "\n        <div class=\"item item--".concat(elementKind, "\" data-index=\"").concat(i, "\">\n          <div class=\"info\">\n            <div class=\"profile-image\">\n              <div cass=\"").concat(el && el.user && el.user.image && el.user.image.split("/").pop(), "\"\n                style=\"background-image: url(").concat(el && el.user && el.user.image.split("/").pop(), ")\">\n              </div>\n            </div>\n            <div class=\"name\">\n              <bold>").concat(el && el.user.name, "</bold>\n              <div>@").concat(el && el.user.username, "</div>\n            </div>\n            <span class=\"reply-activate\">reply</span>\n          </div>\n          <div class=\"text\">\n            <span>").concat(!el.replies && el.replyingTo ? '@' + el.replyingTo : '', "</span>\n            ").concat(el && el.content, "\n          </div>\n          <div class=\"reply\">\n            <div class=\"").concat(!el.replies ? 'replies-wrapper' : '', "\">\n              ").concat(el.replies ? getItems(el.replies, 'reply') : '', "\n            </div>\n            <textarea placeholder=\"Type your reply here\"></textarea>\n            <button class=\"reply-btn\" data-reply-to=\"").concat(el.user.username, "\">Post Reply</button>\n          </div>\n        </div>");
+    var fileName = el && el.user && el.user.image && el.user.image.split("/").pop().split(".jpg")[0];
+    var image = _.default[fileName];
+    return "\n        <div class=\"item item--".concat(elementKind, "\" data-index=\"").concat(i, "\">\n          <div class=\"info\">\n            <div class=\"profile-image\">\n              <div class=\"").concat(el && el.user && el.user.image && el.user.image.split("/").pop(), "\"\n             \">\n                <img src=\"").concat(image, "\" /> \n              </div>  \n            </div>\n            <div class=\"name\">\n              <bold>").concat(el && el.user.name, "</bold>\n              <div>@").concat(el && el.user.username, "</div>\n            </div>\n            <span class=\"reply-activate\">reply</span>\n          </div>\n          <div class=\"text\">\n            <span>").concat(!el.replies && el.replyingTo ? "@" + el.replyingTo : "", "</span>\n            ").concat(el && el.content, "\n          </div>\n          <div class=\"reply\">\n            <div class=\"").concat(!el.replies ? "replies-wrapper" : "", "\">\n              ").concat(el.replies ? getItems(el.replies, "reply") : "", "\n            </div>\n            <textarea placeholder=\"Type your reply here\"></textarea>\n            <button class=\"reply-btn\" data-reply-to=\"").concat(el.user.username, "\">Post Reply</button>\n          </div>\n        </div>");
   });
   return items && items.join("");
 };
@@ -8746,12 +8795,12 @@ var getItems = function getItems(toMap, elementKind) {
 exports.getItems = getItems;
 
 var detailsTemplate = function detailsTemplate(passedCurrent) {
-  getItems(passedCurrent && passedCurrent.comments, 'comment');
-  return "\n    <section class=\"details\">\n      <div class=\"details__controls\">\n        <div class=\"back\">\n          <span class=\"arrow\"></span>\n          <span class=\"text\">Go back</span>\n        </div>\n        <span class=\"edit-feedback\">+ Edit Feedback</span>\n      </div>\n      <div class=\"details__current\">\n        <div class=\"feedback feedback--details\">\n          <div class=\"feedback-items-wrapper\">\n            <div class=\"feedback-item\" id=\"".concat(passedCurrent.id, "\">\n              <div class=\"feedback-item__left\">\n              <div class=\"upvotes ").concat(passedCurrent.likedBy && passedCurrent.likedBy.includes((0, _getSuggestions.getLS)("currentUser").name) ? "upvotes--highlighted" : "", "\">\n                <span class=\"arrow\"></span>\n                <div class=\"count\">").concat(passedCurrent.upvotes, "</div>\n              </div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(passedCurrent.title, "</h4>\n                <p>\n                  ").concat(passedCurrent.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(passedCurrent.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count count-comments\">\n                  ").concat(passedCurrent.comments ? passedCurrent.comments.length : 0, "\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"comments\">\n        <bold>\n          <span class=\"count-comments\">").concat(passedCurrent.comments ? passedCurrent.comments.length : '', "</span>\n          <span>").concat(passedCurrent.comments && passedCurrent.comments.length == 1 ? "Comment" : "Comments", "</span>\n        </bold>\n          <div class=\"items-wrapper\">\n            ").concat(passedCurrent.comments ? getItems(passedCurrent.comments, 'comment') : '', "\n          </div>\n          <div class=\"add\">\n            <bold>Add Comments</bold>\n            <textarea name=\"\" id=\"\" cols=\"30\" rows=\"10\" placeholder=\"Type your comment here\"></textarea>\n            <div class=\"post\">\n              <span><span class=\"char-left\" max=\"250\">250</span> characters left</span>\n              <button class=\"post-comment\">Post Comment</button>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section>");
+  getItems(passedCurrent && passedCurrent.comments, "comment");
+  return "\n    <section class=\"details\">\n      <div class=\"details__controls\">\n        <div class=\"back\">\n          <span class=\"arrow\"></span>\n          <span class=\"text\">Go back</span>\n        </div>\n        <span class=\"edit-feedback\">+ Edit Feedback</span>\n      </div>\n      <div class=\"details__current\">\n        <div class=\"feedback feedback--details\">\n          <div class=\"feedback-items-wrapper\">\n            <div class=\"feedback-item\" id=\"".concat(passedCurrent.id, "\">\n              <div class=\"feedback-item__left\">\n              <div class=\"upvotes ").concat(passedCurrent.likedBy && passedCurrent.likedBy.includes((0, _getSuggestions.getLS)("currentUser").name) ? "upvotes--highlighted" : "", "\">\n                <span class=\"arrow\"></span>\n                <div class=\"count\">").concat(passedCurrent.upvotes, "</div>\n              </div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(passedCurrent.title, "</h4>\n                <p>\n                  ").concat(passedCurrent.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(passedCurrent.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count count-comments\">\n                  ").concat(passedCurrent.comments ? passedCurrent.comments.length : 0, "\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"comments\">\n        <bold>\n          <span class=\"count-comments\">").concat(passedCurrent.comments ? passedCurrent.comments.length : "", "</span>\n          <span>").concat(passedCurrent.comments && passedCurrent.comments.length == 1 ? "Comment" : "Comments", "</span>\n        </bold>\n          <div class=\"items-wrapper\">\n            ").concat(passedCurrent.comments ? getItems(passedCurrent.comments, "comment") : "", "\n          </div>\n          <div class=\"add\">\n            <bold>Add Comments</bold>\n            <textarea name=\"\" id=\"\" cols=\"30\" rows=\"10\" placeholder=\"Type your comment here\"></textarea>\n            <div class=\"post\">\n              <span><span class=\"char-left\" max=\"250\">250</span> characters left</span>\n              <button class=\"post-comment\">Post Comment</button>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section>");
 };
 
 exports.detailsTemplate = detailsTemplate;
-},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js"}],"src/assets/scripts/modules/details-module.js":[function(require,module,exports) {
+},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../../images/user-images/*.jpg":"src/assets/images/user-images/*.jpg"}],"src/assets/scripts/modules/details-module.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8861,7 +8910,7 @@ function detailsModule(match, currentProp) {
       content: e.target.previousElementSibling.value,
       replyingTo: e.target.getAttribute("data-reply-to"),
       user: {
-        image: "./assets/user-images/image-zena.jpg",
+        image: currentUser.image,
         name: currentUser.name,
         username: currentUser.username
       }
@@ -9643,7 +9692,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58265" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61282" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

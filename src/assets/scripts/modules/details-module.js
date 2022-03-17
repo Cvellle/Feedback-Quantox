@@ -100,7 +100,7 @@ export function detailsModule(match, currentProp) {
       content: e.target.previousElementSibling.value,
       replyingTo: e.target.getAttribute("data-reply-to"),
       user: {
-        image: "./assets/user-images/image-zena.jpg",
+        image: currentUser.image,
         name: currentUser.name,
         username: currentUser.username,
       },
