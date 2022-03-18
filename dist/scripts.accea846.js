@@ -9287,7 +9287,7 @@ var newFeedbackModule = function newFeedbackModule(match) {
   var deleteBtn = document.querySelector(".edit .delete"); // get main feedback array
 
   var feedbackArray = (0, _getSuggestions.getLS)('feedbackArray');
-  var suggestions = (0, _getSuggestions.getLS)("suggestion");
+  var suggestions = (0, _getSuggestions.getLS)("suggestions");
   addNewBtn.classList.add("add");
   var addBtn = document.querySelector(".edit .add");
   deleteBtn.style.display = "none";
@@ -9451,9 +9451,9 @@ var _roadmap = require("./roadmap");
 var roadmapModule = function roadmapModule(match) {
   (0, _roadmap.roadmapLists)(); // set current route as return destination, and imported back function
 
-  (0, _sharedFunctions.setPreviousRoute)(match.url);
   var back = document.querySelector(".roadmap .back");
-  back.addEventListener("click", _sharedFunctions.goBack); // item recognition
+  back.addEventListener("click", _sharedFunctions.goBack);
+  (0, _sharedFunctions.setPreviousRoute)(match.url); // item recognition
 
   (0, _sharedFunctions.addItemDetailsListener)();
 };
@@ -9554,15 +9554,13 @@ var _router = require("./router");
 _router.router.on("/", function (match) {
   // set the HTML
   document.body.innerHTML = (0, _rootTemplate.rootTemplate)((0, _getSuggestions.getLS)("suggestions"));
-  (0, _getSuggestions.getSuggestions)((0, _getSuggestions.getLS)("suggestions"));
+  !(0, _getSuggestions.getLS)("suggestions") ? (0, _getSuggestions.fetchSuggestions)() : (0, _getSuggestions.getSuggestions)((0, _getSuggestions.getLS)("suggestions"));
   (0, _rootModule.rootModule)();
   (0, _sharedFunctions.addItemDetailsListener)();
   (0, _sharedFunctions.setPreviousRoute)(match.url);
 });
 
-window.onload = function (event) {
-  !(0, _getSuggestions.getLS)("suggestions") && (0, _getSuggestions.fetchSuggestions)();
-
+window.onload = function () {
   _router.router.navigate("/");
 };
 },{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../modules/root-module":"src/assets/scripts/modules/root-module.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","../templates/rootTemplate.template":"src/assets/scripts/templates/rootTemplate.template.js","./router":"src/assets/scripts/routes/router.js"}],"node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
@@ -9693,7 +9691,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60128" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59338" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

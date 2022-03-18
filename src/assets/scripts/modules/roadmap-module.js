@@ -5,9 +5,10 @@ export const roadmapModule = (match) => {
   roadmapLists();
 
   // set current route as return destination, and imported back function
-  setPreviousRoute(match.url);
   const back = document.querySelector(".roadmap .back");
   back.addEventListener("click", goBack);
+  setPreviousRoute(match.url);
+
   // item recognition
   addItemDetailsListener()
 };

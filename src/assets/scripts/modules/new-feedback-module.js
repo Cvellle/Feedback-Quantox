@@ -14,7 +14,7 @@ export const newFeedbackModule = (match) => {
 
   // get main feedback array
   let feedbackArray = getLS('feedbackArray');
-  let suggestions =  getLS("suggestion");
+  let suggestions =  getLS("suggestions");
 
   addNewBtn.classList.add("add");
   const addBtn = document.querySelector(".edit .add");

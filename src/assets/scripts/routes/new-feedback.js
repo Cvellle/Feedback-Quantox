@@ -4,6 +4,6 @@ import { router } from "./router";
 
 router.on("/new-feedback", function (match) {
   document.body.innerHTML = editFeedbackTemplate;
-
+  
   newFeedbackModule(match);
 });

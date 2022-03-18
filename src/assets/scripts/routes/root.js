@@ -14,13 +14,12 @@ import { router } from "./router";
 router.on("/", function (match) {
   // set the HTML
   document.body.innerHTML = rootTemplate(getLS("suggestions"));
-  getSuggestions(getLS("suggestions"));
+  !getLS("suggestions") ? fetchSuggestions() : getSuggestions(getLS("suggestions"));
   rootModule();
   addItemDetailsListener();
   setPreviousRoute(match.url);
 });
 
-window.onload = function (event) {
-  !getLS("suggestions") && fetchSuggestions()
+window.onload = function () {
   router.navigate("/");
 };
