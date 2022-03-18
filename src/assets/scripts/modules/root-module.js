@@ -13,7 +13,7 @@ export const rootModule = () => {
 
   // FUNCTIONS
   filterStatus();
-
+  
   const toggleNav = (e) => {
     navigation.classList.toggle("sidebar__menu--visible");
     e.currentTarget.classList.toggle("toggleButton--visible");
@@ -37,5 +37,5 @@ export const rootModule = () => {
       arrow.classList.remove("arrow--rotated");
     });
 
-  menuIcon.addEventListener("click", toggleNav);
+  menuIcon && menuIcon.addEventListener("click", toggleNav);
 };

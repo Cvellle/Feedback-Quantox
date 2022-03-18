@@ -950,11 +950,12 @@ button {
   margin: 20px 0;
 }
 .details__current .comments .info .profile-image {
-  width: 110px;
+  flex: 0 0 110px;
 }
 .details__current .comments .info .profile-image div {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
+  display: block;
   border-radius: 50%;
   background-size: cover;
 }
@@ -991,14 +992,6 @@ button {
   font-weight: 800;
   color: #941594;
 }
-.details__current .comments bold + .items-wrapper .reply {
-  padding-left: 0vw;
-}
-@media screen and (min-width: 768px) {
-  .details__current .comments bold + .items-wrapper .reply {
-    padding-left: 0px;
-  }
-}
 .details__current .comments .replies-wrapper {
   border: 1px solid white;
   background-color: #f3ecec;
@@ -1025,6 +1018,7 @@ button {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
+  padding-left: 100px;
 }
 .details__current .comments .reply--visible > :nth-child(1) {
   flex: 0 0 100%;

@@ -39,12 +39,12 @@ export const getInitialValues = (current) => {
 export const getSuggestions = (arrayToLoop, toFilter) => {
   const feedbackWrapper = document.querySelector(".feedback-items-wrapper");
 
-  const suggestionsList = arrayToLoop.filter((el) => {
+  const suggestionsList = arrayToLoop?.filter((el) => {
     let final = toFilter ? el.id == toFilter : el;
     return final;
   });
 
-  let mapped = suggestionsList.map((el) => {
+  let mapped = suggestionsList?.map((el) => {
     return `<div class="feedback-item" id="${el.id}">
               <div class="feedback-item__left">
                 <div class="upvotes ${
@@ -89,7 +89,7 @@ export const getSuggestions = (arrayToLoop, toFilter) => {
   };
 
   // fill the container
-  feedbackWrapper.innerHTML = mapped.join("");
+  feedbackWrapper.innerHTML = mapped?.join("");
 
   const categoryBtns = document.querySelectorAll(".category");
   categoryBtns.forEach((el) => el.addEventListener("click", filterAll));
@@ -98,7 +98,7 @@ export const getSuggestions = (arrayToLoop, toFilter) => {
 };
 
 // initial fetch
-async function fetchSuggestions() {
+export async function fetchSuggestions() {
   // fetch
   // const response = await fetch("/data/data.json", {
   //   headers: {

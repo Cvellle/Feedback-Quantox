@@ -43,7 +43,7 @@ export const rootTemplate = (arrayProp) => {
    <div class="feedback__controls">
      <div class="feedback__counter">
        <span class="bulb"></span>
-       <span class="count filterStatus">${arrayProp.length}</span>
+       <span class="count filterStatus">${arrayProp?.length}</span>
          <h3>Suggestions</h3>
      </div>
      <div class="feedback__sort">

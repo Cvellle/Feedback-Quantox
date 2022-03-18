@@ -8402,6 +8402,7 @@ module.exports = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.fetchSuggestions = fetchSuggestions;
 exports.updateStorage = exports.initialValues = exports.getSuggestions = exports.getLS = exports.getInitialValues = exports.filterBy = void 0;
 
 var _data = _interopRequireDefault(require("/src/data/data"));
@@ -8479,11 +8480,11 @@ exports.getInitialValues = getInitialValues;
 
 var getSuggestions = function getSuggestions(arrayToLoop, toFilter) {
   var feedbackWrapper = document.querySelector(".feedback-items-wrapper");
-  var suggestionsList = arrayToLoop.filter(function (el) {
+  var suggestionsList = arrayToLoop === null || arrayToLoop === void 0 ? void 0 : arrayToLoop.filter(function (el) {
     var final = toFilter ? el.id == toFilter : el;
     return final;
   });
-  var mapped = suggestionsList.map(function (el) {
+  var mapped = suggestionsList === null || suggestionsList === void 0 ? void 0 : suggestionsList.map(function (el) {
     return "<div class=\"feedback-item\" id=\"".concat(el.id, "\">\n              <div class=\"feedback-item__left\">\n                <div class=\"upvotes ").concat(el.likedBy && el.likedBy.includes(getLS("currentUser").name) ? "upvotes--highlighted" : "", "\">\n                  <span class=\"arrow\"></span>\n                  <div class=\"count\">").concat(el.upvotes, "</div>\n                </div>\n              </div>\n              <div class=\"feedback-item__center\">\n                <h4 class=\"title\">").concat(el.title, "</h4>\n                <p>\n                  ").concat(el.description, "\n                </p>\n                <div class=\"tag\">\n                  <span>").concat(el.category, "</span>\n                </div>\n              </div>\n              <div class=\"feedback-item__right\">\n                <span class=\"comment\"></span>\n                <div class=\"count item-count-comments\">\n                  ").concat(el.comments ? el.comments.length : 0, "\n                </div>\n              </div>\n            </div>");
   });
 
@@ -8497,7 +8498,7 @@ var getSuggestions = function getSuggestions(arrayToLoop, toFilter) {
   }; // fill the container
 
 
-  feedbackWrapper.innerHTML = mapped.join("");
+  feedbackWrapper.innerHTML = mapped === null || mapped === void 0 ? void 0 : mapped.join("");
   var categoryBtns = document.querySelectorAll(".category");
   categoryBtns.forEach(function (el) {
     return el.addEventListener("click", filterAll);
@@ -8585,7 +8586,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-var currentRoute = (0, _getSuggestions.getLS)("previousRoute"); // Set previous path on router navigate
+var currentRoute = (0, _getSuggestions.getLS)("previousRoute") ? (0, _getSuggestions.getLS)("previousRoute") : '/'; // Set previous path on router navigate
 
 var setPreviousRoute = function setPreviousRoute(currentPath) {
   currentRoute = [].concat(_toConsumableArray(currentRoute), ["/" + currentPath]);
@@ -9520,7 +9521,7 @@ var rootModule = function rootModule() {
     dropdown.classList.remove("dropdown--visible");
     arrow.classList.remove("arrow--rotated");
   });
-  menuIcon.addEventListener("click", toggleNav);
+  menuIcon && menuIcon.addEventListener("click", toggleNav);
 };
 
 exports.rootModule = rootModule;
@@ -9533,7 +9534,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.rootTemplate = void 0;
 
 var rootTemplate = function rootTemplate(arrayProp) {
-  return "\n   <section class=\"sidebar\">\n   <div class=\"sidebar__titles\">\n     <div>\n       <h1>Frontend Mentor</h1>\n       <h3>Feedback Board</h3>\n     </div>\n     <button class=\"toggleButton\">\n       <div></div>\n       <div></div>\n       <div></div>\n     </button>\n   </div>\n   <div class=\"sidebar__menu\">\n     <div class=\"sidebar__categories\">\n       <button class=\"category\">All</button>\n       <button class=\"category ui\">UI</button>\n       <button class=\"category ux\"y>UX</button>\n       <button class=\"category enhancement\">Enhancement</button>\n       <button class=\"category bug\">Bug</button>\n       <button class=\"category feature\">Feature</button>\n     </div>\n     <div class=\"sidebar__status-wrapper\">\n       <span>Roadmap</span>\n       <a href=\"/roadmap\" data-navigo>View</a>\n       <div class=\"sidebar__status-display\">\n         <div class=\"sidebar__status sidebar__status--planned\">\n           <span class=\"circle\"></span>Planned <span class=\"count\"></span>\n         </div>\n         <div class=\"sidebar__status sidebar__status--in-progress\">\n           <span class=\"circle\"></span>In-Progress\n           <span class=\"count\"></span>\n         </div>\n         <div class=\"sidebar__status sidebar__status--live\">\n           <span class=\"circle\"></span>Live <span class=\"count\"></span>\n         </div>\n       </div>\n     </div>\n   </div>\n   </section>\n   <section class=\"feedback feedback--root\">\n   <div class=\"feedback__controls\">\n     <div class=\"feedback__counter\">\n       <span class=\"bulb\"></span>\n       <span class=\"count filterStatus\">".concat(arrayProp.length, "</span>\n         <h3>Suggestions</h3>\n     </div>\n     <div class=\"feedback__sort\">\n       <div class=\"text\">\n         <span class=\"sort-by\">Sort by:</span>\n         <span class=\"current\"></span>\n         <span class=\"arrow\"></span>\n       </div>\n       <div class=\"dropdown\">\n         <div class=\"dropdown-item\" filter-by=\"upvotes\" data-direction=\"reverse\">\n           <span class=\"filter-by\">Most Upvotes</span>\n           <span class=\"checked\"></span>\n         </div>\n         <div class=\"dropdown-item\" filter-by=\"upvotes\" data-direction=\"normal\">\n           <span class=\"filter-by\">Least Upvotes</span>\n           <span class=\"checked\"></span>\n         </div>\n         <div class=\"dropdown-item\" filter-by=\"comments\" data-direction=\"reverse\">\n           <span class=\"filter-by\">Most Comments</span>\n           <span class=\"checked\"></span>\n         </div>\n         <div class=\"dropdown-item\" filter-by=\"comments\" data-direction=\"normal\">\n           <span class=\"filter-by\">Least Comments</span>\n           <span class=\"checked\"></span>\n         </div>\n       </div>\n     </div>\n     <a class=\"add\" href=\"/new-feedback\" data-navigo>+ Add Feedback</a>\n   </div>\n   <div class=\"feedback-items-wrapper\">\n     <div class=\"feedback-empty\">\n       <div>\n         <div id=\"loading\"></div>\n       </div>\n       <div class=\"feedback-empty__no-results\">\n         <div class=\"img-wrapper\">   \n           <div></div>\n         </div>\n         <div>There is no feedback yet.</div>\n         <p>\n           Got a suggestion? Found a bug that needs to be squashed? We love\n           hearing about new ideas to improve our app.\n         </p>\n         <div class=\"feedback-empty__add-btn\">\n           <a class=\"add\" href=\"/new-feedback\" data-navigo>+ Add Feedback</a>\n         </div>\n       </div>\n     </div>\n   </div>\n </section>\n ");
+  return "\n   <section class=\"sidebar\">\n   <div class=\"sidebar__titles\">\n     <div>\n       <h1>Frontend Mentor</h1>\n       <h3>Feedback Board</h3>\n     </div>\n     <button class=\"toggleButton\">\n       <div></div>\n       <div></div>\n       <div></div>\n     </button>\n   </div>\n   <div class=\"sidebar__menu\">\n     <div class=\"sidebar__categories\">\n       <button class=\"category\">All</button>\n       <button class=\"category ui\">UI</button>\n       <button class=\"category ux\"y>UX</button>\n       <button class=\"category enhancement\">Enhancement</button>\n       <button class=\"category bug\">Bug</button>\n       <button class=\"category feature\">Feature</button>\n     </div>\n     <div class=\"sidebar__status-wrapper\">\n       <span>Roadmap</span>\n       <a href=\"/roadmap\" data-navigo>View</a>\n       <div class=\"sidebar__status-display\">\n         <div class=\"sidebar__status sidebar__status--planned\">\n           <span class=\"circle\"></span>Planned <span class=\"count\"></span>\n         </div>\n         <div class=\"sidebar__status sidebar__status--in-progress\">\n           <span class=\"circle\"></span>In-Progress\n           <span class=\"count\"></span>\n         </div>\n         <div class=\"sidebar__status sidebar__status--live\">\n           <span class=\"circle\"></span>Live <span class=\"count\"></span>\n         </div>\n       </div>\n     </div>\n   </div>\n   </section>\n   <section class=\"feedback feedback--root\">\n   <div class=\"feedback__controls\">\n     <div class=\"feedback__counter\">\n       <span class=\"bulb\"></span>\n       <span class=\"count filterStatus\">".concat(arrayProp === null || arrayProp === void 0 ? void 0 : arrayProp.length, "</span>\n         <h3>Suggestions</h3>\n     </div>\n     <div class=\"feedback__sort\">\n       <div class=\"text\">\n         <span class=\"sort-by\">Sort by:</span>\n         <span class=\"current\"></span>\n         <span class=\"arrow\"></span>\n       </div>\n       <div class=\"dropdown\">\n         <div class=\"dropdown-item\" filter-by=\"upvotes\" data-direction=\"reverse\">\n           <span class=\"filter-by\">Most Upvotes</span>\n           <span class=\"checked\"></span>\n         </div>\n         <div class=\"dropdown-item\" filter-by=\"upvotes\" data-direction=\"normal\">\n           <span class=\"filter-by\">Least Upvotes</span>\n           <span class=\"checked\"></span>\n         </div>\n         <div class=\"dropdown-item\" filter-by=\"comments\" data-direction=\"reverse\">\n           <span class=\"filter-by\">Most Comments</span>\n           <span class=\"checked\"></span>\n         </div>\n         <div class=\"dropdown-item\" filter-by=\"comments\" data-direction=\"normal\">\n           <span class=\"filter-by\">Least Comments</span>\n           <span class=\"checked\"></span>\n         </div>\n       </div>\n     </div>\n     <a class=\"add\" href=\"/new-feedback\" data-navigo>+ Add Feedback</a>\n   </div>\n   <div class=\"feedback-items-wrapper\">\n     <div class=\"feedback-empty\">\n       <div>\n         <div id=\"loading\"></div>\n       </div>\n       <div class=\"feedback-empty__no-results\">\n         <div class=\"img-wrapper\">   \n           <div></div>\n         </div>\n         <div>There is no feedback yet.</div>\n         <p>\n           Got a suggestion? Found a bug that needs to be squashed? We love\n           hearing about new ideas to improve our app.\n         </p>\n         <div class=\"feedback-empty__add-btn\">\n           <a class=\"add\" href=\"/new-feedback\" data-navigo>+ Add Feedback</a>\n         </div>\n       </div>\n     </div>\n   </div>\n </section>\n ");
 };
 
 exports.rootTemplate = rootTemplate;
@@ -9550,8 +9551,6 @@ var _rootTemplate = require("../templates/rootTemplate.template");
 
 var _router = require("./router");
 
-document.body.innerHTML = (0, _rootTemplate.rootTemplate)((0, _getSuggestions.getLS)("suggestions"));
-
 _router.router.on("/", function (match) {
   // set the HTML
   document.body.innerHTML = (0, _rootTemplate.rootTemplate)((0, _getSuggestions.getLS)("suggestions"));
@@ -9562,9 +9561,9 @@ _router.router.on("/", function (match) {
 });
 
 window.onload = function (event) {
-  if (event) {
-    _router.router.navigate("/");
-  }
+  !(0, _getSuggestions.getLS)("suggestions") && (0, _getSuggestions.fetchSuggestions)();
+
+  _router.router.navigate("/");
 };
 },{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../modules/root-module":"src/assets/scripts/modules/root-module.js","../shared/shared-functions":"src/assets/scripts/shared/shared-functions.js","../templates/rootTemplate.template":"src/assets/scripts/templates/rootTemplate.template.js","./router":"src/assets/scripts/routes/router.js"}],"node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
@@ -9694,7 +9693,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61282" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49269" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

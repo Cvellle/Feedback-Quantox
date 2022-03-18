@@ -105,11 +105,12 @@
         margin: 20px 0;
 
         & .profile-image {
-          width: 110px;
+          flex: 0 0 110px;
 
           & div {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
+            display: block;
             border-radius: 50%;
             background-size: cover;
 
@@ -155,16 +156,6 @@
         }
       }
 
-      & bold + .items-wrapper {
-        & .reply {
-          padding-left: 0vw;
-
-          @include tablet {
-            padding-left: 0px;
-          }
-        }
-      }
-
       & .replies-wrapper {
         border: 1px solid rgb(255, 255, 255);
         background-color: rgb(243, 236, 236);
@@ -190,6 +181,7 @@
           display: flex;
           flex-wrap: wrap;
           justify-content: flex-end;
+          padding-left: 100px;
 
           & > :nth-child(1) {
             flex: 0 0 100%;

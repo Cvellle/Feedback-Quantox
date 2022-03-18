@@ -1,4 +1,5 @@
 import {
+  fetchSuggestions,
   getLS,
   getSuggestions,
 } from "../modules/getSuggestions";
@@ -10,8 +11,6 @@ import {
 import { rootTemplate } from "../templates/rootTemplate.template";
 import { router } from "./router";
 
-document.body.innerHTML = rootTemplate(getLS("suggestions"));
-
 router.on("/", function (match) {
   // set the HTML
   document.body.innerHTML = rootTemplate(getLS("suggestions"));
@@ -22,7 +21,6 @@ router.on("/", function (match) {
 });
 
 window.onload = function (event) {
-  if (event) {
-    router.navigate("/");
-  }
+  !getLS("suggestions") && fetchSuggestions()
+  router.navigate("/");
 };

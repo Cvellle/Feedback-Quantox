@@ -6,7 +6,7 @@ import {
 } from "../modules/getSuggestions";
 import { router } from "../routes/router";
 
-let currentRoute = getLS("previousRoute");
+let currentRoute = getLS("previousRoute") ? getLS("previousRoute") : '/';
 
 // Set previous path on router navigate
 export const setPreviousRoute = (currentPath) => {

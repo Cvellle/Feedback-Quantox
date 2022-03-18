@@ -1,2 +1,2 @@
 import Navigo from "navigo";
-export const router = new Navigo("/");
+export let router = new Navigo("/");
