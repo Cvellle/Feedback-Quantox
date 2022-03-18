@@ -8498,7 +8498,7 @@ var getSuggestions = function getSuggestions(arrayToLoop, toFilter) {
   }; // fill the container
 
 
-  feedbackWrapper.innerHTML = mapped === null || mapped === void 0 ? void 0 : mapped.join("");
+  mapped && feedbackWrapper && (feedbackWrapper.innerHTML = mapped === null || mapped === void 0 ? void 0 : mapped.join(""));
   var categoryBtns = document.querySelectorAll(".category");
   categoryBtns.forEach(function (el) {
     return el.addEventListener("click", filterAll);
@@ -9693,7 +9693,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49269" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60128" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

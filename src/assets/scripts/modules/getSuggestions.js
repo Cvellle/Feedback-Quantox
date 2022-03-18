@@ -89,7 +89,7 @@ export const getSuggestions = (arrayToLoop, toFilter) => {
   };
 
   // fill the container
-  feedbackWrapper.innerHTML = mapped?.join("");
+  mapped && feedbackWrapper && (feedbackWrapper.innerHTML = mapped?.join(""));
 
   const categoryBtns = document.querySelectorAll(".category");
   categoryBtns.forEach((el) => el.addEventListener("click", filterAll));
