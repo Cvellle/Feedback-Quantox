@@ -8602,10 +8602,11 @@ var goBack = function goBack(filterCurrent) {
 
   _router.router.navigate(pathToGoBack);
 
-  var arrayToMap = currentRoute.slice(-1) == '/' ? (0, _getSuggestions.getLS)("suggestions") : (0, _getSuggestions.getLS)("feedbackArray");
-  var passedArray = currentRoute.slice(-1) !== "/roadmap" ? arrayToMap : arrayToMap.filter(function (el) {
+  var arrayToMap = currentRoute.slice(-1)[0] == '/' ? (0, _getSuggestions.getLS)("suggestions") : (0, _getSuggestions.getLS)("feedbackArray");
+  var passedArray = currentRoute.slice(-1)[0] !== "/roadmap" ? arrayToMap : arrayToMap.filter(function (el) {
     return el.status == "planned";
   });
+  console.log(passedArray);
   (0, _getSuggestions.getSuggestions)(passedArray, typeof filterCurrent == "string" ? filterCurrent : undefined);
 }; // Details navigate
 
@@ -9691,7 +9692,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59338" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61160" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

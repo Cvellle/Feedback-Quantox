@@ -22,13 +22,14 @@ export const goBack = (filterCurrent) => {
   let pathToGoBack = "/" + currentRoute.slice(-1);
   router.navigate(pathToGoBack);
   let arrayToMap =
-    currentRoute.slice(-1) == '/'
+    currentRoute.slice(-1)[0] == '/'
       ? getLS("suggestions")
       : getLS("feedbackArray");
   let passedArray =
-    currentRoute.slice(-1) !== "/roadmap"
+    currentRoute.slice(-1)[0] !== "/roadmap"
       ? arrayToMap
       : arrayToMap.filter((el) => el.status == "planned");
+      console.log(passedArray);
   getSuggestions(
     passedArray,
     typeof filterCurrent == "string" ? filterCurrent : undefined

@@ -1,7 +1,6 @@
 import { tabletMin } from "../shared/constants";
 import {
   addItemDetailsListener,
-  feedbackDetails,
   filterStatus,
 } from "../shared/shared-functions";
 import { getLS, initialValues } from "./getSuggestions";
@@ -84,7 +83,6 @@ export function roadmapLists() {
   const columnsLists = () => {
     let mapped = columns.map((el, i, self) => {
       shown.push(all.filter((f) => f.status == el.name));
-
       const visibleColumn = el.visible
         ? `
           <div class="roadmap__column roadmap__column--${el.name}">
