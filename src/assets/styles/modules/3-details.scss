@@ -23,7 +23,6 @@
       margin: 30px 0px;
     }
 
-
     & .back {
       margin-right: 5px;
       display: flex;
@@ -113,14 +112,6 @@
             display: block;
             border-radius: 50%;
             background-size: cover;
-
-            & img {
-              width: 80%;
-              height: 80%;
-              display: block;
-              margin: auto;
-              border-radius: 50%;
-            }
           }
         }
 
@@ -181,7 +172,11 @@
           display: flex;
           flex-wrap: wrap;
           justify-content: flex-end;
-          padding-left: 100px;
+          padding-left: 10px;
+
+          @include desktop {
+            padding-left: 100px;
+          }
 
           & > :nth-child(1) {
             flex: 0 0 100%;
