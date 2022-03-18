@@ -37,3 +37,5 @@ npm start
 ```
 localhost/1234
 ```
+
+![Screenshot](src/assets/images/screenshot.png)
