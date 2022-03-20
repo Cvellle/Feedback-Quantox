@@ -212,7 +212,7 @@ button {
   display: flex;
   flex-wrap: wrap;
   align-items: space-between;
-  background: url(/f1db980eb1ca177841a07652012d75cd.svg);
+  background: url(/icon-hamburger.012d75cd.svg);
   background-size: cover;
 }
 @media screen and (min-width: 768px) {
@@ -221,7 +221,7 @@ button {
   }
 }
 .sidebar__titles .toggleButton--visible {
-  background: url(/05807f1ccd430179d876ba8be5603582.svg);
+  background: url(/icon-close.e5603582.svg);
   background-size: cover;
 }
 .sidebar__menu {
@@ -513,7 +513,7 @@ button {
 .feedback__controls .feedback__counter .bulb {
   height: 24px;
   width: 23px;
-  background-image: url(/4d1e97d913926053f40d93d8da37f33d.png);
+  background-image: url(/bulb.da37f33d.png);
   background-size: cover;
   margin-right: 16px;
 }
@@ -547,7 +547,7 @@ button {
   height: 4px;
   display: inline-block;
   align-self: center;
-  background-image: url(/85b25179305053fe008c4fa5205849a5.png);
+  background-image: url(/white-arrow.205849a5.png);
   background-size: cover;
   margin-left: auto;
   transition: 0.5s transform;
@@ -612,7 +612,7 @@ button {
 .feedback__controls .feedback__sort .dropdown .dropdown-item .checked {
   height: 15px;
   width: 15px;
-  background: url("/abd6eb84f74c3f02f13a1e5f66b49a52.svg");
+  background: url("/icon-check.66b49a52.svg");
   background-repeat: no-repeat;
   background-size: contain;
   display: none;
@@ -700,7 +700,7 @@ button {
 .feedback .feedback-items-wrapper .feedback-item__left .upvotes .arrow {
   width: 8px;
   height: 4px;
-  background-image: url(/c1c86fbf714380957877021e8a111df8.svg);
+  background-image: url(/icon-arrow-up.8a111df8.svg);
   background-size: cover;
   display: inline-block;
   align-self: center;
@@ -780,7 +780,7 @@ button {
 .feedback .feedback-items-wrapper .feedback-item__right .comment {
   width: 18px;
   height: 16px;
-  background-image: url(/19e9b740e061744676cf54411db50b47.svg);
+  background-image: url(/icon-comments.1db50b47.svg);
   background-size: cover;
   margin-right: 10px;
   font-size: 13px;
@@ -802,7 +802,7 @@ button {
 }
 .feedback .feedback-empty .img-wrapper div {
   width: 30%;
-  background-image: url(/c6b99c8327c9c5844309bd37229151ae.svg);
+  background-image: url(/illustration-empty.229151ae.svg);
   background-size: cover;
 }
 .feedback .feedback-empty a {
@@ -892,7 +892,7 @@ button {
   height: 8px;
   display: inline-block;
   align-self: center;
-  background-image: url("/367e2375fbac9c03042e5bbc7013d5bc.svg");
+  background-image: url("/icon-arrow-left.7013d5bc.svg");
   background-size: cover;
 }
 .details__controls .back .text {
@@ -950,7 +950,7 @@ button {
   margin: 20px 0;
 }
 .details__current .comments .info .profile-image {
-  flex: 0 0 110px;
+  flex: 0 0 100px;
 }
 .details__current .comments .info .profile-image div {
   width: 80px;
@@ -1130,7 +1130,7 @@ button {
   margin-right: 5px;
   height: 8px;
   width: 4px;
-  background-image: url(/367e2375fbac9c03042e5bbc7013d5bc.svg);
+  background-image: url(/icon-arrow-left.7013d5bc.svg);
   background-size: contain;
   background-repeat: no-repeat;
 }
@@ -1314,7 +1314,7 @@ button {
   height: 4px;
   display: inline-block;
   align-self: center;
-  background-image: url(/85b25179305053fe008c4fa5205849a5.png);
+  background-image: url(/white-arrow.205849a5.png);
   background-size: cover;
   transform: rotate(90deg);
   margin-bottom: 3px;

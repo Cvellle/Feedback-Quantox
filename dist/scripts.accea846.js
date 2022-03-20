@@ -8839,7 +8839,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function detailsModule(match, currentProp) {
-  var count = document.querySelectorAll('.count-comments');
+  var count = document.querySelectorAll(".count-comments");
   var commentContent = document.querySelector(".add textarea");
   var feedbackArray = (0, _getSuggestions.getLS)("feedbackArray");
   var currentUser = (0, _getSuggestions.getLS)("currentUser");
@@ -8893,6 +8893,7 @@ function detailsModule(match, currentProp) {
     });
     maxCommentIds = [].concat(_toConsumableArray(maxCommentIds), [nextMax]);
     (0, _getSuggestions.updateStorage)("feedbackArray", feedbackArray);
+    (0, _getSuggestions.updateStorage)("suggestions", (0, _getSuggestions.filterBy)((0, _getSuggestions.getLS)("feedbackArray"), "status", "suggestion"));
     (0, _getSuggestions.getSuggestions)(feedbackArray, match.data.id);
   }; // Reply to post
 
@@ -8931,7 +8932,7 @@ function detailsModule(match, currentProp) {
     feedbackArray = [].concat(_toConsumableArray(feedbackArray.slice(0, match.data.id - 1)), [passedCurrent], _toConsumableArray(feedbackArray.slice(match.data.id))); // IT SHOULD ALSO BE SENT TO BACKEND
 
     (0, _getSuggestions.updateStorage)("feedbackArray", feedbackArray);
-    feedbackArray = (0, _getSuggestions.getLS)('feedbackArray');
+    feedbackArray = (0, _getSuggestions.getLS)("feedbackArray");
     e.target.previousElementSibling.previousElementSibling.innerHTML += (0, _details.getItems)(passedCurrent.comments[indexOfComment].replies.slice(-1), "reply");
 
     var currentWrapper = _toConsumableArray(document.querySelectorAll(".item--comment>div+div+div>.replies-wrapper"));
@@ -9636,7 +9637,7 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\mobile\\icon-hamburger.svg":[["icon-hamburger.012d75cd.svg","src/assets/images/shared/mobile/icon-hamburger.svg"],"src/assets/images/shared/mobile/icon-hamburger.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\mobile\\icon-close.svg":[["icon-close.e5603582.svg","src/assets/images/shared/mobile/icon-close.svg"],"src/assets/images/shared/mobile/icon-close.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\bulb.png":[["bulb.da37f33d.png","src/assets/images/suggestions/bulb.png"],"src/assets/images/suggestions/bulb.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\white-arrow.png":[["white-arrow.205849a5.png","src/assets/images/suggestions/white-arrow.png"],"src/assets/images/suggestions/white-arrow.png"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-check.svg":[["icon-check.66b49a52.svg","src/assets/images/shared/icon-check.svg"],"src/assets/images/shared/icon-check.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-arrow-up.svg":[["icon-arrow-up.8a111df8.svg","src/assets/images/shared/icon-arrow-up.svg"],"src/assets/images/shared/icon-arrow-up.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-comments.svg":[["icon-comments.1db50b47.svg","src/assets/images/shared/icon-comments.svg"],"src/assets/images/shared/icon-comments.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\suggestions\\illustration-empty.svg":[["illustration-empty.229151ae.svg","src/assets/images/suggestions/illustration-empty.svg"],"src/assets/images/suggestions/illustration-empty.svg"],"C:\\Users\\Quantox\\Desktop\\Projects\\Feedback-Quantox\\src\\assets\\images\\shared\\icon-arrow-left.svg":[["icon-arrow-left.7013d5bc.svg","src/assets/images/shared/icon-arrow-left.svg"],"src/assets/images/shared/icon-arrow-left.svg"],"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/assets/scripts/index.js":[function(require,module,exports) {
+},{"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/mobile/icon-hamburger.svg":[["icon-hamburger.012d75cd.svg","src/assets/images/shared/mobile/icon-hamburger.svg"],"src/assets/images/shared/mobile/icon-hamburger.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/mobile/icon-close.svg":[["icon-close.e5603582.svg","src/assets/images/shared/mobile/icon-close.svg"],"src/assets/images/shared/mobile/icon-close.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/suggestions/bulb.png":[["bulb.da37f33d.png","src/assets/images/suggestions/bulb.png"],"src/assets/images/suggestions/bulb.png"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/suggestions/white-arrow.png":[["white-arrow.205849a5.png","src/assets/images/suggestions/white-arrow.png"],"src/assets/images/suggestions/white-arrow.png"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-check.svg":[["icon-check.66b49a52.svg","src/assets/images/shared/icon-check.svg"],"src/assets/images/shared/icon-check.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-arrow-up.svg":[["icon-arrow-up.8a111df8.svg","src/assets/images/shared/icon-arrow-up.svg"],"src/assets/images/shared/icon-arrow-up.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-comments.svg":[["icon-comments.1db50b47.svg","src/assets/images/shared/icon-comments.svg"],"src/assets/images/shared/icon-comments.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/suggestions/illustration-empty.svg":[["illustration-empty.229151ae.svg","src/assets/images/suggestions/illustration-empty.svg"],"src/assets/images/suggestions/illustration-empty.svg"],"/home/cvele/Desktop/Git/Feedback-Quantox/src/assets/images/shared/icon-arrow-left.svg":[["icon-arrow-left.7013d5bc.svg","src/assets/images/shared/icon-arrow-left.svg"],"src/assets/images/shared/icon-arrow-left.svg"],"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/assets/scripts/index.js":[function(require,module,exports) {
 "use strict";
 
 require("babel-polyfill");
@@ -9692,7 +9693,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59616" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "44989" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

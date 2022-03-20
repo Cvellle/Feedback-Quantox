@@ -950,7 +950,7 @@ button {
   margin: 20px 0;
 }
 .details__current .comments .info .profile-image {
-  flex: 0 0 110px;
+  flex: 0 0 100px;
 }
 .details__current .comments .info .profile-image div {
   width: 80px;
@@ -969,7 +969,7 @@ button {
   width: calc(100% - 50px);
   display: flex;
   align-items: center;
-  justify-content: right;
+  justify-content: flex-end;
   color: #4661e6;
   font-weight: 700;
   cursor: pointer;

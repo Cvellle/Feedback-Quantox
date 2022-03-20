@@ -1,14 +1,19 @@
 import { router } from "../routes/router";
-import { addItemDetailsListener, goBack, setPreviousRoute } from "../shared/shared-functions";
+import {
+  addItemDetailsListener,
+  goBack,
+  setPreviousRoute,
+} from "../shared/shared-functions";
 import { getItems } from "../templates/details.template";
 import {
+  filterBy,
   getLS,
   getSuggestions,
   updateStorage,
 } from "./getSuggestions";
 
 export function detailsModule(match, currentProp) {
-  const count = document.querySelectorAll('.count-comments');
+  const count = document.querySelectorAll(".count-comments");
   const commentContent = document.querySelector(".add textarea");
 
   let feedbackArray = getLS("feedbackArray");
@@ -73,11 +78,17 @@ export function detailsModule(match, currentProp) {
     items.innerHTML = getItems(passedCurrent.comments, "comment");
     addEvenetsListeners();
 
-    count.forEach((el) => { el.innerHTML = passedCurrent.comments.length })
+    count.forEach((el) => {
+      el.innerHTML = passedCurrent.comments.length;
+    });
     maxCommentIds = [...maxCommentIds, nextMax];
 
     updateStorage("feedbackArray", feedbackArray);
-    getSuggestions(feedbackArray, match.data.id)
+    updateStorage(
+      "suggestions",
+      filterBy(getLS("feedbackArray"), "status", "suggestion")
+    );
+    getSuggestions(feedbackArray, match.data.id);
   };
 
   // Reply to post
@@ -109,9 +120,9 @@ export function detailsModule(match, currentProp) {
     let newCommentObject = {
       ...passedCurrent.comments[indexOfComment],
       replies: passedCurrent.comments[indexOfComment].replies.length
-      ? [...passedCurrent.comments[indexOfComment].replies, newReply]
-      : [newReply]
-    }
+        ? [...passedCurrent.comments[indexOfComment].replies, newReply]
+        : [newReply],
+    };
 
     // Spread old object with new replies
     passedCurrent = {
@@ -127,11 +138,11 @@ export function detailsModule(match, currentProp) {
       ...feedbackArray.slice(0, match.data.id - 1),
       passedCurrent,
       ...feedbackArray.slice(match.data.id),
-    ];   
+    ];
     // IT SHOULD ALSO BE SENT TO BACKEND
 
     updateStorage("feedbackArray", feedbackArray);
-    feedbackArray = getLS('feedbackArray');
+    feedbackArray = getLS("feedbackArray");
 
     e.target.previousElementSibling.previousElementSibling.innerHTML += getItems(
       passedCurrent.comments[indexOfComment].replies.slice(-1),
@@ -155,8 +166,7 @@ export function detailsModule(match, currentProp) {
 
   const countChar = (e) => {
     let charLeft = 250 - e.currentTarget.value.length;
-    e.currentTarget.nextElementSibling.firstElementChild.firstElementChild.innerHTML =
-      charLeft;
+    e.currentTarget.nextElementSibling.firstElementChild.firstElementChild.innerHTML = charLeft;
   };
 
   // set current route as return destination, and imported back function
