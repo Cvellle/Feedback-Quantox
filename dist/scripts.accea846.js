@@ -8725,10 +8725,10 @@ var addItemDetailsListener = function addItemDetailsListener() {
 };
 
 exports.addItemDetailsListener = addItemDetailsListener;
-},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../routes/router":"src/assets/scripts/routes/router.js"}],"src/assets/images/user-images/image-anne.jpg":[function(require,module,exports) {
-module.exports = "/image-anne.e1318e5a.jpg";
-},{}],"src/assets/images/user-images/image-elijah.jpg":[function(require,module,exports) {
+},{"../modules/getSuggestions":"src/assets/scripts/modules/getSuggestions.js","../routes/router":"src/assets/scripts/routes/router.js"}],"src/assets/images/user-images/image-elijah.jpg":[function(require,module,exports) {
 module.exports = "/image-elijah.8c4ad573.jpg";
+},{}],"src/assets/images/user-images/image-anne.jpg":[function(require,module,exports) {
+module.exports = "/image-anne.e1318e5a.jpg";
 },{}],"src/assets/images/user-images/image-george.jpg":[function(require,module,exports) {
 module.exports = "/image-george.62438ad3.jpg";
 },{}],"src/assets/images/user-images/image-jackson.jpg":[function(require,module,exports) {
@@ -8755,8 +8755,8 @@ module.exports = "/image-zena.becb16d0.jpg";
 module.exports = "/nikola.e280ae2f.jpg";
 },{}],"src/assets/images/user-images/*.jpg":[function(require,module,exports) {
 module.exports = {
-  "image-anne": require("./image-anne.jpg"),
   "image-elijah": require("./image-elijah.jpg"),
+  "image-anne": require("./image-anne.jpg"),
   "image-george": require("./image-george.jpg"),
   "image-jackson": require("./image-jackson.jpg"),
   "image-james": require("./image-james.jpg"),
@@ -8770,7 +8770,7 @@ module.exports = {
   "image-zena": require("./image-zena.jpg"),
   "nikola": require("./nikola.jpg")
 };
-},{"./image-anne.jpg":"src/assets/images/user-images/image-anne.jpg","./image-elijah.jpg":"src/assets/images/user-images/image-elijah.jpg","./image-george.jpg":"src/assets/images/user-images/image-george.jpg","./image-jackson.jpg":"src/assets/images/user-images/image-jackson.jpg","./image-james.jpg":"src/assets/images/user-images/image-james.jpg","./image-javier.jpg":"src/assets/images/user-images/image-javier.jpg","./image-judah.jpg":"src/assets/images/user-images/image-judah.jpg","./image-roxanne.jpg":"src/assets/images/user-images/image-roxanne.jpg","./image-ryan.jpg":"src/assets/images/user-images/image-ryan.jpg","./image-suzanne.jpg":"src/assets/images/user-images/image-suzanne.jpg","./image-thomas.jpg":"src/assets/images/user-images/image-thomas.jpg","./image-victoria.jpg":"src/assets/images/user-images/image-victoria.jpg","./image-zena.jpg":"src/assets/images/user-images/image-zena.jpg","./nikola.jpg":"src/assets/images/user-images/nikola.jpg"}],"src/assets/scripts/templates/details.template.js":[function(require,module,exports) {
+},{"./image-elijah.jpg":"src/assets/images/user-images/image-elijah.jpg","./image-anne.jpg":"src/assets/images/user-images/image-anne.jpg","./image-george.jpg":"src/assets/images/user-images/image-george.jpg","./image-jackson.jpg":"src/assets/images/user-images/image-jackson.jpg","./image-james.jpg":"src/assets/images/user-images/image-james.jpg","./image-javier.jpg":"src/assets/images/user-images/image-javier.jpg","./image-judah.jpg":"src/assets/images/user-images/image-judah.jpg","./image-roxanne.jpg":"src/assets/images/user-images/image-roxanne.jpg","./image-ryan.jpg":"src/assets/images/user-images/image-ryan.jpg","./image-suzanne.jpg":"src/assets/images/user-images/image-suzanne.jpg","./image-thomas.jpg":"src/assets/images/user-images/image-thomas.jpg","./image-victoria.jpg":"src/assets/images/user-images/image-victoria.jpg","./image-zena.jpg":"src/assets/images/user-images/image-zena.jpg","./nikola.jpg":"src/assets/images/user-images/nikola.jpg"}],"src/assets/scripts/templates/details.template.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9692,7 +9692,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "44989" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "46787" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
