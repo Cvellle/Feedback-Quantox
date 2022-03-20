@@ -8586,7 +8586,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-var currentRoute = (0, _getSuggestions.getLS)("previousRoute") ? (0, _getSuggestions.getLS)("previousRoute") : '/'; // Set previous path on router navigate
+var currentRoute = (0, _getSuggestions.getLS)("previousRoute") ? (0, _getSuggestions.getLS)("previousRoute") : "/"; // Set previous path on router navigate
 
 var setPreviousRoute = function setPreviousRoute(currentPath) {
   currentRoute = [].concat(_toConsumableArray(currentRoute), ["/" + currentPath]);
@@ -8602,11 +8602,10 @@ var goBack = function goBack(filterCurrent) {
 
   _router.router.navigate(pathToGoBack);
 
-  var arrayToMap = currentRoute.slice(-1)[0] == '/' ? (0, _getSuggestions.getLS)("suggestions") : (0, _getSuggestions.getLS)("feedbackArray");
+  var arrayToMap = currentRoute.slice(-1)[0] == "/" ? (0, _getSuggestions.getLS)("suggestions") : (0, _getSuggestions.getLS)("feedbackArray");
   var passedArray = currentRoute.slice(-1)[0] !== "/roadmap" ? arrayToMap : arrayToMap.filter(function (el) {
     return el.status == "planned";
   });
-  console.log(passedArray);
   (0, _getSuggestions.getSuggestions)(passedArray, typeof filterCurrent == "string" ? filterCurrent : undefined);
 }; // Details navigate
 

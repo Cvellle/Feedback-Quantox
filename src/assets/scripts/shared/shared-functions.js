@@ -6,7 +6,7 @@ import {
 } from "../modules/getSuggestions";
 import { router } from "../routes/router";
 
-let currentRoute = getLS("previousRoute") ? getLS("previousRoute") : '/';
+let currentRoute = getLS("previousRoute") ? getLS("previousRoute") : "/";
 
 // Set previous path on router navigate
 export const setPreviousRoute = (currentPath) => {
@@ -22,14 +22,13 @@ export const goBack = (filterCurrent) => {
   let pathToGoBack = "/" + currentRoute.slice(-1);
   router.navigate(pathToGoBack);
   let arrayToMap =
-    currentRoute.slice(-1)[0] == '/'
+    currentRoute.slice(-1)[0] == "/"
       ? getLS("suggestions")
       : getLS("feedbackArray");
   let passedArray =
     currentRoute.slice(-1)[0] !== "/roadmap"
       ? arrayToMap
       : arrayToMap.filter((el) => el.status == "planned");
-      console.log(passedArray);
   getSuggestions(
     passedArray,
     typeof filterCurrent == "string" ? filterCurrent : undefined
@@ -117,8 +116,7 @@ export const upvotesAdd = (e) => {
       e.currentTarget.parentNode.parentNode.id - 1
     ].likedBy.includes(currentUser.name)
   ) {
-    currentElement.innerHTML =
-      +currentElement.innerHTML - 1;
+    currentElement.innerHTML = +currentElement.innerHTML - 1;
     currentHiddenInput.value = "";
     e.currentTarget.classList.remove("upvotes--highlighted");
     newUpvotesNumber = -1;
@@ -127,8 +125,7 @@ export const upvotesAdd = (e) => {
     });
   } else {
     // Initial click goes here - no likedBy property at the moment
-    currentElement.innerHTML =
-      +currentElement.innerHTML + 1;
+    currentElement.innerHTML = +currentElement.innerHTML + 1;
     currentHiddenInput.value = currentUser.name;
     e.currentTarget.classList.add("upvotes--highlighted");
     newUpvotesNumber = 1;
